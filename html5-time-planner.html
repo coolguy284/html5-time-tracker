@@ -1,0 +1,276 @@
+<!doctype html>
+<html>
+  <!--
+    todo:
+      when a new event is added and raw_data_div is scrolled to the bottom, scroll it to the new bottom
+  -->
+  <head>
+    <meta charset = 'utf-8'>
+    
+    <title>HTML5 Time Planner</title>
+    
+    <meta name = 'viewport' content = 'width=device-width, initial-scale=1.0'>
+    
+    <style>
+      html, body, body *:not(script) {
+        display: flex;
+      }
+      
+      html {
+        height: 100%;
+        align-items: stretch;
+      }
+      
+      body {
+        margin: 0;
+        justify-content: stretch;
+        font-family: Arial;
+        flex-grow: 1;
+      }
+      
+      body, #main_section_div, #events_div, #events_div > fieldset {
+        flex-direction: column;
+      }
+      
+      #current_event_div {
+        background-color: rgb(255, 211, 129);
+        justify-content: center;
+        gap: 0.3rem;
+        font-size: 1.5rem;
+        padding: 0.5rem;
+      }
+      
+      #main_section_div {
+        flex-grow: 1;
+        min-height: 0;
+        justify-content: stretch;
+      }
+      
+      #main_section_div > * {
+        flex-grow: 1;
+        flex-shrink: 1;
+        min-height: 0;
+        overflow: auto;
+      }
+      
+      #events_div {
+        background-color: blue;
+        padding: 1.5rem 1rem 1.5rem;
+      }
+      
+      #events_div, #events_div > fieldset {
+        gap: 0.5rem;
+      }
+      
+      #raw_data_section_div {
+        background-color: lightblue;
+        padding: 1.5rem 1rem 1.5rem;
+        white-space: pre-line;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      
+      #raw_data_section_div > button {
+        padding: 0.3rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.4rem;
+        justify-content: center;
+      }
+      
+      #remove_last_event_button {
+        background-color: rgb(250, 132, 132);
+      }
+      
+      #unremove_last_event_button {
+        background-color: rgb(141, 252, 165);
+      }
+      
+      #raw_data_div {
+        font-family: monospace;
+        padding: 0 0 1rem;
+      }
+      
+      #bottom_menu_div {
+        background-color: orange;
+      }
+      
+      #events_div button {
+        background-color: lightblue;
+        padding: 0.3rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.4rem;
+        justify-content: center;
+      }
+      
+      fieldset {
+        border: 0.3rem solid black;
+        border-radius: 1rem;
+      }
+      
+      legend {
+        color: lightpink;
+        font-size: 1.3rem;
+      }
+      
+      #bottom_menu_div {
+        gap: 0.5rem;
+        padding: 0.3rem 0.5rem 0.3rem;
+      }
+      
+      #bottom_menu_div button {
+        background-color: rgb(255, 232, 190);
+        padding: 0.3rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.4rem;
+        padding: 0.4rem 0.8rem 0.4rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div id = 'current_event_div'>
+      Current Event: <span id = 'current_event_text'>Null</span>
+    </div>
+    
+    <div id = 'main_section_div'>
+      <div id = 'events_div'>
+        <button onclick = 'addEvent(this);'>Nothing</button>
+        <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+        <button onclick = 'addEvent(this);'>Error (Last Event Too Long)</button>
+        <fieldset>
+          <legend>___EVENT_DATA___</legend>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+        </fieldset>
+        <fieldset>
+          <legend>___EVENT_DATA___</legend>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ ___EVENT_DATA___</button>
+        </fieldset>
+        <fieldset>
+          <legend>___EVENT_DATA___</legend>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ & ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+        </fieldset>
+      </div>
+      <div id = 'raw_data_section_div' style = 'display: none;'>
+        <div id = 'raw_data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
+        <button id = 'remove_last_event_button' onclick = 'removeLastEvent();'>Remove Last</button>
+        <button id = 'unremove_last_event_button' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
+      </div>
+    </div>
+    <div id = 'bottom_menu_div'>
+      <button onclick = 'switchPage("events");'>Events</button>
+      <button onclick = 'switchPage("raw data");'>Raw Data</button>
+    </div>
+    
+    <script>
+      let currentEvent = 'Nothing';
+      
+      /* [['<time string>', '<event name>', <deleted: boolean>], ...] */
+      let eventsArr;
+      
+      if (localStorage.html5_time_planner_events_arr) {
+        try {
+          eventsArr = JSON.parse(localStorage.html5_time_planner_events_arr);
+        } catch (e) {}
+      }
+      
+      if (!eventsArr) eventsArr = [];
+      
+      function switchPage(page) {
+        switch (page) {
+          case 'events':
+            events_div.style.display = '';
+            raw_data_section_div.style.display = 'none';
+            break;
+          
+          case 'raw data':
+            events_div.style.display = 'none';
+            raw_data_section_div.style.display = '';
+            break;
+        }
+      }
+      
+      function updateEventStorageAndDisplay() {
+        // save array to localstorage
+        localStorage.html5_time_planner_events_arr = JSON.stringify(eventsArr);
+        
+        // put array contents on raw_data_div
+        let visibleEventsArr = eventsArr.filter(x => x[2]);
+        if (visibleEventsArr.length > 0) {
+          raw_data_div.textContent = visibleEventsArr.map(x => `${x[0]}: ${x[1]}`).join('\n');
+        } else {
+          raw_data_div.textContent = 'No Events';
+        }
+        
+        // put current event on current_event_text
+        let currentEventIndex = getLatestVisibleEventIndex();
+        
+        if (currentEventIndex >= 0) {
+          current_event_text.textContent = eventsArr[currentEventIndex][1];
+        } else {
+          current_event_text.textContent = 'None';
+        }
+      }
+      
+      function addEvent(button_elem) {
+        // get data
+        let eventTimeDate = new Date();
+        let eventTime = `${(eventTimeDate.getFullYear() + '')}-${(eventTimeDate.getMonth() + 1 + '').padStart(2, '0')}-${(eventTimeDate.getDate() + '').padStart(2, '0')} ${((eventTimeDate.getHours() % 12 + 11) % 12 + 1 + '').padStart(2, '0')}:${(eventTimeDate.getMinutes() + '').padStart(2, '0')}:${(eventTimeDate.getSeconds() + '').padStart(2, '0')}.${(eventTimeDate.getMilliseconds() + '').padStart(3, '0')} ${eventTimeDate.getHours() >= 12 ? 'PM' : 'AM'} UTC${eventTimeDate.getTimezoneOffset() < 0 ? '-' : '+'}${(Math.floor(Math.abs(eventTimeDate.getTimezoneOffset()) / 60) + '').padStart(2, '0')}:${(Math.abs(eventTimeDate.getTimezoneOffset()) % 60 + '').padStart(2, '0')}`;
+        let eventName = button_elem.textContent;
+        
+        // add to internal events array
+        eventsArr.push([eventTime, eventName, true]);
+        
+        updateEventStorageAndDisplay();
+      }
+      
+      function getLatestVisibleEventIndex() {
+        for (let i = eventsArr.length - 1; i >= 0; i--) {
+          if (eventsArr[i][2]) return i;
+        }
+        
+        return -1;
+      }
+      
+      function removeLastEvent() {
+        let latestVisibleEventIndex = getLatestVisibleEventIndex();
+        
+        if (latestVisibleEventIndex >= 0) {
+          eventsArr[latestVisibleEventIndex][2] = false;
+          
+          updateEventStorageAndDisplay();
+        }
+      }
+      
+      function unRemoveLastEvent() {
+        let latestVisibleEventIndex = getLatestVisibleEventIndex();
+        
+        if (eventsArr.length > 0 && latestVisibleEventIndex < eventsArr.length - 1) {
+          eventsArr[latestVisibleEventIndex + 1][2] = true;
+          
+          updateEventStorageAndDisplay();
+        }
+      }
+      
+      updateEventStorageAndDisplay();
+    </script>
+  </body>
+</html>
