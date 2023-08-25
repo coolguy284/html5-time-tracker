@@ -2,7 +2,7 @@
 <html>
   <!--
     todo:
-      when a new event is added and raw_data_div is scrolled to the bottom, scroll it to the new bottom
+      when a new event is added and data_div is scrolled to the bottom, scroll it to the new bottom
       allow more than 1 event in some cases
       add hard reset button with confirmation
       add ability to annotate previous or second previous entry
@@ -65,7 +65,7 @@
         gap: 0.5rem;
       }
       
-      #raw_data_section_div {
+      #data_section_div {
         background-color: lightblue;
         padding: 1.5rem 1rem 1.5rem;
         white-space: pre-line;
@@ -73,7 +73,7 @@
         gap: 0.5rem;
       }
       
-      #raw_data_section_div > button {
+      #data_section_div > button {
         padding: 0.3rem;
         border: none;
         border-radius: 0.5rem;
@@ -89,7 +89,7 @@
         background-color: rgb(141, 252, 165);
       }
       
-      #raw_data_div {
+      #data_div {
         font-family: monospace;
         padding: 0 0 1rem;
       }
@@ -117,9 +117,44 @@
         font-size: 1.3rem;
       }
       
-      #bottom_menu_div {
+      #raw_data_section_div {
+        flex-direction: column;
+        justify-content: stretch;
+        padding: 0.5rem;
         gap: 0.5rem;
-        padding: 0.3rem 0.5rem 0.3rem;
+      }
+      
+      #raw_data_top_section_div {
+        flex-grow: 1;
+      }
+      
+      #raw_data_text {
+        flex-grow: 1;
+        resize: none;
+        word-break: break-all;
+        border-radius: 0.8rem;
+        border: 0.1rem solid grey;
+        padding: 0.3rem;
+        font-size: 1.5rem;
+      }
+      
+      #raw_data_bottom_section_div {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+      
+      #raw_data_bottom_section_div > button {
+        background-color: rgb(255, 187, 187);
+        padding: 0.3rem;
+        border: none;
+        border-radius: 0.5rem;
+        font-size: 1.2rem;
+      }
+      
+      #bottom_menu_div {
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        padding: 0.5rem 0.5rem 0.5rem;
       }
       
       #bottom_menu_div button {
@@ -178,15 +213,28 @@
           <button onclick = 'addEvent(this);'>___EVENT_DATA___ & ___EVENT_DATA___</button>
         </fieldset>
       </div>
-      <div id = 'raw_data_section_div' style = 'display: none;'>
-        <div id = 'raw_data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
+      <div id = 'data_section_div' style = 'display: none;'>
+        <div id = 'data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
         <button id = 'remove_last_event_button' class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
         <button id = 'unremove_last_event_button' class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
         <button id = 'purge_removed_entries' class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
       </div>
+      <div id = 'raw_data_section_div' style = 'display: none;'>
+        <div id = 'raw_data_top_section_div'>
+          <textarea id = 'raw_data_text'></textarea>
+        </div>
+        <div id = 'raw_data_bottom_section_div'>
+          <button onclick = 'rawDataSave();'>Save</button>
+          <button onclick = 'rawDataLoad();'>Load</button>
+          <button onclick = 'rawDataDelete();'>Delete</button>
+          <button onclick = 'rawDataCreate();'>Create</button>
+          <button onclick = 'rawDataSaveInMemoryData();'>Save In-Memory Data</button>
+        </div>
+      </div>
     </div>
     <div id = 'bottom_menu_div'>
       <button onclick = 'switchPage("events");'>Events</button>
+      <button onclick = 'switchPage("data");'>Data</button>
       <button onclick = 'switchPage("raw data");'>Raw Data</button>
     </div>
     
@@ -208,36 +256,25 @@
         switch (page) {
           case 'events':
             events_div.style.display = '';
+            data_section_div.style.display = 'none';
+            raw_data_section_div.style.display = 'none';
+            break;
+          
+          case 'data':
+            events_div.style.display = 'none';
+            data_section_div.style.display = '';
             raw_data_section_div.style.display = 'none';
             break;
           
           case 'raw data':
             events_div.style.display = 'none';
+            data_section_div.style.display = 'none';
             raw_data_section_div.style.display = '';
             break;
         }
       }
       
-      function updateDisplay() {
-        // put array contents on raw_data_div
-        let visibleEventsArr = eventsArr.filter(x => x[2]);
-        if (visibleEventsArr.length > 0) {
-          raw_data_div.textContent = visibleEventsArr.map(x => `${x[0]}: ${x[1]}`).join('\n');
-        } else {
-          raw_data_div.textContent = 'No Events';
-        }
-        
-        // put current event on current_event_text
-        let currentEventIndex = getLatestVisibleEventIndex();
-        
-        if (currentEventIndex >= 0) {
-          current_event_text.textContent = eventsArr[currentEventIndex][1];
-        } else {
-          current_event_text.textContent = 'None';
-        }
-      }
-      
-      function updateEventStorageAndDisplay() {
+      function updateEventStorage() {
         // save array to localstorage, or wipe localstorage entry if array empty and localstorage entry exists
         if (eventsArr.length == 0) {
           if (localStorage.html5_time_planner_events_arr != null) {
@@ -246,7 +283,37 @@
         } else {
           localStorage.html5_time_planner_events_arr = JSON.stringify(eventsArr);
         }
+      }
+      
+      function updateRawDataDisplay() {
+        // put raw data contents on raw_data_text
+        raw_data_text.value = localStorage.html5_time_planner_events_arr;
+        if (raw_data_text.style.display != '') raw_data_text.style.display = '';
+      }
+      
+      function updateDisplay() {
+        // put current event on current_event_text
+        let currentEventIndex = getLatestVisibleEventIndex();
         
+        if (currentEventIndex >= 0) {
+          current_event_text.textContent = eventsArr[currentEventIndex][1];
+        } else {
+          current_event_text.textContent = 'None';
+        }
+        
+        // put array contents on data_div
+        let visibleEventsArr = eventsArr.filter(x => x[2]);
+        if (visibleEventsArr.length > 0) {
+          data_div.textContent = visibleEventsArr.map(x => `${x[0]}: ${x[1]}`).join('\n');
+        } else {
+          data_div.textContent = 'No Events';
+        }
+        
+        updateRawDataDisplay();
+      }
+      
+      function updateEventStorageAndDisplay() {
+        updateEventStorage();
         updateDisplay();
       }
       
@@ -298,6 +365,43 @@
         }
         
         updateEventStorageAndDisplay();
+      }
+      
+      function rawDataSave() {
+        if (raw_data_text.style.display == '') {
+          localStorage.html5_time_planner_events_arr = raw_data_text.value;
+        }
+      }
+      
+      function rawDataLoad() {
+        if (localStorage.html5_time_planner_events_arr == null) {
+          raw_data_text.style.display = 'none';
+          raw_data_text.value = '';
+        } else {
+          raw_data_text.value = localStorage.html5_time_planner_events_arr;
+          raw_data_text.style.display = '';
+        }
+      }
+      
+      function rawDataDelete() {
+        if (!confirm('Are you sure?')) return;
+        
+        delete localStorage.html5_time_planner_events_arr;
+        raw_data_text.style.display = 'none';
+        raw_data_text.value = '';
+      }
+      
+      function rawDataCreate() {
+        if (localStorage.html5_time_planner_events_arr == null) {
+          localStorage.html5_time_planner_events_arr = '';
+          raw_data_text.value = '';
+          raw_data_text.style.display = '';
+        }
+      }
+      
+      function rawDataSaveInMemoryData() {
+        updateEventStorage();
+        updateRawDataDisplay();
       }
       
       updateDisplay();
