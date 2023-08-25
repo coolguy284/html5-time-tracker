@@ -3,6 +3,9 @@
   <!--
     todo:
       when a new event is added and raw_data_div is scrolled to the bottom, scroll it to the new bottom
+      allow more than 1 event in some cases
+      add hard reset button with confirmation
+      add ability to annotate previous or second previous entry
   -->
   <head>
     <meta charset = 'utf-8'>
@@ -78,11 +81,11 @@
         justify-content: center;
       }
       
-      #remove_last_event_button {
+      .caution_bg {
         background-color: rgb(250, 132, 132);
       }
       
-      #unremove_last_event_button {
+      .safe_bg {
         background-color: rgb(141, 252, 165);
       }
       
@@ -139,8 +142,10 @@
         <button onclick = 'addEvent(this);'>Nothing</button>
         <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
         <button onclick = 'addEvent(this);'>Error (Last Event Too Long)</button>
+        <button onclick = 'addEvent(this);'>Unlogged</button>
         <fieldset>
           <legend>___EVENT_DATA___</legend>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
@@ -167,12 +172,17 @@
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ & ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ & ___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___ & ___EVENT_DATA___</button>
         </fieldset>
       </div>
       <div id = 'raw_data_section_div' style = 'display: none;'>
         <div id = 'raw_data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
-        <button id = 'remove_last_event_button' onclick = 'removeLastEvent();'>Remove Last</button>
-        <button id = 'unremove_last_event_button' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
+        <button id = 'remove_last_event_button' class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
+        <button id = 'unremove_last_event_button' class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
+        <button id = 'purge_removed_entries' class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
       </div>
     </div>
     <div id = 'bottom_menu_div'>
@@ -208,10 +218,7 @@
         }
       }
       
-      function updateEventStorageAndDisplay() {
-        // save array to localstorage
-        localStorage.html5_time_planner_events_arr = JSON.stringify(eventsArr);
-        
+      function updateDisplay() {
         // put array contents on raw_data_div
         let visibleEventsArr = eventsArr.filter(x => x[2]);
         if (visibleEventsArr.length > 0) {
@@ -228,6 +235,19 @@
         } else {
           current_event_text.textContent = 'None';
         }
+      }
+      
+      function updateEventStorageAndDisplay() {
+        // save array to localstorage, or wipe localstorage entry if array empty and localstorage entry exists
+        if (eventsArr.length == 0) {
+          if (localStorage.html5_time_planner_events_arr != null) {
+            delete localStorage.html5_time_planner_events_arr;
+          }
+        } else {
+          localStorage.html5_time_planner_events_arr = JSON.stringify(eventsArr);
+        }
+        
+        updateDisplay();
       }
       
       function addEvent(button_elem) {
@@ -270,7 +290,17 @@
         }
       }
       
-      updateEventStorageAndDisplay();
+      function purgeRemovedEntries() {
+        for (let i = eventsArr.length - 1; i >= 0; i--) {
+          if (!eventsArr[i][2]) {
+            eventsArr.splice(i, 1);
+          }
+        }
+        
+        updateEventStorageAndDisplay();
+      }
+      
+      updateDisplay();
     </script>
   </body>
 </html>
