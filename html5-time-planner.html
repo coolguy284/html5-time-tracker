@@ -189,6 +189,8 @@
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
+          <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
         </fieldset>
         <fieldset>
           <legend>___EVENT_DATA___</legend>
@@ -248,7 +250,7 @@
     <script>
       let currentEvent = 'Nothing';
       
-      /* [['<time string>', '<event name>', <deleted: boolean>], ...] */
+      /* [[<time string: string>, <event name: string>, <deleted: boolean>, <estimated: boolean>, <additional info: string>], ...] */
       let eventsArr;
       
       if (localStorage.html5_time_planner_events_arr) {
@@ -294,8 +296,13 @@
       
       function updateRawDataDisplay() {
         // put raw data contents on raw_data_text
-        raw_data_text.value = localStorage.html5_time_planner_events_arr;
-        if (raw_data_text.style.display != '') raw_data_text.style.display = '';
+        if (localStorage.html5_time_planner_events_arr != null) {
+          raw_data_text.value = localStorage.html5_time_planner_events_arr;
+          if (raw_data_text.style.display != '') raw_data_text.style.display = '';
+        } else {
+          if (raw_data_text.style.display != 'none') raw_data_text.style.display = 'none';
+          raw_data_text.value = '';
+        }
       }
       
       function updateDisplay() {
@@ -331,7 +338,7 @@
         let eventName = button_elem.textContent;
         
         // add to internal events array
-        eventsArr.push([eventTime, eventName, true]);
+        eventsArr.push([eventTime, eventName, true, false]);
         
         updateEventStorageAndDisplay();
       }
