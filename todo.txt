@@ -8,3 +8,4 @@ add ability to annotate previous or second previous entry
 darken button that is active, like current tab, current event
 color button that cannot be clicked a disabled color (for week picker)
 fix coloring of tables & charts page
+make percentage stats box not unicode chars and actual div instead

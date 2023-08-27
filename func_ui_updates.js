@@ -93,7 +93,7 @@ function updateStatsDisplay(statsArr, statsElem) {
   
   for (let entry of statsArr) {
     let spanElem = document.createElement('span');
-    spanElem.textContent = `${entry[1].toFixed(3).padStart(6, '0')}% ${entry[0]}`;
+    spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% ${entry[0]}`;
     spanElem.style.color = getEventColor(entry[0]);
     
     statsElem.appendChild(spanElem);
