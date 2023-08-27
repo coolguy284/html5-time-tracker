@@ -36,7 +36,7 @@ body, #main_section_div, #events_div, #events_div > fieldset {
   flex-grow: 1;
   flex-shrink: 1;
   min-height: 0;
-  overflow: auto;
+  overflow-y: auto;
 }
 
 #events_div {
@@ -46,39 +46,6 @@ body, #main_section_div, #events_div, #events_div > fieldset {
 
 #events_div, #events_div > fieldset {
   gap: 0.5rem;
-}
-
-#data_section_div {
-  background-color: lightblue;
-  padding: 1.5rem 1rem 1.5rem;
-  white-space: pre;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-#data_section_div > button {
-  padding: 0.3rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1.4rem;
-  justify-content: center;
-}
-
-.caution_bg {
-  background-color: rgb(250, 132, 132);
-}
-
-.safe_bg {
-  background-color: rgb(141, 252, 165);
-}
-
-#data_div {
-  font-family: monospace;
-  padding: 0 0 1rem;
-}
-
-#bottom_menu_div {
-  background-color: orange;
 }
 
 #events_div button {
@@ -99,6 +66,39 @@ body, #main_section_div, #events_div, #events_div > fieldset {
 #events_div > fieldset > legend {
   color: lightpink;
   font-size: 1.3rem;
+}
+
+#data_section_div {
+  background-color: lightblue;
+  padding: 1.5rem 1rem 1.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#data_section_div > button {
+  padding: 0.3rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  justify-content: center;
+}
+
+#data_div {
+  white-space: pre-wrap;
+  font-family: monospace;
+  padding: 0 0 1rem;
+}
+
+.caution_bg {
+  background-color: rgb(250, 132, 132);
+}
+
+.safe_bg {
+  background-color: rgb(141, 252, 165);
+}
+
+#bottom_menu_div {
+  background-color: orange;
 }
 
 #raw_data_section_div {
@@ -136,12 +136,14 @@ body, #main_section_div, #events_div, #events_div > fieldset {
 }
 
 #bottom_menu_div {
-  flex-wrap: wrap;
+  flex-shrink: 0;
   gap: 0.5rem;
   padding: 0.5rem 0.5rem 0.5rem;
+  overflow-x: auto;
 }
 
-#bottom_menu_div button {
+#bottom_menu_div > button {
+  flex-shrink: 0;
   background-color: rgb(255, 232, 190);
   padding: 0.3rem;
   border: none;

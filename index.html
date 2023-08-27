@@ -73,6 +73,9 @@
         <button id = 'unremove_last_event_button' class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
         <button id = 'purge_removed_entries' class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
       </div>
+      <div id = 'tables_and_charts_section_div' style = 'display: none;'>
+        
+      </div>
       <div id = 'raw_data_section_div' style = 'display: none;'>
         <div id = 'raw_data_top_section_div'>
           <textarea id = 'raw_data_text'></textarea>
@@ -90,6 +93,7 @@
     <div id = 'bottom_menu_div'>
       <button onclick = 'switchPage("events");'>Events</button>
       <button onclick = 'switchPage("data");'>Data</button>
+      <button onclick = 'switchPage("tables & charts");'>Tables & Charts</button>
       <button onclick = 'switchPage("raw data");'>Raw Data</button>
     </div>
     

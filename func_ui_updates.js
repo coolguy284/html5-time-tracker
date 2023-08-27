@@ -3,18 +3,28 @@ function switchPage(page) {
     case 'events':
       events_div.style.display = '';
       data_section_div.style.display = 'none';
+      tables_and_charts_section_div.style.display = 'none';
       raw_data_section_div.style.display = 'none';
       break;
     
     case 'data':
       events_div.style.display = 'none';
       data_section_div.style.display = '';
+      tables_and_charts_section_div.style.display = 'none';
+      raw_data_section_div.style.display = 'none';
+      break;
+    
+    case 'tables & charts':
+      events_div.style.display = 'none';
+      data_section_div.style.display = 'none';
+      tables_and_charts_section_div.style.display = '';
       raw_data_section_div.style.display = 'none';
       break;
     
     case 'raw data':
       events_div.style.display = 'none';
       data_section_div.style.display = 'none';
+      tables_and_charts_section_div.style.display = 'none';
       raw_data_section_div.style.display = '';
       break;
   }
