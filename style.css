@@ -1,4 +1,4 @@
-html, body, body *:not(script) {
+html, body, body *:not(script, table, thead, tbody, tr, th, td) {
   display: flex;
 }
 
@@ -97,8 +97,65 @@ body, #main_section_div, #events_div, #events_div > fieldset {
   background-color: rgb(141, 252, 165);
 }
 
-#bottom_menu_div {
-  background-color: orange;
+#tables_and_charts_section_div {
+  flex-direction: column;
+  background-color: lightblue;
+  padding: 0rem 1rem 3rem;
+}
+
+#week_picker_div > button {
+  background-color: white;
+  font-size: 2rem;
+  border: 0.2rem solid grey;
+  padding: 0 0.7rem 0;
+}
+
+#week_picker_div_left_button {
+  border-right: none;
+  border-radius: 0.4rem 0 0 0.4rem;
+}
+
+#week_picker_div > select {
+  flex-grow: 1;
+  background-color: white;
+  font-size: 1.3rem;
+  border-top: 0.2rem solid grey;
+  border-bottom: 0.2rem solid grey;
+  border-left: none;
+  border-right: none;
+  padding: 0.6rem;
+}
+
+#week_picker_div_right_button {
+  border-left: none;
+  border-radius: 0 0.4rem 0.4rem 0;
+}
+
+#schedule_table {
+  padding-top: 1rem;
+}
+
+#schedule_table_main_tr > td {
+  padding: 0;
+}
+
+#schedule_table_main_tr_times_div {
+  display: flex;
+  flex-direction: column;
+  justify-content: stretch;
+  height: 100%;
+  margin-top: 1px;
+}
+
+#schedule_table_main_tr_times_div > div {
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  border-top: 0.1rem solid black;
+}
+
+#schedule_table_main_tr_times_div:last-child {
+  border-bottom: 0.1rem solid black;
 }
 
 #raw_data_section_div {
@@ -136,6 +193,7 @@ body, #main_section_div, #events_div, #events_div > fieldset {
 }
 
 #bottom_menu_div {
+  background-color: orange;
   flex-shrink: 0;
   gap: 0.5rem;
   padding: 0.5rem 0.5rem 0.5rem;

@@ -1,7 +1,7 @@
 function addEvent(button_elem) {
   // get data
   let eventTimeDate = new Date();
-  let eventTime = `${(eventTimeDate.getFullYear() + '')}-${(eventTimeDate.getMonth() + 1 + '').padStart(2, '0')}-${(eventTimeDate.getDate() + '').padStart(2, '0')} ${((eventTimeDate.getHours() % 12 + 11) % 12 + 1 + '').padStart(2, '0')}:${(eventTimeDate.getMinutes() + '').padStart(2, '0')}:${(eventTimeDate.getSeconds() + '').padStart(2, '0')}.${(eventTimeDate.getMilliseconds() + '').padStart(3, '0')} ${eventTimeDate.getHours() >= 12 ? 'PM' : 'AM'} UTC${eventTimeDate.getTimezoneOffset() < 0 ? '-' : '+'}${(Math.floor(Math.abs(eventTimeDate.getTimezoneOffset()) / 60) + '').padStart(2, '0')}:${(Math.abs(eventTimeDate.getTimezoneOffset()) % 60 + '').padStart(2, '0')}`;
+  let eventTime = dateToFullString(eventTimeDate);
   let eventName = button_elem.textContent;
   
   // add to internal events array

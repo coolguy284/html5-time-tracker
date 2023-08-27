@@ -15,6 +15,7 @@ function switchPage(page) {
       break;
     
     case 'tables & charts':
+      updateTablesAndChartsSection();
       events_div.style.display = 'none';
       data_section_div.style.display = 'none';
       tables_and_charts_section_div.style.display = '';
@@ -60,4 +61,71 @@ function updateDisplay() {
   }
   
   updateRawDataDisplay();
+}
+
+function removeAllChildren(elem) {
+  // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript/3955238#3955238
+  while (elem.firstChild) {
+    elem.removeChild(elem.lastChild);
+  }
+}
+
+function updateWeekSelect() {
+  // clear out select
+  removeAllChildren(week_picker_div_select);
+  
+  for (let weekIndex = 0; weekIndex < parsedWeeks.length; weekIndex++) {
+    let weekDateString = parsedWeeks[weekIndex][0];
+    
+    let weekOption = document.createElement('option');
+    weekOption.textContent = `Week of ${weekDateString}`;
+    weekOption.setAttribute('value', weekIndex);
+    
+    week_picker_div_select.appendChild(weekOption);
+  }
+}
+
+function updateStatsDisplay(statsArr, statsElem) {
+  removeAllChildren(statsElem);
+  
+  for (let entry of statsArr) {
+    let spanElem = document.createElement('span');
+    spanElem.textContent = `${entry[1].toFixed(3).padStart(6, '0')}% ${entry[0]}`;
+    spanElem.style.color = EVENT_COLORS[entry[0]];
+    
+    statsElem.appendChild(spanElem);
+    statsElem.appendChild(document.createElement('br'));
+  }
+}
+
+function updateTableAndWeekStatsDisplay() {
+  let weekData = parsedWeeks[0][week_picker_div_select.value];
+  
+  for (let day = 0; day < 7; day++) {
+    let dayData = weekData[0][day];
+    let dayTd = tableTds[day];
+    
+    removeAllChildren(dayTd);
+    
+    dayData.forEach(x => {
+      let eventDiv = document.createElement('div');
+      eventDiv.style.height = `${x[2] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
+      eventDiv.style.backgroundColor = EVENT_COLORS[x[0]];
+      
+      dayTd.appendChild(eventDiv);
+    });
+  }
+  
+  updateStatsDisplay(weekData[1], stats_div);
+}
+
+function updateAllStatsDisplay() {
+  updateStatsDisplay(parsedWeeks[1], all_time_stats_div);
+}
+
+function updateTablesAndChartsSection() {
+  fillParsedWeeks();
+  updateWeekSelect();
+  updateTableAndWeekStatsDisplay();
+  updateAllStatsDisplay();
 }

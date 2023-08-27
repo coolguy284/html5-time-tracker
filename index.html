@@ -74,7 +74,83 @@
         <button id = 'purge_removed_entries' class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
       </div>
       <div id = 'tables_and_charts_section_div' style = 'display: none;'>
+        <h1>Weekly</h1>
         
+        <div id = 'week_picker_div'>
+          <button id = 'week_picker_div_left_button' onclick = 'decreaseWeek();'>&lt;</button>
+          <select id = 'week_picker_div_select'>
+            <option value = '0'>Week of 2000-01-01</option>
+          </select>
+          <button id = 'week_picker_div_right_button' onclick = 'increaseWeek();'>&gt;</button>
+        </div>
+        
+        <table id = 'schedule_table'>
+          <thead>
+            <tr>
+              <th>Time</th>
+              <th>Sun</th>
+              <th>Mon</th>
+              <th>Tue</th>
+              <th>Wed</th>
+              <th>Thu</th>
+              <th>Fri</th>
+              <th>Sat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id = 'schedule_table_main_tr'>
+              <td>
+                <div id = 'schedule_table_main_tr_times_div' style = 'height: 30rem;'>
+                  <div>12:00 AM</div>
+                  <div>01:00 AM</div>
+                  <div>02:00 AM</div>
+                  <div>03:00 AM</div>
+                  <div>04:00 AM</div>
+                  <div>05:00 AM</div>
+                  <div>06:00 AM</div>
+                  <div>07:00 AM</div>
+                  <div>08:00 AM</div>
+                  <div>09:00 AM</div>
+                  <div>10:00 AM</div>
+                  <div>11:00 AM</div>
+                  <div>12:00 PM</div>
+                  <div>01:00 PM</div>
+                  <div>02:00 PM</div>
+                  <div>03:00 PM</div>
+                  <div>04:00 PM</div>
+                  <div>05:00 PM</div>
+                  <div>06:00 PM</div>
+                  <div>07:00 PM</div>
+                  <div>08:00 PM</div>
+                  <div>09:00 PM</div>
+                  <div>10:00 PM</div>
+                  <div>11:00 PM</div>
+                </div>
+              </td>
+              <td>
+                <div style = 'height: 30rem; background-color: red;'></div>
+              </td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        
+        <h3>Stats</h3>
+        
+        <div id = 'stats_div'>
+          <span style = 'color: red;'>00.000% Null</span>
+        </div>
+        
+        <h3>All Time Stats</h3>
+        
+        <div id = 'all_time_stats_div'>
+          <span style = 'color: red;'>00.000% Null</span>
+        </div>
       </div>
       <div id = 'raw_data_section_div' style = 'display: none;'>
         <div id = 'raw_data_top_section_div'>
@@ -98,10 +174,12 @@
     </div>
     
     <script src = 'constants.js'></script>
+    <script src = 'common.js'></script>
     <script src = 'init.js'></script>
     <script src = 'func_ui_updates.js'></script>
     <script src = 'func_updates.js'></script>
     <script src = 'func_events.js'></script>
+    <script src = 'func_tables_and_charts.js'></script>
     <script src = 'func_raw_data.js'></script>
     <script src = 'onload.js'></script>
   </body>

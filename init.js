@@ -10,3 +10,32 @@ if (localStorage.html5_time_planner_events_arr) {
 }
 
 if (!eventsArr) eventsArr = [];
+
+/*
+  [
+    [
+      [
+        <start date: string "YYYY-MM-DD">,
+        [
+          [
+            [<event name: string>, <event start time: float (seconds since start of day)>, <event duration: float (seconds' duration of event)>],
+            ...
+          ],
+          ... (7 total)
+        ],
+        [
+          [<event name: string>, <event weekly percentage: float>],
+          ...
+        ]
+      ],
+      ...
+    ],
+    [
+      [<event name: string>, <event total percentage: float>],
+      ...
+    ]
+  ]
+*/
+let parsedWeeks = [[], []];
+
+let tableTds = Array.from(schedule_table_main_tr.children).slice(1);
