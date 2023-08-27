@@ -1,0 +1,7 @@
+toggles for___EVENT_DATA___, ___EVENT_DATA___, ___EVENT_DATA___
+
+low tier:
+when a new event is added and data_div is scrolled to the bottom, scroll it to the new bottom
+allow more than 1 event in some cases
+add hard reset button with confirmation
+add ability to annotate previous or second previous entry
