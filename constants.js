@@ -1,0 +1,1 @@
+let DATA_VIEW_ADDL_INFO_BIG_INDENT = false;
