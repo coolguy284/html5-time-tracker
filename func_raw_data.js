@@ -34,3 +34,16 @@ function rawDataSaveInMemoryData() {
   updateEventStorage();
   updateRawDataDisplay();
 }
+
+function rawDataDownloadToFile() {
+  let element = document.createElement('a');
+  
+  element.setAttribute('href', 'data:application/octet-stream;base64,' + btoa(raw_data_text.value));
+  
+  element.setAttribute('download', 'archived.txt');
+  
+  element.style.display = 'none';
+  document.body.appendChild(element);
+  element.click();
+  document.body.removeChild(element);
+}
