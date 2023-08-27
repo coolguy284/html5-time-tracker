@@ -78,7 +78,7 @@
         
         <div id = 'week_picker_div'>
           <button id = 'week_picker_div_left_button' onclick = 'decreaseWeek();'>&lt;</button>
-          <select id = 'week_picker_div_select'>
+          <select id = 'week_picker_div_select' onchange = 'updateTableAndWeekStatsDisplay();'>
             <option value = '0'>Week of 2000-01-01</option>
           </select>
           <button id = 'week_picker_div_right_button' onclick = 'increaseWeek();'>&gt;</button>

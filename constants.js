@@ -4,6 +4,7 @@ let EVENT_COLORS = {
   '___EVENT_DATA___': 'orange',
   'Error (Last Event Too Long)': 'lightblue',
   'Unlogged': 'lightblue',
+  'Programmatic Unlogged': 'lightblue',
   '___EVENT_DATA___': 'blue',
   '___EVENT_DATA___': '___EVENT_DATA___',
   '___EVENT_DATA___': '___EVENT_DATA___',

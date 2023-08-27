@@ -39,3 +39,5 @@ if (!eventsArr) eventsArr = [];
 let parsedWeeks = [[], []];
 
 let tableTds = Array.from(schedule_table_main_tr.children).slice(1);
+
+let parseWeeksDirtyBit = true;

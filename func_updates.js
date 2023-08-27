@@ -12,4 +12,6 @@ function updateEventStorage() {
 function updateEventStorageAndDisplay() {
   updateEventStorage();
   updateDisplay();
+  
+  parseWeeksDirtyBit = true; // messy but works
 }

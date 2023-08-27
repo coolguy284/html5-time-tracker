@@ -158,6 +158,14 @@ body, #main_section_div, #events_div, #events_div > fieldset {
   border-bottom: 0.1rem solid black;
 }
 
+#stats_div, #all_time_stats_div {
+  background-color: white;
+  flex-direction: column;
+  border-radius: 0.5rem;
+  border: 0.3rem solid black;
+  padding: 0.7rem;
+}
+
 #raw_data_section_div {
   flex-direction: column;
   justify-content: stretch;

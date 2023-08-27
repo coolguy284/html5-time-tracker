@@ -1,7 +1,14 @@
 function getBeginningOfWeekMilliseconds(dateStr) {
-  let dateObject = new Date(dateStr);
+  let dateObject = dateStringToDate(dateStr);
   let dayOfWeek = dateObject.getDay();
-  return new Date(dateStr.split(' ')[0]).getTime() - dayOfWeek * 86_400_000;
+  return new Date(dateStr.split(' ')[0] + ' 00:00').getTime() - dayOfWeek * 86_400_000;
+}
+
+function normalizePercentagesArray(percentageArr) {
+  let totalPercent = percentageArr.reduce((a, c) => a + c[1], 0);
+  let percentFactor = 100 / totalPercent;
+  
+  percentageArr.forEach(x => x[1] *= percentFactor);
 }
 
 function fillParsedWeeks() {
@@ -9,10 +16,12 @@ function fillParsedWeeks() {
   
   if (eventsArr.length == 0) return;
   
-  let alteredEventsArr = [...eventsArr, [dateToFullString(new Date()), 'Nothing']];
+  let alteredEventsArr = [[dateToFullString(new Date('2023-08-05T00:00:00.000Z')), 'Programmatic Unlogged'], ...eventsArr, [dateToFullString(new Date()), 'Programmatic Unlogged']];
   
-  let firstWeekMilliseconds = getBeginningOfWeekMilliseconds(alteredEventsArr[0][0]);
-  let totalWeeks = (getBeginningOfWeekMilliseconds(alteredEventsArr[alteredEventsArr.length - 1][0]) - firstWeekMilliseconds) / 86_400_000 / 7;
+  let firstWeekMilliseconds = getBeginningOfWeekMilliseconds(eventsArr[0][0]);
+  let totalWeeks = (getBeginningOfWeekMilliseconds(alteredEventsArr[alteredEventsArr.length - 1][0]) - firstWeekMilliseconds) / 86_400_000 / 7 + 1;
+  
+  alteredEventsArr.push([dateToFullString(new Date(Date.now() + 86_400_000 * 7)), 'Programmatic Unlogged']);
   
   for (let week = 0; week < totalWeeks; week++) {
     let weekMilliseconds = firstWeekMilliseconds + week * 86_400_000 * 7;
@@ -28,25 +37,28 @@ function fillParsedWeeks() {
       
       let eventDayStartingIndex;
       for (eventDayStartingIndex = 0; eventDayStartingIndex < alteredEventsArr.length; eventDayStartingIndex++) {
-        if (new Date(alteredEventsArr[eventDayStartingIndex][0]).getTime() > dayStartMilliseconds) break;
+        if (dateStringToDate(alteredEventsArr[eventDayStartingIndex][0]).getTime() > dayStartMilliseconds) break;
       }
       
       let eventDayEndingIndex;
       for (eventDayEndingIndex = eventDayStartingIndex; eventDayEndingIndex < alteredEventsArr.length; eventDayEndingIndex++) {
-        if (new Date(alteredEventsArr[eventDayEndingIndex][0]).getTime() > dayEndMilliseconds) break;
+        if (dateStringToDate(alteredEventsArr[eventDayEndingIndex][0]).getTime() > dayEndMilliseconds) break;
       }
       eventDayEndingIndex -= 1;
       
       let dayArray = [];
       
-      for (let eventIndex = eventDayStartingIndex - 1; eventIndex < eventDayEndingIndex; eventIndex++) {
-        let eventStartMilliseconds = new Date(eventsArr[eventIndex][0]).getTime();
-        let eventEndMilliseconds = new Date(eventsArr[eventIndex + 1][0]).getTime()
+      for (let eventIndex = eventDayStartingIndex - 1; eventIndex < eventDayEndingIndex + 1; eventIndex++) {
+        let eventStartMilliseconds = dateStringToDate(alteredEventsArr[eventIndex][0]).getTime();
+        let eventEndMilliseconds = dateStringToDate(alteredEventsArr[eventIndex + 1][0]).getTime();
+        
+        let eventStartMillisecondsRelative = Math.max(eventStartMilliseconds - dayStartMilliseconds, 0);
+        let eventEndMillisecondsRelative = Math.min(eventEndMilliseconds - dayStartMilliseconds, 86_400_000);
         
         dayArray.push([
-          eventsArr[eventIndex][1],
-          Math.max(eventStartMilliseconds - dayStartMilliseconds, 0) / 1_000,
-          (eventEndMilliseconds - eventStartMilliseconds) / 1_000,
+          alteredEventsArr[eventIndex][1],
+          eventStartMillisecondsRelative / 1_000,
+          (eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000,
         ]);
       }
       
@@ -57,6 +69,7 @@ function fillParsedWeeks() {
     
     daysArray.forEach(x =>
       x.forEach(y => {
+        if (y[0] == 'Programmatic Unlogged') return;
         if (y[0] in weeklyEventDurations)
           weeklyEventDurations[y[0]] += y[2];
         else
@@ -66,10 +79,12 @@ function fillParsedWeeks() {
     
     let weeklyPercentagesArray = Object.entries(weeklyEventDurations)
       .map(x => [x[0], x[1] / 86_400_000 / 7 * 100])
-      .sort((a, b) => a[1] > b[1] ? 1 : a[1] < b[1] ? -1 : 0);
+      .sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
     
     parsedWeeks[0].push([weekStartDateStr, daysArray, weeklyPercentagesArray]);
   }
+  
+  parsedWeeks[0].forEach(x => normalizePercentagesArray(x[2]));
   
   let totalEventWeeklyPercentages = {};
   
@@ -82,7 +97,9 @@ function fillParsedWeeks() {
   
   let totalPercentagesArray = Object.entries(totalEventWeeklyPercentages)
     .map(x => [x[0], x[1] / parsedWeeks[0].length])
-    .sort((a, b) => a[1] > b[1] ? 1 : a[1] < b[1] ? -1 : 0);
+    .sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
+  
+  normalizePercentagesArray(totalPercentagesArray);
   
   parsedWeeks[1] = totalPercentagesArray;
 }
@@ -95,7 +112,7 @@ function decreaseWeek() {
 }
 
 function increaseWeek() {
-  if (week_picker_div_select.value < parsedWeeks.length - 1) {
+  if (week_picker_div_select.value < parsedWeeks[0].length - 1) {
     week_picker_div_select.value++;
     updateTableAndWeekStatsDisplay();
   }

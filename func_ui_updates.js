@@ -15,7 +15,10 @@ function switchPage(page) {
       break;
     
     case 'tables & charts':
-      updateTablesAndChartsSection();
+      if (parseWeeksDirtyBit) {
+        updateTablesAndChartsSection();
+        parseWeeksDirtyBit = false;
+      }
       events_div.style.display = 'none';
       data_section_div.style.display = 'none';
       tables_and_charts_section_div.style.display = '';
@@ -74,8 +77,8 @@ function updateWeekSelect() {
   // clear out select
   removeAllChildren(week_picker_div_select);
   
-  for (let weekIndex = 0; weekIndex < parsedWeeks.length; weekIndex++) {
-    let weekDateString = parsedWeeks[weekIndex][0];
+  for (let weekIndex = 0; weekIndex < parsedWeeks[0].length; weekIndex++) {
+    let weekDateString = parsedWeeks[0][weekIndex][0];
     
     let weekOption = document.createElement('option');
     weekOption.textContent = `Week of ${weekDateString}`;
@@ -91,10 +94,9 @@ function updateStatsDisplay(statsArr, statsElem) {
   for (let entry of statsArr) {
     let spanElem = document.createElement('span');
     spanElem.textContent = `${entry[1].toFixed(3).padStart(6, '0')}% ${entry[0]}`;
-    spanElem.style.color = EVENT_COLORS[entry[0]];
+    spanElem.style.color = getEventColor(entry[0]);
     
     statsElem.appendChild(spanElem);
-    statsElem.appendChild(document.createElement('br'));
   }
 }
 
@@ -102,7 +104,7 @@ function updateTableAndWeekStatsDisplay() {
   let weekData = parsedWeeks[0][week_picker_div_select.value];
   
   for (let day = 0; day < 7; day++) {
-    let dayData = weekData[0][day];
+    let dayData = weekData[1][day];
     let dayTd = tableTds[day];
     
     removeAllChildren(dayTd);
@@ -110,13 +112,13 @@ function updateTableAndWeekStatsDisplay() {
     dayData.forEach(x => {
       let eventDiv = document.createElement('div');
       eventDiv.style.height = `${x[2] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
-      eventDiv.style.backgroundColor = EVENT_COLORS[x[0]];
+      eventDiv.style.backgroundColor = getEventColor(x[0]);
       
       dayTd.appendChild(eventDiv);
     });
   }
   
-  updateStatsDisplay(weekData[1], stats_div);
+  updateStatsDisplay(weekData[2], stats_div);
 }
 
 function updateAllStatsDisplay() {
