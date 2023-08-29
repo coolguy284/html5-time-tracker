@@ -1,3 +1,5 @@
+remove unnecessary data page button ids
+give buttons on hover and on selected shading
 toggles for___EVENT_DATA___, ___EVENT_DATA___, ___EVENT_DATA___
 
 low tier:

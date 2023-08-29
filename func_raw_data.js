@@ -35,6 +35,12 @@ function rawDataSaveInMemoryData() {
   updateRawDataDisplay();
 }
 
+function rawDataLoadInMemoryData() {
+  eventsArr = undefined;
+  loadEventsArr();
+  onPageAlmostLoad();
+}
+
 function rawDataDownloadToFile() {
   let element = document.createElement('a');
   

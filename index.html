@@ -72,6 +72,7 @@
         <button id = 'remove_last_event_button' class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
         <button id = 'unremove_last_event_button' class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
         <button id = 'purge_removed_entries' class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
+        <button onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
       </div>
       <div id = 'tables_and_charts_section_div' style = 'display: none;'>
         <h1>Weekly</h1>
@@ -162,6 +163,7 @@
           <button onclick = 'rawDataDelete();'>Delete</button>
           <button onclick = 'rawDataCreate();'>Create</button>
           <button onclick = 'rawDataSaveInMemoryData();'>Save In-Memory Data</button>
+          <button onclick = 'rawDataLoadInMemoryData();'>Load In-Memory Data</button>
           <button onclick = 'rawDataDownloadToFile();'>Download to File</button>
         </div>
       </div>

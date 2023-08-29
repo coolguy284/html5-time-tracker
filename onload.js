@@ -1,1 +1,5 @@
-updateDisplay();
+function onPageAlmostLoad() {
+  updateDisplay();
+}
+
+onPageAlmostLoad();
