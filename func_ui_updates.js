@@ -117,6 +117,9 @@ function updateWeekSelect() {
     let weekOption = document.createElement('option');
     weekOption.textContent = `Week of ${weekDateString}`;
     weekOption.setAttribute('value', weekIndex);
+    if (weekIndex == parsedWeeks[0].length - 1) {
+      weekOption.setAttribute('selected', '');
+    }
     
     week_picker_div_select.appendChild(weekOption);
   }
