@@ -60,18 +60,34 @@ function fillParsedWeeks() {
       
       let dayArray = [];
       
+      let lastEventName = null;
+      
       for (let eventIndex = eventDayStartingIndex - 1; eventIndex < eventDayEndingIndex + 1; eventIndex++) {
-        let eventStartMilliseconds = dateStringToDate(alteredEventsArr[eventIndex][0]).getTime();
-        let eventEndMilliseconds = dateStringToDate(alteredEventsArr[eventIndex + 1][0]).getTime();
+        let eventName = alteredEventsArr[eventIndex][1];
         
-        let eventStartMillisecondsRelative = Math.max(eventStartMilliseconds - dayStartMilliseconds, 0);
-        let eventEndMillisecondsRelative = Math.min(eventEndMilliseconds - dayStartMilliseconds, 86_400_000);
-        
-        dayArray.push([
-          alteredEventsArr[eventIndex][1],
-          eventStartMillisecondsRelative / 1_000,
-          (eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000,
-        ]);
+        if (eventName == lastEventName) {
+          let eventStartMilliseconds = dateStringToDate(alteredEventsArr[eventIndex][0]).getTime();
+          let eventEndMilliseconds = dateStringToDate(alteredEventsArr[eventIndex + 1][0]).getTime();
+          
+          let eventStartMillisecondsRelative = Math.max(eventStartMilliseconds - dayStartMilliseconds, 0);
+          let eventEndMillisecondsRelative = Math.min(eventEndMilliseconds - dayStartMilliseconds, 86_400_000);
+          
+          dayArray[dayArray.length - 1][2] += (eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000;
+        } else {
+          let eventStartMilliseconds = dateStringToDate(alteredEventsArr[eventIndex][0]).getTime();
+          let eventEndMilliseconds = dateStringToDate(alteredEventsArr[eventIndex + 1][0]).getTime();
+          
+          let eventStartMillisecondsRelative = Math.max(eventStartMilliseconds - dayStartMilliseconds, 0);
+          let eventEndMillisecondsRelative = Math.min(eventEndMilliseconds - dayStartMilliseconds, 86_400_000);
+          
+          dayArray.push([
+            eventName,
+            eventStartMillisecondsRelative / 1_000,
+            (eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000,
+          ]);
+          
+          lastEventName = eventName;
+        }
       }
       
       daysArray.push(dayArray);
