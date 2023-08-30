@@ -12,9 +12,21 @@ function normalizePercentagesArray(percentageArr) {
 }
 
 function fillParsedWeeks() {
-  parsedWeeks[0].splice(0, Infinity);
+  if (eventsArr.length == 0) {
+    parsedWeeks = [
+      [
+        [
+          dateToDateString(new Date()),
+          [[], [], [], [], [], [], []],
+          [],
+        ]
+      ],
+      [],
+    ];
+    return;
+  }
   
-  if (eventsArr.length == 0) return;
+  parsedWeeks[0].splice(0, Infinity);
   
   let alteredEventsArr = [[dateToFullString(new Date('2023-08-05T00:00:00.000Z')), 'Programmatic Unlogged'], ...eventsArr, [dateToFullString(new Date()), 'Programmatic Unlogged']];
   

@@ -132,30 +132,52 @@ body, #main_section_div, #events_div, #events_div > fieldset {
 }
 
 #schedule_table {
+  flex-direction: column;
   padding-top: 1rem;
 }
 
-#schedule_table_main_tr > td {
-  padding: 0;
+#schedule_table_main_section {
+  justify-content: stretch;
+  gap: 0.2rem;
 }
 
-#schedule_table_main_tr_times_div {
-  display: flex;
+.schedule_table_main_section_class > div {
+  flex-grow: 1;
+  flex-basis: 0;
+  flex-direction: column;
+}
+
+#schedule_table_main_section_first_div {
+  flex-grow: 0;
+  flex-basis: auto;
+}
+
+.schedule_table_header_row {
+  font-weight: bold;
+  align-self: center;
+  padding-bottom: 0.2rem;
+}
+
+#schedule_table_main_section_times_div {
   flex-direction: column;
   justify-content: stretch;
-  height: 100%;
-  margin-top: 1px;
 }
 
-#schedule_table_main_tr_times_div > div {
-  flex-grow: 1;
+#schedule_table_main_section_times_div > div {
   flex-direction: column;
-  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  min-height: 0;
   border-top: 0.1rem solid black;
+  padding: 0 0.4rem 0;
 }
 
-#schedule_table_main_tr_times_div:last-child {
+#schedule_table_main_section_times_div > div:last-child {
   border-bottom: 0.1rem solid black;
+}
+
+.schedule_table_time_column {
+  width: 5.5rem;
 }
 
 #stats_div, #all_time_stats_div {

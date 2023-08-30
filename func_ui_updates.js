@@ -73,6 +73,12 @@ function removeAllChildren(elem) {
   }
 }
 
+function removeAllChildrenButOne(elem) {
+  while (elem.children.length > 1) {
+    elem.removeChild(elem.lastChild);
+  }
+}
+
 function updateWeekSelect() {
   // clear out select
   removeAllChildren(week_picker_div_select);
@@ -107,7 +113,7 @@ function updateTableAndWeekStatsDisplay() {
     let dayData = weekData[1][day];
     let dayTd = tableTds[day];
     
-    removeAllChildren(dayTd);
+    removeAllChildrenButOne(dayTd);
     
     dayData.forEach(x => {
       let eventDiv = document.createElement('div');

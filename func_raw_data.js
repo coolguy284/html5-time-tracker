@@ -39,6 +39,8 @@ function rawDataLoadInMemoryData() {
   eventsArr = undefined;
   loadEventsArr();
   onPageAlmostLoad();
+  
+  parseWeeksDirtyBit = true; // messy but works
 }
 
 function rawDataDownloadToFile() {

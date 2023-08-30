@@ -13,7 +13,12 @@ function loadEventsArr() {
   if (!eventsArr) eventsArr = [];
 }
 
+function setScheduleTableTimesHeight() {
+  schedule_table_main_section_times_div.style.height = `${TABLE_DATA_FULL_HEIGHT}rem`;
+}
+
 loadEventsArr();
+setScheduleTableTimesHeight();
 
 /*
   [
@@ -42,6 +47,6 @@ loadEventsArr();
 */
 let parsedWeeks = [[], []];
 
-let tableTds = Array.from(schedule_table_main_tr.children).slice(1);
+let tableTds = Array.from(schedule_table_main_section.children).slice(1);
 
 let parseWeeksDirtyBit = true;
