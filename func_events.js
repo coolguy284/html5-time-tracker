@@ -49,14 +49,37 @@ function purgeRemovedEntries() {
 }
 
 function duplicateEventBackwards() {
-  if (eventsArr.length == 0) return;
-  
-  let lastEvent = eventsArr[eventsArr.length - 1];
   let minutesBack = Number(prompt('Minutes back?'));
   
   if (!Number.isFinite(minutesBack) || minutesBack == 0) return;
   
-  eventsArr.splice(eventsArr.length - 1, 0, [dateToFullString(new Date(Math.floor(dateStringToDate(lastEvent[0]).getTime() - minutesBack * 60_000))), lastEvent[1], lastEvent[2], true, ...lastEvent.slice(4)]);
+  let latestVisibleEventIndex = getLatestVisibleEventIndex();
+  
+  if (latestVisibleEventIndex <= 0) return;
+  
+  let lastEvent = eventsArr[latestVisibleEventIndex];
+  
+  eventsArr.splice(latestVisibleEventIndex, 0, [dateToFullString(new Date(Math.floor(dateStringToDate(lastEvent[0]).getTime() - minutesBack * 60_000))), lastEvent[1], lastEvent[2], true, ...lastEvent.slice(4)]);
+  
+  updateEventStorageAndDisplay();
+}
+
+function setLastEventAnnotation() {
+  let annotation = prompt('Annotation?');
+  
+  if (annotation == null) return;
+  
+  let latestVisibleEventIndex = getLatestVisibleEventIndex();
+  
+  if (latestVisibleEventIndex <= 0) return;
+  
+  let lastEvent = eventsArr[latestVisibleEventIndex];
+  
+  if (annotation.length > 0) {
+    lastEvent[4] = annotation;
+  } else {
+    lastEvent.length = 4;
+  }
   
   updateEventStorageAndDisplay();
 }

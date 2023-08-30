@@ -69,10 +69,11 @@
       </div>
       <div id = 'data_section_div' style = 'display: none;'>
         <div id = 'data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
-        <button id = 'remove_last_event_button' class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
-        <button id = 'unremove_last_event_button' class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
-        <button id = 'purge_removed_entries' class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
+        <button class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
+        <button class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
+        <button class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
         <button onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
+        <button onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
       </div>
       <div id = 'tables_and_charts_section_div' style = 'display: none;'>
         <h1>Weekly</h1>
