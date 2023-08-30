@@ -34,6 +34,40 @@ function switchPage(page) {
   }
 }
 
+function updateDataSectionDisplay() {
+  // put array contents on data_div
+  let visibleEventsArr = eventsArr.filter(x => x[2]);
+  
+  if (visibleEventsArr.length > 0) {
+    let processedEventsArr;
+    
+    if (data_section_collapse_duplicates.checked) {
+      processedEventsArr = [];
+      
+      let lastEventName = null;
+      for (let event of visibleEventsArr) {
+        if (event[1] != lastEventName) {
+          processedEventsArr.push(event);
+          lastEventName = event[1];
+        }
+      }
+    } else {
+      processedEventsArr = visibleEventsArr;
+    }
+    
+    data_div.textContent = processedEventsArr.map(x =>
+      `${x[0]}: ${x[1]}` +
+      (x.length > 4 ?
+        (DATA_VIEW_ADDL_INFO_BIG_INDENT ?
+          '\n                                      ' :
+          '\n  ') +
+        `Addl. Info: ${x[4]}` : '')
+    ).join('\n');
+  } else {
+    data_div.textContent = 'No Events';
+  }
+}
+
 function updateRawDataDisplay() {
   // put raw data contents on raw_data_text
   if (localStorage.html5_time_planner_events_arr != null) {
@@ -55,13 +89,7 @@ function updateDisplay() {
     current_event_text.textContent = 'None';
   }
   
-  // put array contents on data_div
-  let visibleEventsArr = eventsArr.filter(x => x[2]);
-  if (visibleEventsArr.length > 0) {
-    data_div.textContent = visibleEventsArr.map(x => `${x[0]}: ${x[1]}` + (x.length > 4 ? (DATA_VIEW_ADDL_INFO_BIG_INDENT ? '\n                                      ' : '\n  ') + `Addl. Info: ${x[4]}` : '')).join('\n');
-  } else {
-    data_div.textContent = 'No Events';
-  }
+  updateDataSectionDisplay();
   
   updateRawDataDisplay();
 }

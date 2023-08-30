@@ -74,6 +74,10 @@
         <button class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
         <button onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
         <button onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
+        <label for = 'data_section_collapse_duplicates'>
+          <input type = 'checkbox' id = 'data_section_collapse_duplicates' onchange = 'updateDataSectionDisplay();' checked>
+          Collapse Duplicates
+        </label>
       </div>
       <div id = 'tables_and_charts_section_div' style = 'display: none;'>
         <h1>Weekly</h1>
