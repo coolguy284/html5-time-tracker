@@ -67,18 +67,7 @@
           <button onclick = 'addEvent(this);'>___EVENT_DATA___</button>
         </fieldset>
       </div>
-      <div id = 'data_section_div' style = 'display: none;'>
-        <div id = 'data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
-        <button class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
-        <button class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
-        <button class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
-        <button onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
-        <button onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
-        <label for = 'data_section_collapse_duplicates'>
-          <input type = 'checkbox' id = 'data_section_collapse_duplicates' onchange = 'updateDataSectionDisplay();' checked>
-          Collapse Duplicates
-        </label>
-      </div>
+      
       <div id = 'tables_and_charts_section_div' style = 'display: none;'>
         <h1>Weekly</h1>
         
@@ -167,6 +156,20 @@
         
         <button id = 'refresh_tables_and_charts_button' onclick = 'updateTablesAndChartsSection();'>Refresh</button>
       </div>
+      
+      <div id = 'data_section_div' style = 'display: none;'>
+        <div id = 'data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
+        <button class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
+        <button class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
+        <button class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
+        <button onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
+        <button onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
+        <label for = 'data_section_collapse_duplicates'>
+          <input type = 'checkbox' id = 'data_section_collapse_duplicates' onchange = 'updateDataSectionDisplay();' checked>
+          Collapse Duplicates
+        </label>
+      </div>
+      
       <div id = 'raw_data_section_div' style = 'display: none;'>
         <div id = 'raw_data_top_section_div'>
           <textarea id = 'raw_data_text'></textarea>
@@ -182,10 +185,11 @@
         </div>
       </div>
     </div>
+    
     <div id = 'bottom_menu_div'>
       <button onclick = 'switchPage("events");'>Events</button>
-      <button onclick = 'switchPage("data");'>Data</button>
       <button onclick = 'switchPage("tables & charts");'>Tables & Charts</button>
+      <button onclick = 'switchPage("data");'>Data</button>
       <button onclick = 'switchPage("raw data");'>Raw Data</button>
     </div>
     

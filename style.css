@@ -1,3 +1,5 @@
+/* general declarations */
+
 html, body, body *:not(script, table, thead, tbody, tr, th, td) {
   display: flex;
 }
@@ -41,6 +43,9 @@ label > input[type = checkbox] {
   height: 1.1rem;
 }
 
+
+/* current event (top bar) block */
+
 #current_event_div {
   background-color: rgb(255, 211, 129);
   justify-content: center;
@@ -48,6 +53,9 @@ label > input[type = checkbox] {
   font-size: 1.5rem;
   padding: 0.5rem;
 }
+
+
+/* main section block */
 
 #main_section_div {
   flex-grow: 1;
@@ -61,6 +69,9 @@ label > input[type = checkbox] {
   min-height: 0;
   overflow-y: auto;
 }
+
+
+/* events section block */
 
 #events_div {
   background-color: blue;
@@ -91,26 +102,8 @@ label > input[type = checkbox] {
   font-size: 1.3rem;
 }
 
-#data_section_div {
-  background-color: lightblue;
-  padding: 1.5rem 1rem 1.5rem;
-  flex-direction: column;
-  gap: 0.5rem;
-}
 
-#data_div {
-  white-space: pre-wrap;
-  font-family: monospace;
-  padding: 0 0 1rem;
-}
-
-.caution_bg {
-  background-color: rgb(250, 132, 132);
-}
-
-.safe_bg {
-  background-color: rgb(141, 252, 165);
-}
+/* tables and charts section block */
 
 #tables_and_charts_section_div {
   flex-direction: column;
@@ -233,6 +226,33 @@ label[for = collapse_event_groups] {
   margin-top: 1.6rem;
 }
 
+
+/* data section block */
+
+#data_section_div {
+  background-color: lightblue;
+  padding: 1.5rem 1rem 1.5rem;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#data_div {
+  white-space: pre-wrap;
+  font-family: monospace;
+  padding: 0 0 1rem;
+}
+
+.caution_bg {
+  background-color: rgb(250, 132, 132);
+}
+
+.safe_bg {
+  background-color: rgb(141, 252, 165);
+}
+
+
+/* raw data section block */
+
 #raw_data_section_div {
   flex-direction: column;
   justify-content: stretch;
@@ -266,6 +286,9 @@ label[for = collapse_event_groups] {
   border-radius: 0.5rem;
   font-size: 1.2rem;
 }
+
+
+/* bottom menu block */
 
 #bottom_menu_div {
   background-color: orange;
