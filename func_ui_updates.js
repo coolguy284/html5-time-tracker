@@ -112,7 +112,7 @@ function updateWeekSelect() {
   }
 }
 
-function updateStatsDisplay(statsArr, statsElem) {
+function updateStatsDisplay_Helper(statsArr, statsElem) {
   removeAllChildren(statsElem);
   
   if (collapse_event_groups.checked) {
@@ -125,6 +125,8 @@ function updateStatsDisplay(statsArr, statsElem) {
     }, {})).map(x => [x[0], x[1][0], x[1][1]]).sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
   }
   
+  let totalTimeSeconds = 0;
+  
   for (let entry of statsArr) {
     let spanElem = document.createElement('span');
     spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% (${(Math.floor(entry[2] / 3_600) + '').padStart(2, '0')}:${(Math.floor(entry[2] / 60 % 60) + '').padStart(2, '0')}) ${entry[0]}`;
@@ -133,7 +135,11 @@ function updateStatsDisplay(statsArr, statsElem) {
       getEventColor(entry[0]);
     
     statsElem.appendChild(spanElem);
+    
+    totalTimeSeconds += entry[2];
   }
+  
+  return totalTimeSeconds;
 }
 
 function updateTableAndWeekStatsDisplay() {
@@ -154,11 +160,15 @@ function updateTableAndWeekStatsDisplay() {
     });
   }
   
-  updateStatsDisplay(weekData[2], stats_div);
+  let totalTimeSeconds = updateStatsDisplay_Helper(weekData[2], stats_div);
+  
+  total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7 * 100).toFixed(3).padStart(6, '0')}% (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')} / 168:00)`;
 }
 
 function updateAllStatsDisplay() {
-  updateStatsDisplay(parsedWeeks[1], all_time_stats_div);
+  let totalTimeSeconds = updateStatsDisplay_Helper(parsedWeeks[1], all_time_stats_div);
+  
+  all_time_total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7).toFixed(3)} weeks (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')})`;
 }
 
 function updateTablesAndChartsSectionRenderingOnly() {
