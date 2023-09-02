@@ -125,7 +125,7 @@ label > input[type = checkbox] {
 #week_picker_div > button {
   background-color: white;
   font-size: 2rem;
-  border: 0.2rem solid grey;
+  border: 0.2rem solid gray;
   padding: 0 0.7rem 0;
 }
 
@@ -138,8 +138,8 @@ label > input[type = checkbox] {
   flex-grow: 1;
   background-color: white;
   font-size: 1.3rem;
-  border-top: 0.2rem solid grey;
-  border-bottom: 0.2rem solid grey;
+  border-top: 0.2rem solid gray;
+  border-bottom: 0.2rem solid gray;
   border-left: none;
   border-right: none;
   padding: 0.6rem;
@@ -215,7 +215,7 @@ label[for = collapse_event_groups] {
   flex-grow: 1;
   background-color: white;
   font-size: 1.3rem;
-  border: 0.2rem solid grey;
+  border: 0.2rem solid gray;
   border-radius: 0.4rem;
   padding: 0.6rem;
 }
@@ -236,7 +236,7 @@ label[for = collapse_event_groups] {
   resize: none;
   word-break: break-all;
   border-radius: 0.8rem;
-  border: 0.1rem solid grey;
+  border: 0.1rem solid gray;
   padding: 0.3rem;
   font-size: 1.5rem;
 }
