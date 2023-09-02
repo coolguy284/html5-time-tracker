@@ -41,4 +41,59 @@ let EVENT_COLORS = {
   '___EVENT_DATA___': '___EVENT_DATA___',
   default: 'black',
 };
+if (0) {
+  EVENT_COLORS = {
+    'Nothing': 'lightblue',
+    '___EVENT_DATA___': 'lightblue',
+    'Error (Last Event Too Long)': 'lightblue',
+    'Unlogged': 'lightblue',
+    'Programmatic Unlogged': 'lightblue',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': 'pink',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': 'pink',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': 'orange',
+    '___EVENT_DATA___ ___EVENT_DATA___': 'red',
+    '___EVENT_DATA___ ___EVENT_DATA___': 'orange',
+    '___EVENT_DATA___ ___EVENT_DATA___': 'red',
+    '___EVENT_DATA___ ___EVENT_DATA___': 'orange',
+    '___EVENT_DATA___ ___EVENT_DATA___': 'red',
+    '___EVENT_DATA___ ___EVENT_DATA___': 'orange',
+    '___EVENT_DATA___ ___EVENT_DATA___': 'red',
+    '___EVENT_DATA___ ___EVENT_DATA___': 'orange',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___ & ___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___ & ___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': 'blue',
+    '___EVENT_DATA___ & ___EVENT_DATA___': 'blue',
+    '___EVENT_DATA___ & ___EVENT_DATA___': 'blue',
+    '___EVENT_DATA___ & ___EVENT_DATA___': 'blue',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    '___EVENT_DATA___': '___EVENT_DATA___',
+    default: 'lightblue',
+  };
+  /*
+___EVENT_DATA___ = sleep
+pink = ___EVENT_DATA___
+red = ___EVENT_DATA___
+orange = ___EVENT_DATA___
+___EVENT_DATA___ = fun
+blue = ___EVENT_DATA___
+___EVENT_DATA___ = ___EVENT_DATA___
+  */
+}
 let TABLE_DATA_FULL_HEIGHT = 30; // in units of rem

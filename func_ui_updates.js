@@ -128,10 +128,18 @@ function updateWeekSelect() {
 function updateStatsDisplay(statsArr, statsElem) {
   removeAllChildren(statsElem);
   
+  if (0) {
+    statsArr = Object.entries(statsArr.map(entry => [getEventColor(entry[0]), entry[1]]).reduce((a, c) => {
+      if (c[0] in a) a[c[0]] += c[1];
+      else a[c[0]] = c[1];
+      return a;
+    }, {})).sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
+  }
+  
   for (let entry of statsArr) {
     let spanElem = document.createElement('span');
     spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% ${entry[0]}`;
-    spanElem.style.color = getEventColor(entry[0]);
+    spanElem.style.color = 0 ? entry[0] : getEventColor(entry[0]);
     
     statsElem.appendChild(spanElem);
   }
