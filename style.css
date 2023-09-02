@@ -18,6 +18,14 @@ body, #main_section_div, #events_div, #events_div > fieldset {
   flex-direction: column;
 }
 
+button {
+  padding: 0.3rem;
+  border: none;
+  border-radius: 0.5rem;
+  font-size: 1.4rem;
+  justify-content: center;
+}
+
 label {
   align-items: center;
   justify-content: center;
@@ -88,14 +96,6 @@ label > input[type = checkbox] {
   padding: 1.5rem 1rem 1.5rem;
   flex-direction: column;
   gap: 0.5rem;
-}
-
-#data_section_div > button {
-  padding: 0.3rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1.4rem;
-  justify-content: center;
 }
 
 #data_div {
@@ -226,6 +226,10 @@ label > input[type = checkbox] {
 }
 
 label[for = collapse_event_groups] {
+  margin-top: 1.6rem;
+}
+
+#refresh_tables_and_charts_button {
   margin-top: 1.6rem;
 }
 
