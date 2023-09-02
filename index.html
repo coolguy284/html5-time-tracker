@@ -145,6 +145,17 @@
         <div id = 'all_time_stats_div'>
           <span style = 'color: red;'>██ 00.000% Null</span>
         </div>
+        
+        <h4>Event Mapping</h4>
+        
+        <select id = 'event_mappings_select' onchange = 'updateTablesAndChartsSectionRenderingOnly();'>
+          <option value = 'Null'>Null</option>
+        </select>
+        
+        <label for = 'collapse_event_groups'>
+          <input type = 'checkbox' id = 'collapse_event_groups' onchange = 'updateTablesAndChartsSectionRenderingOnly();'>
+          Collapse Event Groups
+        </label>
       </div>
       <div id = 'raw_data_section_div' style = 'display: none;'>
         <div id = 'raw_data_top_section_div'>

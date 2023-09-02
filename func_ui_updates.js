@@ -94,19 +94,6 @@ function updateDisplay() {
   updateRawDataDisplay();
 }
 
-function removeAllChildren(elem) {
-  // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript/3955238#3955238
-  while (elem.firstChild) {
-    elem.removeChild(elem.lastChild);
-  }
-}
-
-function removeAllChildrenButOne(elem) {
-  while (elem.children.length > 1) {
-    elem.removeChild(elem.lastChild);
-  }
-}
-
 function updateWeekSelect() {
   // clear out select
   removeAllChildren(week_picker_div_select);
@@ -128,8 +115,8 @@ function updateWeekSelect() {
 function updateStatsDisplay(statsArr, statsElem) {
   removeAllChildren(statsElem);
   
-  if (0) {
-    statsArr = Object.entries(statsArr.map(entry => [getEventColor(entry[0]), entry[1]]).reduce((a, c) => {
+  if (collapse_event_groups.checked) {
+    statsArr = Object.entries(statsArr.map(entry => [getEventGroup(entry[0]), entry[1]]).reduce((a, c) => {
       if (c[0] in a) a[c[0]] += c[1];
       else a[c[0]] = c[1];
       return a;
@@ -139,7 +126,9 @@ function updateStatsDisplay(statsArr, statsElem) {
   for (let entry of statsArr) {
     let spanElem = document.createElement('span');
     spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% ${entry[0]}`;
-    spanElem.style.color = 0 ? entry[0] : getEventColor(entry[0]);
+    spanElem.style.color = collapse_event_groups.checked ?
+      getEventGroupColor(entry[0]) :
+      getEventColor(entry[0]);
     
     statsElem.appendChild(spanElem);
   }
@@ -170,9 +159,13 @@ function updateAllStatsDisplay() {
   updateStatsDisplay(parsedWeeks[1], all_time_stats_div);
 }
 
+function updateTablesAndChartsSectionRenderingOnly() {
+  updateTableAndWeekStatsDisplay();
+  updateAllStatsDisplay();
+}
+
 function updateTablesAndChartsSection() {
   fillParsedWeeks();
   updateWeekSelect();
-  updateTableAndWeekStatsDisplay();
-  updateAllStatsDisplay();
+  updateTablesAndChartsSectionRenderingOnly();
 }

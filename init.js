@@ -13,12 +13,7 @@ function loadEventsArr() {
   if (!eventsArr) eventsArr = [];
 }
 
-function setScheduleTableTimesHeight() {
-  schedule_table_main_section_times_div.style.height = `${TABLE_DATA_FULL_HEIGHT}rem`;
-}
-
 loadEventsArr();
-setScheduleTableTimesHeight();
 
 /*
   [
@@ -50,3 +45,20 @@ let parsedWeeks = [[], []];
 let tableTds = Array.from(schedule_table_main_section.children).slice(1);
 
 let parseWeeksDirtyBit = true;
+
+
+schedule_table_main_section_times_div.style.height = `${TABLE_DATA_FULL_HEIGHT}rem`;
+
+
+removeAllChildren(event_mappings_select);
+
+for (let eventMapping in EVENT_MAPPINGS) {
+  let mappingOption = document.createElement('option');
+  mappingOption.textContent = eventMapping;
+  mappingOption.setAttribute('value', eventMapping);
+  if (eventMapping == DEFAULT_EVENT_MAPPING) {
+    mappingOption.setAttribute('selected', '');
+  }
+  
+  event_mappings_select.appendChild(mappingOption);
+}

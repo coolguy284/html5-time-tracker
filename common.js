@@ -13,10 +13,39 @@ function dateToDateString(dateObj) {
   return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1 + '').padStart(2, '0')}-${(dateObj.getDate() + '').padStart(2, '0')}`;
 }
 
-function getEventColor(eventName) {
-  if (eventName in EVENT_COLORS) {
-    return EVENT_COLORS[eventName];
-  }
+function getEventGroup(eventName) {
+  let eventToGroupMapping = EVENT_MAPPINGS[event_mappings_select.value].eventToGroup;
   
-  return EVENT_COLORS.default;
+  if (eventName in eventToGroupMapping) {
+    return eventToGroupMapping[eventName];
+  } else {
+    return 'Default';
+  }
+}
+
+function getEventGroupColor(groupName) {
+  let groupToColorMapping = EVENT_MAPPINGS[event_mappings_select.value].groupToColor;
+  
+  if (groupName in groupToColorMapping) {
+    return groupToColorMapping[groupName];
+  } else {
+    return groupToColorMapping['Default'];
+  }
+}
+
+function getEventColor(eventName) {
+  return getEventGroupColor(getEventGroup(eventName));
+}
+
+function removeAllChildren(elem) {
+  // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript/3955238#3955238
+  while (elem.firstChild) {
+    elem.removeChild(elem.lastChild);
+  }
+}
+
+function removeAllChildrenButOne(elem) {
+  while (elem.children.length > 1) {
+    elem.removeChild(elem.lastChild);
+  }
 }
