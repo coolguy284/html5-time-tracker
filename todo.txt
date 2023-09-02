@@ -15,3 +15,7 @@ color button that cannot be clicked a disabled color (for week picker)
 fix coloring of tables & charts page
 make percentage stats box not unicode chars and actual div instead
 fix mobile seperation of stats percentage entries being greater than 0
+
+probably not needed:
+button for ___EVENT_DATA___
+button for ___EVENT_DATA___
