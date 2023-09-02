@@ -106,27 +106,29 @@ function fillParsedWeeks() {
     );
     
     let weeklyPercentagesArray = Object.entries(weeklyEventDurations)
-      .map(x => [x[0], x[1] / 86_400_000 / 7 * 100])
+      .map(x => [x[0], x[1] / 86_400 / 7 * 100, x[1]])
       .sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
     
     parsedWeeks[0].push([weekStartDateStr, daysArray, weeklyPercentagesArray]);
   }
   
-  parsedWeeks[0].forEach(x => normalizePercentagesArray(x[2]));
-  
   let totalEventWeeklyPercentages = {};
   
   parsedWeeks[0].forEach(x => x[2].forEach(y => {
-    if (y[0] in totalEventWeeklyPercentages)
-      totalEventWeeklyPercentages[y[0]] += y[1];
-    else
-      totalEventWeeklyPercentages[y[0]] = y[1];
+    if (y[0] in totalEventWeeklyPercentages) {
+      totalEventWeeklyPercentages[y[0]][0] += y[1];
+      totalEventWeeklyPercentages[y[0]][1] += y[2];
+    } else {
+      totalEventWeeklyPercentages[y[0]] = [y[1], y[2]];
+    }
   }));
   
   let totalPercentagesArray = Object.entries(totalEventWeeklyPercentages)
-    .map(x => [x[0], x[1] / parsedWeeks[0].length])
+    .map(x => [x[0], x[1][0] / parsedWeeks[0].length, x[1][1]]) // this division isn't really needed because of the normalization that occurs immediately after
     .sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
   
+  parsedWeeks[0].forEach(x => normalizePercentagesArray(x[2]));
+    
   normalizePercentagesArray(totalPercentagesArray);
   
   parsedWeeks[1] = totalPercentagesArray;

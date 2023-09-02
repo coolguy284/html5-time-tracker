@@ -116,16 +116,18 @@ function updateStatsDisplay(statsArr, statsElem) {
   removeAllChildren(statsElem);
   
   if (collapse_event_groups.checked) {
-    statsArr = Object.entries(statsArr.map(entry => [getEventGroup(entry[0]), entry[1]]).reduce((a, c) => {
-      if (c[0] in a) a[c[0]] += c[1];
-      else a[c[0]] = c[1];
+    statsArr = Object.entries(statsArr.map(entry => [getEventGroup(entry[0]), entry[1], entry[2]]).reduce((a, c) => {
+      if (c[0] in a) {
+        a[c[0]][0] += c[1];
+        a[c[0]][1] += c[2];
+      } else a[c[0]] = [c[1], c[2]];
       return a;
-    }, {})).sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
+    }, {})).map(x => [x[0], x[1][0], x[1][1]]).sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
   }
   
   for (let entry of statsArr) {
     let spanElem = document.createElement('span');
-    spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% ${entry[0]}`;
+    spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% (${(Math.floor(entry[2] / 3_600) + '').padStart(2, '0')}:${(Math.floor(entry[2] / 60 % 60) + '').padStart(2, '0')}) ${entry[0]}`;
     spanElem.style.color = collapse_event_groups.checked ?
       getEventGroupColor(entry[0]) :
       getEventColor(entry[0]);

@@ -207,10 +207,6 @@ label > input[type = checkbox] {
   padding: 0.7rem;
 }
 
-label[for = collapse_event_groups] {
-  margin-top: 1.6rem;
-}
-
 #event_mappings_select {
   flex-grow: 1;
   background-color: white;
@@ -218,6 +214,10 @@ label[for = collapse_event_groups] {
   border: 0.2rem solid gray;
   border-radius: 0.4rem;
   padding: 0.6rem;
+}
+
+label[for = collapse_event_groups] {
+  margin-top: 1.6rem;
 }
 
 #raw_data_section_div {
