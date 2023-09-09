@@ -28,9 +28,13 @@ function fillParsedWeeks() {
   
   parsedWeeks[0].splice(0, Infinity);
   
-  let alteredEventsArr = [[dateToFullString(new Date('2023-08-05T00:00:00.000Z')), 'Programmatic Unlogged'], ...eventsArr, [dateToFullString(new Date()), 'Programmatic Unlogged']];
+  let preAlteredEventsArr = eventsArr.filter(x => x[2]);
   
-  let firstWeekMilliseconds = getBeginningOfWeekMilliseconds(eventsArr[0][0]);
+  console.log(eventsArr.slice(-2), preAlteredEventsArr.slice(-2));
+  
+  let alteredEventsArr = [[dateToFullString(new Date('2023-08-05T00:00:00.000Z')), 'Programmatic Unlogged'], ...preAlteredEventsArr, [dateToFullString(new Date()), 'Programmatic Unlogged']];
+  
+  let firstWeekMilliseconds = getBeginningOfWeekMilliseconds(preAlteredEventsArr[0][0]);
   let totalWeeks = (getBeginningOfWeekMilliseconds(alteredEventsArr[alteredEventsArr.length - 1][0]) - firstWeekMilliseconds) / 86_400_000 / 7 + 1;
   
   alteredEventsArr.push([dateToFullString(new Date(Date.now() + 86_400_000 * 7)), 'Programmatic Unlogged']);
