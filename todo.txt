@@ -1,4 +1,3 @@
-collapse duplicate events should not collapse same event name but different annotation
 try black border around events in table view
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view

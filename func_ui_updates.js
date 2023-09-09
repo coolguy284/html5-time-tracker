@@ -44,11 +44,12 @@ function updateDataSectionDisplay() {
     if (data_section_collapse_duplicates.checked) {
       processedEventsArr = [];
       
-      let lastEventName = null;
+      let lastEventName = null, lastEventAnnotation = null;
       for (let event of visibleEventsArr) {
-        if (event[1] != lastEventName) {
+        if (event[1] != lastEventName || event[4] != lastEventAnnotation) {
           processedEventsArr.push(event);
           lastEventName = event[1];
+          lastEventAnnotation = event[4];
         }
       }
     } else {
