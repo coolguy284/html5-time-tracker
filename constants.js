@@ -50,7 +50,7 @@ let EVENT_MAPPINGS = {
     groupToColor: {
       'Nothing': 'lightblue',
       '___EVENT_DATA___': 'orange',
-      '___EVENT_DATA___': 'blue',
+      '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': 'pink',
@@ -61,7 +61,7 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       'Fun': '___EVENT_DATA___',
-      '___EVENT_DATA___': '___EVENT_DATA___',
+      '___EVENT_DATA___': 'blue',
       'Unknown': 'gray',
       'Default': 'black',
     },
