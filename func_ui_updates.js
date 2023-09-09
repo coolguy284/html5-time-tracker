@@ -117,7 +117,7 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
   removeAllChildren(statsElem);
   
   if (collapse_event_groups.checked) {
-    statsArr = Object.entries(statsArr.map(entry => [getEventGroup(entry[0]), entry[1], entry[2]]).reduce((a, c) => {
+    statsArr = Object.entries(statsArr.map(entry => [getEventGroupSingle(entry[0]), entry[1], entry[2]]).reduce((a, c) => {
       if (c[0] in a) {
         a[c[0]][0] += c[1];
         a[c[0]][1] += c[2];
@@ -132,8 +132,8 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
     let spanElem = document.createElement('span');
     spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% (${(Math.floor(entry[2] / 3_600) + '').padStart(2, '0')}:${(Math.floor(entry[2] / 60 % 60) + '').padStart(2, '0')}) ${entry[0]}`;
     spanElem.style.color = collapse_event_groups.checked ?
-      getEventGroupColor(entry[0]) :
-      getEventColor(entry[0]);
+      getEventGroupColors([entry[0]])[0] :
+      getEventColors(entry[0])[0];
     
     statsElem.appendChild(spanElem);
     
@@ -155,7 +155,13 @@ function updateTableAndWeekStatsDisplay() {
     dayData.forEach(x => {
       let eventDiv = document.createElement('div');
       eventDiv.style.height = `${x[2] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
-      eventDiv.style.backgroundColor = getEventColor(x[0]);
+      let eventDivColors = getEventColors(x[0]);
+      
+      if (eventDivColors.length == 1) {
+        eventDiv.style.backgroundColor = eventDivColors[0];
+      } else {
+        eventDiv.style.background = `repeating-linear-gradient(45deg, ${eventDivColors.map((y, i) => `${y}${i == 0 ? '' : ' ' + TABLE_STRIPE_WIDTH * i + 'rem'}, ${y} ${TABLE_STRIPE_WIDTH * (i + 1)}rem`).join(', ')})`;
+      }
       
       dayTd.appendChild(eventDiv);
     });

@@ -13,28 +13,36 @@ function dateToDateString(dateObj) {
   return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1 + '').padStart(2, '0')}-${(dateObj.getDate() + '').padStart(2, '0')}`;
 }
 
-function getEventGroup(eventName) {
+function getEventGroups(eventName) {
   let eventToGroupMapping = EVENT_MAPPINGS[event_mappings_select.value].eventToGroup;
   
-  if (eventName in eventToGroupMapping) {
-    return eventToGroupMapping[eventName];
-  } else {
-    return 'Default';
-  }
+  return eventName.split(' | ').map(eventNameEntry => {
+    if (eventNameEntry in eventToGroupMapping) {
+      return eventToGroupMapping[eventNameEntry];
+    } else {
+      return 'Default';
+    }
+  });
 }
 
-function getEventGroupColor(groupName) {
+function getEventGroupSingle(eventName) {
+  return getEventGroups(eventName)[0];
+}
+
+function getEventGroupColors(groupNames) {
   let groupToColorMapping = EVENT_MAPPINGS[event_mappings_select.value].groupToColor;
   
-  if (groupName in groupToColorMapping) {
-    return groupToColorMapping[groupName];
-  } else {
-    return groupToColorMapping['Default'];
-  }
+  return groupNames.map(groupName => {
+    if (groupName in groupToColorMapping) {
+      return groupToColorMapping[groupName];
+    } else {
+      return groupToColorMapping['Default'];
+    }
+  });
 }
 
-function getEventColor(eventName) {
-  return getEventGroupColor(getEventGroup(eventName));
+function getEventColors(eventName) {
+  return getEventGroupColors(getEventGroups(eventName));
 }
 
 function removeAllChildren(elem) {

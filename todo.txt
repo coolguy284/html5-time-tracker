@@ -1,10 +1,10 @@
+table view should ignore invisible events
 try black border around events in table view
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
 duplicate event backwards should edit previously duplicated event if there is one
 remove unnecessary data page button ids
 give buttons on hover and on selected shading
-toggles for___EVENT_DATA___, ___EVENT_DATA___, ___EVENT_DATA___
 
 low tier:
 when a new event is added and data_div is scrolled to the bottom, scroll it to the new bottom; same goes for checking and unchecking 'collapse event groups'
@@ -16,6 +16,7 @@ color button that cannot be clicked a disabled color (for week picker)
 fix coloring of tables & charts page
 make percentage stats box not unicode chars and actual div instead
 fix mobile seperation of stats percentage entries being greater than 0
+merge duplicate groups when converting many events to groups
 
 probably not needed:
 button for ___EVENT_DATA___
