@@ -1,8 +1,22 @@
-function addEvent(button_elem) {
+function addEvent(elem) {
   // get data
+  
   let eventTimeDate = new Date();
   let eventTime = dateToFullString(eventTimeDate);
-  let eventName = button_elem.textContent;
+  
+  let eventNamesArr = toggleInputs.map(x => x[1].checked ? x[0] : null).filter(x => x);
+  
+  if (elem.tagName == 'BUTTON') {
+    eventNamesArr.push(elem.textContent);
+  } else {
+    let latestEventIndex = getLatestVisibleEventIndex();
+    if (latestEventIndex > -1) {
+      let latestEventNameArr = eventsArr[latestEventIndex][1].split(MULTI_EVENT_SPLIT).filter(x => !toggleInputsObject.has(x));
+      eventNamesArr.push(...latestEventNameArr);
+    }
+  }
+  
+  let eventName = eventNamesArr.length ? eventNamesArr.join(' | ') : 'Nothing';
   
   // add to internal events array
   eventsArr.push([eventTime, eventName, true, false]);

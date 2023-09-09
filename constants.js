@@ -233,3 +233,4 @@ let EVENT_MAPPINGS = {
 };
 let DEFAULT_EVENT_MAPPING = 'Original';
 let TABLE_DATA_FULL_HEIGHT = 30; // in units of rem
+let MULTI_EVENT_SPLIT = ' | ';

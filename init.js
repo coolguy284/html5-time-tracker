@@ -1,20 +1,3 @@
-let currentEvent = 'Nothing';
-
-/* [[<time string: string>, <event name: string>, <deleted: boolean>, <estimated: boolean>, <additional info: string>], ...] */
-let eventsArr;
-
-function loadEventsArr() {
-  if (localStorage.html5_time_planner_events_arr) {
-    try {
-      eventsArr = JSON.parse(localStorage.html5_time_planner_events_arr);
-    } catch (e) {}
-  }
-  
-  if (!eventsArr) eventsArr = [];
-}
-
-loadEventsArr();
-
 /*
   [
     [
@@ -43,6 +26,8 @@ loadEventsArr();
 let parsedWeeks = [[], []];
 
 let tableTds = Array.from(schedule_table_main_section.children).slice(1);
+let toggleInputs = Array.from(toggles_fieldset.children).slice(1).map(x => [x.textContent.trim(), x.children[0]]);
+let toggleInputsObject = Object.fromEntries(toggleInputs);
 
 let parseWeeksDirtyBit = true;
 
@@ -62,3 +47,26 @@ for (let eventMapping in EVENT_MAPPINGS) {
   
   event_mappings_select.appendChild(mappingOption);
 }
+
+
+let currentEvent = 'Nothing';
+
+/* [[<time string: string>, <event name: string>, <deleted: boolean>, <estimated: boolean>, <additional info: string>], ...] */
+let eventsArr;
+
+function loadEventsArr() {
+  if (localStorage.html5_time_planner_events_arr) {
+    try {
+      eventsArr = JSON.parse(localStorage.html5_time_planner_events_arr);
+    } catch (e) {}
+  }
+  
+  if (!eventsArr) eventsArr = [];
+  
+  let latestEventIndex = getLatestVisibleEventIndex();
+  if (latestEventIndex > -1) {
+    eventsArr[latestEventIndex][1].split(MULTI_EVENT_SPLIT).map(x => toggleInputsObject[x]).filter(x => x).forEach(x => x.checked = true);
+  }
+}
+
+loadEventsArr();

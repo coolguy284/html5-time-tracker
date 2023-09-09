@@ -91,6 +91,10 @@ label > input[type = checkbox] {
   justify-content: center;
 }
 
+#events_div label {
+  background-color: lightblue;
+}
+
 #events_div > fieldset {
   border: 0.3rem solid black;
   border-radius: 1rem;
