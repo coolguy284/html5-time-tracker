@@ -7,12 +7,24 @@ function addEvent(elem) {
   let eventNamesArr = toggleInputs.map(x => x[1].checked ? x[0] : null).filter(x => x);
   
   if (elem.tagName == 'BUTTON') {
-    eventNamesArr.push(elem.textContent);
+    if (elem.textContent == 'Unlogged') {
+      eventNamesArr = ['Unlogged'];
+    } else if (elem.textContent != 'Nothing') {
+      eventNamesArr.push(elem.textContent);
+    }
   } else {
     let latestEventIndex = getLatestVisibleEventIndex();
     if (latestEventIndex > -1) {
-      let latestEventNameArr = eventsArr[latestEventIndex][1].split(MULTI_EVENT_SPLIT).filter(x => !toggleInputsObject.has(x));
-      eventNamesArr.push(...latestEventNameArr);
+      let latestEventNameArr = eventsArr[latestEventIndex][1].split(MULTI_EVENT_SPLIT).filter(x => !(x in toggleInputsObject));
+      if (latestEventNameArr.length > 1) {
+        eventNamesArr.push(...latestEventNameArr);
+      } else if (latestEventNameArr.length == 1) {
+        if (latestEventNameArr[0] == 'Unlogged') {
+          eventNamesArr = ['Unlogged'];
+        } else if (latestEventNameArr[0] != 'Nothing') {
+          eventNamesArr.push(...latestEventNameArr);
+        }
+      }
     }
   }
   
