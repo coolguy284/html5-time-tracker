@@ -12,7 +12,7 @@ function normalizePercentagesArray(percentageArr) {
 }
 
 function fillParsedWeeks() {
-  if (eventsArr.length == 0) {
+  if (getLatestVisibleEventIndex() == -1) {
     parsedWeeks = [
       [
         [
@@ -30,9 +30,7 @@ function fillParsedWeeks() {
   
   let preAlteredEventsArr = eventsArr.filter(x => x[2]);
   
-  console.log(eventsArr.slice(-2), preAlteredEventsArr.slice(-2));
-  
-  let alteredEventsArr = [[dateToFullString(new Date('2023-08-05T00:00:00.000Z')), 'Programmatic Unlogged'], ...preAlteredEventsArr, [dateToFullString(new Date()), 'Programmatic Unlogged']];
+  let alteredEventsArr = [[dateToFullString(new Date(dateStringToDate(preAlteredEventsArr[0][0]).getTime() - 86_400_000 * 7)), 'Programmatic Unlogged'], ...preAlteredEventsArr, [dateToFullString(new Date()), 'Programmatic Unlogged']];
   
   let firstWeekMilliseconds = getBeginningOfWeekMilliseconds(preAlteredEventsArr[0][0]);
   let totalWeeks = (getBeginningOfWeekMilliseconds(alteredEventsArr[alteredEventsArr.length - 1][0]) - firstWeekMilliseconds) / 86_400_000 / 7 + 1;
