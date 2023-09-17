@@ -1,4 +1,6 @@
 let DATA_VIEW_ADDL_INFO_BIG_INDENT = false;
+let EVENT_MAPPINGS_DEFAULT_EVENT_GROUP = 'Default';
+let EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED = 'Programmatic Unlogged';
 let EVENT_MAPPINGS = {
   'Original': {
     eventToGroup: {
@@ -8,7 +10,7 @@ let EVENT_MAPPINGS = {
       'Error (Last Event Too Long)': 'Nothing',
       'Unlogged': 'Nothing',
       'Unknown': 'Unknown',
-      'Programmatic Unlogged': 'Nothing',
+      [EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]: 'Nothing',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
@@ -126,7 +128,7 @@ let EVENT_MAPPINGS = {
       'Fun': '___EVENT_DATA___',
       '___EVENT_DATA___': 'blue',
       'Unknown': 'gray',
-      'Default': 'black',
+      [EVENT_MAPPINGS_DEFAULT_EVENT_GROUP]: 'black',
     },
   },
   'Cleaned': {
@@ -137,7 +139,7 @@ let EVENT_MAPPINGS = {
       'Error (Last Event Too Long)': 'Nothing',
       'Unlogged': 'Nothing',
       'Unknown': 'Nothing',
-      'Programmatic Unlogged': 'Nothing',
+      [EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]: 'Nothing',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
@@ -248,7 +250,7 @@ let EVENT_MAPPINGS = {
       'Fun': '___EVENT_DATA___',
       '___EVENT_DATA___': 'blue',
       '___EVENT_DATA___': '___EVENT_DATA___',
-      'Default': 'lightblue',
+      [EVENT_MAPPINGS_DEFAULT_EVENT_GROUP]: 'lightblue',
     },
   },
   'Super Cleaned': {
@@ -259,7 +261,7 @@ let EVENT_MAPPINGS = {
       'Error (Last Event Too Long)': 'Nothing',
       'Unlogged': 'Nothing',
       'Unknown': 'Nothing',
-      'Programmatic Unlogged': 'Nothing',
+      [EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]: 'Nothing',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
@@ -369,7 +371,7 @@ let EVENT_MAPPINGS = {
       'Fun': '___EVENT_DATA___',
       '___EVENT_DATA___': 'blue',
       '___EVENT_DATA___': '___EVENT_DATA___',
-      'Default': 'lightblue',
+      [EVENT_MAPPINGS_DEFAULT_EVENT_GROUP]: 'lightblue',
     },
   },
   '___EVENT_DATA___ Only': {
@@ -380,7 +382,7 @@ let EVENT_MAPPINGS = {
       'Error (Last Event Too Long)': '___EVENT_DATA___',
       'Unlogged': '___EVENT_DATA___',
       'Unknown': '___EVENT_DATA___',
-      'Programmatic Unlogged': 'Nothing',
+      [EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]: 'Nothing',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
@@ -486,6 +488,7 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': 'orange',
       'Nothing': 'lightblue',
+      [EVENT_MAPPINGS_DEFAULT_EVENT_GROUP]: 'lightblue',
     },
   },
 };

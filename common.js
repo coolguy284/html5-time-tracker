@@ -24,7 +24,7 @@ function getEventGroups(eventName) {
     if (eventNameEntry in eventToGroupMapping) {
       return eventToGroupMapping[eventNameEntry];
     } else {
-      return 'Default';
+      return EVENT_MAPPINGS_DEFAULT_EVENT_GROUP;
     }
   });
 }
@@ -35,7 +35,7 @@ function getEventGroup(eventNameSingle) {
   if (eventNameSingle in eventToGroupMapping) {
     return eventToGroupMapping[eventNameSingle];
   } else {
-    return 'Default';
+    return EVENT_MAPPINGS_DEFAULT_EVENT_GROUP;
   }
 }
 
@@ -60,7 +60,7 @@ function getEventGroupColor(groupName) {
   if (groupName in groupToColorMapping) {
     return groupToColorMapping[groupName];
   } else {
-    return groupToColorMapping['Default'];
+    return groupToColorMapping[EVENT_MAPPINGS_DEFAULT_EVENT_GROUP];
   }
 }
 

@@ -48,12 +48,12 @@ function fillParsedWeeks() {
       }
     }, []).reverse();
   
-  let alteredEventsArr = [[dateToFullString(new Date(dateStringToDate(preAlteredEventsArr[0][0]).getTime() - 86_400_000 * 7)), 'Programmatic Unlogged'], ...preAlteredEventsArr, [dateToFullString(new Date()), 'Programmatic Unlogged']];
+  let alteredEventsArr = [[dateToFullString(new Date(dateStringToDate(preAlteredEventsArr[0][0]).getTime() - 86_400_000 * 7)), EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED], ...preAlteredEventsArr, [dateToFullString(new Date()), EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]];
   
   let firstWeekMilliseconds = getBeginningOfWeekMilliseconds(preAlteredEventsArr[0][0]);
   let totalWeeks = (getBeginningOfWeekMilliseconds(alteredEventsArr[alteredEventsArr.length - 1][0]) - firstWeekMilliseconds) / 86_400_000 / 7 + 1;
   
-  alteredEventsArr.push([dateToFullString(new Date(Date.now() + 86_400_000 * 7)), 'Programmatic Unlogged']);
+  alteredEventsArr.push([dateToFullString(new Date(Date.now() + 86_400_000 * 7)), EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]);
   
   for (let week = 0; week < totalWeeks; week++) {
     let weekMilliseconds = firstWeekMilliseconds + week * 86_400_000 * 7;
@@ -121,7 +121,7 @@ function fillParsedWeeks() {
     
     daysArray.forEach(x =>
       x.forEach(y => {
-        if (y[0] == 'Programmatic Unlogged') return;
+        if (y[0] == EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED) return;
         if (y[0] in weeklyEventDurations)
           weeklyEventDurations[y[0]] += y[2];
         else
