@@ -1,10 +1,8 @@
 small tasks:
-add priority for which event color / category takes precedence in stats view below table
 try black border around events in table view
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
 duplicate event backwards should edit previously duplicated event if there is one
-remove unnecessary data page button ids
 give buttons on hover and on selected shading
 
 big concepts:

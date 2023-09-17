@@ -13,10 +13,14 @@ function dateToDateString(dateObj) {
   return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1 + '').padStart(2, '0')}-${(dateObj.getDate() + '').padStart(2, '0')}`;
 }
 
+function getEvents(eventName) {
+  return eventName.split(' | ');
+}
+
 function getEventGroups(eventName) {
   let eventToGroupMapping = EVENT_MAPPINGS[event_mappings_select.value].eventToGroup;
   
-  return eventName.split(' | ').map(eventNameEntry => {
+  return getEvents(eventName).map(eventNameEntry => {
     if (eventNameEntry in eventToGroupMapping) {
       return eventToGroupMapping[eventNameEntry];
     } else {
@@ -25,24 +29,47 @@ function getEventGroups(eventName) {
   });
 }
 
+function getEventGroup(eventNameSingle) {
+  let eventToGroupMapping = EVENT_MAPPINGS[event_mappings_select.value].eventToGroup;
+  
+  if (eventNameSingle in eventToGroupMapping) {
+    return eventToGroupMapping[eventNameSingle];
+  } else {
+    return 'Default';
+  }
+}
+
+// getss the event with highest priority from a list
+function getEventSingle(eventName) {
+  let eventPriorityMapping = EVENT_MAPPINGS[event_mappings_select.value].eventPriorities;
+  
+  return getEvents(eventName).map(x => [x, eventPriorityMapping[x]]).reduce((a, c) => c[1] > a[1] ? c : a)[0];
+}
+
 function getEventGroupSingle(eventName) {
-  return getEventGroups(eventName)[0];
+  return getEventGroup(getEventSingle(eventName));
 }
 
 function getEventGroupColors(groupNames) {
+  return groupNames.map(getEventGroupColor);
+}
+
+function getEventGroupColor(groupName) {
   let groupToColorMapping = EVENT_MAPPINGS[event_mappings_select.value].groupToColor;
   
-  return groupNames.map(groupName => {
-    if (groupName in groupToColorMapping) {
-      return groupToColorMapping[groupName];
-    } else {
-      return groupToColorMapping['Default'];
-    }
-  });
+  if (groupName in groupToColorMapping) {
+    return groupToColorMapping[groupName];
+  } else {
+    return groupToColorMapping['Default'];
+  }
 }
 
 function getEventColors(eventName) {
   return getEventGroupColors(getEventGroups(eventName));
+}
+
+function getEventColor(eventName) {
+  return getEventGroupColor(getEventGroupSingle(eventName));
 }
 
 function removeAllChildren(elem) {

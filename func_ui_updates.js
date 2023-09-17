@@ -116,6 +116,7 @@ function updateWeekSelect() {
 function updateStatsDisplay_Helper(statsArr, statsElem) {
   removeAllChildren(statsElem);
   
+  // if collapse event groups is checked, stats should only list event groups not individual events
   if (collapse_event_groups.checked) {
     statsArr = Object.entries(statsArr.map(entry => [getEventGroupSingle(entry[0]), entry[1], entry[2]]).reduce((a, c) => {
       if (c[0] in a) {
@@ -132,8 +133,8 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
     let spanElem = document.createElement('span');
     spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% (${(Math.floor(entry[2] / 3_600) + '').padStart(2, '0')}:${(Math.floor(entry[2] / 60 % 60) + '').padStart(2, '0')}) ${entry[0]}`;
     spanElem.style.color = collapse_event_groups.checked ?
-      getEventGroupColors([entry[0]])[0] :
-      getEventColors(entry[0])[0];
+      getEventGroupColor(entry[0]) :
+      getEventColor(entry[0]);
     
     statsElem.appendChild(spanElem);
     
