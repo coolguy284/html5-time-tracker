@@ -9,7 +9,8 @@ give buttons on hover and on selected shading
 
 big concepts:
 change events list to be cleaner
-  all events in one array
+  all events in one array along with priority or smth
+  error in testing phase if all events are not given a group
 move to a json based v2 of the format
   it will have 2 versions of the same format, a json format called format 2, and a binary format 2b that also has compression (either deflate or ppmd) and stuff
     binary format
@@ -21,7 +22,9 @@ move to a json based v2 of the format
       if purges are run then backtemporal check not needed, so this would set the clean flag after the purges
   store events list in the saved data
     also store some convenience things like which tab currently on, scrolling state for all tabs, etc.
-  should store version of program (or maybe program hash) and if it changed, auto take backup of the thing in localstorage, saved to another localstorage entry like _backup_xx (x going from 1 upwards)
+  should store version of program (or maybe program hash) and if it changed, auto take backup of the thing in localstorage, saved to another localstorage entry like _backup_xx (x going from 1 upwards) (do this after confirmation prompt in case user doesnt feel like it)
+  make upgrade routine (that probably saves a backup or at least asks to)
+make page / phase screens for the different events that would be in different phases of life
 
 low tier:
 when a new event is added and data_div is scrolled to the bottom, scroll it to the new bottom; same goes for checking and unchecking 'collapse event groups'
