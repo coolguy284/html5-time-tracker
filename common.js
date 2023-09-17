@@ -60,7 +60,7 @@ function getEventGroupColor(groupName) {
   if (groupName in groupToColorMapping) {
     return groupToColorMapping[groupName];
   } else {
-    return groupToColorMapping[EVENT_MAPPINGS_DEFAULT_EVENT_GROUP];
+    return groupToColorMapping[EVENT_MAPPINGS_DEFAULT_EVENT_GROUP] ?? EVENT_MAPPINGS_DEFAULT_EVENT_GROUP_COLOR;
   }
 }
 

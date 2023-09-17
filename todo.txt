@@ -25,6 +25,8 @@ move to a json based v2 of the format
 make page / phase screens for the different events that would be in different phases of life
 
 low tier:
+fix extreme digits of precision for table div heights and repeating linear gradient sections
+fix table's stripe bars being raster images basically (due to repeating-linear-gradient), convert them to svgs instead either with css or manually making an svg element using javascript
 when a new event is added and data_div is scrolled to the bottom, scroll it to the new bottom; same goes for checking and unchecking 'collapse event groups'
 allow more than 1 event in some cases
 add hard reset button with confirmation
