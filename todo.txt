@@ -19,4 +19,3 @@ merge duplicate groups when converting many events to groups
 
 probably not needed:
 button for ___EVENT_DATA___
-button for ___EVENT_DATA___
