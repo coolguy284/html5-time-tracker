@@ -64,12 +64,49 @@ function unRemoveLastEvent() {
   }
 }
 
-function purgeRemovedEntries() {
+// removes events that are invisible
+function purgeRemovedEntries(suppressUIUpdate) {
+  if (!suppressUIUpdate && !confirm('Are you sure?')) return;
+  
   for (let i = eventsArr.length - 1; i >= 0; i--) {
     if (!eventsArr[i][2]) {
       eventsArr.splice(i, 1);
     }
   }
+  
+  if (!suppressUIUpdate) updateEventStorageAndDisplay();
+}
+
+// removes events where a future event has a smaller date/time than a past one
+function purgeBacktemporalEntries(suppressUIUpdate) {
+  if (!suppressUIUpdate && !confirm('Are you sure?')) return;
+  
+  eventsArr = eventsArr
+    .reduceRight((a, c) => {
+      if (a.length == 0) {
+        a.push(c);
+        return a;
+      } else {
+        let futureEvent = a[a.length - 1]; // accessing backwards for future event because array is reversed
+        let futureEventTime = dateStringToDate(futureEvent[0]).getTime();
+        let currentEventTime = dateStringToDate(c[0]).getTime();
+        if (currentEventTime > futureEventTime) {
+          return a;
+        } else {
+          a.push(c);
+          return a;
+        }
+      }
+    }, []).reverse();
+  
+  if (!suppressUIUpdate) updateEventStorageAndDisplay();
+}
+
+function bothPurgeEntries() {
+  if (!confirm('Are you sure?')) return;
+  
+  purgeRemovedEntries(true);
+  purgeBacktemporalEntries(true);
   
   updateEventStorageAndDisplay();
 }

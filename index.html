@@ -189,7 +189,9 @@
         <div id = 'data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
         <button class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
         <button class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
-        <button class = 'caution_bg' onclick = 'purgeRemovedEntries()'>Purge Removed Entries</button>
+        <button class = 'caution_bg' onclick = 'purgeRemovedEntries();'>Purge Removed Entries</button>
+        <button class = 'caution_bg' onclick = 'purgeBacktemporalEntries();'>Purge Backtemporal Entries</button>
+        <button class = 'caution_bg' onclick = 'bothPurgeEntries();'>Run Both Purges</button>
         <button onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
         <button onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
         <label for = 'data_section_collapse_duplicates'>

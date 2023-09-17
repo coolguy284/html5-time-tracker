@@ -1,9 +1,27 @@
+small tasks:
+add priority for which event color / category takes precedence in stats view below table
 try black border around events in table view
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
 duplicate event backwards should edit previously duplicated event if there is one
 remove unnecessary data page button ids
 give buttons on hover and on selected shading
+
+big concepts:
+change events list to be cleaner
+  all events in one array
+move to a json based v2 of the format
+  it will have 2 versions of the same format, a json format called format 2, and a binary format 2b that also has compression (either deflate or ppmd) and stuff
+    binary format
+      time can be stored as i64 milliseconds since epoch
+      boolean flags can all go in one byte
+  backtemporal
+    add flag to track if event array is "clean" or if it might have backtemporal events
+      might not be needed if duplicate event backwards always checks anyway
+      if purges are run then backtemporal check not needed, so this would set the clean flag after the purges
+  store events list in the saved data
+    also store some convenience things like which tab currently on, scrolling state for all tabs, etc.
+  should store version of program (or maybe program hash) and if it changed, auto take backup of the thing in localstorage, saved to another localstorage entry like _backup_xx (x going from 1 upwards)
 
 low tier:
 when a new event is added and data_div is scrolled to the bottom, scroll it to the new bottom; same goes for checking and unchecking 'collapse event groups'
