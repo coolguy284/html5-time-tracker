@@ -1,0 +1,59 @@
+Key:
+  A - intended to be added after
+  AO - intended to be added after ONLY
+  P - added programmatically during event processing stage, never intended to be manually added or ever be a part of raw event list
+
+Nothing
+___EVENT_DATA___
+___EVENT_DATA___
+Error (Last Event Too Long)
+Unlogged
+Unknown (AO)
+Programmatic Unlogged (P)
+___EVENT_DATA___:
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___ (AO)
+  ___EVENT_DATA___ (A)
+  ___EVENT_DATA___ (A)
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+___EVENT_DATA___:
+  ___EVENT_DATA___
+  ___EVENT_DATA___ ___EVENT_DATA___
+  ___EVENT_DATA___ ___EVENT_DATA___
+  ___EVENT_DATA___ ___EVENT_DATA___
+  ___EVENT_DATA___ ___EVENT_DATA___
+  ___EVENT_DATA___ ___EVENT_DATA___
+  ___EVENT_DATA___ ___EVENT_DATA___
+  ___EVENT_DATA___ ___EVENT_DATA___
+  ___EVENT_DATA___ ___EVENT_DATA___
+___EVENT_DATA___:
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+___EVENT_DATA___:
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___ & ___EVENT_DATA___
+  ___EVENT_DATA___ & ___EVENT_DATA___
+Toggles:
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
+  ___EVENT_DATA___
