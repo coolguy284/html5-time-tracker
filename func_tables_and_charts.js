@@ -28,7 +28,25 @@ function fillParsedWeeks() {
   
   parsedWeeks[0].splice(0, Infinity);
   
-  let preAlteredEventsArr = eventsArr.filter(x => x[2]);
+  // preliminary filter of events array to only have visible events, and to ignore events where a future event has a smaller date/time than a past one
+  let preAlteredEventsArr = eventsArr
+    .filter(x => x[2])
+    .reduceRight((a, c) => {
+      if (a.length == 0) {
+        a.push(c);
+        return a;
+      } else {
+        let futureEvent = a[a.length - 1]; // accessing backwards for future event because array is reversed
+        let futureEventTime = dateStringToDate(futureEvent[0]).getTime();
+        let currentEventTime = dateStringToDate(c[0]).getTime();
+        if (currentEventTime > futureEventTime) {
+          return a;
+        } else {
+          a.push(c);
+          return a;
+        }
+      }
+    }, []).reverse();
   
   let alteredEventsArr = [[dateToFullString(new Date(dateStringToDate(preAlteredEventsArr[0][0]).getTime() - 86_400_000 * 7)), 'Programmatic Unlogged'], ...preAlteredEventsArr, [dateToFullString(new Date()), 'Programmatic Unlogged']];
   
@@ -74,6 +92,8 @@ function fillParsedWeeks() {
           let eventStartMillisecondsRelative = Math.max(eventStartMilliseconds - dayStartMilliseconds, 0);
           let eventEndMillisecondsRelative = Math.min(eventEndMilliseconds - dayStartMilliseconds, 86_400_000);
           
+          //if ((eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000 < 0) console.log(`adding negative event delta week:${week} day:${day} eventIndex:${eventIndex}`);
+          
           dayArray[dayArray.length - 1][2] += (eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000;
         } else {
           let eventStartMilliseconds = dateStringToDate(alteredEventsArr[eventIndex][0]).getTime();
@@ -81,6 +101,8 @@ function fillParsedWeeks() {
           
           let eventStartMillisecondsRelative = Math.max(eventStartMilliseconds - dayStartMilliseconds, 0);
           let eventEndMillisecondsRelative = Math.min(eventEndMilliseconds - dayStartMilliseconds, 86_400_000);
+          
+          //if ((eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000 < 0) console.log(`creating negative event week:${week} day:${day} eventIndex:${eventIndex}`);
           
           dayArray.push([
             eventName,
