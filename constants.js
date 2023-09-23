@@ -71,10 +71,6 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___',
       
       '___EVENT_DATA___',
@@ -105,10 +101,16 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___',
       '___EVENT_DATA___',
       '___EVENT_DATA___',
-      '___EVENT_DATA___',
+      
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
       
       '___EVENT_DATA___',
       '___EVENT_DATA___',
+      '___EVENT_DATA___',
+      
       '___EVENT_DATA___',
       
       '___EVENT_DATA___',
@@ -202,10 +204,6 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___',
       
       '___EVENT_DATA___',
@@ -236,10 +234,16 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___',
       '___EVENT_DATA___',
       '___EVENT_DATA___',
-      '___EVENT_DATA___',
+      
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
       
       '___EVENT_DATA___',
       '___EVENT_DATA___',
+      '___EVENT_DATA___',
+      
       '___EVENT_DATA___',
       
       '___EVENT_DATA___',
@@ -326,10 +330,6 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___',
       
       '___EVENT_DATA___',
@@ -360,10 +360,16 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___',
       '___EVENT_DATA___',
       '___EVENT_DATA___',
-      '___EVENT_DATA___',
+      
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
       
       '___EVENT_DATA___',
       '___EVENT_DATA___',
+      '___EVENT_DATA___',
+      
       '___EVENT_DATA___',
       
       '___EVENT_DATA___',
@@ -449,10 +455,6 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
-      '___EVENT_DATA___ ___EVENT_DATA___',
       '___EVENT_DATA___',
       
       '___EVENT_DATA___',
@@ -483,10 +485,16 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___',
       '___EVENT_DATA___',
       '___EVENT_DATA___',
-      '___EVENT_DATA___',
+      
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
+      '___EVENT_DATA___ ___EVENT_DATA___',
       
       '___EVENT_DATA___',
       '___EVENT_DATA___',
+      '___EVENT_DATA___',
+      
       '___EVENT_DATA___',
       
       '___EVENT_DATA___',

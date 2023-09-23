@@ -1,12 +1,15 @@
-Load in mem data should reset already checked checkboxes as well
-  Actually main load routine should just do it
-
 small tasks:
+fix collapse duplicates collapsing duplicates name but different annotation
+add bg color of black to very bright text in percent stats div
+load in mem data should reset already checked checkboxes as well
+  actually main load routine should just do it
+make priority list tied to events not mappings
 try black border around events in table view
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
 duplicate event backwards should edit previously duplicated event if there is one
 give buttons on hover and on selected shading
+remove zero length events from table view
 
 big concepts:
 change events list to be cleaner
@@ -26,6 +29,8 @@ move to a json based v2 of the format
   should store version of program (or maybe program hash) and if it changed, auto take backup of the thing in localstorage, saved to another localstorage entry like _backup_xx (x going from 1 upwards) (do this after confirmation prompt in case user doesnt feel like it)
   make upgrade routine (that probably saves a backup or at least asks to)
 make page / phase screens for the different events that would be in different phases of life
+stats and tables for day, week, month, year, past 30 days (and every 30 days before that), past 90 days, all time
+do extra tall bar for fall back, and extra short for spring forward
 
 low tier:
 fix extreme digits of precision for table div heights and repeating linear gradient sections
@@ -40,6 +45,10 @@ fix coloring of tables & charts page
 make percentage stats box not unicode chars and actual div instead
 fix mobile seperation of stats percentage entries being greater than 0
 merge duplicate groups when converting many events to groups
+duplicate evt backwards should check if duplicate will go before the previous event's time, prompt to delete previous event if so
+add check integrity of data button
+  checks for backtemporal events, and others stuff
+trim events that last a few seconds, replace with next event, at least do this for short periods of decreasing events, then nothing, then increasing events
 
 probably not needed:
 button for ___EVENT_DATA___
