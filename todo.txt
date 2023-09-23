@@ -1,3 +1,6 @@
+Load in mem data should reset already checked checkboxes as well
+  Actually main load routine should just do it
+
 small tasks:
 try black border around events in table view
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)

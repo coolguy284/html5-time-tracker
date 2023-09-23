@@ -2,11 +2,13 @@ Key:
   A - intended to be added after
   AO - intended to be added after ONLY
   P - added programmatically during event processing stage, never intended to be manually added or ever be a part of raw event list
+  F - flagger event, not for a real occurrence, just to mark some milestone
 
 Nothing
 ___EVENT_DATA___
 ___EVENT_DATA___
-Error (Last Event Too Long)
+Error (Last Event Too Long) (F)
+___EVENT_DATA___ (F)
 Unlogged
 Unknown (AO)
 Programmatic Unlogged (P)
