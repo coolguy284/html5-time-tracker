@@ -16,7 +16,7 @@ body {
   flex-grow: 1;
 }
 
-body, #main_section_div, #events_div, #events_div > fieldset {
+body, #main_section_div, #events_div, #events_div fieldset {
   flex-direction: column;
 }
 
@@ -78,7 +78,7 @@ label > input[type = checkbox] {
   padding: 1.5rem 1rem 1.5rem;
 }
 
-#events_div, #events_div > fieldset {
+#events_div, #events_div fieldset {
   gap: 0.5rem;
 }
 
@@ -95,13 +95,13 @@ label > input[type = checkbox] {
   background-color: lightblue;
 }
 
-#events_div > fieldset {
+#events_div fieldset {
   border: 0.3rem solid black;
   border-radius: 1rem;
   padding: 0.4rem 0.7rem 0.75rem;
 }
 
-#events_div > fieldset > legend {
+#events_div fieldset > legend {
   color: lightpink;
   font-size: 1.3rem;
 }
