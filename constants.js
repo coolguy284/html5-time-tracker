@@ -37,8 +37,6 @@ let _EVENT_MAPPINGS_EVENT_PRIORITIES = [
   '___EVENT_DATA___ & ___EVENT_DATA___',
   '___EVENT_DATA___',
   '___EVENT_DATA___',
-  'Error (Last Event Too Long)',
-  '___EVENT_DATA___',
   'Unknown',
   '___EVENT_DATA___',
   '___EVENT_DATA___',
@@ -70,6 +68,10 @@ let _EVENT_MAPPINGS_EVENT_PRIORITIES = [
   
   '___EVENT_DATA___',
   
+  'Error (Last Event Too Long)',
+  '___EVENT_DATA___',
+  '___EVENT_DATA___',
+  
   'Nothing',
 ];
 let EVENT_MAPPINGS = {
@@ -79,7 +81,8 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       'Error (Last Event Too Long)': 'Nothing',
-      '___EVENT_DATA___': 'Nothing',
+      '___EVENT_DATA___': '___EVENT_DATA___',
+      '___EVENT_DATA___': '___EVENT_DATA___',
       'Unlogged': 'Nothing',
       'Unknown': 'Unknown',
       [EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]: 'Nothing',
@@ -164,6 +167,7 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': 'Nothing',
       'Error (Last Event Too Long)': 'Nothing',
       '___EVENT_DATA___': 'Nothing',
+      '___EVENT_DATA___': 'Nothing',
       'Unlogged': 'Nothing',
       'Unknown': 'Nothing',
       [EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]: 'Nothing',
@@ -241,6 +245,7 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': 'Nothing',
       'Error (Last Event Too Long)': 'Nothing',
       '___EVENT_DATA___': 'Nothing',
+      '___EVENT_DATA___': 'Nothing',
       'Unlogged': 'Nothing',
       'Unknown': 'Nothing',
       [EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]: 'Nothing',
@@ -316,6 +321,7 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       'Error (Last Event Too Long)': '___EVENT_DATA___',
+      '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
       'Unlogged': '___EVENT_DATA___',
       'Unknown': '___EVENT_DATA___',

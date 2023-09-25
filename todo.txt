@@ -10,6 +10,31 @@ switch between weekly and much bigger than weekly view (configurable, probably s
 duplicate event backwards should edit previously duplicated event if there is one
 give buttons on hover and on selected shading
 remove zero length events from table view
+bulk 01 (pseudo-rawdataview):
+  when you click on a tab the data is brought up to speed
+  edit tab that has pseudo rawdataview where entries on newlines and human readable, also includes preconfig at top; when saving if format is wrong error message will be printed incl line num (add line nums to view for human readability, remove them in memory when parsing but add back to textarea if missing if error so error can be found)
+  once storing binary data the raw data view will show hex with newline every x bytes
+  raw data should also show string length and estimated storage use
+  extras tab with pseudo webpage style design (clickable buttons and a return to main page thing)
+  it will contain the raw data view
+  also contain an extras file viewer thing to edit arbitrary binary data files not just the one actively being used in localstorage, will have 2 tabs for pseudorawdataview and actual data view (prob in hex cause binary, newlines at every x bytes); and obv buttons to load file and save to file
+  button somewhere to export data, maybe on the extras page
+  move rawdata to extras page
+bulk 02 (format v2):
+  type up format specifiers for each version of the format and put them in a folder
+  start with v1, and do it nicely with examples for each field n stuff
+  also explain how the raw data is converted to an in memory representation
+  put events and categories in v2
+  binary format:
+    binary format should probably have some sort of minutes timezone flag but normally store timezone as hourly int offset (so one byte by default but sometimes 2)
+      or zero bytes for timezone (it will have same value as previous entry)
+    annotation presence is bool flag, but the flag is 3 bits long or smth because also has a length param could be 1 or 2 or 3 bytes length, at start of annotation
+    timestamp can probably be 12 bytes unsigned with flag for long version of 16 bytes unsigned; units of millis since epoch which is when program was first released to make the number smaller
+      use that now removed code that placed initial epoch for tables on 2023-09 smth, as the epoch
+    those will actually be formats 1 and 2 of the timestamp, format 3 will be a 3 byte delta in ms able to represent 0-16,777.215 seconds after previous event, and format 4 will be 4 byte delta in ms able to represent 0-4,294,967.295 seconds after previous event (so virtually 100% of events will have very compact timestamp now)
+    maybe if 128th place bit is high in flags byte it is a "blitz mode" entry that is flag byte, 3 or 4 byte offset, 1 byte event type
+      (now that i type this, entries should be that by default if they qualify anyway)
+    try gzipping or lzmaing whole thing
 
 big concepts:
 change events list to be cleaner
@@ -31,6 +56,10 @@ move to a json based v2 of the format
 make page / phase screens for the different events that would be in different phases of life
 stats and tables for day, week, month, year, past 30 days (and every 30 days before that), past 90 days, all time
 do extra tall bar for fall back, and extra short for spring forward
+ghostly blocks for future events, and maybe have stats about how close correlation is between future events that have now passed and present events (so you can feel bad about yourself (i joke i hope))
+  this obviously implies adding some way to add future events, probably a weekly schedule thing that can be revised live, but stores old revisions in the main event history once the event has passed (with a special flag of course)
+    or maybe store it as a seperate array where, as long as events list is not modified, new events are not added for efficiency, so maybe just keep track of old versions of planned events list
+  maybe also daily and monthly planning at the same time (daily for sleep for example) or yearly or one time planning (for break schedules) and ability to switch between 2 or more different schedules, like switching to break schedule on one time scheduled thanksgiving and other breaks
 
 low tier:
 fix extreme digits of precision for table div heights and repeating linear gradient sections
