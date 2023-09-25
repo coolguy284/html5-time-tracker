@@ -78,6 +78,3 @@ duplicate evt backwards should check if duplicate will go before the previous ev
 add check integrity of data button
   checks for backtemporal events, and others stuff
 trim events that last a few seconds, replace with next event, at least do this for short periods of decreasing events, then nothing, then increasing events
-
-probably not needed:
-button for ___EVENT_DATA___
