@@ -1,0 +1,66 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Localstorage Test</title>
+  </head>
+  <body>
+    <div id = 'results'></div>
+    
+    <script>
+      // pauses execution for a short period of time
+      function pauseExecution() {
+        return new Promise(r => setTimeout(r, 15));
+      }
+      
+      // finds the maximum input of a function that returns true, using exponentially increasing binary search
+      async function findMaxInput(inputFunc) {
+        let lowerBound = 0, upperBound = 2;
+        
+        // doubling phase
+        while (inputFunc(upperBound)) {
+          lowerBound = upperBound;
+          upperBound *= 2;
+          results.innerText += `Rising: ${lowerBound} ${upperBound}\n`;
+          await pauseExecution();
+        }
+        
+        // now function returned false for first time, now find where it was false
+        while (upperBound - lowerBound > 0) {
+          let trueHalfway = (lowerBound + upperBound) / 2;
+          let lowerHalfway = Math.floor(trueHalfway);
+          let upperHalfway = Math.ceil(trueHalfway);
+          
+          if (inputFunc(lowerHalfway)) {
+            lowerBound = upperHalfway;
+          } else {
+            upperBound = lowerHalfway;
+          }
+          results.innerText += `Narrowing: ${lowerBound} ${upperBound}\n`;
+          await pauseExecution();
+        }
+        
+        return lowerBound - 1;
+      }
+      
+      // tests whether the localstorage can handle a string as long as the input
+      function canHandle(char, length) {
+        try {
+          localStorage.e = char.repeat(length);
+          delete localStorage.e;
+          return true;
+        } catch (e) {
+          
+          return false;
+        }
+      }
+      
+      (async () => {
+        let result;
+        result = await findMaxInput(canHandle.bind(null, 'e'));
+        results.innerText += `\nResult for "e": ${result}\n\n`;
+        result = await findMaxInput(canHandle.bind(null, '\u7861'));
+        results.innerText += `\nResult for "\u7861" ("\\u7861"): ${result}\n\n`;
+      })();
+    </script>
+  </body>
+</html>
