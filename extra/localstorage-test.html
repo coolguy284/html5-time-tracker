@@ -7,6 +7,9 @@
     <div id = 'results'></div>
     
     <script>
+      let LOCALSTORAGE_TEST_KEY = 'e'; // the key that is accessed for localstorage testing
+      let LOCALSTORAGE_TOTAL_SIZE_KEY = 'c284-localStorageSizeChars'; // the key that is set to the size of the localstorage, for convenience
+      
       // pauses execution for a short period of time
       function pauseExecution() {
         return new Promise(r => setTimeout(r, 15));
@@ -45,8 +48,8 @@
       // tests whether the localstorage can handle a string as long as the input
       function localStorageCanHandle(char, length) {
         try {
-          localStorage.e = char.repeat(length);
-          delete localStorage.e;
+          localStorage[LOCALSTORAGE_TEST_KEY] = char.repeat(length);
+          delete localStorage[LOCALSTORAGE_TEST_KEY];
           return true;
         } catch (e) {
           return false;
@@ -60,9 +63,9 @@
       
       // returns whether localstorage successfully stored the string without altering it
       function localStorageStoresExactly(string) {
-        localStorage.e = string;
-        let success = localStorage.e == string;
-        delete localStorage.e;
+        localStorage[LOCALSTORAGE_TEST_KEY] = string;
+        let success = localStorage[LOCALSTORAGE_TEST_KEY] == string;
+        delete localStorage[LOCALSTORAGE_TEST_KEY];
         return success;
       }
       
@@ -86,6 +89,108 @@
         result = localStorageStoresExactly(invalidSurrogatePair);
         results.innerText += `\nResult for storing an invalid surrogate pair ("${invalidSurrogatePair}"; "\udbff\udfff"): ${result ? 'Success' : 'Failure'}\n\n`;
       })();
+      
+      // gets total amount of characters currently in localStorage, using quota calculation
+      function getLocalStorageUsageInChars() {
+        return Object.keys(localStorage).map(x => x.length + localStorage[x].length).reduce((a, c) => a + c, 0);
+      }
+      
+      // checks to make sure localstorage sanely stores strings (meaning utf-16, and without string alteration)
+      // if it is sane, returns an object describing the capabilities of the localstorage
+      async function localStorageTest() {
+        // test localstorage
+        
+        let maxLengthE = (await findMaxLocalStorageLength('e')) + LOCALSTORAGE_TEST_KEY.length;
+        let maxLengthUnicode = (await findMaxLocalStorageLength('\u7861')) + LOCALSTORAGE_TEST_KEY.length;
+        
+        if (maxLengthE != maxLengthUnicode) {
+          return {
+            sane: false,
+            problem: 'LocalStorage does not treat strings as utf-16',
+          };
+        }
+        
+        let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78')) + LOCALSTORAGE_TEST_KEY.length;
+        
+        if (maxLengthBigUnicode != maxLengthUnicode / 2) {
+          return {
+            sane: false,
+            problem: 'LocalStorage does not treat U+10000 and above as surrogate pairs',
+          };
+        }
+        
+        let everyCharCode = new Array(65536).fill().map((_, i) => String.fromCharCode(i)).join('');
+        
+        if (!localStorageStoresExactly(everyCharCode)) {
+          return {
+            sane: false,
+            problem: 'LocalStorage does not perfectly preserve strings',
+          };
+        }
+        
+        let invalidSurrogatePair = '\udbff\udfff';
+        
+        if (!localStorageStoresExactly(invalidSurrogatePair)) {
+          return {
+            sane: false,
+            problem: 'LocalStorage does not perfectly preserve strings',
+          };
+        }
+        
+        // by this point localstorage is proven sane, so a report can be made
+        
+        let maxSizeInChars = maxLengthE + getLocalStorageUsageInChars();
+        
+        return {
+          sane: true,
+          maxSizeInChars,
+          maxSizeInBytes: maxSizeInChars * 2,
+        };
+      }
+      
+      // gets total size of localstorage in characters, assuming sanity
+      async function getTotalLocalStorageSizeInChars() {
+        // quota size of localstorage test key name must be included
+        return getLocalStorageUsageInChars() + (await findMaxLocalStorageLength('e')) + LOCALSTORAGE_TEST_KEY.length;
+      }
+      
+      // generates a report of localstorage usage, assuming sanity
+      async function localStorageReport() {
+        let usedChars = getLocalStorageUsageInChars();
+        let totalChars = await getTotalLocalStorageSizeInChars();
+        let freeChars = totalChars - usedChars;
+        
+        return {
+          usedChars,
+          freeChars,
+          totalChars,
+          usedBytes: usedChars * 2,
+          freeBytes: freeChars * 2,
+          totalBytes: totalChars * 2,
+        };
+      }
+      
+      // same as above but stores total size of localstorage in a localstorage entry so it doesn't need to be tested again
+      async function localStorageReport_CacheableVer() {
+        let totalChars = parseInt(localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY]);
+        
+        if (!Number.isSafeInteger(totalChars)) {
+          totalChars = await getTotalLocalStorageSizeInChars();
+          localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY] = totalChars;
+        }
+        
+        let usedChars = getLocalStorageUsageInChars();
+        let freeChars = totalChars - usedChars;
+        
+        return {
+          usedChars,
+          freeChars,
+          totalChars,
+          usedBytes: usedChars * 2,
+          freeBytes: freeChars * 2,
+          totalBytes: totalChars * 2,
+        };
+      }
     </script>
   </body>
 </html>
