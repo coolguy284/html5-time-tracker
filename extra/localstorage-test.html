@@ -43,23 +43,48 @@
       }
       
       // tests whether the localstorage can handle a string as long as the input
-      function canHandle(char, length) {
+      function localStorageCanHandle(char, length) {
         try {
           localStorage.e = char.repeat(length);
           delete localStorage.e;
           return true;
         } catch (e) {
-          
           return false;
         }
       }
       
+      // returns how many times char can be repeated and still fit in localstorage
+      async function findMaxLocalStorageLength(char) {
+        return await findMaxInput(localStorageCanHandle.bind(null, char));
+      }
+      
+      // returns whether localstorage successfully stored the string without altering it
+      function localStorageStoresExactly(string) {
+        localStorage.e = string;
+        let success = localStorage.e == string;
+        delete localStorage.e;
+        return success;
+      }
+      
       (async () => {
         let result;
-        result = await findMaxInput(canHandle.bind(null, 'e'));
+        
+        result = await findMaxLocalStorageLength('e');
         results.innerText += `\nResult for "e": ${result}\n\n`;
-        result = await findMaxInput(canHandle.bind(null, '\u7861'));
+        
+        result = await findMaxLocalStorageLength('\u7861'); // U+7861; 硡
         results.innerText += `\nResult for "\u7861" ("\\u7861"): ${result}\n\n`;
+        
+        result = await findMaxLocalStorageLength('\ud83d\ude78'); // U+1F678; 🙸
+        results.innerText += `\nResult for "\ud83d\ude78" ("\ud83d\ude78"; U+1F678): ${result}\n\n`;
+        
+        let everyCharCode = new Array(65536).fill().map((_, i) => String.fromCharCode(i)).join('');
+        result = localStorageStoresExactly(everyCharCode);
+        results.innerText += `\nResult for storing every char code: ${result ? 'Success' : 'Failure'}\n\n`;
+        
+        let invalidSurrogatePair = '\udbff\udfff';
+        result = localStorageStoresExactly(invalidSurrogatePair);
+        results.innerText += `\nResult for storing an invalid surrogate pair ("${invalidSurrogatePair}"; "\udbff\udfff"): ${result ? 'Success' : 'Failure'}\n\n`;
       })();
     </script>
   </body>
