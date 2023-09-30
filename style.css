@@ -12,6 +12,7 @@ html {
 body {
   margin: 0;
   justify-content: stretch;
+  background-color: lightblue;
   font-family: Arial;
   flex-grow: 1;
 }
@@ -111,7 +112,6 @@ label > input[type = checkbox] {
 
 #tables_and_charts_section_div {
   flex-direction: column;
-  background-color: lightblue;
   padding: 0rem 1rem 3rem;
 }
 
@@ -234,7 +234,6 @@ label[for = collapse_event_groups] {
 /* data section block */
 
 #data_section_div {
-  background-color: lightblue;
   padding: 1.5rem 1rem 1.5rem;
   flex-direction: column;
   gap: 0.5rem;
@@ -260,6 +259,7 @@ label[for = collapse_event_groups] {
 #raw_data_section_div {
   flex-direction: column;
   justify-content: stretch;
+  background-color: white;
   padding: 0.5rem;
   gap: 0.5rem;
 }
