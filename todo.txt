@@ -1,6 +1,7 @@
 small tasks:
 fix collapse duplicates collapsing duplicates name but different annotation
 add bg color of black to very bright text in percent stats div
+2 tier collapse, radio buttons, either to main event or to category
 load in mem data should reset already checked checkboxes as well
   actually main load routine should just do it
 make priority list tied to events not mappings
@@ -16,10 +17,12 @@ bulk 01 (pseudo-rawdataview):
   once storing binary data the raw data view will show hex with newline every x bytes
   raw data should also show string length and estimated storage use
   extras tab with pseudo webpage style design (clickable buttons and a return to main page thing)
-  it will contain the raw data view
-  also contain an extras file viewer thing to edit arbitrary binary data files not just the one actively being used in localstorage, will have 2 tabs for pseudorawdataview and actual data view (prob in hex cause binary, newlines at every x bytes); and obv buttons to load file and save to file
-  button somewhere to export data, maybe on the extras page
-  move rawdata to extras page
+    it will contain the raw data view
+    also contain an extras file viewer thing to edit arbitrary binary data files not just the one actively being used in localstorage, will have 2 tabs for pseudorawdataview and actual data view (prob in hex cause binary, newlines at every x bytes); and obv buttons to load file and save to file
+    button somewhere to export data, maybe on the extras page
+    move rawdata to extras page
+    prob add settings page button to extras page
+    make the progress bar graph for storage use on extras page
 bulk 02 (format v2):
   type up format specifiers for each version of the format and put them in a folder
   start with v1, and do it nicely with examples for each field n stuff
@@ -35,6 +38,20 @@ bulk 02 (format v2):
     maybe if 128th place bit is high in flags byte it is a "blitz mode" entry that is flag byte, 3 or 4 byte offset, 1 byte event type
       (now that i type this, entries should be that by default if they qualify anyway)
     try gzipping or lzmaing whole thing
+    first character of binary value will be the 0 or 1 flag, so forget about making 2 seperate keys
+    binary to utf-16 conversion functions
+bulk 03:
+  cache sanity check value as well
+    if localstorage is insane then the planner will not function so there needs to be a clean way to show that, most likely just have a top level div switcheroo going on
+    and code execution should stop immediately at top of page if so
+    add button to recalculate max space on that extras page, it deletes the sanity and max size caches and recalculates, if sanity is now false then do the div swap and its a big rip
+    store experimentally derived max size in localstorage, use for percentage number and bar at top of extras page
+    
+    move all the localstorage funcs to library file at root folder
+    
+    possibly not doing:
+      make storage tests synchronous cause why not, page needs the results to know whether to operate anyway
+        since cached it doesn't even matter
 
 big concepts:
 change events list to be cleaner
@@ -78,3 +95,4 @@ duplicate evt backwards should check if duplicate will go before the previous ev
 add check integrity of data button
   checks for backtemporal events, and others stuff
 trim events that last a few seconds, replace with next event, at least do this for short periods of decreasing events, then nothing, then increasing events
+do some thinking to make localstorage test binary search a mathematically perfect binary search and not double check powers of 2 or something
