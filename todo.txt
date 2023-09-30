@@ -1,5 +1,4 @@
 small tasks:
-add load from file button cause yeah
 fix collapse duplicates collapsing duplicates name but different annotation
 add bg color of black to very bright text in percent stats div
 2 tier collapse, radio buttons, either to main event or to category
