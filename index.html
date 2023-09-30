@@ -236,24 +236,28 @@
         </label>
       </div>
       
-      <div id = 'raw_data_section_div' style = 'display: none;'>
-        <div id = 'raw_data_top_section_div'>
-          <textarea id = 'raw_data_text'></textarea>
-        </div>
-        <div id = 'raw_data_bottom_section_div'>
-          <button onclick = 'rawDataSave();'>Save</button>
-          <button onclick = 'rawDataLoad();'>Load</button>
-          <button onclick = 'rawDataDelete();'>Delete</button>
-          <button onclick = 'rawDataCreate();'>Create</button>
-          <button onclick = 'rawDataSaveInMemoryData();'>Save In-Memory Data</button>
-          <button onclick = 'rawDataLoadInMemoryData();'>Load In-Memory Data</button>
-          <button onclick = 'rawDataDownloadToFile();'>Download to File</button>
-          <button onclick = 'rawDataLoadFromFile();'>Load from File</button>
-        </div>
-      </div>
-      
       <div id = 'extras_section_div' style = 'display: none;'>
+        <div id = 'extras_section_main_page'>
+          <button onclick = 'switchExtrasPage("raw data");'>Raw Data</button>
+        </div>
         
+        <div id = 'raw_data_section_div' style = 'display: none;'>
+          <button onclick = 'switchExtrasPage("main");'>Back to Main Page</button>
+          
+          <div id = 'raw_data_top_section_div'>
+            <textarea id = 'raw_data_text'></textarea>
+          </div>
+          <div id = 'raw_data_bottom_section_div'>
+            <button onclick = 'rawDataSave();'>Save</button>
+            <button onclick = 'rawDataLoad();'>Load</button>
+            <button onclick = 'rawDataDelete();'>Delete</button>
+            <button onclick = 'rawDataCreate();'>Create</button>
+            <button onclick = 'rawDataSaveInMemoryData();'>Save In-Memory Data</button>
+            <button onclick = 'rawDataLoadInMemoryData();'>Load In-Memory Data</button>
+            <button onclick = 'rawDataDownloadToFile();'>Download to File</button>
+            <button onclick = 'rawDataLoadFromFile();'>Load from File</button>
+          </div>
+        </div>
       </div>
     </div>
     
@@ -261,12 +265,12 @@
       <button onclick = 'switchPage("events");'>Events</button>
       <button onclick = 'switchPage("tables & charts");'>Tables & Charts</button>
       <button onclick = 'switchPage("data");'>Data</button>
-      <button onclick = 'switchPage("raw data");'>Raw Data</button>
       <button onclick = 'switchPage("extras");'>Extras</button>
     </div>
     
     <script src = 'constants.js'></script>
     <script src = 'common.js'></script>
+    <script src = 'lib_binary.js'></script>
     <script src = 'func_ui_updates.js'></script>
     <script src = 'func_updates.js'></script>
     <script src = 'func_events.js'></script>

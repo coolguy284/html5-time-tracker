@@ -1,4 +1,5 @@
 small tasks:
+only update tab when it is clicked on (performance or smth idk)
 fix collapse duplicates collapsing duplicates name but different annotation
 add bg color of black to very bright text in percent stats div
 2 tier collapse, radio buttons, either to main event or to category
@@ -17,10 +18,8 @@ bulk 01 (pseudo-rawdataview):
   once storing binary data the raw data view will show hex with newline every x bytes
   raw data should also show string length and estimated storage use
   extras tab with pseudo webpage style design (clickable buttons and a return to main page thing)
-    it will contain the raw data view
     also contain an extras file viewer thing to edit arbitrary binary data files not just the one actively being used in localstorage, will have 2 tabs for pseudorawdataview and actual data view (prob in hex cause binary, newlines at every x bytes); and obv buttons to load file and save to file
     button somewhere to export data, maybe on the extras page
-    move rawdata to extras page
     prob add settings page button to extras page
     make the progress bar graph for storage use on extras page
 bulk 02 (format v2):

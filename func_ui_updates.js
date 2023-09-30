@@ -4,7 +4,6 @@ function switchPage(page) {
       events_div.style.display = '';
       tables_and_charts_section_div.style.display = 'none';
       data_section_div.style.display = 'none';
-      raw_data_section_div.style.display = 'none';
       extras_section_div.style.display = 'none';
       break;
     
@@ -16,7 +15,6 @@ function switchPage(page) {
       events_div.style.display = 'none';
       tables_and_charts_section_div.style.display = '';
       data_section_div.style.display = 'none';
-      raw_data_section_div.style.display = 'none';
       extras_section_div.style.display = 'none';
       break;
     
@@ -24,15 +22,6 @@ function switchPage(page) {
       events_div.style.display = 'none';
       tables_and_charts_section_div.style.display = 'none';
       data_section_div.style.display = '';
-      raw_data_section_div.style.display = 'none';
-      extras_section_div.style.display = 'none';
-      break;
-    
-    case 'raw data':
-      events_div.style.display = 'none';
-      tables_and_charts_section_div.style.display = 'none';
-      data_section_div.style.display = 'none';
-      raw_data_section_div.style.display = '';
       extras_section_div.style.display = 'none';
       break;
     
@@ -40,8 +29,21 @@ function switchPage(page) {
       events_div.style.display = 'none';
       tables_and_charts_section_div.style.display = 'none';
       data_section_div.style.display = 'none';
-      raw_data_section_div.style.display = 'none';
       extras_section_div.style.display = '';
+      break;
+  }
+}
+
+function switchExtrasPage(page) {
+  switch (page) {
+    case 'main':
+      extras_section_main_page.style.display = '';
+      raw_data_section_div.style.display = 'none';
+      break;
+    
+    case 'raw data':
+      extras_section_main_page.style.display = 'none';
+      raw_data_section_div.style.display = '';
       break;
   }
 }
