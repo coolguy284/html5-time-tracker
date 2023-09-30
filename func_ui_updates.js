@@ -85,8 +85,8 @@ function updateDataSectionDisplay() {
 
 function updateRawDataDisplay() {
   // put raw data contents on raw_data_text
-  if (localStorage.html5_time_planner_events_arr != null) {
-    raw_data_text.value = localStorage.html5_time_planner_events_arr;
+  if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] != null) {
+    raw_data_text.value = localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
     if (raw_data_text.style.display != '') raw_data_text.style.display = '';
   } else {
     if (raw_data_text.style.display != 'none') raw_data_text.style.display = 'none';

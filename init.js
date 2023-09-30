@@ -55,9 +55,9 @@ let currentEvent = 'Nothing';
 let eventsArr;
 
 function loadEventsArr() {
-  if (localStorage.html5_time_planner_events_arr) {
+  if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY]) {
     try {
-      eventsArr = JSON.parse(localStorage.html5_time_planner_events_arr);
+      eventsArr = JSON.parse(localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY]);
     } catch (e) {}
   }
   
