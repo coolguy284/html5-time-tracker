@@ -45,7 +45,7 @@
         return lowerBound - 1;
       }
       
-      // tests whether the localstorage can handle a string as long as the input
+      // tests whether localstorage can handle a string as long as the input char times length
       function localStorageCanHandle(char, length) {
         try {
           localStorage[LOCALSTORAGE_TEST_KEY] = char.repeat(length);

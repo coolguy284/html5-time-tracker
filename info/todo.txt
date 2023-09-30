@@ -1,4 +1,6 @@
 small tasks:
+add extras progress bar, and add refresh button
+  refreshing should show a textual indicator of when refreshing is occurring and when it is finished, also ignore button presses while refreshing is occurring
 give buttons / labels shading for when they are selected (as in event or tab)
 only update tab when it is clicked on (performance or smth idk)
 fix collapse duplicates collapsing duplicates name but different annotation
