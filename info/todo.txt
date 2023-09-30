@@ -1,19 +1,33 @@
 small tasks:
+load in mem data should reset already checked checkboxes as well
+  actually main load routine should just do it
+fix collapse duplicates collapsing duplicates name but different annotation
+remove zero length events from table view
+
+rawdata textarea should have min size
+check extras div stuff for proper overflow, should be per div
+all ui buttons should not be able to be rerun while they are running
+  add another thing to critical code to keep track of this probably in a named object and then rename the file
+add another part to v2 for the categorized buttons list
+utf8 encode and decode
+  option 1
+    make utf8 encode and decode funcs that go through every character in a string and will call encodeuricomponent if charcode over 127
+    output is u8array ofc
+    then figure out some complex thing for utf8 decode
+    actually shouldn't be complex, go through bytes and if one is above 127 then based on how above it is, the next 2 3 or 4 chars will be one utf8 char (but possibly one or 2 utf16 chars)
+  or just manually do utf8 shouldn't be too hard, but store lone surrogates without erroring
+    as though they are not surrogates
+
 add extras progress bar, and add refresh button
   refreshing should show a textual indicator of when refreshing is occurring and when it is finished, also ignore button presses while refreshing is occurring
 give buttons / labels shading for when they are selected (as in event or tab)
 only update tab when it is clicked on (performance or smth idk)
-fix collapse duplicates collapsing duplicates name but different annotation
 add bg color of black to very bright text in percent stats div
 2 tier collapse, radio buttons, either to main event or to category
-load in mem data should reset already checked checkboxes as well
-  actually main load routine should just do it
 make priority list tied to events not mappings
-try black border around events in table view
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
 duplicate event backwards should edit previously duplicated event if there is one
-remove zero length events from table view
 bulk 01 (pseudo-rawdataview):
   when you click on a tab the data is brought up to speed
   edit tab that has pseudo rawdataview where entries on newlines and human readable, also includes preconfig at top; when saving if format is wrong error message will be printed incl line num (add line nums to view for human readability, remove them in memory when parsing but add back to textarea if missing if error so error can be found)
@@ -105,3 +119,6 @@ add check integrity of data button
   checks for backtemporal events, and others stuff
 trim events that last a few seconds, replace with next event, at least do this for short periods of decreasing events, then nothing, then increasing events
 do some thinking to make localstorage test binary search a mathematically perfect binary search and not double check powers of 2 or something
+
+probably not doing:
+try black border around events in table view
