@@ -1,4 +1,5 @@
 small tasks:
+add load from file button cause yeah
 fix collapse duplicates collapsing duplicates name but different annotation
 add bg color of black to very bright text in percent stats div
 2 tier collapse, radio buttons, either to main event or to category
@@ -40,6 +41,7 @@ bulk 02 (format v2):
     try gzipping or lzmaing whole thing
     first character of binary value will be the 0 or 1 flag, so forget about making 2 seperate keys
     binary to utf-16 conversion functions
+    have an index for most common annotations, probably for now manually added like event categories
 bulk 03:
   cache sanity check value as well
     if localstorage is insane then the planner will not function so there needs to be a clean way to show that, most likely just have a top level div switcheroo going on
