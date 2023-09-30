@@ -1,4 +1,5 @@
 small tasks:
+give buttons / labels shading for when they are selected (as in event or tab)
 only update tab when it is clicked on (performance or smth idk)
 fix collapse duplicates collapsing duplicates name but different annotation
 add bg color of black to very bright text in percent stats div
@@ -10,7 +11,6 @@ try black border around events in table view
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
 duplicate event backwards should edit previously duplicated event if there is one
-give buttons on hover and on selected shading
 remove zero length events from table view
 bulk 01 (pseudo-rawdataview):
   when you click on a tab the data is brought up to speed
@@ -40,6 +40,13 @@ bulk 02 (format v2):
     first character of binary value will be the 0 or 1 flag, so forget about making 2 seperate keys
     binary to utf-16 conversion functions
     have an index for most common annotations, probably for now manually added like event categories
+  
+  generic format accesser object, it even handles initial loading
+    and will not auto upgrade the stored format, it will just keep accessing the old format
+    but there will be a method to update the underlying format
+    also maybe have some sort of way of synchronously saving backup data while an asynchronous save finishes, then deleting the backup data
+  
+  for all asynchronous but critical code, set a flag that beforeunload will check for (maybe have an array so new function calls can independently turn on and then turn off the flag, turning off is deleting the array element, and shrinking size of array if at end)
 bulk 03:
   cache sanity check value as well
     if localstorage is insane then the planner will not function so there needs to be a clean way to show that, most likely just have a top level div switcheroo going on

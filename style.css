@@ -39,6 +39,14 @@ label {
   font-size: 1.4rem;
 }
 
+label:hover {
+  background-color: rgb(208, 208, 215);
+}
+
+label:active {
+  background-color: rgb(177, 177, 185);
+}
+
 label > input[type = checkbox] {
   width: 1.1rem;
   height: 1.1rem;
@@ -92,8 +100,32 @@ label > input[type = checkbox] {
   justify-content: center;
 }
 
+#events_div button:hover {
+  background-color: rgb(125, 197, 219);
+}
+
+#events_div button:active {
+  background-color: rgb(57, 171, 209);
+}
+
+#events_div button.current_event {
+  background-color: rgb(57, 171, 209);
+}
+
 #events_div label {
   background-color: lightblue;
+}
+
+#events_div label:hover {
+  background-color: rgb(125, 197, 219);
+}
+
+#events_div label:active {
+  background-color: rgb(57, 171, 209);
+}
+
+#events_div label.current_event {
+  background-color: rgb(57, 171, 209);
 }
 
 #events_div fieldset {
@@ -128,6 +160,14 @@ label > input[type = checkbox] {
   font-size: 2rem;
   border: 0.2rem solid gray;
   padding: 0 0.7rem 0;
+}
+
+#week_picker_div > button:hover {
+  background-color: rgb(233, 233, 233);
+}
+
+#week_picker_div > button:active {
+  background-color: rgb(214, 214, 214);
 }
 
 #week_picker_div_left_button {
@@ -245,12 +285,28 @@ label[for = collapse_event_groups] {
   padding: 0 0 1rem;
 }
 
-.caution_bg {
+button.caution_bg {
   background-color: rgb(250, 132, 132);
 }
 
-.safe_bg {
+button.caution_bg:hover {
+  background-color: rgb(240, 103, 103);
+}
+
+button.caution_bg:active {
+  background-color: rgb(233, 85, 85);
+}
+
+button.safe_bg {
   background-color: rgb(141, 252, 165);
+}
+
+button.safe_bg:hover {
+  background-color: rgb(94, 226, 123);
+}
+
+button.safe_bg:active {
+  background-color: rgb(64, 216, 97);
 }
 
 
@@ -316,6 +372,14 @@ label[for = collapse_event_groups] {
   font-size: 1.2rem;
 }
 
+#raw_data_bottom_section_div > button:hover {
+  background-color: rgb(255, 136, 136);
+}
+
+#raw_data_bottom_section_div > button:active {
+  background-color: rgb(255, 76, 76);
+}
+
 
 /* bottom menu block */
 
@@ -335,4 +399,16 @@ label[for = collapse_event_groups] {
   border-radius: 0.5rem;
   font-size: 1.4rem;
   padding: 0.4rem 0.8rem 0.4rem;
+}
+
+#bottom_menu_div > button:hover {
+  background-color: rgb(255, 218, 149);
+}
+
+#bottom_menu_div > button:active {
+  background-color: rgb(248, 201, 115);
+}
+
+#bottom_menu_div > button.current_tab {
+  background-color: rgb(252, 201, 107);
 }
