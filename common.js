@@ -41,9 +41,7 @@ function getEventGroup(eventNameSingle) {
 
 // getss the event with highest priority from a list
 function getEventSingle(eventName) {
-  let eventPriorityMapping = EVENT_MAPPINGS[event_mappings_select.value].eventPriorities;
-  
-  return getEvents(eventName).map(x => [x, eventPriorityMapping[x]]).reduce((a, c) => c[1] > a[1] ? c : a)[0];
+  return getEvents(eventName).map(x => [x, EVENT_MAPPINGS_EVENT_PRIORITIES[x]]).reduce((a, c) => c[1] > a[1] ? c : a)[0];
 }
 
 function getEventGroupSingle(eventName) {

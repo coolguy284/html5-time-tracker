@@ -2,7 +2,7 @@ let DATA_VIEW_ADDL_INFO_BIG_INDENT = false;
 let EVENT_MAPPINGS_DEFAULT_EVENT_GROUP = 'Default';
 let EVENT_MAPPINGS_DEFAULT_EVENT_GROUP_COLOR = 'black';
 let EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED = 'Programmatic Unlogged';
-let _EVENT_MAPPINGS_EVENT_PRIORITIES = [
+let EVENT_MAPPINGS_EVENT_PRIORITIES = [
   'Unlogged',
   
   '___EVENT_DATA___',
@@ -144,7 +144,6 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': 'Fun',
       '___EVENT_DATA___': '___EVENT_DATA___',
     },
-    eventPriorities: _EVENT_MAPPINGS_EVENT_PRIORITIES,
     groupToColor: {
       'Nothing': 'lightblue',
       '___EVENT_DATA___': 'orange',
@@ -231,7 +230,6 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': 'Fun',
       '___EVENT_DATA___': '___EVENT_DATA___',
     },
-    eventPriorities: _EVENT_MAPPINGS_EVENT_PRIORITIES,
     groupToColor: {
       'Nothing': 'lightblue',
       '___EVENT_DATA___': '___EVENT_DATA___',
@@ -311,7 +309,6 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': 'Fun',
       '___EVENT_DATA___': '___EVENT_DATA___',
     },
-    eventPriorities: _EVENT_MAPPINGS_EVENT_PRIORITIES,
     groupToColor: {
       'Nothing': 'lightblue',
       '___EVENT_DATA___': '___EVENT_DATA___',
@@ -390,7 +387,6 @@ let EVENT_MAPPINGS = {
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': '___EVENT_DATA___',
     },
-    eventPriorities: _EVENT_MAPPINGS_EVENT_PRIORITIES,
     groupToColor: {
       '___EVENT_DATA___': '___EVENT_DATA___',
       '___EVENT_DATA___': 'orange',
@@ -404,8 +400,4 @@ let MULTI_EVENT_SPLIT = ' | ';
 let TABLE_DATA_FULL_HEIGHT = 30; // in units of rem
 let TABLE_STRIPE_WIDTH = 0.3; // in units of rem
 
-Object.values(EVENT_MAPPINGS).forEach(eventConfig => {
-  let eventPriorities = eventConfig.eventPriorities;
-  
-  eventConfig.eventPriorities = Object.fromEntries(Object.entries(eventPriorities).map(x => [x[1], eventPriorities.length - x[0]]));
-});
+EVENT_MAPPINGS_EVENT_PRIORITIES = Object.fromEntries(Object.entries(EVENT_MAPPINGS_EVENT_PRIORITIES).map(x => [x[1], EVENT_MAPPINGS_EVENT_PRIORITIES.length - x[0]]));
