@@ -214,7 +214,7 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
       .map(x => parseInt(x))
       .reduce((a, b) => a + b, 0) / 3 > 160
     ) {
-      spanElem.style.backgroundColor = 'gray';
+      spanElem.style.backgroundColor = 'rgb(170, 170, 170)';
     }
     
     totalTimeSeconds += entry[2];
