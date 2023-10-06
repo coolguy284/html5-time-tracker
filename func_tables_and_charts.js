@@ -55,6 +55,8 @@ function fillParsedWeeks() {
   
   alteredEventsArr.push([dateToFullString(new Date(Date.now() + 86_400_000 * 7)), EVENT_MAPPINGS_EVENT_PROGRAMATICALLY_UNLOGGED]);
   
+  let eventDayStartingIndex = 0;
+  
   for (let week = 0; week < totalWeeks; week++) {
     let weekMilliseconds = firstWeekMilliseconds + week * 86_400_000 * 7;
     let weekStartDate = new Date(weekMilliseconds);
@@ -66,9 +68,7 @@ function fillParsedWeeks() {
     for (let day = 0; day < 7; day++) {
       let dayStartMilliseconds = weekMilliseconds + day * 86_400_000;
       let dayEndMilliseconds = dayStartMilliseconds + 86_400_000;
-      
-      let eventDayStartingIndex;
-      for (eventDayStartingIndex = 0; eventDayStartingIndex < alteredEventsArr.length; eventDayStartingIndex++) {
+      for (; eventDayStartingIndex < alteredEventsArr.length; eventDayStartingIndex++) {
         if (dateStringToDate(alteredEventsArr[eventDayStartingIndex][0]).getTime() > dayStartMilliseconds) break;
       }
       
@@ -94,7 +94,11 @@ function fillParsedWeeks() {
           
           //if ((eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000 < 0) console.log(`adding negative event delta week:${week} day:${day} eventIndex:${eventIndex}`);
           
-          dayArray[dayArray.length - 1][2] += (eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000;
+          let eventAddlLengthMilliseconds = eventEndMillisecondsRelative - eventStartMillisecondsRelative;
+          
+          if (eventAddlLengthMilliseconds > 0) {
+            dayArray[dayArray.length - 1][2] += eventAddlLengthMilliseconds / 1_000;
+          }
         } else {
           let eventStartMilliseconds = dateStringToDate(alteredEventsArr[eventIndex][0]).getTime();
           let eventEndMilliseconds = dateStringToDate(alteredEventsArr[eventIndex + 1][0]).getTime();
@@ -104,17 +108,23 @@ function fillParsedWeeks() {
           
           //if ((eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000 < 0) console.log(`creating negative event week:${week} day:${day} eventIndex:${eventIndex}`);
           
-          dayArray.push([
-            eventName,
-            eventStartMillisecondsRelative / 1_000,
-            (eventEndMillisecondsRelative - eventStartMillisecondsRelative) / 1_000,
-          ]);
+          let eventLengthMilliseconds = eventEndMillisecondsRelative - eventStartMillisecondsRelative;
           
-          lastEventName = eventName;
+          if (eventLengthMilliseconds > 0) {
+            dayArray.push([
+              eventName,
+              eventStartMillisecondsRelative / 1_000,
+              eventLengthMilliseconds / 1_000,
+            ]);
+            
+            lastEventName = eventName;
+          }
         }
       }
       
       daysArray.push(dayArray);
+      
+      eventDayStartingIndex = eventDayEndingIndex;
     }
     
     let weeklyEventDurations = {};

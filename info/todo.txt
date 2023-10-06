@@ -1,6 +1,5 @@
 small tasks:
 fix collapse duplicates collapsing duplicates name but different annotation
-remove zero length events from table view
 
 rawdata textarea should have min size
 check extras div stuff for proper overflow, should be per div
