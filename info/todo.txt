@@ -2,7 +2,6 @@ add extras progress bar, and add refresh button
   refreshing should show a textual indicator of when refreshing is occurring and when it is finished, also ignore button presses while refreshing is occurring
 only update tab when it is clicked on (performance or smth idk)
 add a move events backward button
-add bg color of black to very bright text in percent stats div
 2 tier collapse, radio buttons, either to main event or to category
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view

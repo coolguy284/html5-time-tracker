@@ -187,12 +187,35 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
   
   for (let entry of statsArr) {
     let spanElem = document.createElement('span');
-    spanElem.textContent = `██ ${entry[1].toFixed(3).padStart(6, '0')}% (${(Math.floor(entry[2] / 3_600) + '').padStart(2, '0')}:${(Math.floor(entry[2] / 60 % 60) + '').padStart(2, '0')}) ${entry[0]}`;
-    spanElem.style.color = collapse_event_groups.checked ?
+    
+    let spanElemColorBlock = document.createElement('span');
+    spanElemColorBlock.style.minWidth = `${STATS_ENTRY_COLOR_BLOCK_WIDTH}rem`;
+    
+    let spanElemTextNode = document.createTextNode(`${entry[1].toFixed(3).padStart(6, '0')}% (${(Math.floor(entry[2] / 3_600) + '').padStart(2, '0')}:${(Math.floor(entry[2] / 60 % 60) + '').padStart(2, '0')}) ${entry[0]}`);
+    
+    spanElem.appendChild(spanElemColorBlock);
+    spanElem.appendChild(spanElemTextNode);
+    
+    let expectedColor = collapse_event_groups.checked ?
       getEventGroupColor(entry[0]) :
       getEventColor(entry[0]);
     
+    spanElemColorBlock.style.backgroundColor = expectedColor;
+    spanElem.style.color = expectedColor;
+    spanElem.style.gap = `${STATS_ENTRY_GAP_WIDTH}rem`;
+    
+    // must add elem to DOM before able to read its color
     statsElem.appendChild(spanElem);
+    
+    // if average color value of element is over 192, give it a black background for contrast
+    if (
+      (/rgb\(([0-9]+), ([0-9]+), ([0-9]+)\)/.exec(getComputedStyle(spanElem).color) ?? [])
+      .slice(1)
+      .map(x => parseInt(x))
+      .reduce((a, b) => a + b, 0) / 3 > 160
+    ) {
+      spanElem.style.backgroundColor = 'gray';
+    }
     
     totalTimeSeconds += entry[2];
   }

@@ -399,6 +399,8 @@ let DEFAULT_EVENT_MAPPING = 'Original';
 let MULTI_EVENT_SPLIT = ' | ';
 let TABLE_DATA_FULL_HEIGHT = 30; // in units of rem
 let TABLE_STRIPE_WIDTH = 0.3; // in units of rem
+let STATS_ENTRY_COLOR_BLOCK_WIDTH = 1.5; // in units of rem
+let STATS_ENTRY_GAP_WIDTH = 0.3; // in units of rem
 let LOCALSTORAGE_MAIN_STORAGE_KEY = 'html5_time_planner_events_arr';
 
 EVENT_MAPPINGS_EVENT_PRIORITIES = Object.fromEntries(Object.entries(EVENT_MAPPINGS_EVENT_PRIORITIES).map(x => [x[1], EVENT_MAPPINGS_EVENT_PRIORITIES.length - x[0]]));
