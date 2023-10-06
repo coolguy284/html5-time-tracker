@@ -1,6 +1,3 @@
-small tasks:
-fix collapse duplicates collapsing duplicates name but different annotation
-
 rawdata textarea should have min size
 check extras div stuff for proper overflow, should be per div
 all ui buttons should not be able to be rerun while they are running
