@@ -5,6 +5,11 @@ function switchPage(page) {
       tables_and_charts_section_div.style.display = 'none';
       data_section_div.style.display = 'none';
       extras_section_div.style.display = 'none';
+      
+      events_div_button.classList.add('current_tab');
+      tables_and_charts_div_button.classList.remove('current_tab');
+      data_div_button.classList.remove('current_tab');
+      extras_div_button.classList.remove('current_tab');
       break;
     
     case 'tables & charts':
@@ -16,6 +21,11 @@ function switchPage(page) {
       tables_and_charts_section_div.style.display = '';
       data_section_div.style.display = 'none';
       extras_section_div.style.display = 'none';
+      
+      events_div_button.classList.remove('current_tab');
+      tables_and_charts_div_button.classList.add('current_tab');
+      data_div_button.classList.remove('current_tab');
+      extras_div_button.classList.remove('current_tab');
       break;
     
     case 'data':
@@ -23,6 +33,11 @@ function switchPage(page) {
       tables_and_charts_section_div.style.display = 'none';
       data_section_div.style.display = '';
       extras_section_div.style.display = 'none';
+      
+      events_div_button.classList.remove('current_tab');
+      tables_and_charts_div_button.classList.remove('current_tab');
+      data_div_button.classList.add('current_tab');
+      extras_div_button.classList.remove('current_tab');
       break;
     
     case 'extras':
@@ -30,6 +45,11 @@ function switchPage(page) {
       tables_and_charts_section_div.style.display = 'none';
       data_section_div.style.display = 'none';
       extras_section_div.style.display = '';
+      
+      events_div_button.classList.remove('current_tab');
+      tables_and_charts_div_button.classList.remove('current_tab');
+      data_div_button.classList.remove('current_tab');
+      extras_div_button.classList.add('current_tab');
       break;
   }
 }
@@ -94,19 +114,41 @@ function updateRawDataDisplay() {
   }
 }
 
+function updateCurrentEventButtonHighlight() {
+  if (currentEvent != currentHighlightedEvent) {
+    let currentHighlightedEventSplit = new Set((currentHighlightedEvent ?? '').split(MULTI_EVENT_SPLIT));
+    let currentEventSplit = new Set((currentEvent ?? '').split(MULTI_EVENT_SPLIT));
+    for (highlightedEvent of currentHighlightedEventSplit) {
+      if (!currentEventSplit.has(highlightedEvent) && highlightedEvent in eventButtons) {
+        eventButtons[highlightedEvent].classList.remove('current_event');
+      }
+    }
+    for (newEvent of currentEventSplit) {
+      if (!currentHighlightedEventSplit.has(newEvent) && newEvent in eventButtons) {
+        eventButtons[newEvent].classList.add('current_event');
+      }
+    }
+    currentHighlightedEvent = currentEvent;
+  }
+}
+
 function updateDisplay() {
-  // put current event on current_event_text
+  // put current event on current_event_text and highlight buttons and toggles
   let currentEventIndex = getLatestVisibleEventIndex();
   
   if (currentEventIndex >= 0) {
-    current_event_text.textContent = eventsArr[currentEventIndex][1];
+    currentEvent = eventsArr[currentEventIndex][1];
   } else {
-    current_event_text.textContent = 'None';
+    currentEvent = 'None';
   }
+  
+  current_event_text.textContent = currentEvent;
   
   updateDataSectionDisplay();
   
   updateRawDataDisplay();
+  
+  updateCurrentEventButtonHighlight();
 }
 
 function updateWeekSelect() {
