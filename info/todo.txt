@@ -1,15 +1,3 @@
-all ui buttons should not be able to be rerun while they are running
-  add another thing to critical code to keep track of this probably in a named object and then rename the file
-add another part to v2 for the categorized buttons list
-utf8 encode and decode
-  option 1
-    make utf8 encode and decode funcs that go through every character in a string and will call encodeuricomponent if charcode over 127
-    output is u8array ofc
-    then figure out some complex thing for utf8 decode
-    actually shouldn't be complex, go through bytes and if one is above 127 then based on how above it is, the next 2 3 or 4 chars will be one utf8 char (but possibly one or 2 utf16 chars)
-  or just manually do utf8 shouldn't be too hard, but store lone surrogates without erroring
-    as though they are not surrogates
-
 add extras progress bar, and add refresh button
   refreshing should show a textual indicator of when refreshing is occurring and when it is finished, also ignore button presses while refreshing is occurring
 give buttons / labels shading for when they are selected (as in event or tab)
@@ -67,6 +55,16 @@ bulk 03:
     possibly not doing:
       make storage tests synchronous cause why not, page needs the results to know whether to operate anyway
         since cached it doesn't even matter
+  all ui buttons should not be able to be rerun while they are running
+  add another thing to critical code to keep track of this probably in a named object and then rename the file
+  utf8 encode and decode
+    option 1
+      make utf8 encode and decode funcs that go through every character in a string and will call encodeuricomponent if charcode over 127
+      output is u8array ofc
+      then figure out some complex thing for utf8 decode
+      actually shouldn't be complex, go through bytes and if one is above 127 then based on how above it is, the next 2 3 or 4 chars will be one utf8 char (but possibly one or 2 utf16 chars)
+    or just manually do utf8 shouldn't be too hard, but store lone surrogates without erroring
+      as though they are not surrogates
 
 big concepts:
 change events list to be cleaner

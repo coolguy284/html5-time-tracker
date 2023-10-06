@@ -53,6 +53,15 @@ json:
             0 - programmatically unlogged
         ...
       }
+    ["eventButtons"]: object: arbitrarily nested listing of visible buttons corresponding to events
+      {
+        [key: event id number as string | event category name]: string | object: contains listing about one button or a category
+          if string:
+            "button": object describes a button that changes main event
+            "toggle": object describes a toggle for a toggleable event
+          else:
+            object dsecribes a category of events, in same format as ["eventButtons"]
+      }
     ["eventPriorities"]: object: maps event ids to event priority integer
       (higher is higher priority)
       {
