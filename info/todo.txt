@@ -1,4 +1,3 @@
-rawdata textarea should have min size
 check extras div stuff for proper overflow, should be per div
 all ui buttons should not be able to be rerun while they are running
   add another thing to critical code to keep track of this probably in a named object and then rename the file

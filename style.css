@@ -357,6 +357,7 @@ button.safe_bg:active {
   border: 0.1rem solid gray;
   padding: 0.3rem;
   font-size: 1.5rem;
+  min-height: 9rem;
 }
 
 #raw_data_bottom_section_div {
