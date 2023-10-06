@@ -65,7 +65,11 @@ function loadEventsArr() {
   
   let latestEventIndex = getLatestVisibleEventIndex();
   if (latestEventIndex > -1) {
-    eventsArr[latestEventIndex][1].split(MULTI_EVENT_SPLIT).map(x => toggleInputsObject[x]).filter(x => x).forEach(x => x.checked = true);
+    let togglesOnSet = new Set(eventsArr[latestEventIndex][1].split(MULTI_EVENT_SPLIT).filter(x => x in toggleInputsObject));
+    
+    for (toggleEvent in toggleInputsObject) {
+      toggleInputsObject[toggleEvent].checked = togglesOnSet.has(toggleEvent);
+    }
   }
 }
 

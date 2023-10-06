@@ -1,6 +1,4 @@
 small tasks:
-load in mem data should reset already checked checkboxes as well
-  actually main load routine should just do it
 fix collapse duplicates collapsing duplicates name but different annotation
 remove zero length events from table view
 
