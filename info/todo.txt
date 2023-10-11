@@ -21,6 +21,10 @@ bulk 02 (format v2):
   start with v1, and do it nicely with examples for each field n stuff
   also explain how the raw data is converted to an in memory representation
   put events and categories in v2
+  split format version into versionMajor and versionMinor
+    minor ver start at 0 because why not
+  also add filetype after versions, filetype 1 is main data, filetype 2 is special persistent data (and include this in file level flags actually to take up less space (filelevel meaning not per event))
+  
   binary format:
     binary format should probably have some sort of minutes timezone flag but normally store timezone as hourly int offset (so one byte by default but sometimes 2)
       or zero bytes for timezone (it will have same value as previous entry)
@@ -34,6 +38,7 @@ bulk 02 (format v2):
     first character of binary value will be the 0 or 1 flag, so forget about making 2 seperate keys
     binary to utf-16 conversion functions
     have an index for most common annotations, probably for now manually added like event categories
+    add signature to beginning of binary format, maybe "CG" then 0x01 meaning first program with binary (which is time planner)
   
   generic format accesser object, it even handles initial loading
     and will not auto upgrade the stored format, it will just keep accessing the old format
@@ -41,6 +46,11 @@ bulk 02 (format v2):
     also maybe have some sort of way of synchronously saving backup data while an asynchronous save finishes, then deleting the backup data
   
   for all asynchronous but critical code, set a flag that beforeunload will check for (maybe have an array so new function calls can independently turn on and then turn off the flag, turning off is deleting the array element, and shrinking size of array if at end)
+  
+  future increment of minor ver for adding compression, along with adding a settings object to file that stores how many X new events before compressing last X (but actually doing last 2X to X, leaving an uncompressed buffer in case of deletion)
+  
+  in far future, versions above 127 will be 2 byte version, utf8 style, and then keep on going with ver above 191 being 3 byte version, etc
+  when saving file, add tiny saving... below current event, then saved! When it is done
 bulk 03:
   cache sanity check value as well
     if localstorage is insane then the planner will not function so there needs to be a clean way to show that, most likely just have a top level div switcheroo going on
@@ -63,6 +73,9 @@ bulk 03:
       actually shouldn't be complex, go through bytes and if one is above 127 then based on how above it is, the next 2 3 or 4 chars will be one utf8 char (but possibly one or 2 utf16 chars)
     or just manually do utf8 shouldn't be too hard, but store lone surrogates without erroring
       as though they are not surrogates
+    
+    new?:
+    first split utf16 string into array of integer codepoints, using codepointat unless it has weird behavior for lone surrogates in which case do it manually
 
 big concepts:
 change events list to be cleaner
