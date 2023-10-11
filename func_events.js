@@ -1,8 +1,7 @@
 function addEvent(elem) {
   // get data
   
-  let eventTimeDate = new Date();
-  let eventTime = dateToFullString(eventTimeDate);
+  let eventTime = new Date();
   
   let eventNamesArr = toggleInputs.map(x => x[1].checked ? x[0] : null).filter(x => x);
   
@@ -13,9 +12,9 @@ function addEvent(elem) {
       eventNamesArr.push(elem.textContent);
     }
   } else {
-    let latestEventIndex = getLatestVisibleEventIndex();
+    let latestEventIndex = eventStorage.getLatestVisibleEventIndex();
     if (latestEventIndex > -1) {
-      let latestEventNameArr = eventsArr[latestEventIndex][1].split(MULTI_EVENT_SPLIT).filter(x => !(x in toggleInputsObject));
+      let latestEventNameArr = eventStorage.getEventByIndex(latestEventIndex)[1].split(MULTI_EVENT_SPLIT).filter(x => !(x in toggleInputsObject));
       if (latestEventNameArr.length > 1) {
         eventNamesArr.push(...latestEventNameArr);
       } else if (latestEventNameArr.length == 1) {
@@ -31,36 +30,32 @@ function addEvent(elem) {
   let eventName = eventNamesArr.length ? eventNamesArr.join(' | ') : 'Nothing';
   
   // add to internal events array
-  eventsArr.push([eventTime, eventName, true, false]);
+  eventStorage.addEvent(eventName, eventTime);
   
-  updateEventStorageAndDisplay();
-}
-
-function getLatestVisibleEventIndex() {
-  for (let i = eventsArr.length - 1; i >= 0; i--) {
-    if (eventsArr[i][2]) return i;
-  }
-  
-  return -1;
+  updateDisplay();
 }
 
 function removeLastEvent() {
-  let latestVisibleEventIndex = getLatestVisibleEventIndex();
+  let latestVisibleEventIndex = eventStorage.getLatestVisibleEventIndex();
   
   if (latestVisibleEventIndex >= 0) {
-    eventsArr[latestVisibleEventIndex][2] = false;
+    let eventEntry = eventStorage.getEventByIndex(latestVisibleEventIndex);
+    eventEntry[2] = false;
+    eventStorage.setEventAtIndex(latestVisibleEventIndex, eventEntry);
     
-    updateEventStorageAndDisplay();
+    updateDisplay();
   }
 }
 
 function unRemoveLastEvent() {
-  let latestVisibleEventIndex = getLatestVisibleEventIndex();
+  let latestVisibleEventIndex = eventStorage.getLatestVisibleEventIndex();
   
-  if (eventsArr.length > 0 && latestVisibleEventIndex < eventsArr.length - 1) {
-    eventsArr[latestVisibleEventIndex + 1][2] = true;
+  if (eventStorage.getNumEvents() > 0 && latestVisibleEventIndex < eventStorage.getNumEvents() - 1) {
+    let eventEntry = eventStorage.getEventByIndex(latestVisibleEventIndex + 1);
+    eventEntry[2] = true;
+    eventStorage.setEventAtIndex(latestVisibleEventIndex + 1, eventEntry);
     
-    updateEventStorageAndDisplay();
+    updateDisplay();
   }
 }
 
@@ -68,38 +63,41 @@ function unRemoveLastEvent() {
 function purgeRemovedEntries(suppressUIUpdate) {
   if (!suppressUIUpdate && !confirm('Are you sure?')) return;
   
-  for (let i = eventsArr.length - 1; i >= 0; i--) {
-    if (!eventsArr[i][2]) {
-      eventsArr.splice(i, 1);
+  for (let i = eventStorage.getNumEvents() - 1; i >= 0; i--) {
+    if (!eventStorage.getEventByIndex(i)[2]) {
+      eventStorage.removeEventByIndex(i);
     }
   }
   
-  if (!suppressUIUpdate) updateEventStorageAndDisplay();
+  if (!suppressUIUpdate) updateEventStorageDifferent();
 }
 
 // removes events where a future event has a smaller date/time than a past one
 function purgeBacktemporalEntries(suppressUIUpdate) {
   if (!suppressUIUpdate && !confirm('Are you sure?')) return;
   
-  eventsArr = eventsArr
-    .reduceRight((a, c) => {
-      if (a.length == 0) {
-        a.push(c);
-        return a;
-      } else {
-        let futureEvent = a[a.length - 1]; // accessing backwards for future event because array is reversed
-        let futureEventTime = dateStringToDate(futureEvent[0]).getTime();
-        let currentEventTime = dateStringToDate(c[0]).getTime();
-        if (currentEventTime > futureEventTime) {
-          return a;
-        } else {
+  eventStorage.setAllEvents(
+    eventStorage.getAllEvents()
+      .reduceRight((a, c) => {
+        if (a.length == 0) {
           a.push(c);
           return a;
+        } else {
+          let futureEvent = a[a.length - 1]; // accessing backwards for future event because array is reversed
+          let futureEventTime = dateStringToDate(futureEvent[0]).getTime();
+          let currentEventTime = dateStringToDate(c[0]).getTime();
+          if (currentEventTime > futureEventTime) {
+            return a;
+          } else {
+            a.push(c);
+            return a;
+          }
         }
-      }
-    }, []).reverse();
+      }, [])
+      .reverse()
+  );
   
-  if (!suppressUIUpdate) updateEventStorageAndDisplay();
+  if (!suppressUIUpdate) updateEventStorageDifferent();
 }
 
 function bothPurgeEntries() {
@@ -108,7 +106,7 @@ function bothPurgeEntries() {
   purgeRemovedEntries(true);
   purgeBacktemporalEntries(true);
   
-  updateEventStorageAndDisplay();
+  updateEventStorageDifferent();
 }
 
 function duplicateEventBackwards() {
@@ -116,15 +114,19 @@ function duplicateEventBackwards() {
   
   if (!Number.isFinite(minutesBack) || minutesBack == 0) return;
   
-  let latestVisibleEventIndex = getLatestVisibleEventIndex();
+  let latestVisibleEventIndex = eventStorage.getLatestVisibleEventIndex();
   
   if (latestVisibleEventIndex <= 0) return;
   
-  let lastEvent = eventsArr[latestVisibleEventIndex];
+  let lastEvent = eventStorage.getEventByIndex(latestVisibleEventIndex);
   
-  eventsArr.splice(latestVisibleEventIndex, 0, [dateToFullString(new Date(Math.floor(dateStringToDate(lastEvent[0]).getTime() - minutesBack * 60_000))), lastEvent[1], lastEvent[2], true, ...lastEvent.slice(4)]);
+  eventStorage.spliceAndAdd(
+    latestVisibleEventIndex,
+    0,
+    [dateToFullString(new Date(Math.floor(dateStringToDate(lastEvent[0]).getTime() - minutesBack * 60_000))), lastEvent[1], lastEvent[2], true, ...lastEvent.slice(4)]
+  );
   
-  updateEventStorageAndDisplay();
+  updateEventStorageDifferent();
 }
 
 function setLastEventAnnotation() {
@@ -132,11 +134,11 @@ function setLastEventAnnotation() {
   
   if (annotation == null) return;
   
-  let latestVisibleEventIndex = getLatestVisibleEventIndex();
+  let latestVisibleEventIndex = eventStorage.getLatestVisibleEventIndex();
   
   if (latestVisibleEventIndex <= 0) return;
   
-  let lastEvent = eventsArr[latestVisibleEventIndex];
+  let lastEvent = eventStorage.getEventByIndex(latestVisibleEventIndex);
   
   if (annotation.length > 0) {
     lastEvent[4] = annotation;
@@ -144,5 +146,5 @@ function setLastEventAnnotation() {
     lastEvent.length = 4;
   }
   
-  updateEventStorageAndDisplay();
+  updateEventStorageDifferent();
 }

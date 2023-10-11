@@ -70,7 +70,7 @@ function switchExtrasPage(page) {
 
 function updateDataSectionDisplay() {
   // put array contents on data_div
-  let visibleEventsArr = eventsArr.filter(x => x[2]);
+  let visibleEventsArr = eventStorage.getAllEvents().filter(x => x[2]);
   
   if (visibleEventsArr.length > 0) {
     let processedEventsArr;
@@ -134,10 +134,10 @@ function updateCurrentEventButtonHighlight() {
 
 function updateDisplay() {
   // put current event on current_event_text and highlight buttons and toggles
-  let currentEventIndex = getLatestVisibleEventIndex();
+  let currentEventIndex = eventStorage.getLatestVisibleEventIndex();
   
   if (currentEventIndex >= 0) {
-    currentEvent = eventsArr[currentEventIndex][1];
+    currentEvent = eventStorage.getEventByIndex(currentEventIndex)[1];
   } else {
     currentEvent = 'None';
   }

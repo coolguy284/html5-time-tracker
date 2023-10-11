@@ -107,6 +107,7 @@ add check integrity of data button
   checks for backtemporal events, and others stuff
 trim events that last a few seconds, replace with next event, at least do this for short periods of decreasing events, then nothing, then increasing events
 do some thinking to make localstorage test binary search a mathematically perfect binary search and not double check powers of 2 or something
+state of toggles when unlogged mode active should go into v2 ui persistence obj
 
 probably not doing:
 try black border around events in table view

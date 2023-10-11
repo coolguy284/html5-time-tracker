@@ -12,7 +12,7 @@ function normalizePercentagesArray(percentageArr) {
 }
 
 function fillParsedWeeks() {
-  if (getLatestVisibleEventIndex() == -1) {
+  if (eventStorage.getLatestVisibleEventIndex() == -1) {
     parsedWeeks = [
       [
         [
@@ -29,7 +29,7 @@ function fillParsedWeeks() {
   parsedWeeks[0].splice(0, Infinity);
   
   // preliminary filter of events array to only have visible events, and to ignore events where a future event has a smaller date/time than a past one
-  let preAlteredEventsArr = eventsArr
+  let preAlteredEventsArr = eventStorage.getAllEvents()
     .filter(x => x[2])
     .reduceRight((a, c) => {
       if (a.length == 0) {

@@ -31,12 +31,12 @@ function rawDataCreate() {
 }
 
 function rawDataSaveInMemoryData() {
-  updateEventStorage();
+  eventStorage.saveOrCreateNew();
   updateRawDataDisplay();
 }
 
 function rawDataLoadInMemoryData() {
-  eventsArr = undefined;
+  eventStorage.resetMemoryData();
   loadEventsArr();
   onPageAlmostLoad();
   

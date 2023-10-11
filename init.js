@@ -55,26 +55,20 @@ for (let eventMapping in EVENT_MAPPINGS) {
 let currentEvent = 'Nothing';
 let currentHighlightedEvent = null;
 
-/* [[<time string: string>, <event name: string>, <deleted: boolean>, <estimated: boolean>, <additional info: string>], ...] */
-let eventsArr;
+let eventStorage = new PlannerPersistentStorage();
 
 function loadEventsArr() {
-  if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY]) {
-    try {
-      eventsArr = JSON.parse(localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY]);
-    } catch (e) {}
-  }
+  eventStorage.loadFromMediumOrFillWithDefault();
   
-  if (!eventsArr) eventsArr = [];
-  
-  let latestEventIndex = getLatestVisibleEventIndex();
+  let latestEventIndex = eventStorage.getLatestVisibleEventIndex();
   if (latestEventIndex > -1) {
-    let togglesOnSet = new Set(eventsArr[latestEventIndex][1].split(MULTI_EVENT_SPLIT).filter(x => x in toggleInputsObject));
+    let togglesOnSet = new Set(eventStorage.getEventByIndex(latestEventIndex)[1].split(MULTI_EVENT_SPLIT).filter(x => x in toggleInputsObject));
     
     for (toggleEvent in toggleInputsObject) {
       toggleInputsObject[toggleEvent].checked = togglesOnSet.has(toggleEvent);
     }
   }
 }
+/* TODO: functionality of toggles above already done somewhere else? */
 
 loadEventsArr();
