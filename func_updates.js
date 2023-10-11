@@ -2,9 +2,9 @@ function updateEventStorage() {
   eventStorage.saveToMedium();
 }
 
-function updateEventStorageDifferent() {
+function updateEventStorageDifferent(redoToggles) {
   eventStorage.saveOrCreateNew();
-  updateDisplay();
+  updateDisplay(redoToggles);
   
   parseWeeksDirtyBit = true; // messy but works
 }

@@ -43,7 +43,7 @@ function removeLastEvent() {
     eventEntry[2] = false;
     eventStorage.setEventAtIndex(latestVisibleEventIndex, eventEntry);
     
-    updateDisplay();
+    updateDisplay(true);
   }
 }
 
@@ -55,7 +55,7 @@ function unRemoveLastEvent() {
     eventEntry[2] = true;
     eventStorage.setEventAtIndex(latestVisibleEventIndex + 1, eventEntry);
     
-    updateDisplay();
+    updateDisplay(true);
   }
 }
 
@@ -69,7 +69,7 @@ function purgeRemovedEntries(suppressUIUpdate) {
     }
   }
   
-  if (!suppressUIUpdate) updateEventStorageDifferent();
+  if (!suppressUIUpdate) updateEventStorageDifferent(true);
 }
 
 // removes events where a future event has a smaller date/time than a past one
@@ -97,7 +97,7 @@ function purgeBacktemporalEntries(suppressUIUpdate) {
       .reverse()
   );
   
-  if (!suppressUIUpdate) updateEventStorageDifferent();
+  if (!suppressUIUpdate) updateEventStorageDifferent(true);
 }
 
 function bothPurgeEntries() {
@@ -106,7 +106,7 @@ function bothPurgeEntries() {
   purgeRemovedEntries(true);
   purgeBacktemporalEntries(true);
   
-  updateEventStorageDifferent();
+  updateEventStorageDifferent(true);
 }
 
 function duplicateEventBackwards() {

@@ -132,7 +132,22 @@ function updateCurrentEventButtonHighlight() {
   }
 }
 
-function updateDisplay() {
+function updateCurrentEventCheckboxes() {
+  let latestEventIndex = eventStorage.getLatestVisibleEventIndex();
+  if (latestEventIndex > -1) {
+    let togglesOnSet = new Set(eventStorage.getEventByIndex(latestEventIndex)[1].split(MULTI_EVENT_SPLIT).filter(x => x in toggleInputsObject));
+    
+    for (toggleEvent in toggleInputsObject) {
+      toggleInputsObject[toggleEvent].checked = togglesOnSet.has(toggleEvent);
+    }
+  } else {
+    for (toggleEvent in toggleInputsObject) {
+      toggleInputsObject[toggleEvent].checked = false;
+    }
+  }
+}
+
+function updateDisplay(redoToggles) {
   // put current event on current_event_text and highlight buttons and toggles
   let currentEventIndex = eventStorage.getLatestVisibleEventIndex();
   
@@ -149,6 +164,10 @@ function updateDisplay() {
   updateRawDataDisplay();
   
   updateCurrentEventButtonHighlight();
+  
+  if (redoToggles) {
+    updateCurrentEventCheckboxes();
+  }
 }
 
 function updateWeekSelect() {

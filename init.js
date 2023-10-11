@@ -59,16 +59,6 @@ let eventStorage = new PlannerPersistentStorage();
 
 function loadEventsArr() {
   eventStorage.loadFromMediumOrFillWithDefault();
-  
-  let latestEventIndex = eventStorage.getLatestVisibleEventIndex();
-  if (latestEventIndex > -1) {
-    let togglesOnSet = new Set(eventStorage.getEventByIndex(latestEventIndex)[1].split(MULTI_EVENT_SPLIT).filter(x => x in toggleInputsObject));
-    
-    for (toggleEvent in toggleInputsObject) {
-      toggleInputsObject[toggleEvent].checked = togglesOnSet.has(toggleEvent);
-    }
-  }
 }
-/* TODO: functionality of toggles above already done somewhere else? */
 
 loadEventsArr();

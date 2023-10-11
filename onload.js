@@ -1,5 +1,5 @@
 function onPageAlmostLoad() {
-  updateDisplay();
+  updateDisplay(true);
 }
 
 onPageAlmostLoad();
