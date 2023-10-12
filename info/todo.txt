@@ -1,3 +1,10 @@
+"Nothing" should still be visually selected when only toggles on
+
+v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version; add this to v2 cause kinda important; ui need not exist yet
+
+collapse many events into "main" event toggle for table view as well
+  make 3 radio buttons for collapse state, none, main event, category
+double tap or hold to start a 2nd event in parallel with current one (or ones), also add an everything is a toggle mode probably turned on with a checkbox
 add extras progress bar, and add refresh button
   refreshing should show a textual indicator of when refreshing is occurring and when it is finished, also ignore button presses while refreshing is occurring
 only update tab when it is clicked on (performance or smth idk)
@@ -16,6 +23,7 @@ bulk 01 (pseudo-rawdataview):
     button somewhere to export data, maybe on the extras page
     prob add settings page button to extras page
     make the progress bar graph for storage use on extras page
+  pseudo rawdataview could probably be a func on the localstorage object to get the formatted ver and and to set the formatted ver
 bulk 02 (format v2):
   type up format specifiers for each version of the format and put them in a folder
   start with v1, and do it nicely with examples for each field n stuff
@@ -39,6 +47,7 @@ bulk 02 (format v2):
     binary to utf-16 conversion functions
     have an index for most common annotations, probably for now manually added like event categories
     add signature to beginning of binary format, maybe "CG" then 0x01 meaning first program with binary (which is time planner)
+    should store event name as str if not in table
   
   generic format accesser object, it even handles initial loading
     and will not auto upgrade the stored format, it will just keep accessing the old format
@@ -51,6 +60,12 @@ bulk 02 (format v2):
   
   in far future, versions above 127 will be 2 byte version, utf8 style, and then keep on going with ver above 191 being 3 byte version, etc
   when saving file, add tiny saving... below current event, then saved! When it is done
+  
+  implement v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version
+  the all stats view should be able to be split into eras/domains/regimens
+    which is another var to add to v2 format, this can prob be an array of time/timestamp/stringname where everything after that counts as that era
+  
+  store state of toggles and collapse event radiobuttons on table in v2 optional persistence
 bulk 03:
   cache sanity check value as well
     if localstorage is insane then the planner will not function so there needs to be a clean way to show that, most likely just have a top level div switcheroo going on
