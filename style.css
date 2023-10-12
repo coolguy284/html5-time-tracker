@@ -142,16 +142,16 @@ label > input[type = checkbox] {
 
 /* tables and charts section block */
 
-#tables_and_charts_section_div {
+#charts_section_div {
   flex-direction: column;
   padding: 0rem 1rem 3rem;
 }
 
-#tables_and_charts_section_div > h4 {
+#charts_section_div > h4 {
   margin-bottom: 0.4rem;
 }
 
-#tables_and_charts_section_div > div > p {
+#charts_section_div > div > p {
   margin: 0;
 }
 
@@ -266,7 +266,7 @@ label[for = collapse_event_groups] {
   margin-top: 1.6rem;
 }
 
-#refresh_tables_and_charts_button {
+#refresh_charts_button {
   margin-top: 1.6rem;
 }
 

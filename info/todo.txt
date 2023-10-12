@@ -126,7 +126,7 @@ add hard reset button with confirmation
 add ability to annotate previous or second previous entry
 darken button that is active, like current tab, current event
 color button that cannot be clicked a disabled color (for week picker)
-fix coloring of tables & charts page
+fix coloring of charts page
 make percentage stats box not unicode chars and actual div instead
 fix mobile seperation of stats percentage entries being greater than 0
 merge duplicate groups when converting many events to groups

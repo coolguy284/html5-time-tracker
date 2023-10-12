@@ -2,52 +2,52 @@ function switchPage(page) {
   switch (page) {
     case 'events':
       events_div.style.display = '';
-      tables_and_charts_section_div.style.display = 'none';
+      charts_section_div.style.display = 'none';
       data_section_div.style.display = 'none';
       extras_section_div.style.display = 'none';
       
       events_div_button.classList.add('current_tab');
-      tables_and_charts_div_button.classList.remove('current_tab');
+      charts_div_button.classList.remove('current_tab');
       data_div_button.classList.remove('current_tab');
       extras_div_button.classList.remove('current_tab');
       break;
     
-    case 'tables & charts':
+    case 'charts':
       if (parseWeeksDirtyBit) {
-        updateTablesAndChartsSection();
+        updateChartsSection();
         parseWeeksDirtyBit = false;
       }
       events_div.style.display = 'none';
-      tables_and_charts_section_div.style.display = '';
+      charts_section_div.style.display = '';
       data_section_div.style.display = 'none';
       extras_section_div.style.display = 'none';
       
       events_div_button.classList.remove('current_tab');
-      tables_and_charts_div_button.classList.add('current_tab');
+      charts_div_button.classList.add('current_tab');
       data_div_button.classList.remove('current_tab');
       extras_div_button.classList.remove('current_tab');
       break;
     
     case 'data':
       events_div.style.display = 'none';
-      tables_and_charts_section_div.style.display = 'none';
+      charts_section_div.style.display = 'none';
       data_section_div.style.display = '';
       extras_section_div.style.display = 'none';
       
       events_div_button.classList.remove('current_tab');
-      tables_and_charts_div_button.classList.remove('current_tab');
+      charts_div_button.classList.remove('current_tab');
       data_div_button.classList.add('current_tab');
       extras_div_button.classList.remove('current_tab');
       break;
     
     case 'extras':
       events_div.style.display = 'none';
-      tables_and_charts_section_div.style.display = 'none';
+      charts_section_div.style.display = 'none';
       data_section_div.style.display = 'none';
       extras_section_div.style.display = '';
       
       events_div_button.classList.remove('current_tab');
-      tables_and_charts_div_button.classList.remove('current_tab');
+      charts_div_button.classList.remove('current_tab');
       data_div_button.classList.remove('current_tab');
       extras_div_button.classList.add('current_tab');
       break;
@@ -277,13 +277,13 @@ function updateAllStatsDisplay() {
   all_time_total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7).toFixed(3)} weeks (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')})`;
 }
 
-function updateTablesAndChartsSectionRenderingOnly() {
+function updateChartsSectionRenderingOnly() {
   updateTableAndWeekStatsDisplay();
   updateAllStatsDisplay();
 }
 
-function updateTablesAndChartsSection() {
+function updateChartsSection() {
   fillParsedWeeks();
   updateWeekSelect();
-  updateTablesAndChartsSectionRenderingOnly();
+  updateChartsSectionRenderingOnly();
 }
