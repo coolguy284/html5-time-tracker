@@ -1,5 +1,3 @@
-"Nothing" should still be visually selected when only toggles on
-
 v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version; add this to v2 cause kinda important; ui need not exist yet
 
 collapse many events into "main" event toggle for table view as well

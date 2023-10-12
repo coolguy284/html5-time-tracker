@@ -116,18 +116,32 @@ function updateRawDataDisplay() {
 
 function updateCurrentEventButtonHighlight() {
   if (currentEvent != currentHighlightedEvent) {
-    let currentHighlightedEventSplit = new Set((currentHighlightedEvent ?? '').split(MULTI_EVENT_SPLIT));
-    let currentEventSplit = new Set((currentEvent ?? '').split(MULTI_EVENT_SPLIT));
-    for (highlightedEvent of currentHighlightedEventSplit) {
-      if (!currentEventSplit.has(highlightedEvent) && highlightedEvent in eventButtons) {
+    let currentHighlightedEventSplit = (currentHighlightedEvent ?? '').split(MULTI_EVENT_SPLIT);
+    let currentEventSplit = (currentEvent ?? '').split(MULTI_EVENT_SPLIT);
+    
+    if (eventArrOnlyToggles(currentHighlightedEventSplit)) {
+      currentHighlightedEventSplit.push('Nothing');
+    }
+    
+    if (eventArrOnlyToggles(currentEventSplit)) {
+      currentEventSplit.push('Nothing');
+    }
+    
+    let currentHighlightedEventSet = new Set(currentHighlightedEventSplit);
+    let currentEventSet = new Set(currentEventSplit);
+    
+    for (highlightedEvent of currentHighlightedEventSet) {
+      if (!currentEventSet.has(highlightedEvent) && highlightedEvent in eventButtons) {
         eventButtons[highlightedEvent].classList.remove('current_event');
       }
     }
-    for (newEvent of currentEventSplit) {
-      if (!currentHighlightedEventSplit.has(newEvent) && newEvent in eventButtons) {
+    
+    for (newEvent of currentEventSet) {
+      if (!currentHighlightedEventSet.has(newEvent) && newEvent in eventButtons) {
         eventButtons[newEvent].classList.add('current_event');
       }
     }
+    
     currentHighlightedEvent = currentEvent;
   }
 }

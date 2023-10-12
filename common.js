@@ -70,6 +70,10 @@ function getEventColor(eventName) {
   return getEventGroupColor(getEventGroupSingle(eventName));
 }
 
+function eventArrOnlyToggles(eventNames) {
+  return eventNames.reduce((a, c) => toggleEventsSet.has(c) ? a + 1 : a, 0) == eventNames.length;
+}
+
 function removeAllChildren(elem) {
   // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript/3955238#3955238
   while (elem.firstChild) {

@@ -28,6 +28,7 @@ let parsedWeeks = [[], []];
 let tableTds = Array.from(schedule_table_main_section.children).slice(1);
 let toggleInputs = Array.from(toggles_fieldset.children).slice(1).map(x => [x.textContent.trim(), x.children[0]]);
 let toggleInputsObject = Object.fromEntries(toggleInputs);
+let toggleEventsSet = new Set(toggleInputs.map(x => x[0]));
 let eventButtons = Object.fromEntries(
   Array.from(document.querySelectorAll('#events_div button, #events_div label')).map(x => [x.textContent.trim(), x])
 );
