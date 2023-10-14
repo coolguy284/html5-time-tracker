@@ -22,6 +22,8 @@ bulk 01 (pseudo-rawdataview):
     prob add settings page button to extras page
     make the progress bar graph for storage use on extras page
   pseudo rawdataview could probably be a func on the localstorage object to get the formatted ver and and to set the formatted ver
+  button called custom that prompts to add a custom event
+  button on extras page or pseudorawdataview prob to check all events to make sure all events accounted for in the mappings, and also that all colors accounted for in the mappings as well
 bulk 02 (format v2):
   type up format specifiers for each version of the format and put them in a folder
   start with v1, and do it nicely with examples for each field n stuff
@@ -46,6 +48,7 @@ bulk 02 (format v2):
     have an index for most common annotations, probably for now manually added like event categories
     add signature to beginning of binary format, maybe "CG" then 0x01 meaning first program with binary (which is time planner)
     should store event name as str if not in table
+    in binary format store bit size of events id and of category id in global flags (for event) and mapping flags (for category), and set it to minimum possible value automatically
   
   generic format accesser object, it even handles initial loading
     and will not auto upgrade the stored format, it will just keep accessing the old format
@@ -134,6 +137,7 @@ add check integrity of data button
 trim events that last a few seconds, replace with next event, at least do this for short periods of decreasing events, then nothing, then increasing events
 do some thinking to make localstorage test binary search a mathematically perfect binary search and not double check powers of 2 or something
 state of toggles when unlogged mode active should go into v2 ui persistence obj
+when obviously annotation is added to dup evt backwards prompt then run the other function with it (all letters and spaces and >=7 chars length)
 
 probably not doing:
 try black border around events in table view
