@@ -348,7 +348,23 @@ button.safe_bg:active {
 }
 
 #extras_section_main_page > meter {
+  height: 1.5rem;
+  background: rgb(233, 233, 237);
+  border-radius: 0.5rem;
+  /*border: 0 solid transparent;*/
   margin-bottom: 0.5rem;
+}
+
+#extras_section_main_page > :-moz-meter-optimum::-moz-meter-bar, #extras_section_main_page > meter::-webkit-meter-optimum-value {
+  background: rgb(0, 171, 96);
+}
+
+#extras_section_main_page > meter:-moz-meter-sub-optimum::-moz-meter-bar, #extras_section_main_page > meter::-webkit-meter-suboptimum-value {
+  background: rgb(255, 189, 79);
+}
+
+#extras_section_main_page > meter:-moz-meter-sub-sub-optimum::-moz-meter-bar, #extras_section_main_page > meter::-webkit-meter-even-less-good-value {
+  background: rgb(226, 40, 80);
 }
 
 #extras_section_main_page_last_data_div {
