@@ -324,7 +324,10 @@ async function refreshLocalStorageCapacityView() {
     let report = await localStorageReport();
     setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
   } catch (e) {
-    alert(e.toString());
+    if (!localStorageErrorPrinted) {
+      alert(e.toString());
+      localStorageErrorPrinted = true;
+    }
     throw e;
   }
 }
@@ -336,7 +339,10 @@ async function resetAndRefreshLocalStorageCapacityView() {
     let report = await localStorageReport();
     setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
   } catch (e) {
-    alert(e.toString());
+    if (!localStorageErrorPrinted) {
+      alert(e.toString());
+      localStorageErrorPrinted = true;
+    }
     throw e;
   }
 }

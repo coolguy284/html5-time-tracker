@@ -112,7 +112,7 @@
         
         let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78')) + LOCALSTORAGE_TEST_KEY.length;
         
-        if (maxLengthBigUnicode != maxLengthUnicode / 2) {
+        if (maxLengthBigUnicode != Math.floor(maxLengthUnicode / 2)) {
           return {
             sane: false,
             problem: 'LocalStorage does not treat U+10000 and above as surrogate pairs',
