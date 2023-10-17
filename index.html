@@ -238,6 +238,24 @@
       
       <div id = 'extras_section_div' style = 'display: none;'>
         <div id = 'extras_section_main_page'>
+          <h3>Storage Use</h3>
+          <meter id = 'localstorage_used_meter' value = '0' low = '0.5' high = '0.8' optimum = '0'></meter>
+          <div>
+            <span>Total</span>
+            <span id = 'localstorage_total_text'>-- KB</span>
+          </div>
+          <div>
+            <span>Used</span>
+            <span id = 'localstorage_used_text'>-- KB (--%)</span>
+          </div>
+          <div id = 'extras_section_main_page_last_data_div'>
+            <span>Free</span>
+            <span id = 'localstorage_free_text'>-- KB (--%)</span>
+          </div>
+          <button onclick = 'refreshLocalStorageCapacityView();'>Refresh</button>
+          <button onclick = 'resetAndRefreshLocalStorageCapacityView();'>Recalculate Max & Refresh</button>
+          <hr>
+          <h3>Pages</h3>
           <button onclick = 'switchExtrasPage("raw data");'>Raw Data</button>
         </div>
         
@@ -272,7 +290,7 @@
     <script src = 'common.js'></script>
     <!-- <script src = 'lib_binary.js'></script> -->
     <!-- <script src = 'lib_critical_code.js'></script> -->
-    <!-- <script src = 'lib_localstorage.js'></script> -->
+    <script src = 'lib_localstorage.js'></script>
     <script src = 'lib_planner_persistent_storage.js'></script>
     <script src = 'func_ui_updates.js'></script>
     <script src = 'func_updates.js'></script>

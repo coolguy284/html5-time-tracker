@@ -15,7 +15,6 @@ async function findMaxValidInputOfFunc(inputFunc) {
   while (inputFunc(upperBound)) {
     lowerBound = upperBound;
     upperBound *= 2;
-    results.innerText += `Rising: ${lowerBound} ${upperBound}\n`;
     await pauseExecution();
   }
   
@@ -30,7 +29,6 @@ async function findMaxValidInputOfFunc(inputFunc) {
     } else {
       upperBound = lowerHalfway;
     }
-    results.innerText += `Narrowing: ${lowerBound} ${upperBound}\n`;
     await pauseExecution();
   }
   

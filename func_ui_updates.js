@@ -182,6 +182,8 @@ function updateDisplay(redoToggles) {
   if (redoToggles) {
     updateCurrentEventCheckboxes();
   }
+  
+  refreshLocalStorageCapacityView();
 }
 
 function updateWeekSelect() {
@@ -300,4 +302,39 @@ function updateChartsSection() {
   fillParsedWeeks();
   updateWeekSelect();
   updateChartsSectionRenderingOnly();
+}
+
+function temporarilyBlankLocalStorageCapacityView() {
+  localstorage_used_meter.value = 0;
+  localstorage_total_text.textContent = '-- KB';
+  localstorage_used_text.textContent = '-- KB (--%)';
+  localstorage_free_text.textContent = '-- KB (--%)';
+}
+
+function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
+  localstorage_used_meter.value = usedBytes / totalBytes;
+  localstorage_total_text.textContent = `${Math.round(totalBytes / 1000)} KB`;
+  localstorage_used_text.textContent = `${Math.round(usedBytes / 1000)} KB (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
+  localstorage_free_text.textContent = `${Math.round(freeBytes / 1000)} KB (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
+}
+
+async function refreshLocalStorageCapacityView() {
+  temporarilyBlankLocalStorageCapacityView();
+  try {
+    let report = await localStorageReport();
+    setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+  } catch (e) {
+    alert(e.toString());
+  }
+}
+
+async function resetAndRefreshLocalStorageCapacityView() {
+  temporarilyBlankLocalStorageCapacityView();
+  await localStorageInfoRecalculate();
+  try {
+    let report = await localStorageReport();
+    setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+  } catch (e) {
+    alert(e.toString());
+  }
 }
