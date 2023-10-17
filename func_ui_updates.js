@@ -322,7 +322,7 @@ async function refreshLocalStorageCapacityView() {
   temporarilyBlankLocalStorageCapacityView();
   try {
     let report = await localStorageReport();
-    setLocalStorageCapacityView(report.totalBytes, report.usedBytes * 14, report.freeBytes);
+    setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
   } catch (e) {
     alert(e.toString());
     throw e;
