@@ -86,8 +86,8 @@ function fillParsedWeeks() {
         let eventName = alteredEventsArr[eventIndex][1];
         
         if (eventName == lastEventName) {
-          let eventStartMilliseconds = dateStringToDate(alteredEventsArr[eventIndex][0]).getTime();
-          let eventEndMilliseconds = dateStringToDate(alteredEventsArr[eventIndex + 1][0]).getTime();
+          let eventStartMilliseconds = dateStringToDate(alteredEventsArr[Math.max(0, eventIndex)][0]).getTime();
+          let eventEndMilliseconds = dateStringToDate(alteredEventsArr[Math.min(alteredEventsArr.length - 1, eventIndex + 1)][0]).getTime();
           
           let eventStartMillisecondsRelative = Math.max(eventStartMilliseconds - dayStartMilliseconds, 0);
           let eventEndMillisecondsRelative = Math.min(eventEndMilliseconds - dayStartMilliseconds, 86_400_000);
@@ -100,8 +100,8 @@ function fillParsedWeeks() {
             dayArray[dayArray.length - 1][2] += eventAddlLengthMilliseconds / 1_000;
           }
         } else {
-          let eventStartMilliseconds = dateStringToDate(alteredEventsArr[eventIndex][0]).getTime();
-          let eventEndMilliseconds = dateStringToDate(alteredEventsArr[eventIndex + 1][0]).getTime();
+          let eventStartMilliseconds = dateStringToDate(alteredEventsArr[Math.max(0, eventIndex)][0]).getTime();
+          let eventEndMilliseconds = dateStringToDate(alteredEventsArr[Math.min(alteredEventsArr.length - 1, eventIndex + 1)][0]).getTime();
           
           let eventStartMillisecondsRelative = Math.max(eventStartMilliseconds - dayStartMilliseconds, 0);
           let eventEndMillisecondsRelative = Math.min(eventEndMilliseconds - dayStartMilliseconds, 86_400_000);
