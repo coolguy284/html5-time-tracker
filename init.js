@@ -136,3 +136,18 @@ function loadEventsArr() {
 }
 
 loadEventsArr();
+
+addEventListener('keydown', evt => {
+  // if on charts page and left or right arrow pressed, go to next or previous week
+  if (charts_section_div.style.display != 'none') {
+    switch (evt.key) {
+      case 'ArrowLeft':
+        decreaseWeek();
+        break;
+      
+      case 'ArrowRight':
+        increaseWeek();
+        break;
+    }
+  }
+});
