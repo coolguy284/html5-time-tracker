@@ -8,13 +8,18 @@ function pauseExecution() {
 }
 
 // finds the maximum input of a function that returns true, using exponentially increasing binary search
-async function findMaxValidInputOfFunc(inputFunc) {
+async function findMaxValidInputOfFunc(inputFunc, progressFunc) {
   let lowerBound = 0, upperBound = 2;
+  
+  if (progressFunc) progressFunc('Initial');
   
   // doubling phase
   while (inputFunc(upperBound)) {
     lowerBound = upperBound;
     upperBound *= 2;
+    
+    if (progressFunc) progressFunc(`Rising: ${lowerBound} - ${upperBound}`);
+    
     await pauseExecution();
   }
   
@@ -29,6 +34,9 @@ async function findMaxValidInputOfFunc(inputFunc) {
     } else {
       upperBound = lowerHalfway;
     }
+    
+    if (progressFunc) progressFunc(`Narrowing: ${lowerBound} - ${upperBound}`);
+    
     await pauseExecution();
   }
   
@@ -47,8 +55,8 @@ function localStorageCanHandle(char, length) {
 }
 
 // returns how many times char can be repeated and still fit in localstorage
-async function findMaxLocalStorageLength(char) {
-  return await findMaxValidInputOfFunc(localStorageCanHandle.bind(null, char));
+async function findMaxLocalStorageLength(char, progressFunc) {
+  return await findMaxValidInputOfFunc(localStorageCanHandle.bind(null, char), progressFunc);
 }
 
 // returns null if localstorage successfully stored the string without altering it, object with difference info if not
@@ -96,11 +104,11 @@ function getLocalStorageUsageInChars() {
 
 // checks to make sure localstorage sanely stores strings (meaning utf-16, and without string alteration)
 // stores result in localstorage for cachability
-async function localStorageTest_FillCache() {
+async function localStorageTest_FillCache(progressFunc) {
   // test localstorage
   
-  let maxLengthE = (await findMaxLocalStorageLength('e')) + LOCALSTORAGE_TEST_KEY.length;
-  let maxLengthUnicode = (await findMaxLocalStorageLength('\u7861')) + LOCALSTORAGE_TEST_KEY.length;
+  let maxLengthE = (await findMaxLocalStorageLength('e', progressFunc ? value => progressFunc(`(1/3) maxLengthE: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
+  let maxLengthUnicode = (await findMaxLocalStorageLength('\u7861', progressFunc ? value => progressFunc(`(2/3) maxLengthUnicode: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
   
   if (maxLengthE != maxLengthUnicode) {
     localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not treat strings as utf-16\nMaximum length of "e" is ${maxLengthE} but maximum length of "\\u7861" is ${maxLengthUnicode}`;
@@ -108,7 +116,7 @@ async function localStorageTest_FillCache() {
     return;
   }
   
-  let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78')) + LOCALSTORAGE_TEST_KEY.length;
+  let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78', progressFunc ? value => progressFunc(`(3/3) maxLengthBigUnicode: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
   
   if (maxLengthBigUnicode != Math.floor(maxLengthUnicode / 2)) {
     localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not treat U+10000 and above as surrogate pairs\nMaximum length of "\\u7861" is ${maxLengthUnicode} but maximum length of "\\ud83d\\ude78" is ${maxLengthBigUnicode}`;
@@ -202,11 +210,11 @@ async function getTotalLocalStorageSizeInChars() {
 }
 
 // same as above but stores total size of localstorage in a localstorage entry so it doesn't need to be tested again
-async function localStorageReport() {
+async function localStorageReport(progressFunc) {
   let totalChars = parseInt(localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY]);
   
   if (!Number.isSafeInteger(totalChars)) {
-    await localStorageTest_FillCache();
+    await localStorageTest_FillCache(progressFunc);
     
     if (localStorage[LOCALSTORAGE_INSANE_KEY] != '0') throw new Error(`Localstorage not sane:\n${localStorage[LOCALSTORAGE_INSANE_KEY]}`);
     
@@ -231,6 +239,6 @@ function localStorageInfoRemoveCache() {
   delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
 }
 
-async function localStorageInfoRecalculate() {
-  await localStorageTest_FillCache();
+async function localStorageInfoRecalculate(progressFunc) {
+  await localStorageTest_FillCache(progressFunc);
 }

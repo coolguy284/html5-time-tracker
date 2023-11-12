@@ -329,10 +329,28 @@ function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
   localstorage_free_text.textContent = `${Math.round(freeBytes / 1000)} KB (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
 }
 
+function showLocalStorageCalcProgressDiv() {
+  if (localstorage_size_calc_progress_div.style.display == 'none') {
+    localstorage_size_calc_progress_div.style.display = '';
+  }
+}
+
+function hideLocalStorageCalcProgressDiv() {
+  if (localstorage_size_calc_progress_div.style.display != 'none') {
+    localstorage_size_calc_progress_div.style.display = 'none';
+  }
+}
+
+function setLocalStorageCalcProgressText(value) {
+  showLocalStorageCalcProgressDiv();
+  localstorage_size_calc_progress_text.textContent = value;
+}
+
 async function refreshLocalStorageCapacityView() {
   temporarilyBlankLocalStorageCapacityView();
   try {
-    let report = await localStorageReport();
+    let report = await localStorageReport(setLocalStorageCalcProgressText);
+    hideLocalStorageCalcProgressDiv();
     setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
   } catch (e) {
     if (!localStorageErrorPrinted) {
@@ -348,7 +366,8 @@ async function resetAndRefreshLocalStorageCapacityView() {
   localStorageErrorPrinted = false;
   
   temporarilyBlankLocalStorageCapacityView();
-  await localStorageInfoRecalculate();
+  await localStorageInfoRecalculate(setLocalStorageCalcProgressText);
+  hideLocalStorageCalcProgressDiv();
   try {
     let report = await localStorageReport();
     setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
