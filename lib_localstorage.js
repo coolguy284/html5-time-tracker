@@ -51,12 +51,42 @@ async function findMaxLocalStorageLength(char) {
   return await findMaxValidInputOfFunc(localStorageCanHandle.bind(null, char));
 }
 
-// returns whether localstorage successfully stored the string without altering it
+// returns null if localstorage successfully stored the string without altering it, object with difference info if not
 function localStorageStoresExactly(string) {
   localStorage[LOCALSTORAGE_TEST_KEY] = string;
-  let success = localStorage[LOCALSTORAGE_TEST_KEY] == string;
+  let newString = localStorage[LOCALSTORAGE_TEST_KEY];
   delete localStorage[LOCALSTORAGE_TEST_KEY];
-  return success;
+  
+  if (newString == string) {
+    return null;
+  }
+  
+  let errorStrings = [];
+  
+  if (newString.length != string.length) {
+    errorStrings.push(`string length ${string.length}, newString length ${newString.length}`);
+  }
+  
+  let maxReportedDifferences = 10;
+  
+  let reportedDifferences = 0;
+  
+  let maxI = Math.min(string.length, newString.length);
+  for (let i = 0; i < maxI; i++) {
+    if (newString[i] == string[i]) {
+      continue;
+    }
+    
+    errorStrings.push(`index: ${i}; old charcode: ${string.charCodeAt(i)}, new charcode: ${newString.charCodeAt(i)}`);
+    
+    reportedDifferences++;
+    
+    if (reportedDifferences >= maxReportedDifferences) {
+      break;
+    }
+  }
+  
+  return errorStrings.join('\n');
 }
 
 // gets total amount of characters currently in localStorage, using quota calculation
@@ -73,7 +103,7 @@ async function localStorageTest_FillCache() {
   let maxLengthUnicode = (await findMaxLocalStorageLength('\u7861')) + LOCALSTORAGE_TEST_KEY.length;
   
   if (maxLengthE != maxLengthUnicode) {
-    localStorage[LOCALSTORAGE_INSANE_KEY] = 'LocalStorage does not treat strings as utf-16';
+    localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not treat strings as utf-16\nMaximum length of "e" is ${maxLengthE} but maximum length of "\\u7861" is ${maxLengthUnicode}`;
     if (LOCALSTORAGE_TOTAL_SIZE_KEY in localStorage) delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
     return;
   }
@@ -81,23 +111,25 @@ async function localStorageTest_FillCache() {
   let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78')) + LOCALSTORAGE_TEST_KEY.length;
   
   if (maxLengthBigUnicode != Math.floor(maxLengthUnicode / 2)) {
-    localStorage[LOCALSTORAGE_INSANE_KEY] = 'LocalStorage does not treat U+10000 and above as surrogate pairs';
+    localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not treat U+10000 and above as surrogate pairs\nMaximum length of "\\u7861" is ${maxLengthUnicode} but maximum length of "\\ud83d\\ude78" is ${maxLengthBigUnicode}`;
     if (LOCALSTORAGE_TOTAL_SIZE_KEY in localStorage) delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
     return;
   }
   
   let everyCharCode = new Array(65536).fill().map((_, i) => String.fromCharCode(i)).join('');
   
-  if (!localStorageStoresExactly(everyCharCode)) {
-    localStorage[LOCALSTORAGE_INSANE_KEY] = 'LocalStorage does not perfectly preserve strings';
+  let result;
+  
+  if (result = localStorageStoresExactly(everyCharCode)) {
+    localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not perfectly preserve utf-16 strings\n${result}`;
     if (LOCALSTORAGE_TOTAL_SIZE_KEY in localStorage) delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
     return;
   }
   
   let invalidSurrogatePair = '\udbff\udfff';
   
-  if (!localStorageStoresExactly(invalidSurrogatePair)) {
-    localStorage[LOCALSTORAGE_INSANE_KEY] = 'LocalStorage does not perfectly preserve strings';
+  if (result = localStorageStoresExactly(invalidSurrogatePair)) {
+    localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not perfectly preserve utf-16 strings\n${result}`;
     if (LOCALSTORAGE_TOTAL_SIZE_KEY in localStorage) delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
     return;
   }
@@ -161,7 +193,7 @@ async function getTotalLocalStorageSizeInChars() {
   if (!Number.isSafeInteger(totalChars)) {
     await localStorageTest_FillCache();
     
-    if (localStorage[LOCALSTORAGE_INSANE_KEY] != '0') throw new Error('Localstorage not sane');
+    if (localStorage[LOCALSTORAGE_INSANE_KEY] != '0') throw new Error(`Localstorage not sane:\n${localStorage[LOCALSTORAGE_INSANE_KEY]}`);
     
     totalChars = parseInt(localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY]);
   }
@@ -176,7 +208,7 @@ async function localStorageReport() {
   if (!Number.isSafeInteger(totalChars)) {
     await localStorageTest_FillCache();
     
-    if (localStorage[LOCALSTORAGE_INSANE_KEY] != '0') throw new Error('Localstorage not sane');
+    if (localStorage[LOCALSTORAGE_INSANE_KEY] != '0') throw new Error(`Localstorage not sane:\n${localStorage[LOCALSTORAGE_INSANE_KEY]}`);
     
     totalChars = parseInt(localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY]);
   }

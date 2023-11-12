@@ -344,6 +344,9 @@ async function refreshLocalStorageCapacityView() {
 }
 
 async function resetAndRefreshLocalStorageCapacityView() {
+  // reset localstorage error flag since user requested refresh
+  localStorageErrorPrinted = false;
+  
   temporarilyBlankLocalStorageCapacityView();
   await localStorageInfoRecalculate();
   try {
