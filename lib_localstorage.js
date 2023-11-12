@@ -9,7 +9,7 @@ function pauseExecution() {
 
 // finds the maximum input of a function that returns true, using exponentially increasing binary search
 async function findMaxValidInputOfFunc(inputFunc, progressFunc) {
-  let lowerBound = 0, upperBound = 2;
+  let lowerBound = 0, upperBound = 1;
   
   if (progressFunc) progressFunc('Initial');
   
@@ -24,24 +24,34 @@ async function findMaxValidInputOfFunc(inputFunc, progressFunc) {
   }
   
   // now function returned false for first time, now find where it was false
-  while (upperBound - lowerBound > 0) {
+  while (upperBound - lowerBound > 1) {
     let trueHalfway = (lowerBound + upperBound) / 2;
     let lowerHalfway = Math.floor(trueHalfway);
-    let upperHalfway = Math.ceil(trueHalfway);
     
     if (inputFunc(lowerHalfway)) {
-      lowerBound = upperHalfway;
+      lowerBound = lowerHalfway;
     } else {
-      upperBound = lowerHalfway;
+      upperBound = lowerHalfway - 1;
     }
     
     if (progressFunc) progressFunc(`Narrowing: ${lowerBound} - ${upperBound}`);
     
     await pauseExecution();
   }
+    
+  if (upperBound - lowerBound == 1) {
+    if (inputFunc(upperBound)) {
+      lowerBound = upperBound;
+    } else {
+      upperBound = lowerBound;
+    }
+  }
   
-  return lowerBound - 1;
+  return lowerBound;
 }
+// test code for above:
+// Promise.all(new Array(100).fill(0).map((x,i)=>i).map(async x=>{let e=[];return [e,await findMaxValidInputOfFunc(y=>y<x, y=>e.push(y))]})).then(x=>console.log(x.filter((y,i)=>y[1]!=i-1)))
+// (async v=>{let e=[];return [e,await findMaxValidInputOfFunc(y=>y<v, y=>e.push(y))]})(10).then(x=>console.log(x))
 
 // tests whether localstorage can handle a string as long as the input char times length
 function localStorageCanHandle(char, length) {
@@ -116,9 +126,9 @@ async function localStorageTest_FillCache(progressFunc) {
     return;
   }
   
-  let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78', progressFunc ? value => progressFunc(`(3/5) maxLengthBigUnicode: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
+  let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78', progressFunc ? value => progressFunc(`(3/5) maxLengthBigUnicode: ${value}`) : null)) * 2 + LOCALSTORAGE_TEST_KEY.length;
   
-  if (maxLengthBigUnicode != Math.floor(maxLengthUnicode / 2)) {
+  if (maxLengthBigUnicode != maxLengthUnicode) {
     localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not treat U+10000 and above as surrogate pairs\nMaximum length of "\\u7861" is ${maxLengthUnicode} but maximum length of "\\ud83d\\ude78" is ${maxLengthBigUnicode}`;
     if (LOCALSTORAGE_TOTAL_SIZE_KEY in localStorage) delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
     return;

@@ -349,7 +349,11 @@ function setLocalStorageCalcProgressText(value) {
 async function refreshLocalStorageCapacityView() {
   temporarilyBlankLocalStorageCapacityView();
   
-  while (currentlyCalculatingLocalStorageSize) await new Promise(r => setTimeout(r, 15));
+  if (currentlyCalculatingLocalStorageSize) {
+    do {
+      await new Promise(r => setTimeout(r, 15));
+    } while (currentlyCalculatingLocalStorageSize);
+  }
   
   localstorage_recalculate_max_btn.setAttribute('disabled', '');
   currentlyCalculatingLocalStorageSize = true;
