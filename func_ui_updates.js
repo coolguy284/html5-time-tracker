@@ -190,13 +190,13 @@ function updateWeekSelect() {
   // clear out select
   removeAllChildren(week_picker_div_select);
   
-  for (let weekIndex = 0; weekIndex < parsedWeeks[0].length; weekIndex++) {
-    let weekDateString = parsedWeeks[0][weekIndex][0];
+  for (let weekIndex = 0; weekIndex < parsedEvents.weekly_stats.length; weekIndex++) {
+    let weekDateString = parsedEvents.weekly_stats[weekIndex][0];
     
     let weekOption = document.createElement('option');
     weekOption.textContent = `Week of ${weekDateString}`;
     weekOption.setAttribute('value', weekIndex);
-    if (weekIndex == parsedWeeks[0].length - 1) {
+    if (weekIndex == parsedEvents.weekly_stats.length - 1) {
       weekOption.setAttribute('selected', '');
     }
     
@@ -226,7 +226,7 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
     let spanElemColorBlock = document.createElement('span');
     spanElemColorBlock.style.minWidth = `${STATS_ENTRY_COLOR_BLOCK_WIDTH}rem`;
     
-    let spanElemTextNode = document.createTextNode(`${entry[1].toFixed(3).padStart(6, '0')}% (${(Math.floor(entry[2] / 3_600) + '').padStart(2, '0')}:${(Math.floor(entry[2] / 60 % 60) + '').padStart(2, '0')}) ${entry[0]}`);
+    let spanElemTextNode = document.createTextNode(`${entry[2].toFixed(3).padStart(6, '0')}% (${(Math.floor(entry[1] / 3_600) + '').padStart(2, '0')}:${(Math.floor(entry[1] / 60 % 60) + '').padStart(2, '0')}) ${entry[0]}`);
     
     spanElem.appendChild(spanElemColorBlock);
     spanElem.appendChild(spanElemTextNode);
@@ -252,23 +252,34 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
       spanElem.style.backgroundColor = 'rgb(170, 170, 170)';
     }
     
-    totalTimeSeconds += entry[2];
+    totalTimeSeconds += entry[1];
   }
+  
+  totalTimeSeconds = Math.round(totalTimeSeconds * 1000) / 1000;
   
   return totalTimeSeconds;
 }
 
 function updateTableAndWeekStatsDisplay() {
-  let weekData = parsedWeeks[0][week_picker_div_select.value];
+  let weekData = parsedEvents.weekly_stats[week_picker_div_select.value];
+  
+  let startDayMiddleMillis = new Date(weekData[0]).getTime() + 12 * 3600 * 1000;
   
   for (let day = 0; day < 7; day++) {
-    let dayData = weekData[1][day];
+    let dayMiddleMillis = startDayMiddleMillis + 24 * 3600 * 1000 * day;
+    let dayString = dateToDateString(new Date(dayMiddleMillis));
+    
+    let dayData = parsedEvents.day_events.get(dayString) ?? [];
+    
     let dayTd = tableTds[day];
     
     removeAllChildrenButOne(dayTd);
     
-    dayData.forEach(x => {
+    dayData.forEach((x, i) => {
       let eventDiv = document.createElement('div');
+      if (i == 0 && x[1] != 0) {
+        eventDiv.style.marginTop = `${x[1] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
+      }
       eventDiv.style.height = `${x[2] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
       let eventDivColors = getEventColors(x[0]);
       
@@ -282,13 +293,13 @@ function updateTableAndWeekStatsDisplay() {
     });
   }
   
-  let totalTimeSeconds = updateStatsDisplay_Helper(weekData[2], stats_div);
+  let totalTimeSeconds = updateStatsDisplay_Helper(weekData[1], stats_div);
   
   total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7 * 100).toFixed(3).padStart(6, '0')}% (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')} / 168:00)`;
 }
 
 function updateAllStatsDisplay() {
-  let totalTimeSeconds = updateStatsDisplay_Helper(parsedWeeks[1], all_time_stats_div);
+  let totalTimeSeconds = updateStatsDisplay_Helper(parsedEvents.all_time_stats, all_time_stats_div);
   
   all_time_total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7).toFixed(3)} weeks (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')})`;
 }
@@ -299,7 +310,7 @@ function updateChartsSectionRenderingOnly() {
 }
 
 function updateChartsSection() {
-  fillParsedWeeks();
+  fillParsedEvents();
   updateWeekSelect();
   updateChartsSectionRenderingOnly();
 }
