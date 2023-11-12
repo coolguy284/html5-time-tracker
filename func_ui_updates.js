@@ -13,9 +13,9 @@ function switchPage(page) {
       break;
     
     case 'charts':
-      if (parseWeeksDirtyBit) {
+      if (parseEventsDirtyBit) {
         updateChartsSection();
-        parseWeeksDirtyBit = false;
+        parseEventsDirtyBit = false;
       }
       events_div.style.display = 'none';
       charts_section_div.style.display = '';

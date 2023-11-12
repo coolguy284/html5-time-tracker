@@ -40,7 +40,7 @@ function rawDataLoadInMemoryData() {
   loadEventsArr();
   onPageAlmostLoad();
   
-  parseWeeksDirtyBit = true; // messy but works
+  parseEventsDirtyBit = true; // messy but works
 }
 
 function rawDataDownloadToFile() {

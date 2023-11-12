@@ -104,7 +104,7 @@ let eventButtons = Object.fromEntries(
   Array.from(document.querySelectorAll('#events_div button, #events_div label')).map(x => [x.textContent.trim(), x])
 );
 
-let parseWeeksDirtyBit = true;
+let parseEventsDirtyBit = true;
 
 let localStorageErrorPrinted = false;
 

@@ -6,5 +6,5 @@ function updateEventStorageDifferent(redoToggles) {
   eventStorage.saveOrCreateNew();
   updateDisplay(redoToggles);
   
-  parseWeeksDirtyBit = true; // messy but works
+  parseEventsDirtyBit = true; // messy but works
 }

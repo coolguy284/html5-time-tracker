@@ -32,6 +32,9 @@ function addEvent(elem) {
   // add to internal events array
   eventStorage.addEvent(eventName, eventTime);
   
+  // set dirty bit
+  parseEventsDirtyBit = true;
+  
   updateDisplay();
 }
 
