@@ -1,6 +1,7 @@
 let LOCALSTORAGE_TEST_KEY = 'e'; // the key that is accessed for localstorage testing
 let LOCALSTORAGE_INSANE_KEY = 'c284-localStorageInsane'; // the key that is set to the boolean of whether the localstorage sanely stores keys, for convenience
 let LOCALSTORAGE_TOTAL_SIZE_KEY = 'c284-localStorageSizeChars'; // the key that is set to the size of the localstorage, for convenience
+let LOCALSTORAGE_MAX_TEST_SIZE = 10e9; // maximum size in chars that we are willing to test
 
 // pauses execution for a short period of time
 function pauseExecution() {
@@ -8,13 +9,15 @@ function pauseExecution() {
 }
 
 // finds the maximum input of a function that returns true, using exponentially increasing binary search
-async function findMaxValidInputOfFunc(inputFunc, progressFunc) {
+async function findMaxValidInputOfFunc(inputFunc, maxValue, progressFunc) {
+  if (maxValue == null) maxValue = Number.MAX_VALUE;
+  
   let lowerBound = 0, upperBound = 1;
   
   if (progressFunc) progressFunc('Initial');
   
   // doubling phase
-  while (inputFunc(upperBound)) {
+  while (upperBound < maxValue && inputFunc(upperBound)) {
     lowerBound = upperBound;
     upperBound *= 2;
     
@@ -23,9 +26,15 @@ async function findMaxValidInputOfFunc(inputFunc, progressFunc) {
     await pauseExecution();
   }
   
+  if (upperBound > maxValue) {
+    upperBound = maxValue;
+  }
+  
   // now function returned false for first time, now find where it was false
+  let pastLowerBound, pastUpperBound;
+  
   while (upperBound - lowerBound > 1) {
-    let trueHalfway = (lowerBound + upperBound) / 2;
+    let trueHalfway = lowerBound / 2 + upperBound / 2;
     let lowerHalfway = Math.floor(trueHalfway);
     
     if (inputFunc(lowerHalfway)) {
@@ -33,6 +42,14 @@ async function findMaxValidInputOfFunc(inputFunc, progressFunc) {
     } else {
       upperBound = lowerHalfway - 1;
     }
+    
+    if (lowerBound == pastLowerBound && upperBound == pastUpperBound) {
+      // something went wrong, just break
+      break;
+    }
+    
+    pastLowerBound = lowerBound;
+    pastUpperBound = upperBound;
     
     if (progressFunc) progressFunc(`Narrowing: ${lowerBound} - ${upperBound}`);
     
@@ -49,9 +66,10 @@ async function findMaxValidInputOfFunc(inputFunc, progressFunc) {
   
   return lowerBound;
 }
+
 // test code for above:
-// Promise.all(new Array(100).fill(0).map((x,i)=>i).map(async x=>{let e=[];return [e,await findMaxValidInputOfFunc(y=>y<x, y=>e.push(y))]})).then(x=>console.log(x.filter((y,i)=>y[1]!=i-1)))
-// (async v=>{let e=[];return [e,await findMaxValidInputOfFunc(y=>y<v, y=>e.push(y))]})(10).then(x=>console.log(x))
+// Promise.all(new Array(100).fill(0).map((x,i)=>i).map(async x=>{let e=[];return [e,await findMaxValidInputOfFunc(y=>y<x, null, y=>e.push(y))]})).then(x=>console.log(x.filter((y,i)=>y[1]!=i-1)))
+// (async v=>{let e=[];return [e,await findMaxValidInputOfFunc(y=>y<v, null, y=>e.push(y))]})(10).then(x=>console.log(x))
 
 // tests whether localstorage can handle a string as long as the input char times length
 function localStorageCanHandle(char, length) {
@@ -66,7 +84,7 @@ function localStorageCanHandle(char, length) {
 
 // returns how many times char can be repeated and still fit in localstorage
 async function findMaxLocalStorageLength(char, progressFunc) {
-  return await findMaxValidInputOfFunc(localStorageCanHandle.bind(null, char), progressFunc);
+  return await findMaxValidInputOfFunc(localStorageCanHandle.bind(null, char), LOCALSTORAGE_MAX_TEST_SIZE, progressFunc);
 }
 
 // returns null if localstorage successfully stored the string without altering it, object with difference info if not
