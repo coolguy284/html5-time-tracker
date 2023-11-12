@@ -146,7 +146,8 @@ async function localStorageTest_FillCache(progressFunc) {
   
   let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78', progressFunc ? value => progressFunc(`(3/5) maxLengthBigUnicode: ${value}`) : null)) * 2 + LOCALSTORAGE_TEST_KEY.length;
   
-  if (maxLengthBigUnicode != maxLengthUnicode) {
+  // size minus one is checked since big unicode might be stopped one short of max due to being two chars long
+  if (maxLengthBigUnicode != maxLengthUnicode && maxLengthBigUnicode != maxLengthUnicode - 1) {
     localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not treat U+10000 and above as surrogate pairs\nMaximum length of "\\u7861" is ${maxLengthUnicode} but maximum length of "\\ud83d\\ude78" is ${maxLengthBigUnicode}`;
     if (LOCALSTORAGE_TOTAL_SIZE_KEY in localStorage) delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
     return;
