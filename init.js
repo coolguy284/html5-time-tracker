@@ -108,6 +108,8 @@ let parseEventsDirtyBit = true;
 
 let localStorageErrorPrinted = false;
 
+let currentlyCalculatingLocalStorageSize = false;
+
 
 schedule_table_main_section_times_div.style.height = `${TABLE_DATA_FULL_HEIGHT}rem`;
 

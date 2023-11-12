@@ -348,9 +348,15 @@ function setLocalStorageCalcProgressText(value) {
 
 async function refreshLocalStorageCapacityView() {
   temporarilyBlankLocalStorageCapacityView();
+  
+  while (currentlyCalculatingLocalStorageSize) await new Promise(r => setTimeout(r, 15));
+  
+  localstorage_recalculate_max_btn.setAttribute('disabled', '');
+  currentlyCalculatingLocalStorageSize = true;
+  
   try {
     let report = await localStorageReport(setLocalStorageCalcProgressText);
-    hideLocalStorageCalcProgressDiv();
+    
     setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
   } catch (e) {
     if (!localStorageErrorPrinted) {
@@ -358,10 +364,19 @@ async function refreshLocalStorageCapacityView() {
       localStorageErrorPrinted = true;
     }
     throw e;
+  } finally {
+    currentlyCalculatingLocalStorageSize = false;
+    localstorage_recalculate_max_btn.removeAttribute('disabled');
+    hideLocalStorageCalcProgressDiv();
   }
 }
 
 async function resetAndRefreshLocalStorageCapacityView() {
+  if (currentlyCalculatingLocalStorageSize) return;
+  
+  localstorage_recalculate_max_btn.setAttribute('disabled', '');
+  currentlyCalculatingLocalStorageSize = true;
+  
   // reset localstorage error flag since user requested refresh
   localStorageErrorPrinted = false;
   
@@ -377,5 +392,8 @@ async function resetAndRefreshLocalStorageCapacityView() {
       localStorageErrorPrinted = true;
     }
     throw e;
+  } finally {
+    currentlyCalculatingLocalStorageSize = false;
+    localstorage_recalculate_max_btn.removeAttribute('disabled');
   }
 }

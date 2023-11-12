@@ -107,8 +107,8 @@ function getLocalStorageUsageInChars() {
 async function localStorageTest_FillCache(progressFunc) {
   // test localstorage
   
-  let maxLengthE = (await findMaxLocalStorageLength('e', progressFunc ? value => progressFunc(`(1/3) maxLengthE: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
-  let maxLengthUnicode = (await findMaxLocalStorageLength('\u7861', progressFunc ? value => progressFunc(`(2/3) maxLengthUnicode: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
+  let maxLengthE = (await findMaxLocalStorageLength('e', progressFunc ? value => progressFunc(`(1/5) maxLengthE: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
+  let maxLengthUnicode = (await findMaxLocalStorageLength('\u7861', progressFunc ? value => progressFunc(`(2/5) maxLengthUnicode: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
   
   if (maxLengthE != maxLengthUnicode) {
     localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not treat strings as utf-16\nMaximum length of "e" is ${maxLengthE} but maximum length of "\\u7861" is ${maxLengthUnicode}`;
@@ -116,7 +116,7 @@ async function localStorageTest_FillCache(progressFunc) {
     return;
   }
   
-  let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78', progressFunc ? value => progressFunc(`(3/3) maxLengthBigUnicode: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
+  let maxLengthBigUnicode = (await findMaxLocalStorageLength('\ud83d\ude78', progressFunc ? value => progressFunc(`(3/5) maxLengthBigUnicode: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
   
   if (maxLengthBigUnicode != Math.floor(maxLengthUnicode / 2)) {
     localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not treat U+10000 and above as surrogate pairs\nMaximum length of "\\u7861" is ${maxLengthUnicode} but maximum length of "\\ud83d\\ude78" is ${maxLengthBigUnicode}`;
@@ -128,6 +128,8 @@ async function localStorageTest_FillCache(progressFunc) {
   
   let result;
   
+  if (progressFunc) progressFunc(`(4/5) utf-16 all chars check`);
+  
   if (result = localStorageStoresExactly(everyCharCode)) {
     localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not perfectly preserve utf-16 strings\n${result}`;
     if (LOCALSTORAGE_TOTAL_SIZE_KEY in localStorage) delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
@@ -136,6 +138,8 @@ async function localStorageTest_FillCache(progressFunc) {
   
   let invalidSurrogatePair = '\udbff\udfff';
   
+  if (progressFunc) progressFunc(`(5/5) utf-16 invalid surrogate check`);
+  
   if (result = localStorageStoresExactly(invalidSurrogatePair)) {
     localStorage[LOCALSTORAGE_INSANE_KEY] = `LocalStorage does not perfectly preserve utf-16 strings\n${result}`;
     if (LOCALSTORAGE_TOTAL_SIZE_KEY in localStorage) delete localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY];
@@ -143,6 +147,8 @@ async function localStorageTest_FillCache(progressFunc) {
   }
   
   // by this point localstorage is proven sane, so vars can be saved
+  
+  if (progressFunc) progressFunc(`getting current size`);
   
   let maxSizeInChars = maxLengthE + getLocalStorageUsageInChars();
   
