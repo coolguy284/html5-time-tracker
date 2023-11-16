@@ -346,17 +346,13 @@ function setLocalStorageCalcProgressText(value) {
   localstorage_size_calc_progress_text.textContent = value;
 }
 
-async function refreshLocalStorageCapacityView() {
+let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
+  name: 'refreshLocalStorageCapacityView',
+  critical: true,
+  alreadyRunningBehavior: 'wait',
+}, async () => {
   temporarilyBlankLocalStorageCapacityView();
-  
-  if (currentlyCalculatingLocalStorageSize) {
-    do {
-      await new Promise(r => setTimeout(r, 15));
-    } while (currentlyCalculatingLocalStorageSize);
-  }
-  
   localstorage_recalculate_max_btn.setAttribute('disabled', '');
-  currentlyCalculatingLocalStorageSize = true;
   
   try {
     let report = await localStorageReport(setLocalStorageCalcProgressText);
@@ -367,19 +363,20 @@ async function refreshLocalStorageCapacityView() {
       alert(e.toString());
       localStorageErrorPrinted = true;
     }
+    
     throw e;
   } finally {
-    currentlyCalculatingLocalStorageSize = false;
     localstorage_recalculate_max_btn.removeAttribute('disabled');
     hideLocalStorageCalcProgressDiv();
   }
-}
+});
 
-async function resetAndRefreshLocalStorageCapacityView() {
-  if (currentlyCalculatingLocalStorageSize) return;
-  
+let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
+  name: 'resetAndRefreshLocalStorageCapacityView',
+  critical: true,
+  alreadyRunningBehavior: 'stop',
+}, async () => {
   localstorage_recalculate_max_btn.setAttribute('disabled', '');
-  currentlyCalculatingLocalStorageSize = true;
   
   // reset localstorage error flag since user requested refresh
   localStorageErrorPrinted = false;
@@ -387,6 +384,7 @@ async function resetAndRefreshLocalStorageCapacityView() {
   temporarilyBlankLocalStorageCapacityView();
   await localStorageInfoRecalculate(setLocalStorageCalcProgressText);
   hideLocalStorageCalcProgressDiv();
+  
   try {
     let report = await localStorageReport();
     setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
@@ -395,9 +393,9 @@ async function resetAndRefreshLocalStorageCapacityView() {
       alert(e.toString());
       localStorageErrorPrinted = true;
     }
+    
     throw e;
   } finally {
-    currentlyCalculatingLocalStorageSize = false;
     localstorage_recalculate_max_btn.removeAttribute('disabled');
   }
-}
+});
