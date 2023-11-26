@@ -1,3 +1,5 @@
+make validator for eventbuttons, eventpriorities, eventmappings
+  look through all of them to get the list of all events (this can be a func in persistentstorage cause its useful for binary) then check to see if mappings, priorities, or buttons are missing some events; also check all categories have a color and (optionally) no unnecessary categories or events anywhere
 make progress meter into progress div its so much easier
   with manager class
 do the pagemanager with dirty bit and update thing
