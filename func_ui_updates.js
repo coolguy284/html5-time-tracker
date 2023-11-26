@@ -304,9 +304,31 @@ function updateAllStatsDisplay() {
   all_time_total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7).toFixed(3)} weeks (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')})`;
 }
 
+function updateChartsSectionMappingSelect() {
+  removeAllChildren(event_mappings_select);
+  
+  for (let eventMapping in eventMappings) {
+    let mappingOption = document.createElement('option');
+    mappingOption.textContent = eventMapping;
+    mappingOption.setAttribute('value', eventMapping);
+    if (eventMapping == DEFAULT_EVENT_MAPPING) {
+      mappingOption.setAttribute('selected', '');
+    }
+    
+    event_mappings_select.appendChild(mappingOption);
+  }
+}
+
 function updateChartsSectionRenderingOnly() {
   updateTableAndWeekStatsDisplay();
   updateAllStatsDisplay();
+}
+
+function updateChartsSectionMainEventsUpdate() {
+  eventMappings = eventStorage.getEventMappings();
+  eventPriorities = eventStorage.getEventPriorities();
+  eventPriorities = Object.fromEntries(Object.entries(eventPriorities).map(x => [x[1], eventPriorities.length - x[0]]));
+  updateChartsSectionMappingSelect();
 }
 
 function updateChartsSection() {
@@ -399,3 +421,53 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
     localstorage_recalculate_max_btn.removeAttribute('disabled');
   }
 });
+
+function updateDisplayedButtons(parentElem, eventButtonsSubset) {
+  if (!parentElem) {
+    parentElem = events_div;
+    eventButtonsSubset = eventStorage.getEventButtons();
+    
+    toggleInputs = [];
+    eventButtons = {};
+  }
+  
+  if (parentElem == events_div) {
+    removeAllChildren(parentElem);
+  }
+  
+  for (let [ eventOrCategoryName, data ] of Object.entries(eventButtonsSubset)) {
+    if (data == 'button') {
+      let buttonElem = document.createElement('button');
+      buttonElem.textContent = eventOrCategoryName;
+      buttonElem.dataset.event = eventOrCategoryName;
+      buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
+      parentElem.appendChild(buttonElem);
+      
+      eventButtons[eventOrCategoryName] = buttonElem;
+    } else if (data == 'toggle') {
+      let labelElem = document.createElement('label');
+      let inputElem = document.createElement('input');
+      inputElem.type = 'checkbox';
+      inputElem.addEventListener('change', addEvent.bind(null, inputElem));
+      let textElem = document.createTextNode(eventOrCategoryName);
+      labelElem.appendChild(inputElem);
+      labelElem.appendChild(textElem);
+      parentElem.appendChild(labelElem);
+      
+      toggleInputs.push([eventOrCategoryName, inputElem]);
+      eventButtons[eventOrCategoryName] = labelElem;
+    } else if (typeof data == 'object') {
+      let fieldsetElem = document.createElement('fieldset');
+      let legendElem = document.createElement('legend');
+      legendElem.textContent = eventOrCategoryName;
+      fieldsetElem.appendChild(legendElem);
+      parentElem.appendChild(fieldsetElem);
+      updateDisplayedButtons(fieldsetElem, data);
+    }
+  }
+  
+  if (parentElem == events_div) {
+    toggleInputsObject = Object.fromEntries(toggleInputs);
+    toggleEventsSet = new Set(toggleInputs.map(x => x[0]));
+  }
+}

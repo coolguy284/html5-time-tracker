@@ -37,7 +37,66 @@ json:
   ]
 ```
 
-# Events Storage Format V2 -- Main File
+# Events Storage Format V2.0 -- Main File
+```
+format is in JSON text, stored in whatever manner the text happens to be stored in (for localstorage, utf-16)
+
+json:
+  object {
+    ["majorVer"] number (2 only): the format version (always 2 for this format)
+    ["minorVer"] number (0 only): the format version (always 0 for this format)
+    ["eventButtons"]: object: arbitrarily nested listing of visible buttons corresponding to events
+      {
+        [key: event name as string | event category name]: string | object: contains listing about one button or a category
+          if string:
+            "button": object describes a button that changes main event
+            "toggle": object describes a toggle for a toggleable event
+          else:
+            object dsecribes a category of events, in same format as ["eventButtons"]
+      }
+    ["eventPriorities"]: array: event priorities list
+      (lower index is higher priority)
+      [
+        string: event name,
+        ...
+      ]
+    ["eventMappings"]: object: contains category mapping and coloring information
+      {
+        [key: event mapping name string]: object: event mapping data for a particular mapping
+          {
+            ["eventToGroup"]: object: maps event names to group names
+              {
+                [key: event name as string]: string: group name
+                ...
+              }
+            ["groupToColor"]: object: maps group names to css color strings,
+              {
+                [key: group name number as string]: string: css color,
+              }
+          }
+        ...
+      }
+    ["events"]: array: the array of events
+      [
+        zero or more entries of the following format:
+        array [
+          [0] boolean: visible flag
+            used to hide "deleted" events so that the user can undelete them by pressing the undelete button (a purge button is also provided to irreversably remove all invisible events)
+          [1] boolean: manually added / edited flag
+            if this is true, it indicates an event that was added after the fact, or edited
+          [2] string: timestamp
+            string for local time timestamp
+          [4] string: active events
+            a string of the current active events, seperated by " | "
+          [5] string (optional): annotation
+            an optional text description for the event, used if an extra clarification is needed
+        ],
+        ...
+      ]
+  }
+```
+
+# Events Storage Format V2.1 -- Main File
 ```
 this is the human readable version of format v2, which will store the same information as the binary version, but in an easier to understand (but longer) way
 
@@ -45,8 +104,9 @@ format is in JSON text, stored in whatever manner the text happens to be stored 
 
 json:
   object {
-    ["version"] number (2 only): the format version (always 2 for this format)
-    ["eventNamesToIds"]: object: maps event names to integer ids, used for efficiency in the binary format
+    ["majorVer"] number (2 only): the format version (always 2 for this format)
+    ["minorVer"] number (1 only): the format version (always 1 for this format)
+    ["eventNamesToIDs"]: object: maps event names to integer ids, used for efficiency in the binary format
       {
         [key: event name string]: number: id,
           special ids:
@@ -99,23 +159,23 @@ json:
           [1] boolean: manually added / edited flag
             if this is true, it indicates an event that was added after the fact, or edited
           [2] number / string: timestamp
-            this is the number of milliseconds since the unix epoch (start of Jan 1 1970) in UTC (this is in contrast to format V1 storing the timestamp in local time)
+            the number of milliseconds since the unix epoch (start of Jan 1 1970) in UTC (this is in contrast to format V1 storing the timestamp in local time)
             if the number is less than or equal to the javascript safe integer limit (9 007 199 254 740 991), it is stored as a number, otherwise it is stored as a string
           [3] number: timestamp offset
-            this is the number of minutes relative to utc of the event, as this is still useful information to know
+            the number of minutes relative to utc of the event, as this is still useful information to know
             example:
               a number of 60 would mean UTC+01:00
           [4] array: active events
             an array of the current active events
           [5] string (optional): annotation
-            this is an optional text description for the event, used if an extra clarification is needed
+            an optional text description for the event, used if an extra clarification is needed
         ],
         ...
       ]
   }
 ```
 
-# Events Storage Format V2 -- Persistent UI File (Future Planned, Optional)
+# Events Storage Format V2.1 -- Persistent UI File (Future Planned, Optional)
 ```
 contains some saved information for ui persistence
 (remembering which tab was open, how far things were scrolled, etc.)

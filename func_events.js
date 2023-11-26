@@ -6,9 +6,11 @@ function addEvent(elem) {
   let eventNamesArr = toggleInputs.map(x => x[1].checked ? x[0] : null).filter(x => x);
   
   if (elem.tagName == 'BUTTON') {
-    if (elem.textContent == 'Unlogged') {
+    let eventName = elem.dataset.event;
+    
+    if (eventName == 'Unlogged') {
       eventNamesArr = ['Unlogged'];
-    } else if (elem.textContent != 'Nothing') {
+    } else if (eventName != 'Nothing') {
       eventNamesArr.push(elem.textContent);
     }
   } else {

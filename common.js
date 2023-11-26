@@ -18,7 +18,7 @@ function getEvents(eventName) {
 }
 
 function getEventGroups(eventName) {
-  let eventToGroupMapping = EVENT_MAPPINGS[event_mappings_select.value].eventToGroup;
+  let eventToGroupMapping = eventMappings[event_mappings_select.value].eventToGroup;
   
   return getEvents(eventName).map(eventNameEntry => {
     if (eventNameEntry in eventToGroupMapping) {
@@ -30,7 +30,7 @@ function getEventGroups(eventName) {
 }
 
 function getEventGroup(eventNameSingle) {
-  let eventToGroupMapping = EVENT_MAPPINGS[event_mappings_select.value].eventToGroup;
+  let eventToGroupMapping = eventMappings[event_mappings_select.value].eventToGroup;
   
   if (eventNameSingle in eventToGroupMapping) {
     return eventToGroupMapping[eventNameSingle];
@@ -41,7 +41,7 @@ function getEventGroup(eventNameSingle) {
 
 // getss the event with highest priority from a list
 function getEventSingle(eventName) {
-  return getEvents(eventName).map(x => [x, EVENT_MAPPINGS_EVENT_PRIORITIES[x]]).reduce((a, c) => c[1] > a[1] ? c : a)[0];
+  return getEvents(eventName).map(x => [x, eventPriorities[x]]).reduce((a, c) => c[1] > a[1] ? c : a)[0];
 }
 
 function getEventGroupSingle(eventName) {
@@ -53,7 +53,7 @@ function getEventGroupColors(groupNames) {
 }
 
 function getEventGroupColor(groupName) {
-  let groupToColorMapping = EVENT_MAPPINGS[event_mappings_select.value].groupToColor;
+  let groupToColorMapping = eventMappings[event_mappings_select.value].groupToColor;
   
   if (groupName in groupToColorMapping) {
     return groupToColorMapping[groupName];
