@@ -1,5 +1,7 @@
-make validator for eventbuttons, eventpriorities, eventmappings
-  look through all of them to get the list of all events (this can be a func in persistentstorage cause its useful for binary) then check to see if mappings, priorities, or buttons are missing some events; also check all categories have a color and (optionally) no unnecessary categories or events anywhere
+add custom button and autocreate a custom button group or add to the group when a custom event is keyed in unless custom event is already in buttons then disregard
+  and add the one time custom button as well
+  instead of "button" type will be "button-custom" or "button-custom-one-time"
+  and add this custom and one time custom buttons to the default eventButtons creation
 make progress meter into progress div its so much easier
   with manager class
 do the pagemanager with dirty bit and update thing
@@ -146,6 +148,8 @@ trim events that last a few seconds, replace with next event, at least do this f
 do some thinking to make localstorage test binary search a mathematically perfect binary search and not double check powers of 2 or something
 state of toggles when unlogged mode active should go into v2 ui persistence obj
 when obviously annotation is added to dup evt backwards prompt then run the other function with it (all letters and spaces and >=7 chars length)
+make validator for eventbuttons, eventpriorities, eventmappings
+  look through all of them to get the list of all events (this can be a func in persistentstorage cause its useful for binary) then check to see if mappings, priorities, or buttons are missing some events; also check all categories have a color and (optionally) no unnecessary categories or events anywhere
 
 probably not doing:
 try black border around events in table view
