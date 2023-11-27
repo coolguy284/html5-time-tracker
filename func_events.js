@@ -70,7 +70,7 @@ function purgeRemovedEntries(suppressUIUpdate) {
   
   for (let i = eventStorage.getNumEvents() - 1; i >= 0; i--) {
     if (!eventStorage.getEventByIndex(i)[2]) {
-      eventStorage.removeEventByIndex(i);
+      eventStorage.removeEventAtIndex(i);
     }
   }
   
@@ -125,7 +125,7 @@ function duplicateEventBackwards() {
   
   let lastEvent = eventStorage.getEventByIndex(latestVisibleEventIndex);
   
-  eventStorage.spliceAndAdd(
+  eventStorage.spliceAndAddEvents(
     latestVisibleEventIndex,
     0,
     [dateToFullString(new Date(Math.floor(dateStringToDate(lastEvent[0]).getTime() - minutesBack * 60_000))), lastEvent[1], lastEvent[2], true, ...lastEvent.slice(4)]
