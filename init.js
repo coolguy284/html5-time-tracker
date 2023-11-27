@@ -3,6 +3,16 @@ schedule_table_main_section_times_div.style.height = `${TABLE_DATA_FULL_HEIGHT}r
 
 function loadEventsArr() {
   eventStorage.loadFromMediumOrFillWithDefault();
+  
+  switch (eventStorage.getMediumVer().major) {
+    case 1:
+      storage_version_select.value = 'V1';
+      break;
+    
+    case 2:
+      storage_version_select.value = 'V2';
+      break;
+  }
 }
 
 loadEventsArr();

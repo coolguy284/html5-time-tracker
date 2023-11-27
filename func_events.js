@@ -153,3 +153,27 @@ function setLastEventAnnotation() {
   
   updateEventStorageDifferent();
 }
+
+function updateStorageVersion() {
+  switch (storage_version_select.value) {
+    case 'V1':
+      eventStorage.setMediumVer({
+        major: 1,
+        minor: 0,
+        binary: false,
+      });
+      
+      updateRawDataDisplay();
+      break;
+    
+    case 'V2':
+      eventStorage.setMediumVer({
+        major: 2,
+        minor: 0,
+        binary: false,
+      });
+      
+      updateRawDataDisplay();
+      break;
+  }
+}

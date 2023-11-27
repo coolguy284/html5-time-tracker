@@ -4,7 +4,7 @@ make progress meter into progress div its so much easier
   with manager class
 do the pagemanager with dirty bit and update thing
   add event hook things on persistentstorage
-  each page can have many dirty bits for specific functions on the page
+  there are certain properties that can be dirtybitted, and each page / element on the page listens to a specific property to see if it was updated
 
 v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version; add this to v2 cause kinda important; ui need not exist yet
 

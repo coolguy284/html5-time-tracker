@@ -59,11 +59,19 @@ function switchExtrasPage(page) {
     case 'main':
       extras_section_main_page.style.display = '';
       raw_data_section_div.style.display = 'none';
+      settings_section_div.style.display = 'none';
       break;
     
     case 'raw data':
       extras_section_main_page.style.display = 'none';
       raw_data_section_div.style.display = '';
+      settings_section_div.style.display = 'none';
+      break;
+    
+    case 'settings':
+      extras_section_main_page.style.display = 'none';
+      raw_data_section_div.style.display = 'none';
+      settings_section_div.style.display = '';
       break;
   }
 }
