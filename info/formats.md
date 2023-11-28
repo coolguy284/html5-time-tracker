@@ -37,7 +37,7 @@ json:
   ]
 ```
 
-# Events Storage Format V2.0 -- Main File
+# Events Storage Format V2.0
 ```
 format is in JSON text, stored in whatever manner the text happens to be stored in (for localstorage, utf-16)
 
@@ -80,15 +80,15 @@ json:
       [
         zero or more entries of the following format:
         array [
-          [0] boolean: visible flag
-            used to hide "deleted" events so that the user can undelete them by pressing the undelete button (a purge button is also provided to irreversably remove all invisible events)
-          [1] boolean: manually added / edited flag
-            if this is true, it indicates an event that was added after the fact, or edited
-          [2] string: timestamp
+          [0] string: timestamp
             string for local time timestamp
-          [4] string: active events
+          [1] string: active events
             a string of the current active events, seperated by " | "
-          [5] string (optional): annotation
+          [2] boolean: visible flag
+            used to hide "deleted" events so that the user can undelete them by pressing the undelete button (a purge button is also provided to irreversably remove all invisible events)
+          [3] boolean (optional): manually added / edited flag
+            if this is true, it indicates an event that was added after the fact, or edited
+          [4] string (optional): annotation
             an optional text description for the event, used if an extra clarification is needed
         ],
         ...
