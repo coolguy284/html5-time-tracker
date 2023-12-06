@@ -9,3 +9,4 @@ let TABLE_STRIPE_WIDTH = 0.3; // in units of rem
 let STATS_ENTRY_COLOR_BLOCK_WIDTH = 1.5; // in units of rem
 let STATS_ENTRY_GAP_WIDTH = 0.3; // in units of rem
 let LOCALSTORAGE_MAIN_STORAGE_KEY = 'html5_time_planner_events_arr';
+let SCROLL_ASSIST_BUTTONS_MIN_SCROLL_HEIGHT = 2000;

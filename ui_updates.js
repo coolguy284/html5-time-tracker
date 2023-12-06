@@ -54,16 +54,23 @@ mainPageManager.addPages({
     dirtyBitListeners: {
       'eventsUpdate': [
         () => updateDataSectionDisplay(),
+        () => checkDataSectionScrollHeight(),
       ],
     },
+    afterRenderEnterListeners: [
+      () => checkDataSectionScrollHeight(),
+    ],
+    afterHideExitListeners: [
+      () => hideScrollButtons(),
+    ],
   },
   'Extras': {
     htmlElem: extras_section_div,
     buttonElem: extras_div_button,
-    enterListeners: [
+    beforeRenderEnterListeners: [
       () => extrasPageManager.activate(),
     ],
-    exitListeners: [
+    afterHideExitListeners: [
       () => extrasPageManager.deactivate(),
     ],
   },

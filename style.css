@@ -90,6 +90,29 @@ h3, h4 {
 }
 
 
+/* scroll button div stuff */
+
+#scroll_to_top_button_div, #scroll_to_bottom_button_div {
+  height: 0;
+  flex-direction: row-reverse;
+}
+
+#scroll_to_top_button_div {
+  align-items: start;
+}
+
+#scroll_to_bottom_button_div {
+  align-items: end;
+}
+
+#scroll_to_top_button_div > button, #scroll_to_bottom_button_div > button {
+  z-index: 0;
+  padding: 0 0.6rem 0.2rem;
+  margin: 0.5rem 1.3rem 0.5rem 0;
+  border: 0.3rem solid black;
+}
+
+
 /* main section block */
 
 #main_section_div {

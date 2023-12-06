@@ -432,3 +432,33 @@ function switchExtrasPage(buttonElem) {
     extrasPageManager.switchPage(buttonText);
   }
 }
+
+// scroll button functions
+
+function checkDataSectionScrollHeight() {
+  if (data_section_div.scrollHeight >= SCROLL_ASSIST_BUTTONS_MIN_SCROLL_HEIGHT) {
+    showScrollButtons();
+  }
+}
+
+function showScrollButtons() {
+  scroll_to_top_button.style.display = '';
+  scroll_to_bottom_button.style.display = '';
+}
+
+function hideScrollButtons() {
+  scroll_to_top_button.style.display = 'none';
+  scroll_to_bottom_button.style.display = 'none';
+}
+
+function performScrollToTop() {
+  let currentHtmlElem = mainPageManager.getCurrentPageHTMLElem();
+  
+  currentHtmlElem.scrollTop = 0;
+}
+
+function performScrollToBottom() {
+  let currentHtmlElem = mainPageManager.getCurrentPageHTMLElem();
+  
+  currentHtmlElem.scrollTop = currentHtmlElem.scrollHeight;
+}
