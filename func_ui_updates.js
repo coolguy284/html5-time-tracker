@@ -1,3 +1,11 @@
+// top banner update
+
+function updateTopBanner() {
+  let latestEventName = eventStorage.getLatestVisibleEvent()?.[1] ?? 'None';
+  
+  current_event_text.textContent = latestEventName;
+}
+
 // main > events page updates
 
 function updateDisplayedButtons(parentElem, eventButtonsSubset) {
@@ -297,7 +305,7 @@ function updateDataSectionDisplay() {
 let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   name: 'refreshLocalStorageCapacityView',
   critical: true,
-  alreadyRunningBehavior: 'wait',
+  alreadyRunningBehavior: 'stop',
 }, async () => {
   temporarilyBlankLocalStorageCapacityView();
   localstorage_recalculate_max_btn.setAttribute('disabled', '');
@@ -413,5 +421,11 @@ function switchPage(buttonElem) {
 }
 
 function switchExtrasPage(buttonElem) {
-  extrasPageManager.switchPage(buttonElem.textContent);
+  let buttonText = buttonElem.textContent;
+  
+  if (buttonText == 'Back to Main Page') {
+    extrasPageManager.switchPage('Main');
+  } else {
+    extrasPageManager.switchPage(buttonText);
+  }
 }

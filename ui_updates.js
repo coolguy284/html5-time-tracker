@@ -1,9 +1,7 @@
 // Setup listener for currentevent banner at top
 
 eventStorage.jsAddEventListener('eventsUpdate', () => {
-  let latestEventName = eventStorage.getLatestVisibleEvent()?.[1] ?? 'None';
-  
-  current_event_text.textContent = latestEventName;
+  updateTopBanner();
 });
 
 // Setup listeners for each main page
@@ -35,7 +33,15 @@ mainPageManager.addPages({
     buttonElem: charts_div_button,
     dirtyBitListeners: {
       'eventsUpdate': [
-        () => updateChartsSection(),
+        () => {
+          // if this event gets called first (shouldn't happen) chart page might error when updating
+          try {
+            updateChartsSection();
+          } catch (e) {
+            updateChartsSectionMainEventsUpdate();
+            updateChartsSection();
+          }
+        },
       ],
       'eventMappingsPrioritiesUpdate': [
         () => updateChartsSectionMainEventsUpdate(),
@@ -83,8 +89,6 @@ extrasPageManager.createDirtyBits([
   'storageUpdate',
 ]);
 
-extrasPageManager.setSelectedTabClass('current_tab');
-
 extrasPageManager.addPages({
   'Main': {
     htmlElem: extras_section_main_page,
@@ -117,3 +121,4 @@ eventStorage.jsAddEventListener('storageUpdate', () => {
 });
 
 extrasPageManager.switchPage('Main');
+extrasPageManager.deactivate();
