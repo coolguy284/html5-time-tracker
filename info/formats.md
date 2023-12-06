@@ -52,7 +52,21 @@ json:
             "button": object describes a button that changes main event
             "toggle": object describes a toggle for a toggleable event
             "seperator": object is a visual seperator (can set key to "" for this object)
-          else:
+            "button-custom": object is a "custom" button, when pressed will prompt user for custom event name and add it to the bottom of the list
+            "button-custom-one-time": object is a "one-time custom" button, when pressed will prompt user for custom event name, however the event will not get added to the buttons list
+          if array:
+            [
+              [0] string: object type
+                "button", "toggle", "seperator": same behavior as above
+              object type "button-custom":
+                [1] object: button custom properties
+                  {
+                    ["category"] (optional): array: path to category, last entry is category name
+                      this is the category that the custom event will be added to (will create parent categories and category itself if needed)
+                      if this property is omitted new event buttons will get added to root eventButtons object instead
+                  }
+            ]
+          if object:
             object dsecribes a category of events, in same format as ["eventButtons"]
       }
     ["eventPriorities"]: array: event priorities list
@@ -121,7 +135,21 @@ json:
             "button": object describes a button that changes main event
             "toggle": object describes a toggle for a toggleable event
             "seperator": object is a visual seperator (can set key to "" for this object)
-          else:
+            "button-custom": object is a "custom" button, when pressed will prompt user for custom event name and add it to the bottom of the list
+            "button-custom-one-time": object is a "one-time custom" button, when pressed will prompt user for custom event name, however the event will not get added to the buttons list
+          if array:
+            [
+              [0] string: object type
+                "button", "toggle", "seperator": same behavior as above
+              object type "button-custom":
+                [1] object: button custom properties
+                  {
+                    ["category"] (optional): array: path to category, last entry is category name
+                      this is the category that the custom event will be added to (will create parent categories and category itself if needed)
+                      if this property is omitted new event buttons will get added to root eventButtons object instead
+                  }
+            ]
+          if object:
             object dsecribes a category of events, in same format as ["eventButtons"]
       }
     ["eventPriorities"]: object: maps event ids to event priority integer
