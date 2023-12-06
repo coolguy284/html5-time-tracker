@@ -3,8 +3,6 @@ add custom button and autocreate a custom button group or add to the group when 
   and add the one time custom button as well
   instead of "button" type will be "button-custom" or "button-custom-one-time"
   and add this custom and one time custom buttons to the default eventButtons creation
-make progress meter into progress div its so much easier
-  with manager class
 do the pagemanager with dirty bit and update thing
   add event hook things on persistentstorage
   there are certain properties that can be dirtybitted, and each page / element on the page listens to a specific property to see if it was updated

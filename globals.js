@@ -115,3 +115,11 @@ let currentHighlightedEvent = null;
 let eventStorage = new PlannerPersistentStorage();
 let criticalCodeManager = new CriticalCodeManager();
 let asyncManager = new AsyncManager();
+let localstorageUsedMeter = new MeterManager(
+  localstorage_used_meter_div,
+  [
+    { max: 0.5, color: 'rgb(0, 171, 96)' },
+    { max: 0.8, color: 'rgb(255, 189, 79)' },
+    { max: 1.0, color: 'rgb(226, 40, 80)' },
+  ]
+);
