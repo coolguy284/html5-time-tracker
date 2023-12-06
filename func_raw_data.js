@@ -14,14 +14,6 @@ function rawDataLoad() {
   }
 }
 
-function rawDataDelete() {
-  if (!confirm('Are you sure?')) return;
-  
-  delete localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
-  raw_data_text.style.display = 'none';
-  raw_data_text.value = '';
-}
-
 function rawDataCreate() {
   if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] == null) {
     localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = '';
@@ -30,12 +22,12 @@ function rawDataCreate() {
   }
 }
 
-function rawDataSaveInMemoryData() {
-  eventStorage.saveOrCreateNew();
-}
-
-function rawDataLoadInMemoryData() {
-  eventStorage.loadFromMediumOrFillWithDefault();
+function rawDataDelete() {
+  if (!confirm('Are you sure?')) return;
+  
+  delete localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
+  raw_data_text.style.display = 'none';
+  raw_data_text.value = '';
 }
 
 function rawDataDownloadToFile() {
@@ -71,4 +63,22 @@ function rawDataLoadFromFile() {
   };
   
   inputTag.click();
+}
+
+function rawDataScrollToTop() {
+  // https://stackoverflow.com/questions/10744299/scroll-back-to-the-top-of-scrollable-div/10744324#10744324
+  raw_data_text.scrollTop = 0;
+}
+
+function rawDataScrollToBottom() {
+  // https://stackoverflow.com/questions/270612/scroll-to-bottom-of-div/270628#270628
+  raw_data_text.scrollTop = raw_data_text.scrollHeight;
+}
+
+function rawDataSaveInMemoryData() {
+  eventStorage.saveOrCreateNew();
+}
+
+function rawDataLoadInMemoryData() {
+  eventStorage.loadFromMediumOrFillWithDefault();
 }
