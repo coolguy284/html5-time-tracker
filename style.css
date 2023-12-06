@@ -205,6 +205,7 @@ h3, h4 {
   border-bottom: 0.2rem solid gray;
   border-left: none;
   border-right: none;
+  border-radius: 0;
   padding: 0.6rem;
 }
 

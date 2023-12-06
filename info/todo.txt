@@ -5,17 +5,11 @@ add custom button and autocreate a custom button group or add to the group when 
   and add this custom and one time custom buttons to the default eventButtons creation
 add annotation viewer page to extras that will show annotations and allow the option to convert some of the shown misc w. annotation into true events
   maybe this page can also just be an event manager page that lets you rename events and combine 2 identical events as well
-fix select on charts page cringe now
 add the prediction page
-
-v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version; add this to v2 cause kinda important; ui need not exist yet
 
 collapse many events into "main" event toggle for table view as well
   make 3 radio buttons for collapse state, none, main event, category
 double tap or hold to start a 2nd event in parallel with current one (or ones), also add an everything is a toggle mode probably turned on with a checkbox
-add extras progress bar, and add refresh button
-  refreshing should show a textual indicator of when refreshing is occurring and when it is finished, also ignore button presses while refreshing is occurring
-only update tab when it is clicked on (performance or smth idk)
 add a move events backward button
 2 tier collapse, radio buttons, either to main event or to category
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
@@ -150,6 +144,7 @@ state of toggles when unlogged mode active should go into v2 ui persistence obj
 when obviously annotation is added to dup evt backwards prompt then run the other function with it (all letters and spaces and >=7 chars length)
 make validator for eventbuttons, eventpriorities, eventmappings
   look through all of them to get the list of all events (this can be a func in persistentstorage cause its useful for binary) then check to see if mappings, priorities, or buttons are missing some events; also check all categories have a color and (optionally) no unnecessary categories or events anywhere
+v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version
 
 probably not doing:
 try black border around events in table view
