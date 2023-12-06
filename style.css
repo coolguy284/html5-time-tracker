@@ -17,7 +17,7 @@ body {
   flex-grow: 1;
 }
 
-body, #main_section_div, #events_div, #events_div fieldset {
+body, #main_section_div, #events_section_div, #events_section_div fieldset {
   flex-direction: column;
 }
 
@@ -108,16 +108,16 @@ h3, h4 {
 
 /* events section block */
 
-#events_div {
+#events_section_div {
   background-color: blue;
   padding: 1.5rem 1rem 1.5rem;
 }
 
-#events_div, #events_div fieldset {
+#events_section_div, #events_section_div fieldset {
   gap: 0.5rem;
 }
 
-#events_div button {
+#events_section_div button {
   background-color: lightblue;
   padding: 0.3rem;
   border: none;
@@ -126,41 +126,41 @@ h3, h4 {
   justify-content: center;
 }
 
-#events_div button:hover {
+#events_section_div button:hover {
   background-color: rgb(125, 197, 219);
 }
 
-#events_div button:active {
+#events_section_div button:active {
   background-color: rgb(57, 171, 209);
 }
 
-#events_div button.current_event {
+#events_section_div button.current_event {
   background-color: rgb(57, 171, 209);
 }
 
-#events_div label {
+#events_section_div label {
   background-color: lightblue;
 }
 
-#events_div label:hover {
+#events_section_div label:hover {
   background-color: rgb(125, 197, 219);
 }
 
-#events_div label:active {
+#events_section_div label:active {
   background-color: rgb(57, 171, 209);
 }
 
-#events_div label.current_event {
+#events_section_div label.current_event {
   background-color: rgb(57, 171, 209);
 }
 
-#events_div fieldset {
+#events_section_div fieldset {
   border: 0.3rem solid black;
   border-radius: 1rem;
   padding: 0.4rem 0.7rem 0.75rem;
 }
 
-#events_div fieldset > legend {
+#events_section_div fieldset > legend {
   color: lightpink;
   font-size: 1.3rem;
 }

@@ -15,7 +15,7 @@
     </div>
     
     <div id = 'main_section_div'>
-      <div id = 'events_div'>
+      <div id = 'events_section_div'>
         <button onclick = 'addEvent(this);'>Nil</button>
         <button onclick = 'addEvent(this);'>Event</button>
         <fieldset>
@@ -165,12 +165,12 @@
           <button id = 'localstorage_recalculate_max_btn' onclick = 'resetAndRefreshLocalStorageCapacityView();'>Recalculate Max & Refresh</button>
           <hr>
           <h3>Pages</h3>
-          <button onclick = 'switchExtrasPage("raw data");'>Raw Data</button>
-          <button onclick = 'switchExtrasPage("settings");'>Settings</button>
+          <button onclick = 'switchExtrasPage(this);'>Raw Data</button>
+          <button onclick = 'switchExtrasPage(this);'>Settings</button>
         </div>
         
         <div id = 'raw_data_section_div' style = 'display: none;'>
-          <button onclick = 'switchExtrasPage("main");'>Back to Main Page</button>
+          <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
           
           <div id = 'raw_data_top_section_div'>
             <textarea id = 'raw_data_text'></textarea>
@@ -188,7 +188,7 @@
         </div>
         
         <div id = 'settings_section_div' style = 'display: none;'>
-          <button onclick = 'switchExtrasPage("main");'>Back to Main Page</button>
+          <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
           
           <h3>Storage Version</h3>
           <select id = 'storage_version_select' onchange = 'updateStorageVersion();'>
@@ -200,10 +200,10 @@
     </div>
     
     <div id = 'bottom_menu_div'>
-      <button id = 'events_div_button' class = 'current_tab' onclick = 'switchPage("events");'>Events</button>
-      <button id = 'charts_div_button' onclick = 'switchPage("charts");'>Charts</button>
-      <button id = 'data_div_button' onclick = 'switchPage("data");'>Data</button>
-      <button id = 'extras_div_button' onclick = 'switchPage("extras");'>Extras</button>
+      <button id = 'events_div_button' class = 'current_tab' onclick = 'switchPage(this);'>Events</button>
+      <button id = 'charts_div_button' onclick = 'switchPage(this);'>Charts</button>
+      <button id = 'data_div_button' onclick = 'switchPage(this);'>Data</button>
+      <button id = 'extras_div_button' onclick = 'switchPage(this);'>Extras</button>
     </div>
     
     <script src = 'constants.js'></script>
@@ -213,6 +213,7 @@
     <script src = 'lib/async_manager.js'></script>
     <script src = 'lib/localstorage.js'></script>
     <script src = 'lib/planner_persistent_storage.js'></script>
+    <script src = 'lib/page_manager.js'></script>
     <script src = 'lib/ui_meter_manager.js'></script>
     <script src = 'globals.js'></script>
     <script src = 'func_ui_updates.js'></script>
@@ -220,7 +221,7 @@
     <script src = 'func_events.js'></script>
     <script src = 'func_charts.js'></script>
     <script src = 'func_raw_data.js'></script>
+    <script src = 'ui_updates.js'></script>
     <script src = 'init.js'></script>
-    <script src = 'onload.js'></script>
   </body>
 </html>

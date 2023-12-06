@@ -105,11 +105,9 @@ let eventPriorities = {};
 let eventMappings = {};
 
 
-let parseEventsDirtyBit = true;
-
 let localStorageErrorPrinted = false;
 
-let currentEvent = 'Nothing';
+let currentEvent = 'None';
 let currentHighlightedEvent = null;
 
 let eventStorage = new PlannerPersistentStorage();
@@ -123,3 +121,6 @@ let localstorageUsedMeter = new MeterManager(
     { max: 1.0, color: 'rgb(226, 40, 80)' },
   ]
 );
+
+let mainPageManager = new PageManager();
+let extrasPageManager = new PageManager();

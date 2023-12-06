@@ -32,15 +32,10 @@ function rawDataCreate() {
 
 function rawDataSaveInMemoryData() {
   eventStorage.saveOrCreateNew();
-  updateRawDataDisplay();
 }
 
 function rawDataLoadInMemoryData() {
-  eventStorage.resetMemoryData();
-  loadEventsArr();
-  onPageAlmostLoad();
-  
-  parseEventsDirtyBit = true; // messy but works
+  eventStorage.loadFromMediumOrFillWithDefault();
 }
 
 function rawDataDownloadToFile() {

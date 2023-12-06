@@ -3,13 +3,9 @@ add custom button and autocreate a custom button group or add to the group when 
   and add the one time custom button as well
   instead of "button" type will be "button-custom" or "button-custom-one-time"
   and add this custom and one time custom buttons to the default eventButtons creation
-do the pagemanager with dirty bit and update thing
-  add event hook things on persistentstorage
-  there are certain properties that can be dirtybitted, and each page / element on the page listens to a specific property to see if it was updated
-  and pagemanager has an addPage function and addExtrasPage function that lets you specify all the properties
-    like event callbacks, and which callbacks are listening for what trait to become dirty
 add annotation viewer page to extras that will show annotations and allow the option to convert some of the shown misc w. annotation into true events
   maybe this page can also just be an event manager page that lets you rename events and combine 2 identical events as well
+fix select on charts page cringe now
 add the prediction page
 
 v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version; add this to v2 cause kinda important; ui need not exist yet

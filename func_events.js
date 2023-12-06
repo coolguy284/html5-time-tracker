@@ -33,11 +33,6 @@ function addEvent(elem) {
   
   // add to internal events array
   eventStorage.addEvent(eventName, eventTime);
-  
-  // set dirty bit
-  parseEventsDirtyBit = true;
-  
-  updateDisplay();
 }
 
 function removeLastEvent() {
@@ -47,8 +42,6 @@ function removeLastEvent() {
     let eventEntry = eventStorage.getEventByIndex(latestVisibleEventIndex);
     eventEntry[2] = false;
     eventStorage.setEventAtIndex(latestVisibleEventIndex, eventEntry);
-    
-    updateDisplay(true);
   }
 }
 
@@ -59,8 +52,6 @@ function unRemoveLastEvent() {
     let eventEntry = eventStorage.getEventByIndex(latestVisibleEventIndex + 1);
     eventEntry[2] = true;
     eventStorage.setEventAtIndex(latestVisibleEventIndex + 1, eventEntry);
-    
-    updateDisplay(true);
   }
 }
 
@@ -73,8 +64,6 @@ function purgeRemovedEntries(suppressUIUpdate) {
       eventStorage.removeEventAtIndex(i);
     }
   }
-  
-  if (!suppressUIUpdate) updateEventStorageDifferent(true);
 }
 
 // removes events where a future event has a smaller date/time than a past one
@@ -101,8 +90,6 @@ function purgeBacktemporalEntries(suppressUIUpdate) {
       }, [])
       .reverse()
   );
-  
-  if (!suppressUIUpdate) updateEventStorageDifferent(true);
 }
 
 function bothPurgeEntries() {
@@ -110,8 +97,6 @@ function bothPurgeEntries() {
   
   purgeRemovedEntries(true);
   purgeBacktemporalEntries(true);
-  
-  updateEventStorageDifferent(true);
 }
 
 function duplicateEventBackwards() {
@@ -130,8 +115,6 @@ function duplicateEventBackwards() {
     0,
     [dateToFullString(new Date(Math.floor(dateStringToDate(lastEvent[0]).getTime() - minutesBack * 60_000))), lastEvent[1], lastEvent[2], true, ...lastEvent.slice(4)]
   );
-  
-  updateEventStorageDifferent();
 }
 
 function setLastEventAnnotation() {
@@ -151,7 +134,7 @@ function setLastEventAnnotation() {
     lastEvent.length = 4;
   }
   
-  updateEventStorageDifferent();
+  eventStorage.setEventAtIndex(latestVisibleEventIndex, lastEvent);
 }
 
 function updateStorageVersion() {
@@ -162,8 +145,6 @@ function updateStorageVersion() {
         minor: 0,
         binary: false,
       });
-      
-      updateRawDataDisplay();
       break;
     
     case 'V2':
@@ -172,8 +153,6 @@ function updateStorageVersion() {
         minor: 0,
         binary: false,
       });
-      
-      updateRawDataDisplay();
       break;
   }
 }

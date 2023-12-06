@@ -1,125 +1,56 @@
-function switchPage(page) {
-  switch (page) {
-    case 'events':
-      events_div.style.display = '';
-      charts_section_div.style.display = 'none';
-      data_section_div.style.display = 'none';
-      extras_section_div.style.display = 'none';
-      
-      events_div_button.classList.add('current_tab');
-      charts_div_button.classList.remove('current_tab');
-      data_div_button.classList.remove('current_tab');
-      extras_div_button.classList.remove('current_tab');
-      break;
-    
-    case 'charts':
-      if (parseEventsDirtyBit) {
-        updateChartsSection();
-        parseEventsDirtyBit = false;
-      }
-      events_div.style.display = 'none';
-      charts_section_div.style.display = '';
-      data_section_div.style.display = 'none';
-      extras_section_div.style.display = 'none';
-      
-      events_div_button.classList.remove('current_tab');
-      charts_div_button.classList.add('current_tab');
-      data_div_button.classList.remove('current_tab');
-      extras_div_button.classList.remove('current_tab');
-      break;
-    
-    case 'data':
-      events_div.style.display = 'none';
-      charts_section_div.style.display = 'none';
-      data_section_div.style.display = '';
-      extras_section_div.style.display = 'none';
-      
-      events_div_button.classList.remove('current_tab');
-      charts_div_button.classList.remove('current_tab');
-      data_div_button.classList.add('current_tab');
-      extras_div_button.classList.remove('current_tab');
-      break;
-    
-    case 'extras':
-      events_div.style.display = 'none';
-      charts_section_div.style.display = 'none';
-      data_section_div.style.display = 'none';
-      extras_section_div.style.display = '';
-      
-      events_div_button.classList.remove('current_tab');
-      charts_div_button.classList.remove('current_tab');
-      data_div_button.classList.remove('current_tab');
-      extras_div_button.classList.add('current_tab');
-      break;
-  }
-}
+// main > events page updates
 
-function switchExtrasPage(page) {
-  switch (page) {
-    case 'main':
-      extras_section_main_page.style.display = '';
-      raw_data_section_div.style.display = 'none';
-      settings_section_div.style.display = 'none';
-      break;
+function updateDisplayedButtons(parentElem, eventButtonsSubset) {
+  if (!parentElem) {
+    parentElem = events_section_div;
+    eventButtonsSubset = eventStorage.getEventButtons();
     
-    case 'raw data':
-      extras_section_main_page.style.display = 'none';
-      raw_data_section_div.style.display = '';
-      settings_section_div.style.display = 'none';
-      break;
-    
-    case 'settings':
-      extras_section_main_page.style.display = 'none';
-      raw_data_section_div.style.display = 'none';
-      settings_section_div.style.display = '';
-      break;
+    toggleInputs = [];
+    eventButtons = {};
   }
-}
-
-function updateDataSectionDisplay() {
-  // put array contents on data_div
-  let visibleEventsArr = eventStorage.getAllEvents().filter(x => x[2]);
   
-  if (visibleEventsArr.length > 0) {
-    let processedEventsArr;
-    
-    if (data_section_collapse_duplicates.checked) {
-      processedEventsArr = [];
+  if (parentElem == events_section_div) {
+    removeAllChildren(parentElem);
+  }
+  
+  for (let [ eventOrCategoryName, data ] of Object.entries(eventButtonsSubset)) {
+    if (data == 'button') {
+      let buttonElem = document.createElement('button');
+      buttonElem.textContent = eventOrCategoryName;
+      buttonElem.dataset.event = eventOrCategoryName;
+      buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
+      parentElem.appendChild(buttonElem);
       
-      let lastEventName = null, lastEventAnnotation = null;
-      for (let event of visibleEventsArr) {
-        if (event[1] != lastEventName || event[4] != lastEventAnnotation) {
-          processedEventsArr.push(event);
-          lastEventName = event[1];
-          lastEventAnnotation = event[4];
-        }
-      }
-    } else {
-      processedEventsArr = visibleEventsArr;
+      eventButtons[eventOrCategoryName] = buttonElem;
+    } else if (data == 'toggle') {
+      let labelElem = document.createElement('label');
+      let inputElem = document.createElement('input');
+      inputElem.type = 'checkbox';
+      inputElem.addEventListener('change', addEvent.bind(null, inputElem));
+      let textElem = document.createTextNode(eventOrCategoryName);
+      labelElem.appendChild(inputElem);
+      labelElem.appendChild(textElem);
+      parentElem.appendChild(labelElem);
+      
+      toggleInputs.push([eventOrCategoryName, inputElem]);
+      eventButtons[eventOrCategoryName] = labelElem;
+    } else if (typeof data == 'object') {
+      let fieldsetElem = document.createElement('fieldset');
+      let legendElem = document.createElement('legend');
+      legendElem.textContent = eventOrCategoryName;
+      fieldsetElem.appendChild(legendElem);
+      parentElem.appendChild(fieldsetElem);
+      updateDisplayedButtons(fieldsetElem, data);
     }
-    
-    data_div.textContent = processedEventsArr.map(x =>
-      `${x[0]}: ${x[1]}` +
-      (x.length > 4 ?
-        (DATA_VIEW_ADDL_INFO_BIG_INDENT ?
-          '\n                                      ' :
-          '\n  ') +
-        `Addl. Info: ${x[4]}` : '')
-    ).join('\n');
-  } else {
-    data_div.textContent = 'No Events';
   }
-}
-
-function updateRawDataDisplay() {
-  // put raw data contents on raw_data_text
-  if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] != null) {
-    raw_data_text.value = localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
-    if (raw_data_text.style.display != '') raw_data_text.style.display = '';
-  } else {
-    if (raw_data_text.style.display != 'none') raw_data_text.style.display = 'none';
-    raw_data_text.value = '';
+  
+  if (parentElem == events_section_div) {
+    toggleInputsObject = Object.fromEntries(toggleInputs);
+    toggleEventsSet = new Set(toggleInputs.map(x => x[0]));
   }
+  
+  updateCurrentEventCheckboxes();
+  updateCurrentEventButtonHighlight();
 }
 
 function updateCurrentEventButtonHighlight() {
@@ -169,29 +100,36 @@ function updateCurrentEventCheckboxes() {
   }
 }
 
-function updateDisplay(redoToggles) {
-  // put current event on current_event_text and highlight buttons and toggles
-  let currentEventIndex = eventStorage.getLatestVisibleEventIndex();
+// main > charts page updates > initial updating
+
+function updateChartsSectionMainEventsUpdate() {
+  eventMappings = eventStorage.getEventMappings();
+  eventPriorities = eventStorage.getEventPriorities();
+  eventPriorities = Object.fromEntries(Object.entries(eventPriorities).map(x => [x[1], eventPriorities.length - x[0]]));
+  updateChartsSectionMappingSelect();
+}
+
+function updateChartsSectionMappingSelect() {
+  removeAllChildren(event_mappings_select);
   
-  if (currentEventIndex >= 0) {
-    currentEvent = eventStorage.getEventByIndex(currentEventIndex)[1];
-  } else {
-    currentEvent = 'None';
+  for (let eventMapping in eventMappings) {
+    let mappingOption = document.createElement('option');
+    mappingOption.textContent = eventMapping;
+    mappingOption.setAttribute('value', eventMapping);
+    if (eventMapping == DEFAULT_EVENT_MAPPING) {
+      mappingOption.setAttribute('selected', '');
+    }
+    
+    event_mappings_select.appendChild(mappingOption);
   }
-  
-  current_event_text.textContent = currentEvent;
-  
-  updateDataSectionDisplay();
-  
-  updateRawDataDisplay();
-  
-  updateCurrentEventButtonHighlight();
-  
-  if (redoToggles) {
-    updateCurrentEventCheckboxes();
-  }
-  
-  refreshLocalStorageCapacityView();
+}
+
+// main > charts page updates > main updating
+
+function updateChartsSection() {
+  fillParsedEvents();
+  updateWeekSelect();
+  updateChartsSectionRenderingOnly();
 }
 
 function updateWeekSelect() {
@@ -210,6 +148,55 @@ function updateWeekSelect() {
     
     week_picker_div_select.appendChild(weekOption);
   }
+}
+
+function updateChartsSectionRenderingOnly() {
+  updateTableAndWeekStatsDisplay();
+  updateAllStatsDisplay();
+}
+
+function updateTableAndWeekStatsDisplay() {
+  let weekData = parsedEvents.weekly_stats[week_picker_div_select.value];
+  
+  let startDayMiddleMillis = new Date(weekData[0]).getTime() + 12 * 3600 * 1000;
+  
+  for (let day = 0; day < 7; day++) {
+    let dayMiddleMillis = startDayMiddleMillis + 24 * 3600 * 1000 * day;
+    let dayString = dateToDateString(new Date(dayMiddleMillis));
+    
+    let dayData = parsedEvents.day_events.get(dayString) ?? [];
+    
+    let dayTd = tableTds[day];
+    
+    removeAllChildrenButOne(dayTd);
+    
+    dayData.forEach((x, i) => {
+      let eventDiv = document.createElement('div');
+      if (i == 0 && x[1] != 0) {
+        eventDiv.style.marginTop = `${x[1] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
+      }
+      eventDiv.style.height = `${x[2] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
+      let eventDivColors = getEventColors(x[0]);
+      
+      if (eventDivColors.length == 1) {
+        eventDiv.style.backgroundColor = eventDivColors[0];
+      } else {
+        eventDiv.style.background = `repeating-linear-gradient(45deg, ${eventDivColors.map((y, i) => `${y}${i == 0 ? '' : ' ' + TABLE_STRIPE_WIDTH * i + 'rem'}, ${y} ${TABLE_STRIPE_WIDTH * (i + 1)}rem`).join(', ')})`;
+      }
+      
+      dayTd.appendChild(eventDiv);
+    });
+  }
+  
+  let totalTimeSeconds = updateStatsDisplay_Helper(weekData[1], stats_div);
+  
+  total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7 * 100).toFixed(3).padStart(6, '0')}% (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')} / 168:00)`;
+}
+
+function updateAllStatsDisplay() {
+  let totalTimeSeconds = updateStatsDisplay_Helper(parsedEvents.all_time_stats, all_time_stats_div);
+  
+  all_time_total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7).toFixed(3)} weeks (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')})`;
 }
 
 function updateStatsDisplay_Helper(statsArr, statsElem) {
@@ -268,113 +255,44 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
   return totalTimeSeconds;
 }
 
-function updateTableAndWeekStatsDisplay() {
-  let weekData = parsedEvents.weekly_stats[week_picker_div_select.value];
-  
-  let startDayMiddleMillis = new Date(weekData[0]).getTime() + 12 * 3600 * 1000;
-  
-  for (let day = 0; day < 7; day++) {
-    let dayMiddleMillis = startDayMiddleMillis + 24 * 3600 * 1000 * day;
-    let dayString = dateToDateString(new Date(dayMiddleMillis));
-    
-    let dayData = parsedEvents.day_events.get(dayString) ?? [];
-    
-    let dayTd = tableTds[day];
-    
-    removeAllChildrenButOne(dayTd);
-    
-    dayData.forEach((x, i) => {
-      let eventDiv = document.createElement('div');
-      if (i == 0 && x[1] != 0) {
-        eventDiv.style.marginTop = `${x[1] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
-      }
-      eventDiv.style.height = `${x[2] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
-      let eventDivColors = getEventColors(x[0]);
-      
-      if (eventDivColors.length == 1) {
-        eventDiv.style.backgroundColor = eventDivColors[0];
-      } else {
-        eventDiv.style.background = `repeating-linear-gradient(45deg, ${eventDivColors.map((y, i) => `${y}${i == 0 ? '' : ' ' + TABLE_STRIPE_WIDTH * i + 'rem'}, ${y} ${TABLE_STRIPE_WIDTH * (i + 1)}rem`).join(', ')})`;
-      }
-      
-      dayTd.appendChild(eventDiv);
-    });
-  }
-  
-  let totalTimeSeconds = updateStatsDisplay_Helper(weekData[1], stats_div);
-  
-  total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7 * 100).toFixed(3).padStart(6, '0')}% (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')} / 168:00)`;
-}
+// main > data page updates
 
-function updateAllStatsDisplay() {
-  let totalTimeSeconds = updateStatsDisplay_Helper(parsedEvents.all_time_stats, all_time_stats_div);
+function updateDataSectionDisplay() {
+  // put array contents on data_div
+  let visibleEventsArr = eventStorage.getAllEvents().filter(x => x[2]);
   
-  all_time_total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7).toFixed(3)} weeks (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')})`;
-}
-
-function updateChartsSectionMappingSelect() {
-  removeAllChildren(event_mappings_select);
-  
-  for (let eventMapping in eventMappings) {
-    let mappingOption = document.createElement('option');
-    mappingOption.textContent = eventMapping;
-    mappingOption.setAttribute('value', eventMapping);
-    if (eventMapping == DEFAULT_EVENT_MAPPING) {
-      mappingOption.setAttribute('selected', '');
+  if (visibleEventsArr.length > 0) {
+    let processedEventsArr;
+    
+    if (data_section_collapse_duplicates.checked) {
+      processedEventsArr = [];
+      
+      let lastEventName = null, lastEventAnnotation = null;
+      for (let event of visibleEventsArr) {
+        if (event[1] != lastEventName || event[4] != lastEventAnnotation) {
+          processedEventsArr.push(event);
+          lastEventName = event[1];
+          lastEventAnnotation = event[4];
+        }
+      }
+    } else {
+      processedEventsArr = visibleEventsArr;
     }
     
-    event_mappings_select.appendChild(mappingOption);
+    data_div.textContent = processedEventsArr.map(x =>
+      `${x[0]}: ${x[1]}` +
+      (x.length > 4 ?
+        (DATA_VIEW_ADDL_INFO_BIG_INDENT ?
+          '\n                                      ' :
+          '\n  ') +
+        `Addl. Info: ${x[4]}` : '')
+    ).join('\n');
+  } else {
+    data_div.textContent = 'No Events';
   }
 }
 
-function updateChartsSectionRenderingOnly() {
-  updateTableAndWeekStatsDisplay();
-  updateAllStatsDisplay();
-}
-
-function updateChartsSectionMainEventsUpdate() {
-  eventMappings = eventStorage.getEventMappings();
-  eventPriorities = eventStorage.getEventPriorities();
-  eventPriorities = Object.fromEntries(Object.entries(eventPriorities).map(x => [x[1], eventPriorities.length - x[0]]));
-  updateChartsSectionMappingSelect();
-}
-
-function updateChartsSection() {
-  fillParsedEvents();
-  updateWeekSelect();
-  updateChartsSectionRenderingOnly();
-}
-
-function temporarilyBlankLocalStorageCapacityView() {
-  localstorageUsedMeter.setValue(0);
-  localstorage_total_text.textContent = '-- KB';
-  localstorage_used_text.textContent = '-- KB (--%)';
-  localstorage_free_text.textContent = '-- KB (--%)';
-}
-
-function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
-  localstorageUsedMeter.setValue(usedBytes / totalBytes);
-  localstorage_total_text.textContent = `${Math.round(totalBytes / 1000)} KB`;
-  localstorage_used_text.textContent = `${Math.round(usedBytes / 1000)} KB (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
-  localstorage_free_text.textContent = `${Math.round(freeBytes / 1000)} KB (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
-}
-
-function showLocalStorageCalcProgressDiv() {
-  if (localstorage_size_calc_progress_div.style.display == 'none') {
-    localstorage_size_calc_progress_div.style.display = '';
-  }
-}
-
-function hideLocalStorageCalcProgressDiv() {
-  if (localstorage_size_calc_progress_div.style.display != 'none') {
-    localstorage_size_calc_progress_div.style.display = 'none';
-  }
-}
-
-function setLocalStorageCalcProgressText(value) {
-  showLocalStorageCalcProgressDiv();
-  localstorage_size_calc_progress_text.textContent = value;
-}
+// extras > main extras page updates
 
 let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   name: 'refreshLocalStorageCapacityView',
@@ -430,52 +348,70 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   }
 });
 
-function updateDisplayedButtons(parentElem, eventButtonsSubset) {
-  if (!parentElem) {
-    parentElem = events_div;
-    eventButtonsSubset = eventStorage.getEventButtons();
+function temporarilyBlankLocalStorageCapacityView() {
+  localstorageUsedMeter.setValue(0);
+  localstorage_total_text.textContent = '-- KB';
+  localstorage_used_text.textContent = '-- KB (--%)';
+  localstorage_free_text.textContent = '-- KB (--%)';
+}
+
+function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
+  localstorageUsedMeter.setValue(usedBytes / totalBytes);
+  localstorage_total_text.textContent = `${Math.round(totalBytes / 1000)} KB`;
+  localstorage_used_text.textContent = `${Math.round(usedBytes / 1000)} KB (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
+  localstorage_free_text.textContent = `${Math.round(freeBytes / 1000)} KB (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
+}
+
+function setLocalStorageCalcProgressText(value) {
+  showLocalStorageCalcProgressDiv();
+  localstorage_size_calc_progress_text.textContent = value;
+}
+
+function showLocalStorageCalcProgressDiv() {
+  if (localstorage_size_calc_progress_div.style.display == 'none') {
+    localstorage_size_calc_progress_div.style.display = '';
+  }
+}
+
+function hideLocalStorageCalcProgressDiv() {
+  if (localstorage_size_calc_progress_div.style.display != 'none') {
+    localstorage_size_calc_progress_div.style.display = 'none';
+  }
+}
+
+// extras > raw data page updates
+
+function updateRawDataDisplay() {
+  // put raw data contents on raw_data_text
+  if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] != null) {
+    raw_data_text.value = localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
+    if (raw_data_text.style.display != '') raw_data_text.style.display = '';
+  } else {
+    if (raw_data_text.style.display != 'none') raw_data_text.style.display = 'none';
+    raw_data_text.value = '';
+  }
+}
+
+// extras > settings page updates
+
+function updateSettingsPageVersionSelect() {
+  switch (eventStorage.getMediumVer().major) {
+    case 1:
+      storage_version_select.value = 'V1';
+      break;
     
-    toggleInputs = [];
-    eventButtons = {};
+    case 2:
+      storage_version_select.value = 'V2';
+      break;
   }
-  
-  if (parentElem == events_div) {
-    removeAllChildren(parentElem);
-  }
-  
-  for (let [ eventOrCategoryName, data ] of Object.entries(eventButtonsSubset)) {
-    if (data == 'button') {
-      let buttonElem = document.createElement('button');
-      buttonElem.textContent = eventOrCategoryName;
-      buttonElem.dataset.event = eventOrCategoryName;
-      buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
-      parentElem.appendChild(buttonElem);
-      
-      eventButtons[eventOrCategoryName] = buttonElem;
-    } else if (data == 'toggle') {
-      let labelElem = document.createElement('label');
-      let inputElem = document.createElement('input');
-      inputElem.type = 'checkbox';
-      inputElem.addEventListener('change', addEvent.bind(null, inputElem));
-      let textElem = document.createTextNode(eventOrCategoryName);
-      labelElem.appendChild(inputElem);
-      labelElem.appendChild(textElem);
-      parentElem.appendChild(labelElem);
-      
-      toggleInputs.push([eventOrCategoryName, inputElem]);
-      eventButtons[eventOrCategoryName] = labelElem;
-    } else if (typeof data == 'object') {
-      let fieldsetElem = document.createElement('fieldset');
-      let legendElem = document.createElement('legend');
-      legendElem.textContent = eventOrCategoryName;
-      fieldsetElem.appendChild(legendElem);
-      parentElem.appendChild(fieldsetElem);
-      updateDisplayedButtons(fieldsetElem, data);
-    }
-  }
-  
-  if (parentElem == events_div) {
-    toggleInputsObject = Object.fromEntries(toggleInputs);
-    toggleEventsSet = new Set(toggleInputs.map(x => x[0]));
-  }
+}
+
+// page switch convenience functions
+
+function switchPage(buttonElem) {
+  mainPageManager.switchPage(buttonElem.textContent);
+}
+
+function switchExtrasPage(buttonElem) {
+  extrasPageManager.switchPage(buttonElem.textContent);
 }
