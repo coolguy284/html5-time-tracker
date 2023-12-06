@@ -65,6 +65,62 @@ function rawDataLoadFromFile() {
   inputTag.click();
 }
 
+function prettifyJson(jsonValue, depth) {
+  if (depth == null) depth = 0;
+  
+  let json;
+  
+  if (typeof jsonValue == 'string') {
+    if (jsonValue.startsWith('+')) {
+      json = jsonValue.slice(1);
+    } else {
+      try {
+        json = JSON.parse(jsonValue);
+      } catch (e) {
+        alert('Error: raw data not json');
+        throw new Error('raw data not json');
+      }
+    }
+  } else {
+    json = jsonValue;
+  }
+  
+  let newJsonString = JSON.stringify(json);
+  
+  if (newJsonString.length > RAW_DATA_PRETTIFY_LINE_LIMIT) {
+    if (Array.isArray(json)) {
+      return '[\n' +
+        json.map(x => '  '.repeat(depth + 1) + prettifyJson(typeof x == 'string' ? '+' + x : x, depth + 1)).join(',\n') +
+        '\n' + '  '.repeat(depth) + ']';
+    } else if (typeof json == 'object') {
+      return '{\n' +
+        Object.entries(json).map(([k, v]) => '  '.repeat(depth + 1) + `${JSON.stringify(k)}: ${prettifyJson(typeof v == 'string' ? '+' + v : v, depth + 1)}`).join(',\n') +
+        '\n' + '  '.repeat(depth) + '}';
+    } else {
+      return newJsonString;
+    }
+  } else {
+    return newJsonString;
+  }
+}
+
+function rawDataPrettify() {
+  raw_data_text.value = prettifyJson(raw_data_text.value);
+}
+
+function rawDataCondensify() {
+  let json;
+  
+  try {
+    json = JSON.parse(raw_data_text.value);
+  } catch (e) {
+    alert('Error: raw data not json');
+    return;
+  }
+  
+  raw_data_text.value = JSON.stringify(json);
+}
+
 function rawDataScrollToTop() {
   // https://stackoverflow.com/questions/10744299/scroll-back-to-the-top-of-scrollable-div/10744324#10744324
   raw_data_text.scrollTop = 0;
