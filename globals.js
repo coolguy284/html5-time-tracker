@@ -107,7 +107,6 @@ let eventMappings = {};
 
 let localStorageErrorPrinted = false;
 
-let currentEvent = 'None';
 let currentHighlightedEvent = null;
 
 let eventStorage = new PlannerPersistentStorage();
