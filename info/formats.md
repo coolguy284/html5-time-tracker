@@ -51,6 +51,7 @@ json:
           if string:
             "button": object describes a button that changes main event
             "toggle": object describes a toggle for a toggleable event
+            "seperator": object is a visual seperator (can set key to "" for this object)
           else:
             object dsecribes a category of events, in same format as ["eventButtons"]
       }
@@ -119,6 +120,7 @@ json:
           if string:
             "button": object describes a button that changes main event
             "toggle": object describes a toggle for a toggleable event
+            "seperator": object is a visual seperator (can set key to "" for this object)
           else:
             object dsecribes a category of events, in same format as ["eventButtons"]
       }

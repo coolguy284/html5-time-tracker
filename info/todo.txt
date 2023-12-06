@@ -1,4 +1,3 @@
-add support for "seperator" button type that is just a seperator, the key name is ignored, but convention is set it to "", so "": "seperator"
 add custom button and autocreate a custom button group or add to the group when a custom event is keyed in unless custom event is already in buttons then disregard
   and add the one time custom button as well
   instead of "button" type will be "button-custom" or "button-custom-one-time"

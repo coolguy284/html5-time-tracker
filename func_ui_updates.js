@@ -42,6 +42,9 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
       
       toggleInputs.push([eventOrCategoryName, inputElem]);
       eventButtons[eventOrCategoryName] = labelElem;
+    } else if (data == 'seperator') {
+      let hrElem = document.createElement('hr');
+      parentElem.appendChild(hrElem);
     } else if (typeof data == 'object') {
       let fieldsetElem = document.createElement('fieldset');
       let legendElem = document.createElement('legend');
