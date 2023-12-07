@@ -125,7 +125,7 @@ json:
       {
         [key: event name string]: number: id,
           special ids:
-            0 - programmatically unlogged
+            none
         ...
       }
     ["eventButtons"]: object: arbitrarily nested listing of visible buttons corresponding to events

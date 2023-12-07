@@ -265,7 +265,7 @@ function fillParsedEvents() {
       }
     }, []).reverse();
   
-  eventsArr.push([dateToFullString(new Date()), 'Nothing']);
+  eventsArr.push([dateToFullString(new Date()), EVENT_NOTHING]);
   
   fillParsedDays(eventsArr);
   fillParsedWeeks(eventsArr);

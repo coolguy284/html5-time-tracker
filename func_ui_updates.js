@@ -88,30 +88,34 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
 function updateCurrentEventButtonHighlight() {
   let currentEvent = eventStorage.getLatestVisibleEvent()?.[1];
   
-  let currentHighlightedEventSplit = (currentHighlightedEvent ?? '').split(MULTI_EVENT_SPLIT);
-  let currentEventSplit = (currentEvent ?? '').split(MULTI_EVENT_SPLIT);
-  
-  if (eventArrOnlyToggles(currentHighlightedEventSplit)) {
-    currentHighlightedEventSplit.push('Nothing');
-  }
-  
-  if (eventArrOnlyToggles(currentEventSplit)) {
-    currentEventSplit.push('Nothing');
-  }
-  
-  let currentHighlightedEventSet = new Set(currentHighlightedEventSplit);
-  let currentEventSet = new Set(currentEventSplit);
-  
-  for (highlightedEvent of currentHighlightedEventSet) {
-    if (!currentEventSet.has(highlightedEvent) && highlightedEvent in eventButtons) {
-      eventButtons[highlightedEvent].classList.remove('current_event');
+  if (currentEvent != currentHighlightedEvent) {
+    let currentHighlightedEventSplit = (currentHighlightedEvent ?? '').split(MULTI_EVENT_SPLIT);
+    let currentEventSplit = (currentEvent ?? '').split(MULTI_EVENT_SPLIT);
+    
+    if (eventArrOnlyToggles(currentHighlightedEventSplit)) {
+      currentHighlightedEventSplit.push(EVENT_NOTHING);
     }
-  }
-  
-  for (newEvent of currentEventSet) {
-    if (!currentHighlightedEventSet.has(newEvent) && newEvent in eventButtons) {
-      eventButtons[newEvent].classList.add('current_event');
+    
+    if (eventArrOnlyToggles(currentEventSplit)) {
+      currentEventSplit.push(EVENT_NOTHING);
     }
+    
+    let currentHighlightedEventSet = new Set(currentHighlightedEventSplit);
+    let currentEventSet = new Set(currentEventSplit);
+    
+    for (highlightedEvent of currentHighlightedEventSet) {
+      if (!currentEventSet.has(highlightedEvent) && highlightedEvent in eventButtons) {
+        eventButtons[highlightedEvent].classList.remove('current_event');
+      }
+    }
+    
+    for (newEvent of currentEventSet) {
+      if (!currentHighlightedEventSet.has(newEvent) && newEvent in eventButtons) {
+        eventButtons[newEvent].classList.add('current_event');
+      }
+    }
+    
+    currentHighlightedEvent = eventArrToEventString(eventStringToEventArr(currentEvent).filter(x => x in eventButtons));
   }
 }
 

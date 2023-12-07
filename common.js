@@ -14,7 +14,7 @@ function dateToDateString(dateObj) {
 }
 
 function getEvents(eventName) {
-  return eventName.split(' | ');
+  return eventName.split(MULTI_EVENT_SPLIT);
 }
 
 function getEventGroups(eventName) {
@@ -72,6 +72,18 @@ function getEventColor(eventName) {
 
 function eventArrOnlyToggles(eventNames) {
   return eventNames.reduce((a, c) => toggleEventsSet.has(c) ? a + 1 : a, 0) == eventNames.length;
+}
+
+function eventStringToEventArr(eventString) {
+  return eventString.split(MULTI_EVENT_SPLIT).filter(x => x != EVENT_NOTHING);
+}
+
+function eventArrToEventString(eventArr) {
+  if (eventArr.length == 0) {
+    return EVENT_NOTHING;
+  } else {
+    return eventArr.join(MULTI_EVENT_SPLIT);
+  }
 }
 
 function removeAllChildren(elem) {

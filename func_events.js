@@ -18,9 +18,9 @@ function addEvent(elem) {
         break;
     }
     
-    if (eventName == 'Unlogged') {
-      eventNamesArr = ['Unlogged'];
-    } else if (eventName != 'Nothing') {
+    if (eventName == EVENT_UNLOGGED) {
+      eventNamesArr = [EVENT_UNLOGGED];
+    } else if (eventName != EVENT_NOTHING) {
       eventNamesArr.push(eventName);
     }
   } else {
@@ -30,16 +30,16 @@ function addEvent(elem) {
       if (latestEventNameArr.length > 1) {
         eventNamesArr.push(...latestEventNameArr);
       } else if (latestEventNameArr.length == 1) {
-        if (latestEventNameArr[0] == 'Unlogged') {
-          eventNamesArr = ['Unlogged'];
-        } else if (latestEventNameArr[0] != 'Nothing') {
+        if (latestEventNameArr[0] == EVENT_UNLOGGED) {
+          eventNamesArr = [EVENT_UNLOGGED];
+        } else if (latestEventNameArr[0] != EVENT_NOTHING) {
           eventNamesArr.push(...latestEventNameArr);
         }
       }
     }
   }
   
-  let eventName = eventNamesArr.length ? eventNamesArr.join(' | ') : 'Nothing';
+  let eventName = eventNamesArr.length ? eventNamesArr.join(MULTI_EVENT_SPLIT) : EVENT_NOTHING;
   
   // add to internal events array
   eventStorage.addEvent(eventName, eventTime);
