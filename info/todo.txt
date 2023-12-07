@@ -1,3 +1,5 @@
+split formats file
+
 fix lag on raw data page every time clicked now
 add the prediction page
 
@@ -9,25 +11,17 @@ auto update schedule table every minute if on latest week (requires recalculatin
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
 duplicate event backwards should edit previously duplicated event if there is one
 bulk 01 (pseudo-rawdataview):
-  when you click on a tab the data is brought up to speed
   edit tab that has pseudo rawdataview where entries on newlines and human readable, also includes preconfig at top; when saving if format is wrong error message will be printed incl line num (add line nums to view for human readability, remove them in memory when parsing but add back to textarea if missing if error so error can be found)
   once storing binary data the raw data view will show hex with newline every x bytes
   raw data should also show string length and estimated storage use
-  extras tab with pseudo webpage style design (clickable buttons and a return to main page thing)
+  extras tab ideas
     also contain an extras file viewer thing to edit arbitrary binary data files not just the one actively being used in localstorage, will have 2 tabs for pseudorawdataview and actual data view (prob in hex cause binary, newlines at every x bytes); and obv buttons to load file and save to file
     button somewhere to export data, maybe on the extras page
-    prob add settings page button to extras page
-    make the progress bar graph for storage use on extras page
   pseudo rawdataview could probably be a func on the localstorage object to get the formatted ver and and to set the formatted ver
   button called custom that prompts to add a custom event
   button on extras page or pseudorawdataview prob to check all events to make sure all events accounted for in the mappings, and also that all colors accounted for in the mappings as well
 bulk 02 (format v2):
-  type up format specifiers for each version of the format and put them in a folder
-  start with v1, and do it nicely with examples for each field n stuff
   also explain how the raw data is converted to an in memory representation
-  put events and categories in v2
-  split format version into versionMajor and versionMinor
-    minor ver start at 0 because why not
   also add filetype after versions, filetype 1 is main data, filetype 2 is special persistent data (and include this in file level flags actually to take up less space (filelevel meaning not per event))
   
   binary format:
@@ -40,8 +34,6 @@ bulk 02 (format v2):
     maybe if 128th place bit is high in flags byte it is a "blitz mode" entry that is flag byte, 3 or 4 byte offset, 1 byte event type
       (now that i type this, entries should be that by default if they qualify anyway)
     try gzipping or lzmaing whole thing
-    first character of binary value will be the 0 or 1 flag, so forget about making 2 seperate keys
-    binary to utf-16 conversion functions
     have an index for most common annotations, probably for now manually added like event categories
     add signature to beginning of binary format, maybe "CG" then 0x01 meaning first program with binary (which is time planner)
     should store event name as str if not in table
@@ -51,8 +43,6 @@ bulk 02 (format v2):
     and will not auto upgrade the stored format, it will just keep accessing the old format
     but there will be a method to update the underlying format
     also maybe have some sort of way of synchronously saving backup data while an asynchronous save finishes, then deleting the backup data
-  
-  for all asynchronous but critical code, set a flag that beforeunload will check for (maybe have an array so new function calls can independently turn on and then turn off the flag, turning off is deleting the array element, and shrinking size of array if at end)
   
   future increment of minor ver for adding compression, along with adding a settings object to file that stores how many X new events before compressing last X (but actually doing last 2X to X, leaving an uncompressed buffer in case of deletion)
   
@@ -76,19 +66,6 @@ bulk 03:
     possibly not doing:
       make storage tests synchronous cause why not, page needs the results to know whether to operate anyway
         since cached it doesn't even matter
-  all ui buttons should not be able to be rerun while they are running
-  add another thing to critical code to keep track of this probably in a named object and then rename the file
-  utf8 encode and decode
-    option 1
-      make utf8 encode and decode funcs that go through every character in a string and will call encodeuricomponent if charcode over 127
-      output is u8array ofc
-      then figure out some complex thing for utf8 decode
-      actually shouldn't be complex, go through bytes and if one is above 127 then based on how above it is, the next 2 3 or 4 chars will be one utf8 char (but possibly one or 2 utf16 chars)
-    or just manually do utf8 shouldn't be too hard, but store lone surrogates without erroring
-      as though they are not surrogates
-    
-    new?:
-    first split utf16 string into array of integer codepoints, using codepointat unless it has weird behavior for lone surrogates in which case do it manually
 
 big concepts:
 change events list to be cleaner
@@ -109,7 +86,6 @@ move to a json based v2 of the format
   make upgrade routine (that probably saves a backup or at least asks to)
 make page / phase screens for the different events that would be in different phases of life
 stats and tables for day, week, month, year, past 30 days (and every 30 days before that), past 90 days, all time
-do extra tall bar for fall back, and extra short for spring forward
 ghostly blocks for future events, and maybe have stats about how close correlation is between future events that have now passed and present events (so you can feel bad about yourself (i joke i hope))
   this obviously implies adding some way to add future events, probably a weekly schedule thing that can be revised live, but stores old revisions in the main event history once the event has passed (with a special flag of course)
     or maybe store it as a seperate array where, as long as events list is not modified, new events are not added for efficiency, so maybe just keep track of old versions of planned events list
