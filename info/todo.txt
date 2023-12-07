@@ -1,3 +1,6 @@
+fix highlight on current event going away when resetting button layout; or when refreshing page (prob cause events not put in yet when buttons loading?)
+fix lag on raw data page every time clicked now
+add validate button to rawdataview that checks the json
 add custom button and autocreate a custom button group or add to the group when a custom event is keyed in unless custom event is already in buttons then disregard
   and add the one time custom button as well
   instead of "button" type will be "button-custom" or "button-custom-one-time"

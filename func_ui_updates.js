@@ -22,36 +22,50 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
   }
   
   for (let [ eventOrCategoryName, data ] of Object.entries(eventButtonsSubset)) {
-    if (data == 'button') {
-      let buttonElem = document.createElement('button');
-      buttonElem.textContent = eventOrCategoryName;
-      buttonElem.dataset.event = eventOrCategoryName;
-      buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
-      parentElem.appendChild(buttonElem);
-      
-      eventButtons[eventOrCategoryName] = buttonElem;
-    } else if (data == 'toggle') {
-      let labelElem = document.createElement('label');
-      let inputElem = document.createElement('input');
-      inputElem.type = 'checkbox';
-      inputElem.addEventListener('change', addEvent.bind(null, inputElem));
-      let textElem = document.createTextNode(eventOrCategoryName);
-      labelElem.appendChild(inputElem);
-      labelElem.appendChild(textElem);
-      parentElem.appendChild(labelElem);
-      
-      toggleInputs.push([eventOrCategoryName, inputElem]);
-      eventButtons[eventOrCategoryName] = labelElem;
-    } else if (data == 'seperator') {
-      let hrElem = document.createElement('hr');
-      parentElem.appendChild(hrElem);
-    } else if (typeof data == 'object') {
+    if (typeof data == 'object' && !Array.isArray(data)) {
+      // handle nested group
       let fieldsetElem = document.createElement('fieldset');
       let legendElem = document.createElement('legend');
       legendElem.textContent = eventOrCategoryName;
       fieldsetElem.appendChild(legendElem);
       parentElem.appendChild(fieldsetElem);
       updateDisplayedButtons(fieldsetElem, data);
+    } else {
+      // handle object
+      
+      let objectType, objectParams;
+      
+      if (typeof data == 'string') {
+        objectType = data;
+      } else if (Array.isArray(data)) {
+        objectType = data[0];
+        objectParams = data[1];
+      }
+      
+      if (objectType == 'button') {
+        let buttonElem = document.createElement('button');
+        buttonElem.textContent = eventOrCategoryName;
+        buttonElem.dataset.event = eventOrCategoryName;
+        buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
+        parentElem.appendChild(buttonElem);
+        
+        eventButtons[eventOrCategoryName] = buttonElem;
+      } else if (objectType == 'toggle') {
+        let labelElem = document.createElement('label');
+        let inputElem = document.createElement('input');
+        inputElem.type = 'checkbox';
+        inputElem.addEventListener('change', addEvent.bind(null, inputElem));
+        let textElem = document.createTextNode(eventOrCategoryName);
+        labelElem.appendChild(inputElem);
+        labelElem.appendChild(textElem);
+        parentElem.appendChild(labelElem);
+        
+        toggleInputs.push([eventOrCategoryName, inputElem]);
+        eventButtons[eventOrCategoryName] = labelElem;
+      } else if (objectType == 'seperator') {
+        let hrElem = document.createElement('hr');
+        parentElem.appendChild(hrElem);
+      }
     }
   }
   
