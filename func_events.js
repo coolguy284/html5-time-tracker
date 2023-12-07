@@ -6,12 +6,22 @@ function addEvent(elem) {
   let eventNamesArr = toggleInputs.map(x => x[1].checked ? x[0] : null).filter(x => x);
   
   if (elem.tagName == 'BUTTON') {
-    let eventName = elem.dataset.event;
+    let eventName;
+    
+    switch (elem.dataset.type) {
+      case 'normal':
+        eventName = elem.dataset.event;
+        break;
+      
+      case 'one time custom':
+        eventName = prompt('Event name?');
+        break;
+    }
     
     if (eventName == 'Unlogged') {
       eventNamesArr = ['Unlogged'];
     } else if (eventName != 'Nothing') {
-      eventNamesArr.push(elem.textContent);
+      eventNamesArr.push(eventName);
     }
   } else {
     let latestEventIndex = eventStorage.getLatestVisibleEventIndex();

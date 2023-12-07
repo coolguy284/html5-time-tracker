@@ -45,6 +45,7 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
       if (objectType == 'button') {
         let buttonElem = document.createElement('button');
         buttonElem.textContent = eventOrCategoryName;
+        buttonElem.dataset.type = 'normal';
         buttonElem.dataset.event = eventOrCategoryName;
         buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
         parentElem.appendChild(buttonElem);
@@ -65,6 +66,12 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
       } else if (objectType == 'seperator') {
         let hrElem = document.createElement('hr');
         parentElem.appendChild(hrElem);
+      } else if (objectType == 'button-custom-one-time') {
+        let buttonElem = document.createElement('button');
+        buttonElem.textContent = eventOrCategoryName;
+        buttonElem.dataset.type = 'one time custom';
+        buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
+        parentElem.appendChild(buttonElem);
       }
     }
   }

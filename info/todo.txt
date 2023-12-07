@@ -1,17 +1,12 @@
 fix lag on raw data page every time clicked now
 add validate button to rawdataview that checks the json
 add custom button and autocreate a custom button group or add to the group when a custom event is keyed in unless custom event is already in buttons then disregard
-  and add the one time custom button as well
-  instead of "button" type will be "button-custom" or "button-custom-one-time"
-  and add this custom and one time custom buttons to the default eventButtons creation
-add annotation viewer page to extras that will show annotations and allow the option to convert some of the shown misc w. annotation into true events
-  maybe this page can also just be an event manager page that lets you rename events and combine 2 identical events as well
+  instead of "button" type will be "button-custom"
 add the prediction page
 
 collapse many events into "main" event toggle for table view as well
   make 3 radio buttons for collapse state, none, main event, category
 double tap or hold to start a 2nd event in parallel with current one (or ones), also add an everything is a toggle mode probably turned on with a checkbox
-add a move events backward button
 2 tier collapse, radio buttons, either to main event or to category
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
@@ -146,6 +141,9 @@ when obviously annotation is added to dup evt backwards prompt then run the othe
 make validator for eventbuttons, eventpriorities, eventmappings
   look through all of them to get the list of all events (this can be a func in persistentstorage cause its useful for binary) then check to see if mappings, priorities, or buttons are missing some events; also check all categories have a color and (optionally) no unnecessary categories or events anywhere
 v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version
+add annotation viewer page to extras that will show annotations and allow the option to convert some of the shown misc w. annotation into true events
+  maybe this page can also just be an event manager page that lets you rename events and combine 2 identical events as well
+add a move events backward button
 
 probably not doing:
 try black border around events in table view
