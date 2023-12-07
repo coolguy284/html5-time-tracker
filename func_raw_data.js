@@ -121,6 +121,16 @@ function rawDataCondensify() {
   raw_data_text.value = JSON.stringify(json);
 }
 
+function rawDataValidate() {
+  try {
+    JSON.parse(raw_data_text.value);
+    alert('Raw data json validation passed');
+  } catch (e) {
+    alert('Error: raw data not json');
+    return;
+  }
+}
+
 function rawDataScrollToTop() {
   // https://stackoverflow.com/questions/10744299/scroll-back-to-the-top-of-scrollable-div/10744324#10744324
   raw_data_text.scrollTop = 0;
