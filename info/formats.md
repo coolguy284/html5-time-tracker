@@ -61,7 +61,7 @@ json:
               object type "button-custom":
                 [1] object: button custom properties
                   {
-                    ["category"] (optional): array: path to category, last entry is category name
+                    ["categoryPath"] (optional): array: path to category, last entry is category name
                       this is the category that the custom event will be added to (will create parent categories and category itself if needed)
                       if this property is omitted new event buttons will get added to root eventButtons object instead
                   }
@@ -144,7 +144,7 @@ json:
               object type "button-custom":
                 [1] object: button custom properties
                   {
-                    ["category"] (optional): array: path to category, last entry is category name
+                    ["categoryPath"] (optional): array: path to category, last entry is category name
                       this is the category that the custom event will be added to (will create parent categories and category itself if needed)
                       if this property is omitted new event buttons will get added to root eventButtons object instead
                   }

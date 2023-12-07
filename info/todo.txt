@@ -1,6 +1,4 @@
 fix lag on raw data page every time clicked now
-add custom button and autocreate a custom button group or add to the group when a custom event is keyed in unless custom event is already in buttons then disregard
-  instead of "button" type will be "button-custom"
 add the prediction page
 
 collapse many events into "main" event toggle for table view as well

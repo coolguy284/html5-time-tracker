@@ -15,7 +15,20 @@ function addEvent(elem) {
       
       case 'one time custom':
         eventName = prompt('Event name?');
+        
+        if (eventName == null) return;
         break;
+      
+      case 'custom': {
+        eventName = prompt('Event name?');
+        
+        if (eventName == null) return;
+        
+        let categoryPath = 'categoryPath' in elem.dataset ? JSON.parse(elem.dataset.categoryPath) : [];
+        
+        addEventButtonIfNotAlready(eventName, categoryPath);
+        break;
+      }
     }
     
     if (eventName == EVENT_UNLOGGED) {

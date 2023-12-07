@@ -72,6 +72,19 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
         buttonElem.dataset.type = 'one time custom';
         buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
         parentElem.appendChild(buttonElem);
+      } else if (objectType == 'button-custom') {
+        let buttonElem = document.createElement('button');
+        buttonElem.textContent = eventOrCategoryName;
+        buttonElem.dataset.type = 'custom';
+        
+        let categoryPath = objectParams?.categoryPath;
+        
+        if (categoryPath != null) {
+          buttonElem.dataset.categoryPath = JSON.stringify(categoryPath);
+        }
+        
+        buttonElem.addEventListener('click', addEvent.bind(null, buttonElem));
+        parentElem.appendChild(buttonElem);
       }
     }
   }
@@ -133,6 +146,46 @@ function updateCurrentEventCheckboxes() {
       toggleInputsObject[toggleEvent].checked = false;
     }
   }
+}
+
+function getAllEventsFromEventButtonsList(currentEventButtons, eventsWithButtons) {
+  if (!eventsWithButtons) {
+    eventsWithButtons = new Set();
+  }
+  
+  for (let [ key, value ] of Object.entries(currentEventButtons)) {
+    if (typeof value == 'object' && !Array.isArray(value)) {
+      getAllEventsFromEventButtonsList(value, eventsWithButtons);
+    } else if (value == 'button' || value == 'toggle') {
+      eventsWithButtons.add(key);
+    } else if (Array.isArray(value) && (value[0] == 'button' || value[0] == 'toggle')) {
+      eventsWithButtons.add(key);
+    }
+  }
+  
+  return eventsWithButtons;
+}
+
+function addEventButtonIfNotAlready(eventName, categoryPath) {
+  let currentEventButtons = eventStorage.getEventButtons();
+  
+  let eventsWithButtons = getAllEventsFromEventButtonsList(currentEventButtons);
+  
+  if (eventsWithButtons.has(eventName)) return;
+  
+  let categoryObject = currentEventButtons;
+  
+  for (let pathEntry of categoryPath) {
+    if (!(pathEntry in categoryObject)) {
+      categoryObject[pathEntry] = {};
+    }
+    
+    categoryObject = categoryObject[pathEntry];
+  }
+  
+  categoryObject[eventName] = 'button';
+  
+  eventStorage.setEventButtons(currentEventButtons);
 }
 
 // main > charts page updates > initial updating
