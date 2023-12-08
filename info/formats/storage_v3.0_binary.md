@@ -5,7 +5,7 @@ format is a packed-utf16 (binary) string
 unless otherwise specified, all ints are big endian
 
 binary (shown here as bits):
-  <6 bytes>: 'CGTIME' (67, 71, 84, 73, 77, 69)
+  <7 bytes>: 'CGTPLNR'
   xxxxxxxx: u8: major version (2 only)
   xxxxxxxx: u8: minor version (1 only)
   ------ba: u8: prefile flags byte
