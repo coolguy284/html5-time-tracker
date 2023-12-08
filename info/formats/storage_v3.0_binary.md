@@ -1,4 +1,4 @@
-# Events Storage Format V2.1 Binary
+# Events Storage Format V3.0 Binary
 ```
 format is a packed-utf16 (binary) string
 
@@ -6,8 +6,8 @@ unless otherwise specified, all ints are big endian
 
 binary (shown here as bits):
   <7 bytes>: 'CGTPLNR'
-  xxxxxxxx: u8: major version (2 only)
-  xxxxxxxx: u8: minor version (1 only)
+  xxxxxxxx: u8: major version (3 only)
+  xxxxxxxx: u8: minor version (0 only)
   ------ba: u8: prefile flags byte
     a: bit: if true, remainder of file is compressed with deflate-raw
     b: bit: if true, there is an uncompressed events array at the end of the file
@@ -23,18 +23,18 @@ binary (shown here as bits):
     <utf-8 codepoint>: number of entries in eventButtonsKeyList
     eventButtonsKeyList:
       repeated copies of the below:
-        <utf-8 codepoint>: length of event button category name or custom button name string in bytes
+        <utf-8 codepoint>: length of event buttons category name or custom button name string in bytes
         <utf-8 string>: category name or custom button name
     eventButtons:
       repeated copies of the below:
         xxxxxxxx: u8: entry type
-          0: terminator
-          1: button
-          2: toggle
-          3: seperator
-          4: button-custom-one-time
-          5: button-custom
-          6: category
+          0 = terminator
+          1 = button
+          2 = toggle
+          3 = seperator
+          4 = button-custom-one-time
+          5 = button-custom
+          6 = category
         entry type terminator:
           nothing
           
@@ -48,17 +48,18 @@ binary (shown here as bits):
         entry type button-custom-one-time:
           <eventButtonsKeyIndex>: button's name index
         entry type button-custom:
+          <eventButtonsKeyIndex>: button's name index
           <utf-8 codepoint>: number of entries in categoryPath
           categoryPath:
             repeated copies of the below:
               <eventButtonsKeyIndex>: path's name index
         entry type category:
+          <eventButtonsKeyIndex>: category's name index
           <subcopy of eventButtons list, ended by the terminator>
     <utf-8 codepoint>: number of entries in eventPriorities
     eventPriorities:
       repeated copies of the below:
         <eventIndex>: event index of priority entry
-      length is length of mainEventsList
     <utf-8 codepoint>: number of entries in eventMappings
     eventMappings:
       repeated copies of the below:
@@ -78,11 +79,11 @@ binary (shown here as bits):
           repeated copies of the below:
             <groupNamesIndex>: group index
             color:
-              xxxxxxxx: color type
-                0: css color name index
-                1: rgb 24-bit binary
-                2: rgba 32-bit binary
-                3: css color string
+              u8: color type
+                0 = css color name index
+                1 = rgb 24-bit binary
+                2 = rgba 32-bit binary
+                3 = css color string
               entry type 0:
                 xxxxxxxx: u8: css color name index
               entry type 1:
@@ -134,8 +135,7 @@ binary (shown here as bits):
               <u16>: annotation size in bytes
               <utf-8 string>: annotation
         if event is not condensed:
-          [byte 0] eeeddcbX
-          -----fff: u16: flags 1
+          [byte 0] eeeddcbX -----fff: u16: flags
             X: bit: reserved due to main flags
             b: bit: event is visible
             c: bit: event is estimate
@@ -145,21 +145,21 @@ binary (shown here as bits):
               2 = 2 byte annotation size in bytes, then annotation
               3 = utf-8 codepoint annotation size in bytes, then annotation
             e: u3: timestamp representation
-              0 = u64 milliseconds since 2023-09-01 UTC; s8 tz hour offset
-              1 = u64 milliseconds since 2023-09-01 UTC; s16 tz minutes offset
+              0 = u64 milliseconds since 2023-08-23 UTC; s8 tz hour offset
+              1 = u64 milliseconds since 2023-08-23 UTC; s16 tz minutes offset
               2 = utf-8 codepoint milliseconds since last event; same tz as previous
               3 = utf-8 codepoint milliseconds since last event; s8 tz hour offset
               4 = utf-8 codepoint milliseconds since last event; s16 tz minutes offset
-              5 = s128 milliseconds since 2023-09-01 UTC; s16 tz minutes offset
+              5 = s128 milliseconds since 2023-08-23 UTC; s16 tz minutes offset
             f: u3: number of events
               0-6 = this is the number of events
               7 = use utf codepoint to get number of events
           timestamp:
             if timestamp representation is 0:
-              <u64>: milliseconds since 2023-09-01 UTC
+              <u64>: milliseconds since 2023-08-23 UTC
               <s8>: tz hour offset (0 is UTC)
             if timestamp representation is 1:
-              <u64>: milliseconds since 2023-09-01 UTC
+              <u64>: milliseconds since 2023-08-23 UTC
               <s16>: tz minutes offset (0 is UTC)
             if timestamp representation is 2:
               <utf-8 codepoint>: milliseconds since last event
@@ -171,7 +171,7 @@ binary (shown here as bits):
               <utf-8 codepoint>: milliseconds since last event
               <s16>: tz minutes offset (0 is UTC)
             if timestamp representation is 5:
-              <s128>: milliseconds since 2023-09-01 UTC
+              <s128>: milliseconds since 2023-08-23 UTC
               <s16>: tz minutes offset (0 is UTC)
           eventsList size:
             if number of events is 7:
