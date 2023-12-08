@@ -17,3 +17,6 @@ addEventListener('keydown', evt => {
     }
   }
 });
+
+mainPageManager.switchPage('Events');
+extrasPageManager.deactivateWithPage('Main');

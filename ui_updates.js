@@ -88,8 +88,6 @@ eventStorage.jsAddEventListener('eventMappingsPrioritiesUpdate', () => {
   mainPageManager.setDirtyBit('eventMappingsPrioritiesUpdate');
 });
 
-mainPageManager.switchPage('Events');
-
 // Setup listeners for each extras page
 
 extrasPageManager.createDirtyBits([
@@ -126,6 +124,3 @@ extrasPageManager.addPages({
 eventStorage.jsAddEventListener('storageUpdate', () => {
   extrasPageManager.setDirtyBit('storageUpdate');
 });
-
-extrasPageManager.switchPage('Main');
-extrasPageManager.deactivate();
