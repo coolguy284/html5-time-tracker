@@ -1,5 +1,3 @@
-reorganize consts
-
 fix lag on raw data page every time clicked now
 add the prediction page
 
