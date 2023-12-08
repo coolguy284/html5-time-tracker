@@ -1,4 +1,4 @@
-# Events Storage Format V2.1 Binary (WIP)
+# Events Storage Format V2.1 Binary
 ```
 format is a packed-utf16 (binary) string
 

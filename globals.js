@@ -96,6 +96,7 @@ let parsedEvents = {
   all_time_stats: [],
 };
 
+
 let tableTds = Array.from(schedule_table_main_section.children).slice(1);
 let toggleInputs = [];
 let toggleInputsObject = {};
@@ -103,16 +104,16 @@ let toggleEventsSet = new Set();
 let eventButtons = {};
 let eventPriorities = {};
 let eventMappings = {};
+let currentHighlightedEvent = null;
 
 
 let localStorageErrorPrinted = false;
 
-let currentHighlightedEvent = null;
 
 let eventStorage = new PlannerPersistentStorage();
 let criticalCodeManager = new CriticalCodeManager();
 let asyncManager = new AsyncManager();
-let localstorageUsedMeter = new MeterManager(
+let localStorageUsedMeter = new MeterManager(
   localstorage_used_meter_div,
   [
     { max: 0.5, color: 'rgb(0, 171, 96)' },

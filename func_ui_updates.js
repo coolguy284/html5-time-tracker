@@ -15,6 +15,7 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
     
     toggleInputs = [];
     eventButtons = {};
+    currentHighlightedEvent = null;
   }
   
   if (parentElem == events_section_div) {
@@ -437,14 +438,14 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
 });
 
 function temporarilyBlankLocalStorageCapacityView() {
-  localstorageUsedMeter.setValue(0);
+  localStorageUsedMeter.setValue(0);
   localstorage_total_text.textContent = '-- KB';
   localstorage_used_text.textContent = '-- KB (--%)';
   localstorage_free_text.textContent = '-- KB (--%)';
 }
 
 function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
-  localstorageUsedMeter.setValue(usedBytes / totalBytes);
+  localStorageUsedMeter.setValue(usedBytes / totalBytes);
   localstorage_total_text.textContent = `${Math.round(totalBytes / 1000)} KB`;
   localstorage_used_text.textContent = `${Math.round(usedBytes / 1000)} KB (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
   localstorage_free_text.textContent = `${Math.round(freeBytes / 1000)} KB (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
