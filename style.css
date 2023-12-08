@@ -401,7 +401,7 @@ button.safe_bg:active {
 #raw_data_text {
   flex-grow: 1;
   resize: none;
-  word-break: break-all;
+  line-break: anywhere;
   border-radius: 0.8rem;
   border: 0.1rem solid gray;
   padding: 0.3rem;
