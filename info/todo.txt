@@ -1,4 +1,3 @@
-fix lag on raw data page every time clicked now
 add the prediction page
 
 collapse many events into "main" event toggle for table view as well
@@ -118,3 +117,6 @@ add a move events backward button
 
 probably not doing:
 try black border around events in table view
+
+probably not fixable:
+fix lag on raw data page every time clicked now

@@ -2,112 +2,197 @@
 ```
 format is a packed-utf16 (binary) string
 
+unless otherwise specified, all ints are big endian
+
 binary (shown here as bits):
   <6 bytes>: 'CGTIME' (67, 71, 84, 73, 77, 69)
   xxxxxxxx: u8: major version (2 only)
   xxxxxxxx: u8: minor version (1 only)
-  -------a: u8: prefile flags byte
+  ------ba: u8: prefile flags byte
     a: bit: if true, remainder of file is compressed with deflate-raw
+    b: bit: if true, there is an uncompressed events array at the end of the file
   
-  remainder of file, possibly compressed with deflate-raw:
-  
-  <utf-8 codepoint>: number of entries in mainEventsList
-  mainEventsList:
-    repeated copies of the below:
-      <utf-8 codepoint>: length of event name string in bytes
-      <utf-8 string>: event name string
-  <utf-8 codepoint>: number of entries in eventButtonsKeyList
-  eventButtonsKeyList:
-    repeated copies of the below:
-      <utf-8 codepoint>: length of event button category name or custom button name string in bytes
-      <utf-8 string>: category name or custom button name
-  eventButtons:
-    repeated copies of the below:
-      xxxxxxxx: u8: entry type
-        0: terminator
-        1: button
-        2: toggle
-        3: seperator
-        4: button-custom-one-time
-        5: button-custom
-        6: category
-      entry type terminator:
-        nothing
-        
-        this marks the end of the eventButtons list
-      entry type button:
-        <eventIndex>: button's event index
-      entry type toggle:
-        <eventIndex>: toggle's event index
-      entry type seperator:
-        nothing
-      entry type button-custom-one-time:
-        <eventButtonsKeyIndex>: button's name index
-      entry type button-custom:
-        <utf-8 codepoint>: number of entries in categoryPath
-        categoryPath:
+  if file is compressed:
+    <utf-8 codepoint>: number of bytes of compressed portion
+  if file is compressed, compressed portion, otherwise normal portion:
+    <utf-8 codepoint>: number of entries in mainEventsList
+    mainEventsList:
+      repeated copies of the below:
+        <utf-8 codepoint>: length of event name string in bytes
+        <utf-8 string>: event name string
+    <utf-8 codepoint>: number of entries in eventButtonsKeyList
+    eventButtonsKeyList:
+      repeated copies of the below:
+        <utf-8 codepoint>: length of event button category name or custom button name string in bytes
+        <utf-8 string>: category name or custom button name
+    eventButtons:
+      repeated copies of the below:
+        xxxxxxxx: u8: entry type
+          0: terminator
+          1: button
+          2: toggle
+          3: seperator
+          4: button-custom-one-time
+          5: button-custom
+          6: category
+        entry type terminator:
+          nothing
+          
+          this marks the end of the eventButtons list
+        entry type button:
+          <eventIndex>: button's event index
+        entry type toggle:
+          <eventIndex>: toggle's event index
+        entry type seperator:
+          nothing
+        entry type button-custom-one-time:
+          <eventButtonsKeyIndex>: button's name index
+        entry type button-custom:
+          <utf-8 codepoint>: number of entries in categoryPath
+          categoryPath:
+            repeated copies of the below:
+              <eventButtonsKeyIndex>: path's name index
+        entry type category:
+          <subcopy of eventButtons list, ended by the terminator>
+    <utf-8 codepoint>: number of entries in eventPriorities
+    eventPriorities:
+      repeated copies of the below:
+        <eventIndex>: event index of priority entry
+      length is length of mainEventsList
+    <utf-8 codepoint>: number of entries in eventMappings
+    eventMappings:
+      repeated copies of the below:
+        <utf-8 codepoint>: length of mapping name string in bytes
+        <utf-8 string>: mapping name string
+        <utf-8 codepoint>: length of groupNamesList
+        groupNamesList:
           repeated copies of the below:
-            <eventButtonsKeyIndex>: path's name index
-      entry type category:
-        <subcopy of eventButtons list, ended by the terminator>
-  <utf-8 codepoint>: number of entries in eventPriorities
-  eventPriorities:
-    repeated copies of the below:
-      <eventIndex>: event index of priority entry
-    length is length of mainEventsList
-  <utf-8 codepoint>: number of entries in eventMappings
-  eventMappings:
-    repeated copies of the below:
-      <utf-8 codepoint>: length of mapping name string in bytes
-      <utf-8 string>: mapping name string
-      <utf-8 codepoint>: length of groupNamesList
-      groupNamesList:
-        repeated copies of the below:
-          <utf-8 codepoint>: length of group name string in bytes
-          <utf-8 string>: group name string
-      <utf-8 codepoint>: length of eventToGroup list
-      eventToGroup:
-        repeated copies of the below:
-          <eventIndex>: event that is assigned to a group
-          <groupNamesIndex>: group that event is assigned to
-      groupToColor:
-        repeated copies of the below:
-          <groupNamesIndex>: group index
-          color:
-            xxxxxxxx: color type
-              0: css color name index
-              1: rgb 24-bit binary
-              2: rgba 32-bit binary
-              3: css color string
-            entry type 0:
-              xxxxxxxx: u8: css color name index
-            entry type 1:
-              xxxxxxxx: u8: red value
-              xxxxxxxx: u8: green value
-              xxxxxxxx: u8: blue value
-            entry type 2:
-              xxxxxxxx: u8: red value
-              xxxxxxxx: u8: green value
-              xxxxxxxx: u8: blue value
-              xxxxxxxx: u8: alpha value
-            entry type 3:
-              <utf-8 codepoint>: length of css color string in bytes
-              <utf-8 string>: css color string
-  <utf-8 codepoint>: number of entries in events
-  events:
-    repeated copies of the below:
-      edddccba: u8: flags
-        a: bit: event is visible
-        b: bit: event is estimate
-        c: u2: timestamp representation
-          0 = u64 milliseconds since 2023-09-01 UTC; u8 hour offset
-          1 = u64 milliseconds since 2023-09-01 UTC; u16 minutes offset
-          2 = utf-8 codepoint milliseconds since last event; same tz as previous
-          3 = utf-8 codepoint milliseconds since last event; u8 hour offset
-        d: u3: number of events
-          0-6 = this is the number of events
-          7 = use utf codepoint to get number of events
-        e: bit: event has an annotation
+            <utf-8 codepoint>: length of group name string in bytes
+            <utf-8 string>: group name string
+        <utf-8 codepoint>: length of eventToGroup list
+        eventToGroup:
+          repeated copies of the below:
+            <eventIndex>: event that is assigned to a group
+            <groupNamesIndex>: group that event is assigned to
+        groupToColor:
+          repeated copies of the below:
+            <groupNamesIndex>: group index
+            color:
+              xxxxxxxx: color type
+                0: css color name index
+                1: rgb 24-bit binary
+                2: rgba 32-bit binary
+                3: css color string
+              entry type 0:
+                xxxxxxxx: u8: css color name index
+              entry type 1:
+                xxxxxxxx: u8: red value
+                xxxxxxxx: u8: green value
+                xxxxxxxx: u8: blue value
+              entry type 2:
+                xxxxxxxx: u8: red value
+                xxxxxxxx: u8: green value
+                xxxxxxxx: u8: blue value
+                xxxxxxxx: u8: alpha value
+              entry type 3:
+                <utf-8 codepoint>: length of css color string in bytes
+                <utf-8 string>: css color string
+    <utf-8 codepoint>: number of entries in events
+    events:
+      repeated copies of the below:
+        [byte 0] -------a: u8: main flags
+          a: bit: event is condensed
+        if event is condensed:
+          [byte 0] ccccccbX: u8: flags
+            X: bit: reserved due to main flags
+            b: bit: event is estimate
+            c: u6: condensed flag number
+              c % 3: timestamp representation
+                0 = 0 milliseconds since last event; same tz as previous
+                1 = u16 milliseconds since last event; same tz as previous
+                2 = u24 milliseconds since last event; same tz as previous
+              (c // 3) % 7: number of events
+                0-6 = this is the number of events
+              (c // (3*7)) % 3: annotation status
+                0 = no annotation
+                1 = 1 byte annotation size in bytes, then annotation
+                2 = 2 byte annotation size in bytes, then annotation
+              63 = unused
+          timestamp:
+            if timestamp representation is 1:
+              <u16>: milliseconds since last event
+            if timestamp representation is 2:
+              <u24>: milliseconds since last event
+          eventsList:
+            the following repeated number of events times:
+              <eventIndex>: event index
+          annotation:
+            if annotation status is 1:
+              <u8>: annotation size in bytes
+              <utf-8 string>: annotation
+            if annotation status is 2:
+              <u16>: annotation size in bytes
+              <utf-8 string>: annotation
+        if event is not condensed:
+          [byte 0] eeeddcbX
+          -----fff: u16: flags 1
+            X: bit: reserved due to main flags
+            b: bit: event is visible
+            c: bit: event is estimate
+            d: u2: annotation status
+              0 = no annotation
+              1 = 1 byte annotation size in bytes, then annotation
+              2 = 2 byte annotation size in bytes, then annotation
+              3 = utf-8 codepoint annotation size in bytes, then annotation
+            e: u3: timestamp representation
+              0 = u64 milliseconds since 2023-09-01 UTC; s8 tz hour offset
+              1 = u64 milliseconds since 2023-09-01 UTC; s16 tz minutes offset
+              2 = utf-8 codepoint milliseconds since last event; same tz as previous
+              3 = utf-8 codepoint milliseconds since last event; s8 tz hour offset
+              4 = utf-8 codepoint milliseconds since last event; s16 tz minutes offset
+              5 = s128 milliseconds since 2023-09-01 UTC; s16 tz minutes offset
+            f: u3: number of events
+              0-6 = this is the number of events
+              7 = use utf codepoint to get number of events
+          timestamp:
+            if timestamp representation is 0:
+              <u64>: milliseconds since 2023-09-01 UTC
+              <s8>: tz hour offset (0 is UTC)
+            if timestamp representation is 1:
+              <u64>: milliseconds since 2023-09-01 UTC
+              <s16>: tz minutes offset (0 is UTC)
+            if timestamp representation is 2:
+              <utf-8 codepoint>: milliseconds since last event
+              same timezone as previous
+            if timestamp representation is 3:
+              <utf-8 codepoint>: milliseconds since last event
+              <s8>: tz hour offset (0 is UTC)
+            if timestamp representation is 4:
+              <utf-8 codepoint>: milliseconds since last event
+              <s16>: tz minutes offset (0 is UTC)
+            if timestamp representation is 5:
+              <s128>: milliseconds since 2023-09-01 UTC
+              <s16>: tz minutes offset (0 is UTC)
+          eventsList size:
+            if number of events is 7:
+              <utf-8 codepoint>: size of eventsList
+          eventsList:
+            the following repeated number of events times:
+              <eventIndex>: event index
+          annotation:
+            if annotation status is 1:
+              <u8>: annotation size in bytes
+              <utf-8 string>: annotation
+            if annotation status is 2:
+              <u16>: annotation size in bytes
+              <utf-8 string>: annotation
+            if annotation status is 3:
+              <utf-8 codepoint>: annotation size in bytes
+              <utf-8 string>: annotation
+  if prefile flag b is true, additional uncompressed portion at end:
+    <utf-8 codepoint>: number of entries in uncompressedEvents
+    uncompressedEvents:
+      same style as compressed events, contents of this are appended to end of events
 
 definitions:
   <eventIndex>: index of event in mainEventsList; 1 byte if list length is <= 256; 2 bytes if list length is <= 65536, etc.
