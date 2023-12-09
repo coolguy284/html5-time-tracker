@@ -124,3 +124,6 @@ extrasPageManager.addPages({
 eventStorage.jsAddEventListener('storageUpdate', () => {
   extrasPageManager.setDirtyBit('storageUpdate');
 });
+
+// storage should be updated at program start even if persistentstorage hasnt touched it yet
+extrasPageManager.setDirtyBit('storageUpdate');

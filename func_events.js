@@ -177,5 +177,21 @@ function updateStorageVersion() {
         binary: false,
       });
       break;
+    
+    case 'V3 (Alpha)':
+      eventStorage.setMediumVer({
+        major: 3,
+        minor: 0,
+        binary: false,
+      });
+      break;
+    
+    case 'V3 Binary (Alpha)':
+      eventStorage.setMediumVer({
+        major: 3,
+        minor: 0,
+        binary: true,
+      });
+      break;
   }
 }

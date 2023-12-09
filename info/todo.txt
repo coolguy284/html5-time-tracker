@@ -1,4 +1,15 @@
+make the extras storage recalculate happen in the background even before extras page is picked
+add checkbox in settings page for compressed
+add uncompressed events array in persistent storage
+add setting for max num of uncompressed events before compress pass
+store multi-events in planner memory as array
 add the prediction page
+
+add warning of deleting data if version set to v1
+can refresh when recalculating localstorage on mobile this is a bug
+add saving indicator manager in addition to progress bar manager class
+  and even tho not async saving now, set and unset the saving indicator now so when its async it will still work
+fix always at the top of the rawdata now on mobile and pc
 
 collapse many events into "main" event toggle for table view as well
   make 3 radio buttons for collapse state, none, main event, category
@@ -114,6 +125,7 @@ v2 spec setting for auto update format version, default is update minor version,
 add annotation viewer page to extras that will show annotations and allow the option to convert some of the shown misc w. annotation into true events
   maybe this page can also just be an event manager page that lets you rename events and combine 2 identical events as well
 add a move events backward button
+store eventbuttons as an array instead so there can be multiple keys with the same value
 
 probably not doing:
 try black border around events in table view

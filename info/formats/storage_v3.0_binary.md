@@ -15,8 +15,8 @@ binary (shown here as bits):
   if file is compressed:
     <utf-8 codepoint>: number of bytes of compressed portion
   if file is compressed, compressed portion, otherwise normal portion:
-    <utf-8 codepoint>: number of entries in mainEventsList
-    mainEventsList:
+    <utf-8 codepoint>: number of entries in eventNamesList
+    eventNamesList:
       repeated copies of the below:
         <utf-8 codepoint>: length of event name string in bytes
         <utf-8 string>: event name string
@@ -195,7 +195,7 @@ binary (shown here as bits):
       same style as compressed events, contents of this are appended to end of events
 
 definitions:
-  <eventIndex>: index of event in mainEventsList; 1 byte if list length is <= 256; 2 bytes if list length is <= 65536, etc.
+  <eventIndex>: index of event in eventNamesList; 1 byte if list length is <= 256; 2 bytes if list length is <= 65536, etc.
   <eventButtonsKeyIndex>: index of event in eventButtonsKeyList; same style as other indices
   <groupNamesIndex>: index of event in groupNamesList plus 1
     0 is reserved for Default event group
@@ -370,6 +370,6 @@ css colors list:
   161   yellow                rgb(255, 255,   0)
   162   yellowgreen           rgb(154, 205,  50)
   
-  additional colors not on website:
+  additional color not on website:
   163   transparent           rgba(0, 0, 0, 0)
 ```

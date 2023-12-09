@@ -4,7 +4,7 @@ this version is a slight modificaiton of v2 that stores data in a manner similar
 
 format is in JSON text, stored in whatever manner the text happens to be stored in (for localstorage, utf-16)
 
-note: all numbers are stored as strings if they are outside the safe integer range
+note: all numbers are stored as strings if they are outside the safe integer range (in principle, in practice it doesnt matter so its not implemented)
 
 json:
   object {
@@ -12,7 +12,7 @@ json:
     ["minorVer"] number (0 only): the format version (always 0 for this format)
     ["compressed"] bool: whether the file has a compressed section
     ["hasAddlUncompressedEvents"]: bool: whether the file has an additional uncompressed events section at the end
-    ["mainEventsList"]: array: lists out every event name used by later code
+    ["eventNamesList"]: array: lists out every event name used by later code
       [
         string: event name string,
         ...
@@ -85,18 +85,18 @@ json:
               [0] number (groupNamesIndex),
               [1] number: color entry type,
               entry type 0:
-                [1] number: css color name index,
+                [2] number: css color name index,
               entry type 1:
-                [1] number: red value,
-                [2] number: green value,
-                [3] number: blue value,
+                [2] number: red value,
+                [3] number: green value,
+                [4] number: blue value,
               entry type 2:
-                [1] number: red value,
-                [2] number: green value,
-                [3] number: blue value,
-                [4] number: alpha value,
+                [2] number: red value,
+                [3] number: green value,
+                [4] number: blue value,
+                [5] number: alpha value,
               entry type 3:
-                [1] string: css color string,
+                [2] string: css color string,
             ],
           ],
         ],

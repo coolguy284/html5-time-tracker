@@ -2,6 +2,12 @@ function dateToFullString(dateObj) {
   return `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1 + '').padStart(2, '0')}-${(dateObj.getDate() + '').padStart(2, '0')} ${((dateObj.getHours() % 12 + 11) % 12 + 1 + '').padStart(2, '0')}:${(dateObj.getMinutes() + '').padStart(2, '0')}:${(dateObj.getSeconds() + '').padStart(2, '0')}.${(dateObj.getMilliseconds() + '').padStart(3, '0')} ${dateObj.getHours() >= 12 ? 'PM' : 'AM'} UTC${dateObj.getTimezoneOffset() > 0 ? '-' : '+'}${(Math.floor(Math.abs(dateObj.getTimezoneOffset()) / 60) + '').padStart(2, '0')}:${(Math.abs(dateObj.getTimezoneOffset()) % 60 + '').padStart(2, '0')}`;
 }
 
+function dateToFullStringWithOffset(dateObj, offset) {
+  dateObj = new Date(dateObj.getTime() + offset * 60000);
+  
+  return `${dateObj.getUTCFullYear()}-${(dateObj.getUTCMonth() + 1 + '').padStart(2, '0')}-${(dateObj.getUTCDate() + '').padStart(2, '0')} ${((dateObj.getUTCHours() % 12 + 11) % 12 + 1 + '').padStart(2, '0')}:${(dateObj.getUTCMinutes() + '').padStart(2, '0')}:${(dateObj.getUTCSeconds() + '').padStart(2, '0')}.${(dateObj.getUTCMilliseconds() + '').padStart(3, '0')} ${dateObj.getUTCHours() >= 12 ? 'PM' : 'AM'} UTC${offset > 0 ? '-' : '+'}${(Math.floor(Math.abs(offset) / 60) + '').padStart(2, '0')}:${(Math.abs(offset) % 60 + '').padStart(2, '0')}`;
+}
+
 function dateStringToDate(dateStr) {
   let dateStrSplit = dateStr.split(' ');
   let dateStrTimeSplit = dateStrSplit[1].split(':');
