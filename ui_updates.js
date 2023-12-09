@@ -20,8 +20,8 @@ mainPageManager.addPages({
     buttonElem: events_div_button,
     dirtyBitListeners: {
       'eventsUpdate': [
-        () => updateCurrentEventButtonHighlight(),
         () => updateCurrentEventCheckboxes(),
+        () => updateCurrentEventButtonHighlight(),
       ],
       'eventButtonsUpdate': [
         () => updateDisplayedButtons(),

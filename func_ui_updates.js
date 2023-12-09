@@ -93,27 +93,25 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
   if (parentElem == events_section_div) {
     toggleInputsObject = Object.fromEntries(toggleInputs);
     toggleEventsSet = new Set(toggleInputs.map(x => x[0]));
-  }
   
-  updateCurrentEventCheckboxes();
-  updateCurrentEventButtonHighlight();
+    updateCurrentEventCheckboxes();
+    updateCurrentEventButtonHighlight();
+  }
 }
 
 function updateCurrentEventButtonHighlight() {
   let currentEvent = eventStorage.getLatestVisibleEvent()?.[1];
   
+  let currentHighlightedEventSplit = currentHighlightedEvent == null ? [] : currentHighlightedEvent.split(MULTI_EVENT_SPLIT);
+  let currentEventSplit = currentEvent == null ? [] : currentEvent.split(MULTI_EVENT_SPLIT);
+  
+  if (eventArrOnlyToggles(currentEventSplit)) {
+    currentEventSplit.push(EVENT_NOTHING);
+  }
+  
+  currentEvent = currentEventSplit.join(MULTI_EVENT_SPLIT);
+  
   if (currentEvent != currentHighlightedEvent) {
-    let currentHighlightedEventSplit = (currentHighlightedEvent ?? '').split(MULTI_EVENT_SPLIT);
-    let currentEventSplit = (currentEvent ?? '').split(MULTI_EVENT_SPLIT);
-    
-    if (eventArrOnlyToggles(currentHighlightedEventSplit)) {
-      currentHighlightedEventSplit.push(EVENT_NOTHING);
-    }
-    
-    if (eventArrOnlyToggles(currentEventSplit)) {
-      currentEventSplit.push(EVENT_NOTHING);
-    }
-    
     let currentHighlightedEventSet = new Set(currentHighlightedEventSplit);
     let currentEventSet = new Set(currentEventSplit);
     
@@ -129,7 +127,7 @@ function updateCurrentEventButtonHighlight() {
       }
     }
     
-    currentHighlightedEvent = eventArrToEventString(eventStringToEventArr(currentEvent).filter(x => x in eventButtons));
+    currentHighlightedEvent = eventArrToEventString(currentEventSplit.filter(x => x in eventButtons));
   }
 }
 
