@@ -1,24 +1,109 @@
+function getRawDataTextValue() {
+  if (raw_data_text.style.display == 'none') {
+    return null;
+  } else {
+    if (raw_data_text.value.startsWith('binary:\n')) {
+      let hexString = raw_data_text.value.slice(8);
+      
+      let bytes = [];
+      
+      for (let i = 0; i < hexString.length; i += 2) {
+        bytes.push(parseInt(hexString.slice(i, i + 2), 16));
+      }
+      
+      return uint8ArrayToPackedUtf16(bytes);
+    } else if (raw_data_text.value.startsWith('utf-8:\n')) {
+      let utf8String = raw_data_text.value.slice(7);
+      
+      return uint8ArrayToPackedUtf16(codePointArrayToUtf8Bytes(utf16StringToCodePointArray(utf8String)));
+    } else {
+      return raw_data_text.value;
+    }
+  }
+}
+
+function getRawDataTextStatus() {
+  if (raw_data_text.style.display == 'none') {
+    return null;
+  } else {
+    if (raw_data_text.value.startsWith('binary:\n')) {
+      return 'binary';
+    } else if (raw_data_text.value.startsWith('utf-8:\n')) {
+      return 'utf-8';
+    } else {
+      return 'text';
+    }
+  }
+}
+
+function getRawDataTextValueAsUTF8Only() {
+  if (raw_data_text.style.display == 'none') {
+    throw new Error('rawdata not utf-8');
+  } else {
+    if (raw_data_text.value.startsWith('binary:\n')) {
+      throw new Error('rawdata not utf-8');
+    } else if (raw_data_text.value.startsWith('utf-8:\n')) {
+      let utf8String = raw_data_text.value.slice(7);
+      
+      return utf8String;
+    } else {
+      throw new Error('rawdata not utf-8');
+    }
+  }
+}
+
+function setRawDataTextValue(value) {
+  if (value == null) {
+    raw_data_text.style.display = 'none';
+    
+    raw_data_text.value = '';
+  } else {
+    if (value[0] == '0' || value[0] == '1') {
+      let firstChar = String.fromCharCode(Math.floor(value.charCodeAt(1) / 256));
+      
+      if (firstChar == '{' || firstChar == '[') {
+        raw_data_text.value = 'utf-8:\n' + codePointArrayToUtf16String(utf8BytesToCodePointArray(packedUtf16ToUint8Array(value)));
+      } else {
+        let bytes = packedUtf16ToUint8Array(value);
+        
+        raw_data_text.value = 'binary:\n' + Array.from(bytes).map(x => x.toString(16).padStart(2, '0')).join('');
+      }
+    } else {
+      raw_data_text.value = value;
+    }
+    
+    raw_data_text.style.display = '';
+  }
+}
+
+function setRawDataTextValueAsUTF8Only(value) {
+  if (value == null) {
+    throw new Error('value not text');
+  } else {
+    raw_data_text.value = 'utf-8:\n' + value;
+  }
+}
+
 function rawDataSave() {
-  if (raw_data_text.style.display == '') {
-    localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = raw_data_text.value;
+  let textValue = getRawDataTextValue();
+  
+  if (textValue != null) {
+    localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = textValue;
   }
 }
 
 function rawDataLoad() {
   if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] == null) {
-    raw_data_text.style.display = 'none';
-    raw_data_text.value = '';
+    setRawDataTextValue(null);
   } else {
-    raw_data_text.value = localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
-    raw_data_text.style.display = '';
+    setRawDataTextValue(localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY]);
   }
 }
 
 function rawDataCreate() {
   if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] == null) {
     localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = '';
-    raw_data_text.value = '';
-    raw_data_text.style.display = '';
+    rawDataLoad();
   }
 }
 
@@ -26,18 +111,21 @@ function rawDataDelete() {
   if (!confirm('Are you sure?')) return;
   
   delete localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
-  raw_data_text.style.display = 'none';
-  raw_data_text.value = '';
+  rawDataLoad();
 }
 
 function rawDataDownloadToFile() {
-  let anchorTag = document.createElement('a');
+  let textValue = getRawDataTextValue();
   
-  anchorTag.setAttribute('href', 'data:application/octet-stream;base64,' + btoa(raw_data_text.value));
-  
-  anchorTag.setAttribute('download', 'archived.txt');
-  
-  anchorTag.click();
+  if (textValue != null) {
+    let anchorTag = document.createElement('a');
+    
+    anchorTag.setAttribute('href', 'data:application/octet-stream;base64,' + btoa(getRawDataTextValue()));
+    
+    anchorTag.setAttribute('download', 'archived.txt');
+    
+    anchorTag.click();
+  }
 }
 
 function rawDataLoadFromFile() {
@@ -58,7 +146,7 @@ function rawDataLoadFromFile() {
     fileReader.onload = readerEvt => {
       let content = readerEvt.target.result;
       
-      raw_data_text.value = content;
+      setRawDataTextValue(content);
     };
   };
   
@@ -105,29 +193,121 @@ function prettifyJson(jsonValue, depth) {
 }
 
 function rawDataPrettify() {
-  raw_data_text.value = prettifyJson(raw_data_text.value);
+  try {
+    switch (getRawDataTextStatus()) {
+      case null:
+        alert('Error: raw data nonexistent');
+      
+      case 'text': {
+        let json;
+        
+        try {
+          json = JSON.parse(getRawDataTextValue());
+        } catch (e) {
+          alert('Error: raw data not json');
+          return;
+        }
+        
+        setRawDataTextValue(prettifyJson(json));
+        break;
+      }
+      
+      case 'utf-8': {
+        let json;
+        
+        try {
+          json = JSON.parse(getRawDataTextValueAsUTF8Only());
+        } catch (e) {
+          alert('Error: raw data not json');
+          return;
+        }
+        
+        setRawDataTextValueAsUTF8Only(prettifyJson(json));
+        break;
+      }
+      
+      case 'binary':
+        alert('Error: raw data is binary');
+        break;
+    }
+  } catch (e) {
+    alert(e.toString());
+  }
 }
 
 function rawDataCondensify() {
-  let json;
-  
   try {
-    json = JSON.parse(raw_data_text.value);
+    switch (getRawDataTextStatus()) {
+      case null:
+        alert('Error: raw data nonexistent');
+      
+      case 'text': {
+        let json;
+        
+        try {
+          json = JSON.parse(getRawDataTextValue());
+        } catch (e) {
+          alert('Error: raw data not json');
+          return;
+        }
+        
+        setRawDataTextValue(JSON.stringify(json));
+        break;
+      }
+      
+      case 'utf-8': {
+        let json;
+        
+        try {
+          json = JSON.parse(getRawDataTextValueAsUTF8Only());
+        } catch (e) {
+          alert('Error: raw data not json');
+          return;
+        }
+        
+        setRawDataTextValueAsUTF8Only(JSON.stringify(json));
+        break;
+      }
+      
+      case 'binary':
+        alert('Error: raw data is binary');
+        break;
+    }
   } catch (e) {
-    alert('Error: raw data not json');
-    return;
+    alert(e.toString());
   }
-  
-  raw_data_text.value = JSON.stringify(json);
 }
 
 function rawDataValidate() {
   try {
-    JSON.parse(raw_data_text.value);
-    alert('Raw data json validation passed');
+    switch (getRawDataTextStatus()) {
+      case null:
+        alert('Error: raw data nonexistent');
+      
+      case 'text':
+        try {
+          JSON.parse(getRawDataTextValue());
+          alert('Raw data json validation passed');
+        } catch (e) {
+          alert('Error: raw data not json');
+        }
+        break;
+      
+      case 'utf-8':
+        try {
+          JSON.parse(getRawDataTextValueAsUTF8Only());
+          alert('Raw data json validation passed');
+        } catch (e) {
+          alert('Error: raw data not json (utf-8)');
+        }
+        break;
+      
+      case 'binary':
+        alert('Error: raw data is binary');
+        break;
+    }
   } catch (e) {
-    alert('Error: raw data not json');
-    return;
+    alert(e.toString());
   }
 }
 

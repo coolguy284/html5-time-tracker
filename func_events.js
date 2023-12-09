@@ -166,7 +166,15 @@ function updateStorageVersion() {
       eventStorage.setMediumVer({
         major: 1,
         minor: 0,
-        binary: false,
+        format: 'json',
+      });
+      break;
+    
+    case 'V1 UTF-8 (Alpha)':
+      eventStorage.setMediumVer({
+        major: 1,
+        minor: 0,
+        format: 'json utf-8',
       });
       break;
     
@@ -174,7 +182,15 @@ function updateStorageVersion() {
       eventStorage.setMediumVer({
         major: 2,
         minor: 0,
-        binary: false,
+        format: 'json',
+      });
+      break;
+    
+    case 'V2 UTF-8 (Alpha)':
+      eventStorage.setMediumVer({
+        major: 2,
+        minor: 0,
+        format: 'json utf-8',
       });
       break;
     
@@ -182,7 +198,15 @@ function updateStorageVersion() {
       eventStorage.setMediumVer({
         major: 3,
         minor: 0,
-        binary: false,
+        format: 'json',
+      });
+      break;
+    
+    case 'V3 UTF-8 (Alpha)':
+      eventStorage.setMediumVer({
+        major: 3,
+        minor: 0,
+        format: 'json utf-8',
       });
       break;
     
@@ -190,7 +214,7 @@ function updateStorageVersion() {
       eventStorage.setMediumVer({
         major: 3,
         minor: 0,
-        binary: true,
+        format: 'binary',
       });
       break;
   }

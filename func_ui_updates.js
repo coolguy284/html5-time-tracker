@@ -472,27 +472,29 @@ function hideLocalStorageCalcProgressDiv() {
 
 function updateRawDataDisplay() {
   // put raw data contents on raw_data_text
-  if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] != null) {
-    raw_data_text.value = localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
-    if (raw_data_text.style.display != '') raw_data_text.style.display = '';
-  } else {
-    if (raw_data_text.style.display != 'none') raw_data_text.style.display = 'none';
-    raw_data_text.value = '';
-  }
+  rawDataLoad();
 }
 
 // extras > settings page updates
 
 function updateSettingsPageVersionSelect() {
-  switch (eventStorage.getMediumVer().major) {
-    case 1:
-      storage_version_select.value = 'V1';
-      break;
-    
-    case 2:
-      storage_version_select.value = 'V2';
-      break;
-  }
+  let version = eventStorage.getMediumVer();
+  
+  if (version.major == 1 && version.minor == 0 && version.format == 'json') {
+    storage_version_select.value = 'V1';
+  } else if (version.major == 1 && version.minor == 0 && version.format == 'json utf-8') {
+    storage_version_select.value = 'V1 UTF-8 (Alpha)';
+  } else if (version.major == 2 && version.minor == 0 && version.format == 'json') {
+    storage_version_select.value = 'V2';
+  } else if (version.major == 2 && version.minor == 0 && version.format == 'json utf-8') {
+    storage_version_select.value = 'V2 UTF-8 (Alpha)';
+  } else if (version.major == 3 && version.minor == 0 && version.format == 'json') {
+    storage_version_select.value = 'V3 (Alpha)';
+  } else if (version.major == 3 && version.minor == 0 && version.format == 'json utf-8') {
+    storage_version_select.value = 'V3 UTF-8 (Alpha)';
+  }/* else if (version.major == 3 && version.minor == 0 && version.format == 'binary') {
+    storage_version_select.value = 'V3 Binary (Alpha)';
+  }*/
 }
 
 // page switch convenience functions
