@@ -1,4 +1,3 @@
-move deepclone to library func
 convert true/false funcs into undefined/error, its much cleaner (primarily in persistentstorage)
 
 make the extras storage recalculate happen in the background even before extras page is picked
