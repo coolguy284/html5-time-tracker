@@ -195,10 +195,11 @@ binary (shown here as bits):
       same style as compressed events, contents of this are appended to end of events
 
 definitions:
-  <eventIndex>: index of event in eventNamesList; 1 byte if list length is <= 256; 2 bytes if list length is <= 65536, etc.
+  <eventIndex>: index of event in eventNamesList; 1 byte if list length is <= 255; 2 bytes if list length is <= 65535, etc.
+    0 is event index of "Nothing" event
   <eventButtonsKeyIndex>: index of event in eventButtonsKeyList; same style as other indices
   <groupNamesIndex>: index of event in groupNamesList plus 1
-    0 is reserved for Default event group
+    0 is "Default" event group
 
 css colors list:
   https://www.w3.org/wiki/CSS/Properties/color/keywords
