@@ -164,7 +164,7 @@ function prettifyJson(jsonValue, depth) {
     } else {
       try {
         json = JSON.parse(jsonValue);
-      } catch (e) {
+      } catch {
         alert('Error: raw data not json');
         throw new Error('raw data not json');
       }
@@ -203,7 +203,7 @@ function rawDataPrettify() {
         
         try {
           json = JSON.parse(getRawDataTextValue());
-        } catch (e) {
+        } catch {
           alert('Error: raw data not json');
           return;
         }
@@ -217,7 +217,7 @@ function rawDataPrettify() {
         
         try {
           json = JSON.parse(getRawDataTextValueAsUTF8Only());
-        } catch (e) {
+        } catch {
           alert('Error: raw data not json');
           return;
         }
@@ -246,7 +246,7 @@ function rawDataCondensify() {
         
         try {
           json = JSON.parse(getRawDataTextValue());
-        } catch (e) {
+        } catch {
           alert('Error: raw data not json');
           return;
         }
@@ -260,7 +260,7 @@ function rawDataCondensify() {
         
         try {
           json = JSON.parse(getRawDataTextValueAsUTF8Only());
-        } catch (e) {
+        } catch {
           alert('Error: raw data not json');
           return;
         }
@@ -288,7 +288,7 @@ function rawDataValidate() {
         try {
           JSON.parse(getRawDataTextValue());
           alert('Raw data json validation passed');
-        } catch (e) {
+        } catch {
           alert('Error: raw data not json');
         }
         break;
@@ -297,7 +297,7 @@ function rawDataValidate() {
         try {
           JSON.parse(getRawDataTextValueAsUTF8Only());
           alert('Raw data json validation passed');
-        } catch (e) {
+        } catch {
           alert('Error: raw data not json (utf-8)');
         }
         break;

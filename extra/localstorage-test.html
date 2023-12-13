@@ -51,7 +51,7 @@
           localStorage[LOCALSTORAGE_TEST_KEY] = char.repeat(length);
           delete localStorage[LOCALSTORAGE_TEST_KEY];
           return true;
-        } catch (e) {
+        } catch {
           return false;
         }
       }

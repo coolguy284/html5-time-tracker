@@ -37,7 +37,7 @@ mainPageManager.addPages({
           // if this event gets called first (shouldn't happen) chart page might error when updating
           try {
             updateChartsSection();
-          } catch (e) {
+          } catch {
             updateChartsSectionMainEventsUpdate();
             updateChartsSection();
           }

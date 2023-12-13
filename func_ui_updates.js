@@ -426,10 +426,12 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
     () => {
       localstorage_refresh_view_btn.setAttribute('disabled', '');
       localstorage_recalculate_max_btn.setAttribute('disabled', '');
+      temporarilyBlankLocalStorageCapacityView();
     },
   ],
   exitHandlers: [
     () => {
+      hideLocalStorageCalcProgressDiv();
       localstorage_refresh_view_btn.removeAttribute('disabled');
       localstorage_recalculate_max_btn.removeAttribute('disabled');
     },
@@ -438,12 +440,11 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   // reset localstorage error flag since user requested refresh
   localStorageErrorPrinted = false;
   
-  temporarilyBlankLocalStorageCapacityView();
   await localStorageInfoRecalculate(setLocalStorageCalcProgressText);
-  hideLocalStorageCalcProgressDiv();
   
   try {
     let report = await localStorageReport();
+    
     setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
   } catch (e) {
     if (!localStorageErrorPrinted) {
