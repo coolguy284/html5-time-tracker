@@ -19,5 +19,6 @@ addEventListener('keydown', evt => {
 });
 
 refreshLocalStorageCapacityView();
+updateSettingsPagePersistenceStatus();
 mainPageManager.switchPage('Events');
 extrasPageManager.deactivateWithPage('Main');

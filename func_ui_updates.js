@@ -382,10 +382,11 @@ function updateDataSectionDisplay() {
 // extras > main extras page updates
 
 let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
-  name: 'refreshLocalStorageCapacityView',
+  taskName: 'refreshLocalStorageCapacityView',
+  groupNames: ['storage'],
   critical: true,
   alreadyRunningBehavior: 'stop',
-  exclusive: true,
+  exclusive: 'group',
   enterHandlers: [
     () => {
       localstorage_refresh_view_btn.setAttribute('disabled', '');
@@ -416,10 +417,11 @@ let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
 });
 
 let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
-  name: 'resetAndRefreshLocalStorageCapacityView',
+  taskName: 'resetAndRefreshLocalStorageCapacityView',
+  groupNames: ['storage'],
   critical: true,
   alreadyRunningBehavior: 'stop',
-  exclusive: true,
+  exclusive: 'group',
   enterHandlers: [
     () => {
       localstorage_refresh_view_btn.setAttribute('disabled', '');
@@ -512,6 +514,24 @@ function updateSettingsPageVersionSelect() {
     storage_version_select.value = 'V3 Binary (Alpha)';
   }*/
 }
+
+let updateSettingsPagePersistenceStatus = asyncManager.wrapAsyncFunction({
+  taskName: 'updateSettingsPagePersistenceStatus',
+  groupNames: ['persistence'],
+  critical: true,
+  alreadyRunningBehavior: 'wait',
+  exclusive: 'group',
+}, async () => {
+  let persistStatus;
+  
+  try {
+    persistStatus = (await navigator.storage.persisted()) ? 'yes' : 'no';
+  } catch {
+    persistStatus = 'error';
+  }
+  
+  persistence_status.textContent = persistStatus;
+});
 
 // page switch convenience functions
 

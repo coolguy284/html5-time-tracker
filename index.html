@@ -94,7 +94,7 @@
           </div>
         </div>
         
-        <h3>Stats</h3>
+        <h3 class = 'med_top_gap'>Stats</h3>
         
         <div id = 'stats_section_div'>
           <div id = 'stats_div'>
@@ -104,7 +104,7 @@
           <p id = 'total_time_p'>Total: 00.000% (00:00 / 168:00)</p>
         </div>
         
-        <h3>All Time Stats</h3>
+        <h3 class = 'med_top_gap'>All Time Stats</h3>
         
         <div id = 'all_time_stats_section_div'>
           <div id = 'all_time_stats_div'>
@@ -145,7 +145,7 @@
       
       <div id = 'extras_section_div' style = 'display: none;'>
         <div id = 'extras_section_main_page'>
-          <h3>Storage Use</h3>
+          <h3 class = 'med_top_gap'>Storage Use</h3>
           <div class = 'meter'>
             <div id = 'localstorage_used_meter_div'></div>
           </div>
@@ -168,7 +168,7 @@
           <button id = 'localstorage_refresh_view_btn' onclick = 'refreshLocalStorageCapacityView();'>Refresh</button>
           <button id = 'localstorage_recalculate_max_btn' onclick = 'resetAndRefreshLocalStorageCapacityView();'>Recalculate Max & Refresh</button>
           <hr>
-          <h3>Pages</h3>
+          <h3 class = 'med_top_gap'>Pages</h3>
           <button onclick = 'switchExtrasPage(this);'>Raw Data</button>
           <button onclick = 'switchExtrasPage(this);'>Settings</button>
         </div>
@@ -199,7 +199,7 @@
         <div id = 'settings_section_div' style = 'display: none;'>
           <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
           
-          <h3>Storage Version</h3>
+          <h3 class = 'med_top_gap'>Storage Version</h3>
           <select id = 'storage_version_select' onchange = 'updateStorageVersion();'>
             <option selected>V1</option>
             <option>V1 UTF-8 (Alpha)</option>
@@ -209,6 +209,15 @@
             <option>V3 UTF-8 (Alpha)</option>
             <!-- <option>V3 Binary (Alpha)</option> -->
           </select>
+          
+          <hr class = 'large_top_gap'>
+          
+          <h3 class = 'med_top_gap'>Persistence</h3>
+          <div class = 'small_top_gap'>
+            <span>Persistence Enabled:&nbsp;</span>
+            <span id = 'persistence_status'>-</span>
+          </div>
+          <button class = 'med_top_gap' onclick = 'requestPersistence();'>Request Persistence</button>
         </div>
       </div>
     </div>

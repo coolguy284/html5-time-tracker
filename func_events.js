@@ -219,3 +219,31 @@ function updateStorageVersion() {
       break;
   }
 }
+
+let requestPersistence = asyncManager.wrapAsyncFunction({
+  taskName: 'requestPersistence',
+  groupNames: ['persistence'],
+  critical: true,
+  alreadyRunningBehavior: 'wait',
+  exclusive: 'group',
+}, async () => {
+  let currentPersist;
+  
+  try {
+    currentPersist = (await navigator.storage.persisted()) ? 'yes' : 'no';
+  } catch {
+    currentPersist = 'error';
+  }
+  
+  let newPersist;
+  
+  try {
+    newPersist = (await navigator.storage.persist()) ? 'yes' : 'no';
+  } catch {
+    newPersist = 'error';
+  }
+  
+  if (newPersist != currentPersist) {
+    globalEventTarget.dispatchEvent(new CustomEvent('persistUpdate'));
+  }
+});

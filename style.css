@@ -66,6 +66,7 @@ select {
 }
 
 h3, h4 {
+  margin-top: 0.4rem;
   margin-bottom: 0.4rem;
 }
 
@@ -76,6 +77,18 @@ h3, h4 {
   border-radius: 0.5rem;
   margin-bottom: 0.5rem;
   overflow: hidden;
+}
+
+.small_top_gap {
+  margin-top: 0.4rem;
+}
+
+.med_top_gap {
+  margin-top: 1rem;
+}
+
+.large_top_gap {
+  margin-top: 1.5rem;
 }
 
 
@@ -437,6 +450,10 @@ button.safe_bg:active {
   justify-content: stretch;
   padding: 0.5rem;
   gap: 0.5rem;
+}
+
+#settings_section_div > div {
+  justify-content: space-between;
 }
 
 

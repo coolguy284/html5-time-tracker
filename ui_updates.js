@@ -92,6 +92,7 @@ eventStorage.jsAddEventListener('eventMappingsPrioritiesUpdate', () => {
 
 extrasPageManager.createDirtyBits([
   'storageUpdate',
+  'persistUpdate',
 ]);
 
 extrasPageManager.addPages({
@@ -117,10 +118,17 @@ extrasPageManager.addPages({
       'storageUpdate': [
         () => updateSettingsPageVersionSelect(),
       ],
+      'persistUpdate': [
+        () => updateSettingsPagePersistenceStatus(),
+      ],
     },
   },
 });
 
 eventStorage.jsAddEventListener('storageUpdate', () => {
   extrasPageManager.setDirtyBit('storageUpdate');
+});
+
+globalEventTarget.addEventListener('persistUpdate', () => {
+  extrasPageManager.setDirtyBit('persistUpdate');
 });

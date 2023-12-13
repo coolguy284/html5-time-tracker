@@ -124,3 +124,5 @@ let localStorageUsedMeter = new MeterManager(
 
 let mainPageManager = new PageManager();
 let extrasPageManager = new PageManager();
+
+let globalEventTarget = new EventTarget();
