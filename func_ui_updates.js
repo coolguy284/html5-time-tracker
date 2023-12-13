@@ -387,6 +387,7 @@ let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   alreadyRunningBehavior: 'stop',
   enterHandlers: [
     () => {
+      localstorage_refresh_view_btn.setAttribute('disabled', '');
       localstorage_recalculate_max_btn.setAttribute('disabled', '');
       temporarilyBlankLocalStorageCapacityView();
     },
@@ -394,6 +395,7 @@ let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   exitHandlers: [
     () => {
       hideLocalStorageCalcProgressDiv();
+      localstorage_refresh_view_btn.removeAttribute('disabled');
       localstorage_recalculate_max_btn.removeAttribute('disabled');
     },
   ],
@@ -418,11 +420,13 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   alreadyRunningBehavior: 'stop',
   enterHandlers: [
     () => {
+      localstorage_refresh_view_btn.setAttribute('disabled', '');
       localstorage_recalculate_max_btn.setAttribute('disabled', '');
     },
   ],
   exitHandlers: [
     () => {
+      localstorage_refresh_view_btn.removeAttribute('disabled');
       localstorage_recalculate_max_btn.removeAttribute('disabled');
     },
   ],
