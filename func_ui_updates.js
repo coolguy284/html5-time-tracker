@@ -385,6 +385,7 @@ let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   name: 'refreshLocalStorageCapacityView',
   critical: true,
   alreadyRunningBehavior: 'stop',
+  exclusive: true,
   enterHandlers: [
     () => {
       localstorage_refresh_view_btn.setAttribute('disabled', '');
@@ -418,6 +419,7 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   name: 'resetAndRefreshLocalStorageCapacityView',
   critical: true,
   alreadyRunningBehavior: 'stop',
+  exclusive: true,
   enterHandlers: [
     () => {
       localstorage_refresh_view_btn.setAttribute('disabled', '');
