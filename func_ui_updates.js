@@ -385,10 +385,19 @@ let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   name: 'refreshLocalStorageCapacityView',
   critical: true,
   alreadyRunningBehavior: 'stop',
+  enterHandlers: [
+    () => {
+      localstorage_recalculate_max_btn.setAttribute('disabled', '');
+      temporarilyBlankLocalStorageCapacityView();
+    },
+  ],
+  exitHandlers: [
+    () => {
+      hideLocalStorageCalcProgressDiv();
+      localstorage_recalculate_max_btn.removeAttribute('disabled');
+    },
+  ],
 }, async () => {
-  temporarilyBlankLocalStorageCapacityView();
-  localstorage_recalculate_max_btn.setAttribute('disabled', '');
-  
   try {
     let report = await localStorageReport(setLocalStorageCalcProgressText);
     
@@ -400,9 +409,6 @@ let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
     }
     
     throw e;
-  } finally {
-    localstorage_recalculate_max_btn.removeAttribute('disabled');
-    hideLocalStorageCalcProgressDiv();
   }
 });
 
@@ -410,9 +416,17 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   name: 'resetAndRefreshLocalStorageCapacityView',
   critical: true,
   alreadyRunningBehavior: 'stop',
+  enterHandlers: [
+    () => {
+      localstorage_recalculate_max_btn.setAttribute('disabled', '');
+    },
+  ],
+  exitHandlers: [
+    () => {
+      localstorage_recalculate_max_btn.removeAttribute('disabled');
+    },
+  ],
 }, async () => {
-  localstorage_recalculate_max_btn.setAttribute('disabled', '');
-  
   // reset localstorage error flag since user requested refresh
   localStorageErrorPrinted = false;
   
@@ -430,8 +444,6 @@ let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
     }
     
     throw e;
-  } finally {
-    localstorage_recalculate_max_btn.removeAttribute('disabled');
   }
 });
 
