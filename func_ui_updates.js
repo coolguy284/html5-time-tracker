@@ -263,7 +263,7 @@ function updateTableAndWeekStatsDisplay() {
         eventDiv.style.marginTop = `${x[1] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
       }
       eventDiv.style.height = `${x[2] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
-      let eventDivColors = getEventColors(x[0]);
+      let eventDivColors = getRadioButtonValue('collapse_table_by') == 'Main Event' ? getEventColors(getEventSingle(x[0])) : getEventColors(x[0]);
       
       if (eventDivColors.length == 1) {
         eventDiv.style.backgroundColor = eventDivColors[0];
@@ -337,6 +337,7 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
     spanElem.appendChild(spanElemTextNode);
     
     let expectedColor;
+    
     switch (getRadioButtonValue('collapse_stats_by')) {
       case 'None':
         expectedColor = getEventColor(entry[0]);

@@ -13,12 +13,8 @@ add warning of deleting data if version set to v1
 can refresh when recalculating localstorage on mobile this is a bug
 add saving indicator manager in addition to progress bar manager class
   and even tho not async saving now, set and unset the saving indicator now so when its async it will still work
-fix always at the top of the rawdata now on mobile and pc
 
-collapse many events into "main" event toggle for table view as well
-  make 3 radio buttons for collapse state, none, main event, category
 double tap or hold to start a 2nd event in parallel with current one (or ones), also add an everything is a toggle mode probably turned on with a checkbox
-2 tier collapse, radio buttons, either to main event or to category
 auto update schedule table every minute if on latest week (requires recalculating parsedweeks, somehow do this efficiently)
 switch between weekly and much bigger than weekly view (configurable, probably starting at present day, going back in groups of 30 or more); also have standard monthly view, and yearly view
 duplicate event backwards should edit previously duplicated event if there is one
