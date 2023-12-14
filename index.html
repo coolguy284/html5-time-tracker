@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html class = 'flex_row'>
   <head>
     <meta charset = 'utf-8'>
     
@@ -10,7 +10,7 @@
     <link rel = 'stylesheet' href = 'style.css'>
   </head>
   <body>
-    <div id = 'current_event_div'>
+    <div id = 'current_event_div' class = 'flex_row'>
       Current Event: <span id = 'current_event_text'>Null</span>
     </div>
     
@@ -42,7 +42,7 @@
       <div id = 'charts_section_div' style = 'display: none;'>
         <h1>Weekly</h1>
         
-        <div id = 'week_picker_div'>
+        <div id = 'week_picker_div' class = 'flex_row'>
           <button id = 'week_picker_div_left_button' onclick = 'decreaseWeek();'>&lt;</button>
           <select id = 'week_picker_div_select' onchange = 'updateTableAndWeekStatsDisplay();'>
             <option value = '0'>Week of 2000-01-01</option>
@@ -51,7 +51,7 @@
         </div>
         
         <div id = 'schedule_table'>
-          <div id = 'schedule_table_main_section' class = 'schedule_table_main_section_class'>
+          <div id = 'schedule_table_main_section' class = 'flex_row schedule_table_main_section_class'>
             <div id = 'schedule_table_main_section_first_div'>
               <div class = 'schedule_table_header_row'>Time</div>
               <div id = 'schedule_table_main_section_times_div'>
@@ -176,15 +176,15 @@
           <div class = 'meter'>
             <div id = 'localstorage_used_meter_div'></div>
           </div>
-          <div>
+          <div class = 'flex_row'>
             <span>Total</span>
             <span id = 'localstorage_total_text'>-- KB</span>
           </div>
-          <div>
+          <div class = 'flex_row'>
             <span>Used</span>
             <span id = 'localstorage_used_text'>-- KB (--%)</span>
           </div>
-          <div>
+          <div class = 'flex_row'>
             <span>Free</span>
             <span id = 'localstorage_free_text'>-- KB (--%)</span>
           </div>
@@ -206,7 +206,7 @@
           <div id = 'raw_data_top_section_div'>
             <textarea id = 'raw_data_text' autocapitalize = 'off' spellcheck = 'false'></textarea>
           </div>
-          <div id = 'raw_data_bottom_section_div'>
+          <div id = 'raw_data_bottom_section_div' class = 'flex_row'>
             <button onclick = 'rawDataSave();'>Save</button>
             <button onclick = 'rawDataLoad();'>Load</button>
             <button onclick = 'rawDataCreate();'>Create</button>
@@ -240,7 +240,7 @@
           <hr class = 'large_top_gap'>
           
           <h3 class = 'med_top_gap'>Persistence</h3>
-          <div class = 'small_top_gap'>
+          <div class = 'flex_row small_top_gap'>
             <span>Persistence Enabled:&nbsp;</span>
             <span id = 'persistence_status'>-</span>
           </div>
@@ -253,7 +253,7 @@
       <button id = 'scroll_to_bottom_button' style = 'display: none;' onclick = 'performScrollToBottom();'>&or;</button>
     </div>
     
-    <div id = 'bottom_menu_div'>
+    <div id = 'bottom_menu_div' class = 'flex_row'>
       <button id = 'events_div_button' class = 'current_tab' onclick = 'switchPage(this);'>Events</button>
       <button id = 'charts_div_button' onclick = 'switchPage(this);'>Charts</button>
       <button id = 'data_div_button' onclick = 'switchPage(this);'>Data</button>
