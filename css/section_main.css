@@ -1,0 +1,14 @@
+/* main section block */
+
+#main_section_div {
+  flex-grow: 1;
+  min-height: 0;
+  justify-content: stretch;
+  
+  & > * {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}

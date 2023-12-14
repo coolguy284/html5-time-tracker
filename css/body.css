@@ -1,0 +1,65 @@
+/* current event (top bar) block */
+
+#current_event_div {
+  background-color: rgb(255, 211, 129);
+  justify-content: center;
+  gap: 0.3rem;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+}
+
+
+/* scroll button div stuff */
+
+#scroll_to_top_button_div, #scroll_to_bottom_button_div {
+  height: 0;
+  flex-direction: row-reverse;
+  
+  & > button {
+    z-index: 0;
+    padding: 0 0.6rem 0.2rem;
+    margin: 0.5rem 1.3rem 0.5rem 0;
+    border: 0.3rem solid black;
+  }
+}
+
+#scroll_to_top_button_div {
+  align-items: start;
+}
+
+#scroll_to_bottom_button_div {
+  align-items: end;
+}
+
+
+/* bottom menu block */
+
+#bottom_menu_div {
+  background-color: orange;
+  flex-shrink: 0;
+  gap: 0.5rem;
+  padding: 0.5rem 0.5rem 0.5rem;
+  overflow-x: auto;
+  
+  & > button {
+    flex-shrink: 0;
+    background-color: rgb(255, 232, 190);
+    padding: 0.3rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.4rem;
+    padding: 0.4rem 0.8rem 0.4rem;
+    
+    &:hover {
+      background-color: rgb(255, 218, 149);
+    }
+    
+    &:active {
+      background-color: rgb(248, 201, 115);
+    }
+    
+    &.current_tab {
+      background-color: rgb(252, 201, 107);
+    }
+  }
+}

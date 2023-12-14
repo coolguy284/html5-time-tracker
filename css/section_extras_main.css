@@ -1,0 +1,19 @@
+/* extras section block */
+
+#extras_section_main_page {
+  justify-content: stretch;
+  padding: 1rem 0.5rem 0.5rem;
+  gap: 0.5rem;
+  
+  & > div {
+    justify-content: space-between;
+  }
+  
+  & > h3 {
+    margin: 0 0 0.5rem;
+  }
+}
+
+#localstorage_refresh_view_btn {
+  margin-top: 0.7rem;
+}

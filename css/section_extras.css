@@ -1,0 +1,12 @@
+/* extras section div */
+
+#extras_section_div {
+  justify-content: stretch;
+  
+  & > * {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
+}

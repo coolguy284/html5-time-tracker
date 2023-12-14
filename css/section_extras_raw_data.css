@@ -1,0 +1,44 @@
+/* raw data section block */
+
+#raw_data_section_div {
+  justify-content: stretch;
+  background-color: white;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+#raw_data_top_section_div {
+  flex-grow: 1;
+}
+
+#raw_data_text {
+  flex-grow: 1;
+  resize: none;
+  line-break: anywhere;
+  border-radius: 0.8rem;
+  border: 0.1rem solid gray;
+  padding: 0.3rem;
+  font-size: 1.5rem;
+  min-height: 9rem;
+}
+
+#raw_data_bottom_section_div {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  
+  & > button {
+    background-color: rgb(255, 187, 187);
+    padding: 0.3rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    
+    &:hover {
+      background-color: rgb(255, 136, 136);
+    }
+    
+    &:active {
+      background-color: rgb(255, 76, 76);
+    }
+  }
+}
