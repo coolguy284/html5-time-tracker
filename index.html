@@ -120,10 +120,33 @@
           <option value = 'Null'>Null</option>
         </select>
         
-        <label for = 'collapse_event_groups'>
-          <input type = 'checkbox' id = 'collapse_event_groups' onchange = 'updateChartsSectionRenderingOnly();'>
-          Collapse Event Groups
-        </label>
+        <fieldset id = 'collapse_stats_by_fieldset'>
+          <legend>Collapse Stats By</legend>
+          <label for = 'stats_collapse_none'>
+            <input type = 'radio' id = 'stats_collapse_none' name = 'collapse_stats_by' onchange = 'updateChartsSectionRenderingOnly();' checked>
+            None
+          </label>
+          <label for = 'stats_collapse_main_event'>
+            <input type = 'radio' id = 'stats_collapse_main_event' name = 'collapse_stats_by' onchange = 'updateChartsSectionRenderingOnly();'>
+            Main Event
+          </label>
+          <label for = 'stats_collapse_group'>
+            <input type = 'radio' id = 'stats_collapse_group' name = 'collapse_stats_by' onchange = 'updateChartsSectionRenderingOnly();'>
+            Group
+          </label>
+        </fieldset>
+        
+        <fieldset id = 'collapse_table_by_fieldset'>
+          <legend>Collapse Table By</legend>
+          <label for = 'table_collapse_none'>
+            <input type = 'radio' id = 'table_collapse_none' name = 'collapse_table_by' onchange = 'updateChartsSectionRenderingOnly();' checked>
+            None
+          </label>
+          <label for = 'table_collapse_main_event'>
+            <input type = 'radio' id = 'table_collapse_main_event' name = 'collapse_table_by' onchange = 'updateChartsSectionRenderingOnly();'>
+            Main Event
+          </label>
+        </fieldset>
         
         <button id = 'refresh_charts_button' onclick = 'updateChartsSection();'>Refresh</button>
       </div>
@@ -247,10 +270,11 @@
     <script src = 'lib/ui_meter_manager.js'></script>
     <script src = 'globals.js'></script>
     <script src = 'func_ui_updates.js'></script>
+    <script src = 'func_ui.js'></script>
     <script src = 'func_events.js'></script>
     <script src = 'func_charts.js'></script>
     <script src = 'func_raw_data.js'></script>
-    <script src = 'ui_updates.js'></script>
+    <script src = 'init_ui_updates.js'></script>
     <script src = 'init.js'></script>
   </body>
 </html>

@@ -286,18 +286,41 @@ function updateAllStatsDisplay() {
   all_time_total_time_p.textContent = `Total: ${(totalTimeSeconds / 86_400 / 7).toFixed(3)} weeks (${(Math.floor(totalTimeSeconds / 3_600) + '').padStart(2, '0')}:${(Math.floor(totalTimeSeconds / 60 % 60) + '').padStart(2, '0')})`;
 }
 
+function updateStatsDisplay_Helper_RecalculatePercentages(statsArr) {
+  return Object.entries(
+      statsArr.reduce((a, c) => {
+        if (c[0] in a) {
+          a[c[0]][0] += c[1];
+          a[c[0]][1] += c[2];
+        } else a[c[0]] = [c[1], c[2]];
+        return a;
+      }, {})
+    )
+    .map(x => [x[0], x[1][0], x[1][1]])
+    .sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
+}
+
 function updateStatsDisplay_Helper(statsArr, statsElem) {
   removeAllChildren(statsElem);
   
   // if collapse event groups is checked, stats should only list event groups not individual events
-  if (collapse_event_groups.checked) {
-    statsArr = Object.entries(statsArr.map(entry => [getEventGroupSingle(entry[0]), entry[1], entry[2]]).reduce((a, c) => {
-      if (c[0] in a) {
-        a[c[0]][0] += c[1];
-        a[c[0]][1] += c[2];
-      } else a[c[0]] = [c[1], c[2]];
-      return a;
-    }, {})).map(x => [x[0], x[1][0], x[1][1]]).sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
+  switch (getRadioButtonValue('collapse_stats_by')) {
+    case 'None':
+      break;
+    
+    case 'Main Event':
+      statsArr = updateStatsDisplay_Helper_RecalculatePercentages(
+        statsArr
+          .map(entry => [getEventSingle(entry[0]), entry[1], entry[2]])
+      );
+      break;
+    
+    case 'Group':
+      statsArr = updateStatsDisplay_Helper_RecalculatePercentages(
+        statsArr
+          .map(entry => [getEventGroupSingle(entry[0]), entry[1], entry[2]])
+      );
+      break;
   }
   
   let totalTimeSeconds = 0;
@@ -313,9 +336,20 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
     spanElem.appendChild(spanElemColorBlock);
     spanElem.appendChild(spanElemTextNode);
     
-    let expectedColor = collapse_event_groups.checked ?
-      getEventGroupColor(entry[0]) :
-      getEventColor(entry[0]);
+    let expectedColor;
+    switch (getRadioButtonValue('collapse_stats_by')) {
+      case 'None':
+        expectedColor = getEventColor(entry[0]);
+        break;
+      
+      case 'Main Event':
+        expectedColor = getEventColor(entry[0]);
+        break;
+      
+      case 'Group':
+        expectedColor = getEventGroupColor(entry[0]);
+        break;
+    }
     
     spanElemColorBlock.style.backgroundColor = expectedColor;
     spanElem.style.color = expectedColor;

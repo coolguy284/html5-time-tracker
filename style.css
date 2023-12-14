@@ -17,7 +17,7 @@ body {
   flex-grow: 1;
 }
 
-body, #main_section_div, #events_section_div, #events_section_div fieldset {
+body, #main_section_div, #events_section_div, fieldset {
   flex-direction: column;
 }
 
@@ -47,9 +47,10 @@ label:active {
   background-color: rgb(177, 177, 185);
 }
 
-label > input[type = checkbox] {
+label > input[type = checkbox], label > input[type = radio] {
   width: 1.1rem;
   height: 1.1rem;
+  margin: 0 0.2rem 0 0;
 }
 
 hr {
@@ -68,6 +69,19 @@ select {
 h3, h4 {
   margin-top: 0.4rem;
   margin-bottom: 0.4rem;
+}
+
+fieldset {
+  gap: 0.5rem;
+  border: 0.3rem solid grey;
+  border-radius: 1rem;
+  padding: 0.4rem 0.7rem 0.75rem;
+}
+
+fieldset > legend {
+  color: black;
+  font-size: 1.1rem;
+  font-weight: bold;
 }
 
 .meter {
@@ -149,7 +163,7 @@ h3, h4 {
   padding: 1.5rem 1rem 1.5rem;
 }
 
-#events_section_div, #events_section_div fieldset {
+#events_section_div {
   gap: 0.5rem;
 }
 
@@ -192,8 +206,6 @@ h3, h4 {
 
 #events_section_div fieldset {
   border: 0.3rem solid black;
-  border-radius: 1rem;
-  padding: 0.4rem 0.7rem 0.75rem;
 }
 
 #events_section_div fieldset > legend {
@@ -211,6 +223,10 @@ h3, h4 {
 
 #charts_section_div > div > p {
   margin: 0;
+}
+
+#charts_section_div > fieldset, #charts_section_div > h4 {
+  margin-top: 1.3rem;
 }
 
 #week_picker_div > button {
@@ -310,10 +326,6 @@ h3, h4 {
 
 #stats_div, #all_time_stats_div {
   flex-direction: column;
-}
-
-label[for = collapse_event_groups] {
-  margin-top: 1.6rem;
 }
 
 #refresh_charts_button {
