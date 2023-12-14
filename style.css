@@ -211,6 +211,7 @@ fieldset > legend {
 #events_section_div fieldset > legend {
   color: lightpink;
   font-size: 1.3rem;
+  font-weight: normal;
 }
 
 
