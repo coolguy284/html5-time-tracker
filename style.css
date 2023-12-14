@@ -1,6 +1,6 @@
 /* general declarations */
 
-html, body, body :not(script, table, thead, tbody, tr, th, td) {
+html, body, body :where(:not(script, table, thead, tbody, tr, th, td)) {
   display: flex;
   flex-direction: column;
 }
@@ -26,7 +26,7 @@ button {
   justify-content: center;
 }
 
-label:not(a) {
+label {
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -35,20 +35,20 @@ label:not(a) {
   padding: 0.3rem;
   border-radius: 0.5rem;
   font-size: 1.4rem;
-}
-
-label:hover {
-  background-color: rgb(208, 208, 215);
-}
-
-label:active {
-  background-color: rgb(177, 177, 185);
-}
-
-label > input[type = checkbox], label > input[type = radio] {
-  width: 1.1rem;
-  height: 1.1rem;
-  margin: 0 0.2rem 0 0;
+  
+  &:hover {
+    background-color: rgb(208, 208, 215);
+  }
+  
+  &:active {
+    background-color: rgb(177, 177, 185);
+  }
+  
+  & > :is(input[type = checkbox], input[type = radio]) {
+    width: 1.1rem;
+    height: 1.1rem;
+    margin: 0 0.2rem 0 0;
+  }
 }
 
 hr {
@@ -74,12 +74,12 @@ fieldset {
   border: 0.3rem solid grey;
   border-radius: 1rem;
   padding: 0.4rem 0.7rem 0.75rem;
-}
-
-fieldset > legend {
-  color: black;
-  font-size: 1.1rem;
-  font-weight: bold;
+  
+  & > legend {
+    color: black;
+    font-size: 1.1rem;
+    font-weight: bold;
+  }
 }
 
 .flex_row {
@@ -107,6 +107,30 @@ fieldset > legend {
   margin-top: 1.5rem;
 }
 
+.caution_bg {
+  background-color: rgb(250, 132, 132);
+  
+  & :hover {
+    background-color: rgb(240, 103, 103);
+  }
+  
+  & :active {
+    background-color: rgb(233, 85, 85);
+  }
+}
+
+.safe_bg {
+  background-color: rgb(141, 252, 165);
+  
+  & :hover {
+    background-color: rgb(94, 226, 123);
+  }
+  
+  & :active {
+    background-color: rgb(64, 216, 97);
+  }
+}
+
 
 /* current event (top bar) block */
 
@@ -124,6 +148,13 @@ fieldset > legend {
 #scroll_to_top_button_div, #scroll_to_bottom_button_div {
   height: 0;
   flex-direction: row-reverse;
+  
+  & > button {
+    z-index: 0;
+    padding: 0 0.6rem 0.2rem;
+    margin: 0.5rem 1.3rem 0.5rem 0;
+    border: 0.3rem solid black;
+  }
 }
 
 #scroll_to_top_button_div {
@@ -134,13 +165,6 @@ fieldset > legend {
   align-items: end;
 }
 
-#scroll_to_top_button_div > button, #scroll_to_bottom_button_div > button {
-  z-index: 0;
-  padding: 0 0.6rem 0.2rem;
-  margin: 0.5rem 1.3rem 0.5rem 0;
-  border: 0.3rem solid black;
-}
-
 
 /* main section block */
 
@@ -148,13 +172,13 @@ fieldset > legend {
   flex-grow: 1;
   min-height: 0;
   justify-content: stretch;
-}
-
-#main_section_div > * {
-  flex-grow: 1;
-  flex-shrink: 1;
-  min-height: 0;
-  overflow-y: auto;
+  
+  & > * {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
 }
 
 
@@ -163,57 +187,37 @@ fieldset > legend {
 #events_section_div {
   background-color: blue;
   padding: 1.5rem 1rem 1.5rem;
-}
-
-#events_section_div {
   gap: 0.5rem;
-}
-
-#events_section_div button {
-  background-color: lightblue;
-  padding: 0.3rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1.4rem;
-  justify-content: center;
-}
-
-#events_section_div button:hover {
-  background-color: rgb(125, 197, 219);
-}
-
-#events_section_div button:active {
-  background-color: rgb(57, 171, 209);
-}
-
-#events_section_div button.current_event {
-  background-color: rgb(57, 171, 209);
-}
-
-#events_section_div label {
-  background-color: lightblue;
-}
-
-#events_section_div label:hover {
-  background-color: rgb(125, 197, 219);
-}
-
-#events_section_div label:active {
-  background-color: rgb(57, 171, 209);
-}
-
-#events_section_div label.current_event {
-  background-color: rgb(57, 171, 209);
-}
-
-#events_section_div fieldset {
-  border: 0.3rem solid black;
-}
-
-#events_section_div fieldset > legend {
-  color: lightpink;
-  font-size: 1.3rem;
-  font-weight: normal;
+  
+  & :is(button, label) { /* works without the & but it breaks syntax highlighting */
+    background-color: lightblue;
+    
+    &:hover {
+      background-color: rgb(125, 197, 219);
+    }
+    
+    &:is(:active, .current_event) {
+      background-color: rgb(57, 171, 209);
+    }
+  }
+  
+  button {
+    padding: 0.3rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.4rem;
+    justify-content: center;
+  }
+  
+  fieldset {
+    border: 0.3rem solid black;
+    
+    & > legend {
+      color: lightpink;
+      font-size: 1.3rem;
+      font-weight: normal;
+    }
+  }
 }
 
 
@@ -221,46 +225,48 @@ fieldset > legend {
 
 #charts_section_div {
   padding: 0rem 1rem 3rem;
+  
+  & > div > p {
+    margin: 0;
+  }
+  
+  & > :is(fieldset, h4) {
+    margin-top: 1.3rem;
+  }
 }
 
-#charts_section_div > div > p {
-  margin: 0;
-}
-
-#charts_section_div > fieldset, #charts_section_div > h4 {
-  margin-top: 1.3rem;
-}
-
-#week_picker_div > button {
-  background-color: white;
-  font-size: 2rem;
-  border: 0.2rem solid gray;
-  padding: 0 0.7rem 0;
-}
-
-#week_picker_div > button:hover {
-  background-color: rgb(233, 233, 233);
-}
-
-#week_picker_div > button:active {
-  background-color: rgb(214, 214, 214);
+#week_picker_div {
+  & > button {
+    background-color: white;
+    font-size: 2rem;
+    border: 0.2rem solid gray;
+    padding: 0 0.7rem 0;
+    
+    &:hover {
+      background-color: rgb(233, 233, 233);
+    }
+    
+    &:active {
+      background-color: rgb(214, 214, 214);
+    }
+  }
+  
+  & > select {
+    flex-grow: 1;
+    background-color: white;
+    font-size: 1.3rem;
+    border-top: 0.2rem solid gray;
+    border-bottom: 0.2rem solid gray;
+    border-left: none;
+    border-right: none;
+    border-radius: 0;
+    padding: 0.6rem;
+  }
 }
 
 #week_picker_div_left_button {
   border-right: none;
   border-radius: 0.4rem 0 0 0.4rem;
-}
-
-#week_picker_div > select {
-  flex-grow: 1;
-  background-color: white;
-  font-size: 1.3rem;
-  border-top: 0.2rem solid gray;
-  border-bottom: 0.2rem solid gray;
-  border-left: none;
-  border-right: none;
-  border-radius: 0;
-  padding: 0.6rem;
 }
 
 #week_picker_div_right_button {
@@ -275,16 +281,16 @@ fieldset > legend {
 #schedule_table_main_section {
   justify-content: stretch;
   gap: 0.2rem;
-}
-
-.schedule_table_main_section_class > div {
-  flex-grow: 1;
-  flex-basis: 0;
-}
-
-#schedule_table_main_section > div:first-child {
-  flex-grow: 0;
-  flex-basis: auto;
+  
+  & > div {
+    &:first-child {
+      flex-grow: 0;
+      flex-basis: auto;
+    }
+    
+    flex-grow: 1;
+    flex-basis: 0;
+  }
 }
 
 .schedule_table_header_row {
@@ -295,18 +301,18 @@ fieldset > legend {
 
 #schedule_table_main_section_times_div {
   justify-content: stretch;
-}
-
-#schedule_table_main_section_times_div > div {
-  align-items: center;
-  flex-grow: 1;
-  min-height: 0;
-  border-top: 0.1rem solid black;
-  padding: 0 0.4rem 0;
-}
-
-#schedule_table_main_section_times_div > div:last-child {
-  border-bottom: 0.1rem solid black;
+  
+  & > div {
+    align-items: center;
+    flex-grow: 1;
+    min-height: 0;
+    border-top: 0.1rem solid black;
+    padding: 0 0.4rem 0;
+    
+    &:last-child {
+      border-bottom: 0.1rem solid black;
+    }
+  }
 }
 
 .schedule_table_time_column {
@@ -321,7 +327,7 @@ fieldset > legend {
   padding: 0.7rem;
 }
 
-#stats_div > *, #all_time_stats_div > * {
+:is(#stats_div, #all_time_stats_div) > * {
   flex-direction: row;
 }
 
@@ -343,42 +349,18 @@ fieldset > legend {
   padding: 0 0 1rem;
 }
 
-button.caution_bg {
-  background-color: rgb(250, 132, 132);
-}
-
-button.caution_bg:hover {
-  background-color: rgb(240, 103, 103);
-}
-
-button.caution_bg:active {
-  background-color: rgb(233, 85, 85);
-}
-
-button.safe_bg {
-  background-color: rgb(141, 252, 165);
-}
-
-button.safe_bg:hover {
-  background-color: rgb(94, 226, 123);
-}
-
-button.safe_bg:active {
-  background-color: rgb(64, 216, 97);
-}
-
 
 /* extras section div */
 
 #extras_section_div {
   justify-content: stretch;
-}
-
-#extras_section_div > * {
-  flex-grow: 1;
-  flex-shrink: 1;
-  min-height: 0;
-  overflow-y: auto;
+  
+  & > * {
+    flex-grow: 1;
+    flex-shrink: 1;
+    min-height: 0;
+    overflow-y: auto;
+  }
 }
 
 
@@ -388,14 +370,14 @@ button.safe_bg:active {
   justify-content: stretch;
   padding: 1rem 0.5rem 0.5rem;
   gap: 0.5rem;
-}
-
-#extras_section_main_page > div {
-  justify-content: space-between;
-}
-
-#extras_section_main_page > h3 {
-  margin: 0 0 0.5rem;
+  
+  & > div {
+    justify-content: space-between;
+  }
+  
+  & > h3 {
+    margin: 0 0 0.5rem;
+  }
 }
 
 #localstorage_refresh_view_btn {
@@ -430,22 +412,22 @@ button.safe_bg:active {
 #raw_data_bottom_section_div {
   flex-wrap: wrap;
   gap: 0.5rem;
-}
-
-#raw_data_bottom_section_div > button {
-  background-color: rgb(255, 187, 187);
-  padding: 0.3rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1.2rem;
-}
-
-#raw_data_bottom_section_div > button:hover {
-  background-color: rgb(255, 136, 136);
-}
-
-#raw_data_bottom_section_div > button:active {
-  background-color: rgb(255, 76, 76);
+  
+  & > button {
+    background-color: rgb(255, 187, 187);
+    padding: 0.3rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.2rem;
+    
+    &:hover {
+      background-color: rgb(255, 136, 136);
+    }
+    
+    &:active {
+      background-color: rgb(255, 76, 76);
+    }
+  }
 }
 
 /* settings section block */
@@ -454,10 +436,10 @@ button.safe_bg:active {
   justify-content: stretch;
   padding: 0.5rem;
   gap: 0.5rem;
-}
-
-#settings_section_div > div {
-  justify-content: space-between;
+  
+  & > div {
+    justify-content: space-between;
+  }
 }
 
 
@@ -469,26 +451,26 @@ button.safe_bg:active {
   gap: 0.5rem;
   padding: 0.5rem 0.5rem 0.5rem;
   overflow-x: auto;
-}
-
-#bottom_menu_div > button {
-  flex-shrink: 0;
-  background-color: rgb(255, 232, 190);
-  padding: 0.3rem;
-  border: none;
-  border-radius: 0.5rem;
-  font-size: 1.4rem;
-  padding: 0.4rem 0.8rem 0.4rem;
-}
-
-#bottom_menu_div > button:hover {
-  background-color: rgb(255, 218, 149);
-}
-
-#bottom_menu_div > button:active {
-  background-color: rgb(248, 201, 115);
-}
-
-#bottom_menu_div > button.current_tab {
-  background-color: rgb(252, 201, 107);
+  
+  & > button {
+    flex-shrink: 0;
+    background-color: rgb(255, 232, 190);
+    padding: 0.3rem;
+    border: none;
+    border-radius: 0.5rem;
+    font-size: 1.4rem;
+    padding: 0.4rem 0.8rem 0.4rem;
+    
+    &:hover {
+      background-color: rgb(255, 218, 149);
+    }
+    
+    &:active {
+      background-color: rgb(248, 201, 115);
+    }
+    
+    &.current_tab {
+      background-color: rgb(252, 201, 107);
+    }
+  }
 }
