@@ -282,7 +282,7 @@ fieldset > legend {
   flex-basis: 0;
 }
 
-#schedule_table_main_section_first_div {
+#schedule_table_main_section > div:first-child {
   flex-grow: 0;
   flex-basis: auto;
 }
@@ -321,7 +321,7 @@ fieldset > legend {
   padding: 0.7rem;
 }
 
-#all_time_stats_div > * {
+#stats_div > *, #all_time_stats_div > * {
   flex-direction: row;
 }
 
