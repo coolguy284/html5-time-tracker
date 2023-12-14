@@ -76,7 +76,21 @@ function getEventGroupColor(groupName) {
 }
 
 function getEventColors(eventName) {
-  return getEventGroupColors(getEventGroups(eventName));
+  let eventColors = getEventGroupColors(getEventGroups(eventName));
+  
+  if (eventColors.length == 0) {
+    return eventColors;
+  } else {
+    if (eventColors.every(x => x == eventColors[0])) {
+      return [eventColors[0]];
+    } else {
+      return eventColors;
+    }
+  }
+}
+
+function getEventUniqueColors(eventName) {
+  return Array.from(new Set(getEventGroupColors(getEventGroups(eventName))));
 }
 
 function getEventColor(eventName) {

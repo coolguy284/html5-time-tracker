@@ -259,11 +259,28 @@ function updateTableAndWeekStatsDisplay() {
     
     dayData.forEach((x, i) => {
       let eventDiv = document.createElement('div');
+      
       if (i == 0 && x[1] != 0) {
         eventDiv.style.marginTop = `${x[1] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
       }
+      
       eventDiv.style.height = `${x[2] / 86_400 * TABLE_DATA_FULL_HEIGHT}rem`;
-      let eventDivColors = getRadioButtonValue('collapse_table_by') == 'Main Event' ? getEventColors(getEventSingle(x[0])) : getEventColors(x[0]);
+      
+      let eventDivColors;
+      
+      switch (getRadioButtonValue('collapse_table_by')) {
+        case 'None':
+          eventDivColors = getEventColors(x[0]);
+          break;
+        
+        case 'Identical Colors':
+          eventDivColors = getEventUniqueColors(x[0]);
+          break;
+        
+        case 'Main Event':
+          eventDivColors = getEventColors(getEventSingle(x[0]));
+          break;
+      }
       
       if (eventDivColors.length == 1) {
         eventDiv.style.backgroundColor = eventDivColors[0];
