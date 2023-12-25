@@ -85,9 +85,9 @@
         result = localStorageStoresExactly(everyCharCode);
         results.innerText += `\nResult for storing every char code: ${result ? 'Success' : 'Failure'}\n\n`;
         
-        let invalidSurrogatePair = '\udbff\udfff';
+        let invalidSurrogatePair = '\udfff\udbff';
         result = localStorageStoresExactly(invalidSurrogatePair);
-        results.innerText += `\nResult for storing an invalid surrogate pair ("${invalidSurrogatePair}"; "\udbff\udfff"): ${result ? 'Success' : 'Failure'}\n\n`;
+        results.innerText += `\nResult for storing an invalid surrogate pair ("${invalidSurrogatePair}"; "\udfff\udbff"): ${result ? 'Success' : 'Failure'}\n\n`;
       })();
       
       // gets total amount of characters currently in localStorage, using quota calculation
@@ -128,7 +128,7 @@
           };
         }
         
-        let invalidSurrogatePair = '\udbff\udfff';
+        let invalidSurrogatePair = '\udfff\udbff';
         
         if (!localStorageStoresExactly(invalidSurrogatePair)) {
           return {

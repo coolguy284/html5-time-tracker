@@ -165,7 +165,7 @@ async function localStorageTest_FillCache(progressFunc) {
     return;
   }
   
-  let invalidSurrogatePair = '\udbff\udfff';
+  let invalidSurrogatePair = '\udfff\udbff';
   
   if (progressFunc) progressFunc(`(5/5) utf-16 invalid surrogate check`);
   
