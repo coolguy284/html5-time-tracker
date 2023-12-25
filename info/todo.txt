@@ -1,4 +1,3 @@
-data page colored buttons dont highlight properly
 default event mappings map EVENT NOTHING instead of the actual name
 
 current event none selects nothing

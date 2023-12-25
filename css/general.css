@@ -110,11 +110,11 @@ fieldset {
 .caution_bg {
   background-color: rgb(250, 132, 132);
   
-  & :hover {
+  &:hover {
     background-color: rgb(240, 103, 103);
   }
   
-  & :active {
+  &:active {
     background-color: rgb(233, 85, 85);
   }
 }
@@ -122,11 +122,11 @@ fieldset {
 .safe_bg {
   background-color: rgb(141, 252, 165);
   
-  & :hover {
+  &:hover {
     background-color: rgb(94, 226, 123);
   }
   
-  & :active {
+  &:active {
     background-color: rgb(64, 216, 97);
   }
 }
