@@ -105,11 +105,11 @@ function updateCurrentEventButtonHighlight() {
   let currentHighlightedEventSplit = currentHighlightedEvent == null ? [] : currentHighlightedEvent.split(MULTI_EVENT_SPLIT);
   let currentEventSplit = currentEvent == null ? [] : currentEvent.split(MULTI_EVENT_SPLIT);
   
-  if (eventArrOnlyToggles(currentEventSplit)) {
+  if (eventArrOnlyToggles(currentEventSplit) && currentEventSplit.length != 0) {
     currentEventSplit.push(EVENT_NOTHING);
   }
   
-  currentEvent = currentEventSplit.join(MULTI_EVENT_SPLIT);
+  currentEvent = currentEvent == null ? null : currentEventSplit.join(MULTI_EVENT_SPLIT);
   
   if (currentEvent != currentHighlightedEvent) {
     let currentHighlightedEventSet = new Set(currentHighlightedEventSplit);
@@ -127,7 +127,7 @@ function updateCurrentEventButtonHighlight() {
       }
     }
     
-    currentHighlightedEvent = eventArrToEventString(currentEventSplit.filter(x => x in eventButtons));
+    currentHighlightedEvent = currentEventSplit.length == 0 ? null : eventArrToEventString(currentEventSplit.filter(x => x in eventButtons));
   }
 }
 
