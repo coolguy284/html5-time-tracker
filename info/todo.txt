@@ -1,3 +1,9 @@
+rename utf16 to utf16be for clarity
+data page colored buttons dont highlight properly
+default event mappings map EVENT NOTHING instead of the actual name
+
+current event none selects nothing
+
 rename repo to html5-time-tracker
 
 convert true/false funcs into undefined/error, its much cleaner (primarily in persistentstorage)

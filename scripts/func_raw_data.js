@@ -118,39 +118,70 @@ function rawDataDownloadToFile() {
   let textValue = getRawDataTextValue();
   
   if (textValue != null) {
-    let anchorTag = document.createElement('a');
+    let resultUint8Array;
     
-    anchorTag.setAttribute('href', 'data:application/octet-stream;base64,' + btoa(getRawDataTextValue()));
+    switch (getRawDataTextStatus()) {
+      case 'text':
+        resultUint8Array = utf16ToUint8Array(textValue);
+        break;
+      
+      case 'utf-8':
+      case 'binary':
+        resultUint8Array = packedUtf16ToUint8Array(textValue);
+        break;
+    }
     
-    anchorTag.setAttribute('download', 'archived.txt');
-    
-    anchorTag.click();
+    exportDataToFile(resultUint8Array, 'archive.txt');
   }
 }
 
-function rawDataLoadFromFile() {
-  // https://stackoverflow.com/questions/16215771/how-to-open-select-file-dialog-via-js/40971885#40971885
+function rawDataDownloadToFileUTF16ToUTF8() {
+  let textValue = getRawDataTextValue();
   
-  let inputTag = document.createElement('input');
-  inputTag.type = 'file';
-  
-  inputTag.onchange = evt => {
-    if (evt.target.files.length == 0) return;
-    
-    let file = evt.target.files[0];
-    
-    let fileReader = new FileReader();
-    
-    fileReader.readAsText(file, 'utf-8');
-    
-    fileReader.onload = readerEvt => {
-      let content = readerEvt.target.result;
+  if (textValue != null) {
+    switch (getRawDataTextStatus()) {
+      case 'text':
+        exportDataToFile(textValue, 'archive.txt');
+        break;
       
-      setRawDataTextValue(content);
-    };
-  };
+      case 'utf-8':
+      case 'binary':
+        alert('Error: data must be of type text (utf-16 BE)');
+        break;
+    }
+  }
+}
+
+async function rawDataLoadFromFile() {
+  let fileArr = await importDataFromFile();
   
-  inputTag.click();
+  if (fileArr == null) return;
+  
+  let textValue;
+  
+  if (fileArr[0] == 0 && (fileArr[1] == '{'.charCodeAt(0) || fileArr[1] == '['.charCodeAt(0))) {
+    // utf16-be encoded file; mode "text"
+    textValue = uint8ArrayToUtf16(fileArr);
+  } else {
+    // utf8 / binary encoded file
+    textValue = uint8ArrayToPackedUtf16(fileArr);
+  }
+  
+  setRawDataTextValue(textValue);
+}
+
+async function rawDataLoadFromFileUTF8ToUTF16() {
+  let fileArr = await importDataFromFile();
+  
+  if (fileArr == null) return;
+  
+  if (fileArr[0] == '{'.charCodeAt(0) || fileArr[0] == '['.charCodeAt(0)) {
+    // utf8 encoded file
+    let textValue = utf8BytesToJsString(fileArr);
+    setRawDataTextValue(textValue);
+  } else {
+    alert('Error: input file must be utf-8');
+  }
 }
 
 function prettifyJson(jsonValue, depth) {

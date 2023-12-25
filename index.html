@@ -28,6 +28,7 @@
     <link rel = 'stylesheet' href = 'css/section_extras_raw_data.css'>
     <link rel = 'stylesheet' href = 'css/section_extras_settings.css'>
   </head>
+  
   <body>
     <div id = 'current_event_div' class = 'flex_row'>
       Current Event: <span id = 'current_event_text'>Null</span>
@@ -231,7 +232,9 @@
             <button onclick = 'rawDataCreate();'>Create</button>
             <button onclick = 'rawDataDelete();'>Delete</button>
             <button onclick = 'rawDataDownloadToFile();'>Download to File</button>
+            <button onclick = 'rawDataDownloadToFileUTF16ToUTF8();'>Download to File (UTF16 -> UTF8)</button>
             <button onclick = 'rawDataLoadFromFile();'>Load from File</button>
+            <button onclick = 'rawDataLoadFromFileUTF8ToUTF16();'>Load from File (UTF8 -> UTF16)</button>
             <button onclick = 'rawDataPrettify();'>Prettify</button>
             <button onclick = 'rawDataCondensify();'>Condensify</button>
             <button onclick = 'rawDataValidate();'>Validate</button>
@@ -287,6 +290,7 @@
     <script src = 'scripts/lib/critical_code.js'></script>
     <script src = 'scripts/lib/async_manager.js'></script>
     <script src = 'scripts/lib/localstorage.js'></script>
+    <script src = 'scripts/lib/file_import_export.js'></script>
     <script src = 'scripts/lib/planner_persistent_storage.js'></script>
     <script src = 'scripts/lib/version_transmuter.js'></script>
     <script src = 'scripts/lib/page_manager.js'></script>

@@ -1,3 +1,11 @@
+function uint8ArrayToBinaryString(inputArray) {
+  return Array.from(inputArray).map(x => String.fromCharCode(x)).join('');
+}
+
+function binaryStringToUint8Array(inputString) {
+  return new Uint8Array(inputString.split('').map(x => x.charCodeAt(0)));
+}
+
 // converts a uint8array to a utf16 string
 // each char code corresponds to 2 bytes, big endian
 // string has 0 or 1 added to beginning, depending on if the input array has an even (0) or odd (1) number of bytes
@@ -67,6 +75,42 @@ function packedUtf16ToUint8Array(inputString) {
     let charCode = inputString.charCodeAt(inputString.length - 1);
     
     outputArray[outputArrayLength - 1] = Math.floor(charCode / 256);
+  }
+  
+  return outputArray;
+}
+
+// converts a uint8array to a utf16 string
+// each char code corresponds to 2 bytes, big endian
+function uint8ArrayToUtf16(inputArray) {
+  // array for string output
+  let charArray = [];
+  
+  // generate output string characters
+  for (let i = 0; i < inputArray.length; i += 2) {
+    let charCode = inputArray[i] * 256 + inputArray[i + 1];
+    
+    charArray.push(String.fromCharCode(charCode));
+  }
+  
+  return charArray.join('');
+}
+
+// converts a utf16 string to a uint8array
+// see above for format specifications
+function utf16ToUint8Array(inputString) {
+  // calculate length of uint8array
+  let outputArrayLength = inputString.length * 2;
+  
+  // create output array
+  let outputArray = new Uint8Array(outputArrayLength);
+  
+  // fill output array
+  for (let i = 0; i < inputString.length; i++) {
+    let charCode = inputString.charCodeAt(i);
+    
+    outputArray[i * 2] = Math.floor(charCode / 256);
+    outputArray[i * 2 + 1] = charCode % 256;
   }
   
   return outputArray;
