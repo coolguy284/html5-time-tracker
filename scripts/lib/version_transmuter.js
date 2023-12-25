@@ -89,14 +89,14 @@ class VersionTransmuter {
         eventMappings: {
           'Main': {
             'eventToGroup': {
-              EVENT_NOTHING : EVENT_NOTHING,
+              [EVENT_NOTHING]: EVENT_NOTHING,
               'Event' : 'Main',
-              'Event In Category' : 'Main',
-              'Event In Subcategory' : 'Main',
-              'Toggleable Event' : 'Toggles',
+              'Event In Category': 'Main',
+              'Event In Subcategory': 'Main',
+              'Toggleable Event': 'Toggles',
             },
             'groupToColor': {
-              EVENT_NOTHING: 'lightblue',
+              [EVENT_NOTHING]: 'lightblue',
               'Main': 'red',
               'Toggles': 'green',
             },

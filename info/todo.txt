@@ -1,5 +1,3 @@
-default event mappings map EVENT NOTHING instead of the actual name
-
 current event none selects nothing
 
 rename repo to html5-time-tracker
