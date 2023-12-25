@@ -6,10 +6,10 @@ function binaryStringToUint8Array(inputString) {
   return new Uint8Array(inputString.split('').map(x => x.charCodeAt(0)));
 }
 
-// converts a uint8array to a utf16 string
+// converts a uint8array to a utf16be string
 // each char code corresponds to 2 bytes, big endian
 // string has 0 or 1 added to beginning, depending on if the input array has an even (0) or odd (1) number of bytes
-function uint8ArrayToPackedUtf16(inputArray) {
+function uint8ArrayToPackedUtf16BE(inputArray) {
   // array for string output
   let charArray = [];
   
@@ -38,9 +38,9 @@ function uint8ArrayToPackedUtf16(inputArray) {
   return charArray.join('');
 }
 
-// converts a utf16 string to a uint8array
+// converts a utf16be string to a uint8array
 // see above for format specifications
-function packedUtf16ToUint8Array(inputString) {
+function packedUtf16BEToUint8Array(inputString) {
   // calculate length of uint8array
   let outputArrayLength;
   
@@ -80,9 +80,9 @@ function packedUtf16ToUint8Array(inputString) {
   return outputArray;
 }
 
-// converts a uint8array to a utf16 string
+// converts a uint8array to a utf16be string
 // each char code corresponds to 2 bytes, big endian
-function uint8ArrayToUtf16(inputArray) {
+function uint8ArrayToUtf16BE(inputArray) {
   // array for string output
   let charArray = [];
   
@@ -96,9 +96,9 @@ function uint8ArrayToUtf16(inputArray) {
   return charArray.join('');
 }
 
-// converts a utf16 string to a uint8array
+// converts a utf16be string to a uint8array
 // see above for format specifications
-function utf16ToUint8Array(inputString) {
+function utf16BEToUint8Array(inputString) {
   // calculate length of uint8array
   let outputArrayLength = inputString.length * 2;
   
@@ -134,7 +134,7 @@ function codePointToSurrogatePair(codePoint) {
   return [0xd800 + Math.floor(codePoint / 1024), 0xdc00 + codePoint % 1024];
 }
 
-function utf16StringToCodePointArray(utf16String) {
+function utf16BEStringToCodePointArray(utf16String) {
   // surrogates: d800-dbff dc00-dfff (1024 is the range of each)
   
   let codePointArray = [];
@@ -181,13 +181,13 @@ function utf16StringToCodePointArray(utf16String) {
   return codePointArray;
 }
 
-function codePointArrayToUtf16String(codePointArray) {
+function codePointArrayToUtf16BEString(codePointArray) {
   let utf16StringArray = [];
   
   for (let codePoint of codePointArray) {
     if (codePoint > 1048576) {
-      // codepoint is too big for utf16
-      throw new Error('Codepoint is too big for utf16');
+      // codepoint is too big for utf16be
+      throw new Error('Codepoint is too big for utf16be');
     } else if (codePoint > 0xffff) {
       // codepoint must be split into surrogates
       utf16StringArray.push(...String.fromCharCode(...codePointToSurrogatePair(codePoint)))
@@ -405,9 +405,9 @@ function utf8BytesToCodePointArray(utf8Bytes) {
 }
 
 function jsStringToUtf8Bytes(inputString) {
-  return codePointArrayToUtf8Bytes(utf16StringToCodePointArray(inputString));
+  return codePointArrayToUtf8Bytes(utf16BEStringToCodePointArray(inputString));
 }
 
 function utf8BytesToJsString(utf8Bytes) {
-  return codePointArrayToUtf16String(utf8BytesToCodePointArray(utf8Bytes));
+  return codePointArrayToUtf16BEString(utf8BytesToCodePointArray(utf8Bytes));
 }

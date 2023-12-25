@@ -182,9 +182,9 @@ class VersionTransmuter {
         if (firstChar == '{' || this.#data[1] == '[') {
           // binary data represents json most likely
           
-          let bytes = packedUtf16ToUint8Array(this.#data);
+          let bytes = packedUtf16BEToUint8Array(this.#data);
           let codePoints = utf8BytesToCodePointArray(bytes);
-          let string = codePointArrayToUtf16String(codePoints);
+          let string = codePointArrayToUtf16BEString(codePoints);
           
           try {
             let parsed = JSON.parse(string);
@@ -430,9 +430,9 @@ class VersionTransmuter {
   }
   
   #transmuteJSONUTF8ToJSON() {
-    let bytes = packedUtf16ToUint8Array(this.#data);
+    let bytes = packedUtf16BEToUint8Array(this.#data);
     let codePoints = utf8BytesToCodePointArray(bytes);
-    let string = codePointArrayToUtf16String(codePoints);
+    let string = codePointArrayToUtf16BEString(codePoints);
     this.#data = string;
   }
   
@@ -481,9 +481,9 @@ class VersionTransmuter {
   }
   
   #transmuteJSONToJSONUTF8() {
-    let codePoints = utf16StringToCodePointArray(this.#data);
+    let codePoints = utf16BEStringToCodePointArray(this.#data);
     let bytes = codePointArrayToUtf8Bytes(codePoints);
-    let packedString = uint8ArrayToPackedUtf16(bytes);
+    let packedString = uint8ArrayToPackedUtf16BE(bytes);
     this.#data = packedString;
   }
   

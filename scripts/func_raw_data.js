@@ -11,11 +11,11 @@ function getRawDataTextValue() {
         bytes.push(parseInt(hexString.slice(i, i + 2), 16));
       }
       
-      return uint8ArrayToPackedUtf16(bytes);
+      return uint8ArrayToPackedUtf16BE(bytes);
     } else if (raw_data_text.value.startsWith('utf-8:\n')) {
       let utf8String = raw_data_text.value.slice(7);
       
-      return uint8ArrayToPackedUtf16(codePointArrayToUtf8Bytes(utf16StringToCodePointArray(utf8String)));
+      return uint8ArrayToPackedUtf16BE(codePointArrayToUtf8Bytes(utf16BEStringToCodePointArray(utf8String)));
     } else {
       return raw_data_text.value;
     }
@@ -62,9 +62,9 @@ function setRawDataTextValue(value) {
       let firstChar = String.fromCharCode(Math.floor(value.charCodeAt(1) / 256));
       
       if (firstChar == '{' || firstChar == '[') {
-        raw_data_text.value = 'utf-8:\n' + codePointArrayToUtf16String(utf8BytesToCodePointArray(packedUtf16ToUint8Array(value)));
+        raw_data_text.value = 'utf-8:\n' + codePointArrayToUtf16BEString(utf8BytesToCodePointArray(packedUtf16BEToUint8Array(value)));
       } else {
-        let bytes = packedUtf16ToUint8Array(value);
+        let bytes = packedUtf16BEToUint8Array(value);
         
         raw_data_text.value = 'binary:\n' + Array.from(bytes).map(x => x.toString(16).padStart(2, '0')).join('');
       }
@@ -122,12 +122,12 @@ function rawDataDownloadToFile() {
     
     switch (getRawDataTextStatus()) {
       case 'text':
-        resultUint8Array = utf16ToUint8Array(textValue);
+        resultUint8Array = utf16BEToUint8Array(textValue);
         break;
       
       case 'utf-8':
       case 'binary':
-        resultUint8Array = packedUtf16ToUint8Array(textValue);
+        resultUint8Array = packedUtf16BEToUint8Array(textValue);
         break;
     }
     
@@ -135,7 +135,7 @@ function rawDataDownloadToFile() {
   }
 }
 
-function rawDataDownloadToFileUTF16ToUTF8() {
+function rawDataDownloadToFileUTF16BEToUTF8() {
   let textValue = getRawDataTextValue();
   
   if (textValue != null) {
@@ -160,17 +160,17 @@ async function rawDataLoadFromFile() {
   let textValue;
   
   if (fileArr[0] == 0 && (fileArr[1] == '{'.charCodeAt(0) || fileArr[1] == '['.charCodeAt(0))) {
-    // utf16-be encoded file; mode "text"
-    textValue = uint8ArrayToUtf16(fileArr);
+    // utf16be encoded file; mode "text"
+    textValue = uint8ArrayToUtf16BE(fileArr);
   } else {
     // utf8 / binary encoded file
-    textValue = uint8ArrayToPackedUtf16(fileArr);
+    textValue = uint8ArrayToPackedUtf16BE(fileArr);
   }
   
   setRawDataTextValue(textValue);
 }
 
-async function rawDataLoadFromFileUTF8ToUTF16() {
+async function rawDataLoadFromFileUTF8ToUTF16BE() {
   let fileArr = await importDataFromFile();
   
   if (fileArr == null) return;

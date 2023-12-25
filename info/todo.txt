@@ -1,4 +1,3 @@
-rename utf16 to utf16be for clarity
 data page colored buttons dont highlight properly
 default event mappings map EVENT NOTHING instead of the actual name
 

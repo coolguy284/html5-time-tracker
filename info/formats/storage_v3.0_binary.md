@@ -1,6 +1,6 @@
 # Events Storage Format V3.0 Binary
 ```
-format is a packed-utf16 (binary) string
+format is a packed-utf16be (binary) string
 
 unless otherwise specified, all ints are big endian
 
