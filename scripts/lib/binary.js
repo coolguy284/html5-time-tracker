@@ -123,13 +123,15 @@ function surrogatePairToCodePoint(highCharCode, lowCharCode) {
     throw new Error('low surrogate not in range');
   }
   
-  return (highCharCode & 0b0000001111111111) * 1024 + (lowCharCode & 0b0000001111111111);
+  return (highCharCode & 0b0000001111111111) * 1024 + (lowCharCode & 0b0000001111111111) + 0x10000;
 }
 
 function codePointToSurrogatePair(codePoint) {
-  if (codePoint <= 0xffff) {
+  if (codePoint <= 0xffff || codePoint >= 0x110000) {
     throw new Error('code point not in surrogate pair range');
   }
+  
+  codePoint -= 0x10000;
   
   return [0xd800 + Math.floor(codePoint / 1024), 0xdc00 + codePoint % 1024];
 }
