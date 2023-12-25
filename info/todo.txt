@@ -1,4 +1,3 @@
-fix invalid surrogate pair check uses valid surrogate
 data page colored buttons dont highlight properly
 default event mappings map EVENT NOTHING instead of the actual name
 
