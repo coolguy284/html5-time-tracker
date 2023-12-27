@@ -14,18 +14,17 @@
 #raw_data_text {
   resize: none;
   line-break: anywhere;
-  min-height: 9rem;
+  min-height: 20rem;
 }
 
 #raw_data_bottom_section_div {
   flex-wrap: wrap;
   gap: 0.5rem;
   
-  & > button {
+  button {
     background-color: rgb(255, 187, 187);
     padding: 0.3rem;
     border: none;
-    border-radius: 0.5rem;
     font-size: 1.2rem;
     
     &:hover {
@@ -35,5 +34,9 @@
     &:active {
       background-color: rgb(255, 76, 76);
     }
+  }
+  
+  & > div {
+    gap: 0.14rem;
   }
 }

@@ -98,6 +98,18 @@ textarea {
   align-items: center;
 }
 
+.flat_left {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+}
+
+.flat_right {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+}
+
 .meter {
   flex-direction: row;
   height: 1.5rem;
