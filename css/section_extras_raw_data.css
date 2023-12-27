@@ -18,8 +18,16 @@
 }
 
 #raw_data_bottom_section_div {
+  flex-direction: row;
+  align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
+  
+  * {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
   
   button {
     background-color: rgb(255, 187, 187);
@@ -36,7 +44,16 @@
     }
   }
   
-  & > div {
+  h4 {
+    margin: 0;
+  }
+  
+  .narrow_gap {
     gap: 0.14rem;
+  }
+  
+  .scroll_buttons {
+    padding-left: 0.7rem;
+    padding-right: 0.7rem;
   }
 }

@@ -114,7 +114,7 @@ function rawDataDelete() {
   rawDataLoad();
 }
 
-function rawDataDownloadToFile() {
+function rawDataExportToFile() {
   let textValue = getRawDataTextValue();
   
   if (textValue != null) {
@@ -135,7 +135,7 @@ function rawDataDownloadToFile() {
   }
 }
 
-function rawDataDownloadToFileUTF16BEToUTF8() {
+function rawDataExportToFileUTF16BEToUTF8() {
   let textValue = getRawDataTextValue();
   
   if (textValue != null) {
@@ -152,7 +152,7 @@ function rawDataDownloadToFileUTF16BEToUTF8() {
   }
 }
 
-async function rawDataLoadFromFile() {
+async function rawDataImportFromFile() {
   let fileArr = await importDataFromFile();
   
   if (fileArr == null) return;
@@ -170,7 +170,7 @@ async function rawDataLoadFromFile() {
   setRawDataTextValue(textValue);
 }
 
-async function rawDataLoadFromFileUTF8ToUTF16BE() {
+async function rawDataImportFromFileUTF8ToUTF16BE() {
   let fileArr = await importDataFromFile();
   
   if (fileArr == null) return;

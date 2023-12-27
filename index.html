@@ -247,26 +247,31 @@
           <div id = 'raw_data_top_section_div'>
             <textarea id = 'raw_data_text' autocapitalize = 'off' spellcheck = 'false'></textarea>
           </div>
-          <div id = 'raw_data_bottom_section_div' class = 'flex_row'>
+          <div id = 'raw_data_bottom_section_div'>
+            <h4>Basic:</h4>
             <button onclick = 'rawDataSave();'>Save</button>
             <button onclick = 'rawDataLoad();'>Load</button>
             <button onclick = 'rawDataCreate();'>Create</button>
             <button onclick = 'rawDataDelete();'>Delete</button>
-            <div class = 'flex_row'>
-              <button class = 'flat_right' onclick = 'rawDataDownloadToFile();'>Download to File</button>
-              <button class = 'flat_left' onclick = 'rawDataDownloadToFileUTF16BEToUTF8();'>(UTF16BE -> UTF8)</button>
-            </div>
-            <div class = 'flex_row'>
-              <button class = 'flat_right' onclick = 'rawDataLoadFromFile();'>Load from File</button>
-              <button class = 'flat_left' onclick = 'rawDataLoadFromFileUTF8ToUTF16BE();'>(UTF8 -> UTF16BE)</button>
-            </div>
+            <h4>JSON:</h4>
             <button onclick = 'rawDataPrettify();'>Prettify</button>
             <button onclick = 'rawDataCondensify();'>Condensify</button>
             <button onclick = 'rawDataValidate();'>Validate</button>
-            <button onclick = 'rawDataScrollToTop();'>Scroll To Top</button>
-            <button onclick = 'rawDataScrollToBottom();'>Scroll To Bottom</button>
-            <button onclick = 'rawDataSaveInMemoryData();'>Save In-Memory Data</button>
-            <button onclick = 'rawDataLoadInMemoryData();'>Load In-Memory Data</button>
+            <h4>File:</h4>
+            <div class = 'narrow_gap'>
+              <button class = 'flat_right' onclick = 'rawDataExportToFile();'>Export</button>
+              <button class = 'flat_left' onclick = 'rawDataExportToFileUTF16BEToUTF8();'>(UTF16BE -> UTF8)</button>
+            </div>
+            <div class = 'narrow_gap'>
+              <button class = 'flat_right' onclick = 'rawDataImportFromFile();'>Import</button>
+              <button class = 'flat_left' onclick = 'rawDataImportFromFileUTF8ToUTF16BE();'>(UTF8 -> UTF16BE)</button>
+            </div>
+            <h4>Scroll:</h4>
+            <button class = 'scroll_buttons' onclick = 'rawDataScrollToTop();'>&and;</button>
+            <button class = 'scroll_buttons' onclick = 'rawDataScrollToBottom();'>&or;</button>
+            <h4>In-Memory Data:</h4>
+            <button onclick = 'rawDataSaveInMemoryData();'>Save</button>
+            <button onclick = 'rawDataLoadInMemoryData();'>Load</button>
           </div>
         </div>
         
