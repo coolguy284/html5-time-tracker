@@ -266,9 +266,11 @@
               <button class = 'flat_right' onclick = 'rawDataImportFromFile();'>Import</button>
               <button class = 'flat_left' onclick = 'rawDataImportFromFileUTF8ToUTF16BE();'>(UTF8 -> UTF16BE)</button>
             </div>
-            <h4>Scroll:</h4>
-            <button class = 'scroll_buttons' onclick = 'rawDataScrollToTop();'>&and;</button>
-            <button class = 'scroll_buttons' onclick = 'rawDataScrollToBottom();'>&or;</button>
+            <div>
+              <h4>Scroll:</h4>
+              <button class = 'scroll_buttons' onclick = 'rawDataScrollToTop();'>&and;</button>
+              <button class = 'scroll_buttons' onclick = 'rawDataScrollToBottom();'>&or;</button>
+            </div>
             <h4>In-Memory Data:</h4>
             <button onclick = 'rawDataSaveInMemoryData();'>Save</button>
             <button onclick = 'rawDataLoadInMemoryData();'>Load</button>
