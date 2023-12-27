@@ -19,7 +19,7 @@ body {
 }
 
 button {
-  padding: 0.3rem;
+  padding: 0.3rem 0.5rem 0.3rem;
   border: none;
   border-radius: 0.5rem;
   font-size: 1.4rem;
@@ -82,8 +82,20 @@ fieldset {
   }
 }
 
+textarea {
+  flex-grow: 1;
+  border-radius: 0.8rem;
+  border: 0.1rem solid gray;
+  padding: 0.3rem;
+  font-size: 1.5rem;
+}
+
 .flex_row {
   flex-direction: row;
+}
+
+.centered {
+  align-items: center;
 }
 
 .meter {

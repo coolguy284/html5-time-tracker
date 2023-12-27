@@ -273,9 +273,23 @@ class PlannerPersistentStorage {
     return deepClone(this.#eventPriorities);
   }
   
+  setEventPriorities(newEventPriorities) {
+    this.#loadIfNotAlready();
+    this.#eventPriorities = deepClone(newEventPriorities);
+    this.#jsDispatchEvent(new CustomEvent('eventMappingsPrioritiesUpdate'));
+    this.saveOrCreateNew();
+  }
+  
   getEventMappings() {
     this.#loadIfNotAlready();
     return deepClone(this.#eventMappings);
+  }
+  
+  setEventMappings(newEventMappings) {
+    this.#loadIfNotAlready();
+    this.#eventMappings = deepClone(newEventMappings);
+    this.#jsDispatchEvent(new CustomEvent('eventMappingsPrioritiesUpdate'));
+    this.saveOrCreateNew();
   }
   
   // complex commands

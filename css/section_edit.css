@@ -1,0 +1,13 @@
+#edit_section_div {
+  padding: 0.5rem;
+  gap: 0.5rem;
+  
+  & > div {
+    gap: 0.5rem;
+  }
+}
+
+#pseudo_raw_data_text {
+  resize: none;
+  min-height: 15rem;
+}

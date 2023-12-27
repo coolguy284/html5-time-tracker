@@ -22,6 +22,7 @@
     <link rel = 'stylesheet' href = 'css/section_main.css'>
     <link rel = 'stylesheet' href = 'css/section_events.css'>
     <link rel = 'stylesheet' href = 'css/section_charts.css'>
+    <link rel = 'stylesheet' href = 'css/section_edit.css'>
     <link rel = 'stylesheet' href = 'css/section_data.css'>
     <link rel = 'stylesheet' href = 'css/section_extras.css'>
     <link rel = 'stylesheet' href = 'css/section_extras_main.css'>
@@ -190,6 +191,26 @@
         </label>
       </div>
       
+      <div id = 'edit_section_div' style = 'display: none;'>
+        <div class = 'flex_row centered'>
+          <h4>Lines Shown</h4>
+          <select>
+            <option>10</option>
+            <option>50</option>
+            <option selected>100</option>
+            <option>500</option>
+            <option>1000</option>
+            <option>5000</option>
+            <option>All</option>
+            <option>Custom</option>
+          </select>
+          <button onclick = 'setPseudoRawData();'>Set</button>
+          <button onclick = 'reloadPseudoRawData();'>Reload</button>
+        </div>
+        
+        <textarea id = 'pseudo_raw_data_text'></textarea>
+      </div>
+      
       <div id = 'extras_section_div' style = 'display: none;'>
         <div id = 'extras_section_main_page'>
           <h3 class = 'med_top_gap'>Storage Use</h3>
@@ -279,6 +300,7 @@
       <button id = 'events_div_button' class = 'current_tab' onclick = 'switchPage(this);'>Events</button>
       <button id = 'charts_div_button' onclick = 'switchPage(this);'>Charts</button>
       <button id = 'data_div_button' onclick = 'switchPage(this);'>Data</button>
+      <button id = 'edit_div_button' onclick = 'switchPage(this);'>Edit</button>
       <button id = 'extras_div_button' onclick = 'switchPage(this);'>Extras</button>
     </div>
     
@@ -300,6 +322,7 @@
     <script src = 'scripts/func_ui.js'></script>
     <script src = 'scripts/func_events.js'></script>
     <script src = 'scripts/func_charts.js'></script>
+    <script src = 'scripts/func_edit.js'></script>
     <script src = 'scripts/func_raw_data.js'></script>
     <script src = 'scripts/init_ui_updates.js'></script>
     <script src = 'scripts/init.js'></script>

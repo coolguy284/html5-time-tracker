@@ -64,6 +64,21 @@ mainPageManager.addPages({
       () => hideScrollButtons(),
     ],
   },
+  'Edit': {
+    htmlElem: edit_section_div,
+    buttonElem: edit_div_button,
+    dirtyBitListeners: {
+      'eventsUpdate': [
+        () => reloadPseudoRawData(),
+      ],
+      'eventButtonsUpdate': [
+        () => reloadPseudoRawData(),
+      ],
+      'eventMappingsPrioritiesUpdate': [
+        () => reloadPseudoRawData(),
+      ],
+    },
+  },
   'Extras': {
     htmlElem: extras_section_div,
     buttonElem: extras_div_button,
