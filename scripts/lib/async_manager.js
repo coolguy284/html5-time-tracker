@@ -74,12 +74,8 @@ class AsyncManager {
   async startAsyncTask(taskName, groupNames, exclusive, enterHandlers, exitHandlers) {
     switch (exclusive) {
       case 'task':
-        if (this.taskCurrentlyRunning(taskName)) {
+        while (this.taskCurrentlyRunning(taskName)) {
           await this.awaitTaskFinish(taskName);
-        }
-        
-        if (this.taskCurrentlyRunning(taskName)) {
-          throw new Error('awaitTaskFinish failed');
         }
         break;
       
@@ -88,31 +84,19 @@ class AsyncManager {
           throw new Error('Task must have groups if exclusive mode is group');
         }
         
-        if (this.groupsCurrentlyRunning(groupNames)) {
+        while (this.groupsCurrentlyRunning(groupNames)) {
           await this.awaitGroupsFinish(groupNames);
-        }
-        
-        if (this.groupsCurrentlyRunning(groupNames)) {
-          throw new Error('awaitGroupsFinish failed');
         }
         break;
       
       case 'all':
-        if (this.anyTaskRunning()) {
+        while (this.anyTaskRunning()) {
           await this.awaitAllTasksFinish();
-        }
-        
-        if (this.anyTaskRunning()) {
-          throw new Error('awaitAllTasksFinish failed');
         }
         break;
       
       default:
         throw new Error('Invalid value for exclusive');
-    }
-    
-    for (let handler of enterHandlers) {
-      await handler();
     }
     
     let asyncTask = {
@@ -129,6 +113,14 @@ class AsyncManager {
         };
         
         this.#currentGroups.set(groupName, asyncGroup);
+      }
+    }
+    
+    for (let handler of enterHandlers) {
+      try {
+        await handler();
+      } catch (e) {
+        console.error(e);
       }
     }
     
@@ -178,7 +170,9 @@ class AsyncManager {
     
     for (let listener of finishListenersToCall) {
       try {
+        console.log('l');
         await listener();
+        console.log('l2');
       } catch (e) {
         console.error(e);
       }
@@ -209,6 +203,10 @@ class AsyncManager {
     let exitHandlers = options.exitHandlers ?? [];
     
     return async (...args) => {
+      if (!window.v) window.v = 0;
+      window.v++;
+      let vv = window.v;
+      console.log('vstart', vv);
       let asyncTaskHandle;
       
       switch (options.alreadyRunningBehavior) {
@@ -252,6 +250,7 @@ class AsyncManager {
         }
         
         try {
+          console.log('vstart2', vv);
           return await func(...args);
         } finally {
           if (options.critical) {
@@ -259,7 +258,9 @@ class AsyncManager {
           }
         }
       } finally {
+        console.log('vstop', vv);
         await asyncTaskHandle.finish();
+        console.log('vstop2', vv);
       }
     };
   }
