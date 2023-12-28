@@ -1,8 +1,5 @@
 schedule_table_main_section_times_div.style.height = `${TABLE_DATA_FULL_HEIGHT}rem`;
 
-
-eventManager.loadFromMediumOrFillWithDefault();
-
 addEventListener('keydown', evt => {
   // if on charts page and left or right arrow pressed, go to next or previous week
   if (mainPageManager.getCurrentPage() == 'Charts') {
@@ -30,14 +27,19 @@ addEventListener('storage', evt => {
   }
 });
 
-globalEventTarget.addEventListener('storageUpdate', () => {
-  if (storageManager.getMediumFormat() == 'LocalStorage') {
-    eventManager.loadFromMediumOrFillWithDefault();
+globalEventTarget.addEventListener('storageUpdate', async () => {
+  if (await storageManager.getMediumFormat() == 'LocalStorage') {
+    await eventManager.loadFromMediumOrFillWithDefault();
   }
 });
 
-refreshLocalStorageCapacityView();
-updateSettingsPagePersistenceStatus();
-
 mainPageManager.switchPage('Events');
 extrasPageManager.deactivateWithPage('Main');
+
+(async () => {
+  await Promise.all([
+    eventManager.loadFromMediumOrFillWithDefault(),
+    refreshLocalStorageCapacityView(),
+    updateSettingsPagePersistenceStatus(),
+  ]);
+});

@@ -179,13 +179,13 @@
       
       <div id = 'data_section_div' style = 'display: none;'>
         <div id = 'data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
-        <button class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
-        <button class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
-        <button class = 'caution_bg' onclick = 'purgeRemovedEntries();'>Purge Removed Entries</button>
-        <button class = 'caution_bg' onclick = 'purgeBacktemporalEntries();'>Purge Backtemporal Entries</button>
-        <button class = 'caution_bg' onclick = 'bothPurgeEntries();'>Run Both Purges</button>
-        <button onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
-        <button onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
+        <button id = 'remove_last_evt_btn' class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
+        <button id = 'unremove_last_evt_btn' class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
+        <button id = 'purge_removed_entries_btn' class = 'caution_bg' onclick = 'purgeRemovedEntries();'>Purge Removed Entries</button>
+        <button id = 'purge_backtemporal_entries_btn' class = 'caution_bg' onclick = 'purgeBacktemporalEntries();'>Purge Backtemporal Entries</button>
+        <button id = 'both_purges_btn' class = 'caution_bg' onclick = 'bothPurgeEntries();'>Run Both Purges</button>
+        <button id = 'duplicate_evt_backwards_btn' onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
+        <button id = 'set_last_evt_annotation_btn' onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
         <label for = 'data_section_collapse_duplicates'>
           <input type = 'checkbox' id = 'data_section_collapse_duplicates' onchange = 'updateDataSectionDisplay();' checked>
           Collapse Duplicates
@@ -227,8 +227,8 @@
           
           <hr class = 'vertical'>
           
-          <button onclick = 'reloadPseudoRawData();'>Reload</button>
-          <button onclick = 'setPseudoRawData();'>Set</button>
+          <button id = 'reload_pseudo_raw_data_btn' onclick = 'reloadPseudoRawData();'>Reload</button>
+          <button id = 'set_pseudo_raw_data_btn' onclick = 'setPseudoRawData();'>Set</button>
         </div>
         
         <textarea id = 'pseudo_raw_data_text'></textarea>
@@ -367,8 +367,8 @@
           <div id = 'raw_data_bottom_section_div' class = 'red_buttons'>
             <h4>Basic:</h4>
             <button onclick = 'rawDataSave();'>Save</button>
-            <button onclick = 'rawDataLoad();'>Load</button>
-            <button onclick = 'rawDataCreate();'>Create</button>
+            <button id = 'raw_data_load_btn' onclick = 'rawDataLoad();'>Load</button>
+            <button id = 'raw_data_create_btn' onclick = 'rawDataCreate();'>Create</button>
             <button onclick = 'rawDataDelete();'>Delete</button>
             
             <h4>JSON:</h4>
@@ -382,8 +382,8 @@
               <button class = 'flat_left' onclick = 'rawDataExportToFileUTF16BEToUTF8();'>(UTF16BE -> UTF8)</button>
             </div>
             <div class = 'narrow_gap'>
-              <button class = 'flat_right' onclick = 'rawDataImportFromFile();'>Import</button>
-              <button class = 'flat_left' onclick = 'rawDataImportFromFileUTF8ToUTF16BE();'>(UTF8 -> UTF16BE)</button>
+              <button id = 'raw_data_import_from_file_btn' class = 'flat_right' onclick = 'rawDataImportFromFile();'>Import</button>
+              <button id = 'raw_data_import_from_file_2_btn' class = 'flat_left' onclick = 'rawDataImportFromFileUTF8ToUTF16BE();'>(UTF8 -> UTF16BE)</button>
             </div>
             
             <div>
@@ -394,7 +394,7 @@
             
             <h4>In-Memory Data:</h4>
             <button onclick = 'rawDataSaveInMemoryData();'>Save</button>
-            <button onclick = 'rawDataLoadInMemoryData();'>Load</button>
+            <button id = 'raw_data_load_in_memory_data_btn' onclick = 'rawDataLoadInMemoryData();'>Load</button>
           </div>
         </div>
         

@@ -1,7 +1,7 @@
 // Setup listener for currentevent banner at top
 
-eventManager.jsAddEventListener('eventsUpdate', () => {
-  updateTopBanner();
+eventManager.jsAddEventListener('eventsUpdate', async () => {
+  await updateTopBanner();
 });
 
 // Setup listeners for each main page
@@ -20,11 +20,11 @@ mainPageManager.addPages({
     buttonElem: events_div_button,
     dirtyBitListeners: {
       'eventsUpdate': [
-        () => updateCurrentEventCheckboxes(),
-        () => updateCurrentEventButtonHighlight(),
+        async () => await updateCurrentEventCheckboxes(),
+        async () => await updateCurrentEventButtonHighlight(),
       ],
       'eventButtonsUpdate': [
-        () => updateDisplayedButtons(),
+        async () => await updateDisplayedButtons(),
       ],
     },
   },
@@ -33,18 +33,18 @@ mainPageManager.addPages({
     buttonElem: charts_div_button,
     dirtyBitListeners: {
       'eventsUpdate': [
-        () => {
+        async () => {
           // if this event gets called first (shouldn't happen) chart page might error when updating
           try {
-            updateChartsSection();
+            await updateChartsSection();
           } catch {
-            updateChartsSectionMainEventsUpdate();
-            updateChartsSection();
+            await updateChartsSectionMainEventsUpdate();
+            await updateChartsSection();
           }
         },
       ],
       'eventMappingsPrioritiesUpdate': [
-        () => updateChartsSectionMainEventsUpdate(),
+        async () => await updateChartsSectionMainEventsUpdate(),
       ],
     },
   },
@@ -53,7 +53,7 @@ mainPageManager.addPages({
     buttonElem: data_div_button,
     dirtyBitListeners: {
       'eventsUpdate': [
-        () => updateDataSectionDisplay(),
+        async () => await updateDataSectionDisplay(),
         () => checkDataSectionScrollHeight(),
       ],
     },
@@ -69,13 +69,13 @@ mainPageManager.addPages({
     buttonElem: edit_div_button,
     dirtyBitListeners: {
       'eventsUpdate': [
-        () => reloadPseudoRawData(),
+        async () => await reloadPseudoRawData(),
       ],
       'eventButtonsUpdate': [
-        () => reloadPseudoRawData(),
+        async () => await reloadPseudoRawData(),
       ],
       'eventMappingsPrioritiesUpdate': [
-        () => reloadPseudoRawData(),
+        async () => await reloadPseudoRawData(),
       ],
     },
   },

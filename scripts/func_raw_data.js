@@ -93,21 +93,29 @@ function rawDataSave() {
   }
 }
 
-function rawDataLoad() {
-  if (!storageManager.dataIsStored()) {
-    setRawDataTextValue(null);
-  } else {
-    setRawDataTextValue(storageManager.getDataAsUtf16());
+let rawDataLoad = asyncManager.wrapAsyncFunctionWithButton(
+  'rawDataLoad',
+  raw_data_load_btn,
+  async () => {
+    if (!(await storageManager.dataIsStored())) {
+      setRawDataTextValue(null);
+    } else {
+      setRawDataTextValue(storageManager.getDataAsUtf16());
+    }
   }
-}
+);
 
-function rawDataCreate() {
-  if (!storageManager.dataIsStored()) {
-    storageManager.setDataAsUtf16('');
-    rawDataLoad();
-    dispatchStorageUpdate();
+let rawDataCreate = asyncManager.wrapAsyncFunctionWithButton(
+  'rawDataCreate',
+  raw_data_create_btn,
+  async () => {
+    if (!(await storageManager.dataIsStored())) {
+      storageManager.setDataAsUtf16('');
+      rawDataLoad();
+      dispatchStorageUpdate();
+    }
   }
-}
+);
 
 function rawDataDelete() {
   if (!confirm('Are you sure?')) return;
@@ -155,37 +163,45 @@ function rawDataExportToFileUTF16BEToUTF8() {
   }
 }
 
-async function rawDataImportFromFile() {
-  let fileArr = await importDataFromFile();
-  
-  if (fileArr == null) return;
-  
-  let textValue;
-  
-  if (fileArr[0] == 0 && (fileArr[1] == '{'.charCodeAt(0) || fileArr[1] == '['.charCodeAt(0))) {
-    // utf16be encoded file; mode "text"
-    textValue = uint8ArrayToUtf16BE(fileArr);
-  } else {
-    // utf8 / binary encoded file
-    textValue = uint8ArrayToPackedUtf16BE(fileArr);
-  }
-  
-  setRawDataTextValue(textValue);
-}
-
-async function rawDataImportFromFileUTF8ToUTF16BE() {
-  let fileArr = await importDataFromFile();
-  
-  if (fileArr == null) return;
-  
-  if (fileArr[0] == '{'.charCodeAt(0) || fileArr[0] == '['.charCodeAt(0)) {
-    // utf8 encoded file
-    let textValue = utf8BytesToJsString(fileArr);
+let rawDataImportFromFile = asyncManager.wrapAsyncFunctionWithButton(
+  'rawDataImportFromFile',
+  [raw_data_import_from_file_btn, raw_data_import_from_file_2_btn],
+  async () => {
+    let fileArr = await importDataFromFile();
+    
+    if (fileArr == null) return;
+    
+    let textValue;
+    
+    if (fileArr[0] == 0 && (fileArr[1] == '{'.charCodeAt(0) || fileArr[1] == '['.charCodeAt(0))) {
+      // utf16be encoded file; mode "text"
+      textValue = uint8ArrayToUtf16BE(fileArr);
+    } else {
+      // utf8 / binary encoded file
+      textValue = uint8ArrayToPackedUtf16BE(fileArr);
+    }
+    
     setRawDataTextValue(textValue);
-  } else {
-    alert('Error: input file must be utf-8');
   }
-}
+);
+
+let rawDataImportFromFileUTF8ToUTF16BE = asyncManager.wrapAsyncFunctionWithButton(
+  'rawDataImportFromFileUTF8ToUTF16BE',
+  [raw_data_import_from_file_btn, raw_data_import_from_file_2_btn],
+  async () => {
+    let fileArr = await importDataFromFile();
+    
+    if (fileArr == null) return;
+    
+    if (fileArr[0] == '{'.charCodeAt(0) || fileArr[0] == '['.charCodeAt(0)) {
+      // utf8 encoded file
+      let textValue = utf8BytesToJsString(fileArr);
+      setRawDataTextValue(textValue);
+    } else {
+      alert('Error: input file must be utf-8');
+    }
+  }
+);
 
 function prettifyJson(jsonValue, depth) {
   if (depth == null) depth = 0;
@@ -357,6 +373,10 @@ function rawDataSaveInMemoryData() {
   eventManager.saveOrCreateNew();
 }
 
-function rawDataLoadInMemoryData() {
-  eventManager.loadFromMediumOrFillWithDefault();
-}
+let rawDataLoadInMemoryData = asyncManager.wrapAsyncFunctionWithButton(
+  'rawDataLoadInMemoryData',
+  raw_data_load_in_memory_data_btn,
+  async () => {
+    await eventManager.loadFromMediumOrFillWithDefault();
+  }
+);

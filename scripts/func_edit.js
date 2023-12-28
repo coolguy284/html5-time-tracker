@@ -1,5 +1,5 @@
-function getPseudoRawDataFromStorage() {
-  let events = eventManager.getAllEvents();
+async function getPseudoRawDataFromStorage() {
+  let events = await eventManager.getAllEvents();
   
   let maxEventsShown = editPageEventsShown.get();
   
@@ -24,9 +24,9 @@ function getPseudoRawDataFromStorage() {
     ...(
       edit_show_other_data.checked ?
         {
-          eventButtons: eventManager.getEventButtons(),
-          eventPriorities: eventManager.getEventPriorities(),
-          eventMappings: eventManager.getEventMappings(),
+          eventButtons: await eventManager.getEventButtons(),
+          eventPriorities: await eventManager.getEventPriorities(),
+          eventMappings: await eventManager.getEventMappings(),
         } :
         {}
     ),
@@ -38,17 +38,17 @@ function getPseudoRawDataFromStorage() {
   };
 }
 
-function setPseudoRawDataInStorage(pseudoRawData) {
+async function setPseudoRawDataInStorage(pseudoRawData) {
   if ('eventButtons' in pseudoRawData) {
-    eventManager.setEventButtons(pseudoRawData.eventButtons);
+    await eventManager.setEventButtons(pseudoRawData.eventButtons);
   }
   
   if ('eventPriorities' in pseudoRawData) {
-    eventManager.setEventPriorities(pseudoRawData.eventPriorities);
+    await eventManager.setEventPriorities(pseudoRawData.eventPriorities);
   }
   
   if ('eventMappings' in pseudoRawData) {
-    eventManager.setEventMappings(pseudoRawData.eventMappings);
+    await eventManager.setEventMappings(pseudoRawData.eventMappings);
   }
   
   if ('events' in pseudoRawData) {
@@ -58,31 +58,39 @@ function setPseudoRawDataInStorage(pseudoRawData) {
       let startIndex = parseInt(match[1]);
       
       if (Number.isSafeInteger(startIndex)) {
-        eventManager.spliceAndAddEvents(startIndex, Infinity, pseudoRawData.events.slice(1));
+        await eventManager.spliceAndAddEvents(startIndex, Infinity, pseudoRawData.events.slice(1));
       } else {
         alert('Index elided statement invalid');
       }
     } else {
-      eventManager.setAllEvents(pseudoRawData.events);
+      await eventManager.setAllEvents(pseudoRawData.events);
     }
   }
 }
 
-function setPseudoRawData() {
-  let parsedJson;
-  
-  try {
-    parsedJson = JSON.parse(pseudo_raw_data_text.value);
-  } catch {
-    alert('JSON invalid');
+let setPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
+  'setPseudoRawData',
+  set_pseudo_raw_data_btn,
+  async () => {
+    let parsedJson;
+    
+    try {
+      parsedJson = JSON.parse(pseudo_raw_data_text.value);
+    } catch {
+      alert('JSON invalid');
+    }
+    
+    await setPseudoRawDataInStorage(parsedJson);
   }
-  
-  setPseudoRawDataInStorage(parsedJson);
-}
+);
 
-function reloadPseudoRawData() {
-  pseudo_raw_data_text.value = prettifyJson(getPseudoRawDataFromStorage());
-}
+let reloadPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
+  'reloadPseudoRawData',
+  reload_pseudo_raw_data_btn,
+  async () => {
+    pseudo_raw_data_text.value = prettifyJson(await getPseudoRawDataFromStorage());
+  }
+);
 
 function editPageScrollToTop() {
   scrollToTop(pseudo_raw_data_text);

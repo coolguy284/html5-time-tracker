@@ -261,4 +261,31 @@ class AsyncManager {
       }
     };
   }
+  
+  wrapAsyncFunctionWithButton(name, btn, func) {
+    return this.wrapAsyncFunction({
+      taskName: name,
+      critical: false,
+      alreadyRunningBehavior: 'wait',
+      exclusive: 'task',
+      enterHandlers: [
+        () => {
+          if (Array.isArray(btn)) {
+            btn.forEach(x => x.setAttribute('disabled', ''));
+          } else {
+            btn.setAttribute('disabled', '');
+          }
+        },
+      ],
+      exitHandlers: [
+        () => {
+          if (Array.isArray(btn)) {
+            btn.forEach(x => x.removeAttribute('disabled'));
+          } else {
+            btn.removeAttribute('disabled');
+          }
+        },
+      ],
+    }, func);
+  }
 }

@@ -3,18 +3,18 @@ class StorageManager {
     return 'LocalStorage';
   }
   
-  getMediumFormat() {
+  async getMediumFormat() {
     if (LOCALSTORAGE_MAIN_STORAGE_KEY in localStorage) {
       return 'LocalStorage';
-    } else if (false) {
+    } else if (await navigator.storage.getDirectory(OPFS_MAIN_FOLDER)) {
       return 'OPFS';
     } else {
       return StorageManager.getDefaultMediumFormat();
     }
   }
   
-  getDataFormatInMedium() {
-    switch (this.getMediumFormat()) {
+  async getDataFormatInMedium() {
+    switch (await this.getMediumFormat()) {
       case 'LocalStorage': {
         let dataString = this.getDataAsUtf16();
         
@@ -35,31 +35,31 @@ class StorageManager {
     }
   }
   
-  dataIsStored() {
-    switch (this.getMediumFormat()) {
+  async dataIsStored() {
+    switch (await this.getMediumFormat()) {
       case 'LocalStorage':
         return LOCALSTORAGE_MAIN_STORAGE_KEY in localStorage;
     }
   }
   
-  getDataAsUtf16() {
-    switch (this.getMediumFormat()) {
+  async getDataAsUtf16() {
+    switch (await this.getMediumFormat()) {
       case 'LocalStorage':
         return localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
     }
   }
   
-  setDataAsUtf16(text) {
-    switch (this.getMediumFormat()) {
+  async setDataAsUtf16(text) {
+    switch (await this.getMediumFormat()) {
       case 'LocalStorage':
         localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = text;
     }
   }
   
-  getTotalSizeInChars() {
+  async getTotalSizeInChars() {
     let textValue = storageManager.getDataAsUtf16();
     
-    switch (storageManager.getDataFormatInMedium()) {
+    switch (await storageManager.getDataFormatInMedium()) {
       case 'text':
         return textValue.length;
       
@@ -74,10 +74,10 @@ class StorageManager {
     }
   }
   
-  getTotalSizeInBytes() {
+  async getTotalSizeInBytes() {
     let textValue = storageManager.getDataAsUtf16();
     
-    switch (storageManager.getDataFormatInMedium()) {
+    switch (await storageManager.getDataFormatInMedium()) {
       case 'text':
         return textValue.length * 2;
       

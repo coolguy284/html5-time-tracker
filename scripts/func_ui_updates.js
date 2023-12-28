@@ -1,17 +1,17 @@
 // top banner update
 
-function updateTopBanner() {
-  let latestEventName = eventManager.getLatestVisibleEvent()?.[1] ?? 'None';
+async function updateTopBanner() {
+  let latestEventName = (await eventManager.getLatestVisibleEvent())?.[1] ?? 'None';
   
   current_event_text.textContent = latestEventName;
 }
 
 // main > events page updates
 
-function updateDisplayedButtons(parentElem, eventButtonsSubset) {
+async function updateDisplayedButtons(parentElem, eventButtonsSubset) {
   if (!parentElem) {
     parentElem = events_section_div;
-    eventButtonsSubset = eventManager.getEventButtons();
+    eventButtonsSubset = await eventManager.getEventButtons();
     
     toggleInputs = [];
     eventButtons = {};
@@ -30,7 +30,7 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
       legendElem.textContent = eventOrCategoryName;
       fieldsetElem.appendChild(legendElem);
       parentElem.appendChild(fieldsetElem);
-      updateDisplayedButtons(fieldsetElem, data);
+      await updateDisplayedButtons(fieldsetElem, data);
     } else {
       // handle object
       
@@ -94,13 +94,13 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
     toggleInputsObject = Object.fromEntries(toggleInputs);
     toggleEventsSet = new Set(toggleInputs.map(x => x[0]));
   
-    updateCurrentEventCheckboxes();
-    updateCurrentEventButtonHighlight();
+    await updateCurrentEventCheckboxes();
+    await updateCurrentEventButtonHighlight();
   }
 }
 
-function updateCurrentEventButtonHighlight() {
-  let currentEvent = eventManager.getLatestVisibleEvent()?.[1];
+async function updateCurrentEventButtonHighlight() {
+  let currentEvent = await eventManager.getLatestVisibleEvent()?.[1];
   
   let currentHighlightedEventSplit = currentHighlightedEvent == null ? [] : currentHighlightedEvent.split(MULTI_EVENT_SPLIT);
   let currentEventSplit = currentEvent == null ? [] : currentEvent.split(MULTI_EVENT_SPLIT);
@@ -131,8 +131,8 @@ function updateCurrentEventButtonHighlight() {
   }
 }
 
-function updateCurrentEventCheckboxes() {
-  let latestEvent = eventManager.getLatestVisibleEvent();
+async function updateCurrentEventCheckboxes() {
+  let latestEvent = await eventManager.getLatestVisibleEvent();
   
   if (latestEvent != null) {
     let togglesOnSet = new Set(latestEvent[1].split(MULTI_EVENT_SPLIT).filter(x => x in toggleInputsObject));
@@ -165,7 +165,7 @@ function getAllEventsFromEventButtonsList(currentEventButtons, eventsWithButtons
   return eventsWithButtons;
 }
 
-function addEventButtonIfNotAlready(eventName, categoryPath) {
+async function addEventButtonIfNotAlready(eventName, categoryPath) {
   let currentEventButtons = eventManager.getEventButtons();
   
   let eventsWithButtons = getAllEventsFromEventButtonsList(currentEventButtons);
@@ -184,14 +184,14 @@ function addEventButtonIfNotAlready(eventName, categoryPath) {
   
   categoryObject[eventName] = 'button';
   
-  eventManager.setEventButtons(currentEventButtons);
+  await eventManager.setEventButtons(currentEventButtons);
 }
 
 // main > charts page updates > initial updating
 
-function updateChartsSectionMainEventsUpdate() {
-  eventMappings = eventManager.getEventMappings();
-  eventPriorities = eventManager.getEventPriorities();
+async function updateChartsSectionMainEventsUpdate() {
+  eventMappings = await eventManager.getEventMappings();
+  eventPriorities = await eventManager.getEventPriorities();
   eventPriorities = Object.fromEntries(Object.entries(eventPriorities).map(x => [x[1], eventPriorities.length - x[0]]));
   updateChartsSectionMappingSelect();
 }
@@ -213,11 +213,15 @@ function updateChartsSectionMappingSelect() {
 
 // main > charts page updates > main updating
 
-function updateChartsSection() {
-  fillParsedEvents();
-  updateWeekSelect();
-  updateChartsSectionRenderingOnly();
-}
+let updateChartsSection = asyncManager.wrapAsyncFunctionWithButton(
+  'updateChartsSection',
+  refresh_charts_button,
+  async () => {
+    await fillParsedEvents();
+    updateWeekSelect();
+    updateChartsSectionRenderingOnly();
+  }
+);
 
 function updateWeekSelect() {
   // clear out select
@@ -396,40 +400,44 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
 
 // main > data page updates
 
-function updateDataSectionDisplay() {
-  // put array contents on data_div
-  let visibleEventsArr = eventManager.getAllEvents().filter(x => x[2]);
-  
-  if (visibleEventsArr.length > 0) {
-    let processedEventsArr;
+let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
+  'updateDataSectionDisplay',
+  data_section_collapse_duplicates,
+  async () => {
+    // put array contents on data_div
+    let visibleEventsArr = (await eventManager.getAllEvents()).filter(x => x[2]);
     
-    if (data_section_collapse_duplicates.checked) {
-      processedEventsArr = [];
+    if (visibleEventsArr.length > 0) {
+      let processedEventsArr;
       
-      let lastEventName = null, lastEventAnnotation = null;
-      for (let event of visibleEventsArr) {
-        if (event[1] != lastEventName || event[4] != lastEventAnnotation) {
-          processedEventsArr.push(event);
-          lastEventName = event[1];
-          lastEventAnnotation = event[4];
+      if (data_section_collapse_duplicates.checked) {
+        processedEventsArr = [];
+        
+        let lastEventName = null, lastEventAnnotation = null;
+        for (let event of visibleEventsArr) {
+          if (event[1] != lastEventName || event[4] != lastEventAnnotation) {
+            processedEventsArr.push(event);
+            lastEventName = event[1];
+            lastEventAnnotation = event[4];
+          }
         }
+      } else {
+        processedEventsArr = visibleEventsArr;
       }
+      
+      data_div.textContent = processedEventsArr.map(x =>
+        `${x[0]}: ${x[1]}` +
+        (x.length > 4 ?
+          (DATA_VIEW_ADDL_INFO_BIG_INDENT ?
+            '\n                                      ' :
+            '\n  ') +
+          `Addl. Info: ${x[4]}` : '')
+      ).join('\n');
     } else {
-      processedEventsArr = visibleEventsArr;
+      data_div.textContent = 'No Events';
     }
-    
-    data_div.textContent = processedEventsArr.map(x =>
-      `${x[0]}: ${x[1]}` +
-      (x.length > 4 ?
-        (DATA_VIEW_ADDL_INFO_BIG_INDENT ?
-          '\n                                      ' :
-          '\n  ') +
-        `Addl. Info: ${x[4]}` : '')
-    ).join('\n');
-  } else {
-    data_div.textContent = 'No Events';
   }
-}
+)
 
 // extras > main extras page updates
 
@@ -613,10 +621,10 @@ async function refreshStorageCapacityView() {
   
   // update other stats
   
-  let numEvents = eventManager.getNumEvents();
+  let numEvents = await eventManager.getNumEvents();
   
   let now = Date.now();
-  let startTime = eventManager.getEventByIndex(0)?.[0];
+  let startTime = (await eventManager.getEventByIndex(0))?.[0];
   if (startTime == null) {
     startTime = now;
   } else {
@@ -659,8 +667,8 @@ function updateRawDataDisplay() {
 
 // extras > settings page updates
 
-function updateSettingsPageMediumSelect() {
-  let medium = eventManager.getMediumFormat();
+async function updateSettingsPageMediumSelect() {
+  let medium = await eventManager.getMediumFormat();
   
   switch (medium) {
     case 'LocalStorage':

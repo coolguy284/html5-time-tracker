@@ -1,3 +1,8 @@
+make purge backtemporal entries into delete backtemporal entries instead
+make purge backtemporal entries use removeatindex instead of setwholearray
+make removeatindex batch version for purge funcs
+add async task mode for returnsameresult, in addition to stop or wait
+
 extra files storage for old files
 language for evaluating rules
 use web lock for critical saving stuff

@@ -88,8 +88,8 @@ class EventManager {
   }
   
   // returns true on success, false on failure
-  #attemptLoadFromMedium() {
-    if (!this.#storageManager.dataIsStored()) {
+  async #attemptLoadFromMedium() {
+    if (!(await this.#storageManager.dataIsStored())) {
       return false;
     }
     
@@ -132,8 +132,8 @@ class EventManager {
     }
   }
   
-  loadFromMediumOrFillWithDefault() {
-    if (!this.#attemptLoadFromMedium()) {
+  async loadFromMediumOrFillWithDefault() {
+    if (!(await this.#attemptLoadFromMedium())) {
       this.#setStorageVersionToLatest();
       this.#fillWithDefault();
     }
@@ -183,9 +183,9 @@ class EventManager {
     this.#saveToMedium();
   }
   
-  #loadIfNotAlready() {
+  async #loadIfNotAlready() {
     if (this.#events == null) {
-      this.loadFromMediumOrFillWithDefault();
+      await this.loadFromMediumOrFillWithDefault();
     }
   }
   
@@ -213,87 +213,87 @@ class EventManager {
   
   // data access
   
-  getNumEvents() {
-    this.#loadIfNotAlready();
+  async getNumEvents() {
+    await this.#loadIfNotAlready();
     return this.#events.length;
   }
   
-  getEventByIndex(index) {
-    this.#loadIfNotAlready();
+  async getEventByIndex(index) {
+    await this.#loadIfNotAlready();
     return deepClone(this.#events[index]);
   }
   
-  getAllEvents() {
-    this.#loadIfNotAlready();
+  async getAllEvents() {
+    await this.#loadIfNotAlready();
     return deepClone(this.#events);
   }
   
-  appendEvent(event) {
-    this.#loadIfNotAlready();
+  async appendEvent(event) {
+    await this.#loadIfNotAlready();
     this.#events.push(deepClone(event));
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
     this.saveOrCreateNew();
   }
   
-  setEventAtIndex(index, event) {
-    this.#loadIfNotAlready();
+  async setEventAtIndex(index, event) {
+    await this.#loadIfNotAlready();
     this.#events[index] = deepClone(event);
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
     this.saveOrCreateNew();
   }
   
-  setAllEvents(newEventArr) {
-    this.#loadIfNotAlready();
+  async setAllEvents(newEventArr) {
+    await this.#loadIfNotAlready();
     this.#events = deepClone(newEventArr);
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
     this.saveOrCreateNew();
   }
   
-  spliceEvents(index, amount) {
-    this.#loadIfNotAlready();
+  async spliceEvents(index, amount) {
+    await this.#loadIfNotAlready();
     this.#events.splice(index, amount);
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
     this.saveOrCreateNew();
   }
   
-  spliceAndAddEvents(index, amount, newElems) {
-    this.#loadIfNotAlready();
+  async spliceAndAddEvents(index, amount, newElems) {
+    await this.#loadIfNotAlready();
     this.#events.splice(index, amount, ...deepClone(newElems));
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
     this.saveOrCreateNew();
   }
   
-  getEventButtons() {
-    this.#loadIfNotAlready();
+  async getEventButtons() {
+    await this.#loadIfNotAlready();
     return deepClone(this.#eventButtons);
   }
   
-  setEventButtons(newEventButtons) {
-    this.#loadIfNotAlready();
+  async setEventButtons(newEventButtons) {
+    await this.#loadIfNotAlready();
     this.#eventButtons = deepClone(newEventButtons);
     this.#jsDispatchEvent(new CustomEvent('eventButtonsUpdate'));
     this.saveOrCreateNew();
   }
   
-  getEventPriorities() {
-    this.#loadIfNotAlready();
+  async getEventPriorities() {
+    await this.#loadIfNotAlready();
     return deepClone(this.#eventPriorities);
   }
   
-  setEventPriorities(newEventPriorities) {
-    this.#loadIfNotAlready();
+  async setEventPriorities(newEventPriorities) {
+    await this.#loadIfNotAlready();
     this.#eventPriorities = deepClone(newEventPriorities);
     this.#jsDispatchEvent(new CustomEvent('eventMappingsPrioritiesUpdate'));
     this.saveOrCreateNew();
   }
   
-  getEventMappings() {
-    this.#loadIfNotAlready();
+  async getEventMappings() {
+    await this.#loadIfNotAlready();
     return deepClone(this.#eventMappings);
   }
   
-  setEventMappings(newEventMappings) {
-    this.#loadIfNotAlready();
+  async setEventMappings(newEventMappings) {
+    await this.#loadIfNotAlready();
     this.#eventMappings = deepClone(newEventMappings);
     this.#jsDispatchEvent(new CustomEvent('eventMappingsPrioritiesUpdate'));
     this.saveOrCreateNew();
@@ -301,24 +301,24 @@ class EventManager {
   
   // complex commands
   
-  getLatestVisibleEventIndex() {
-    for (let i = this.getNumEvents() - 1; i >= 0; i--) {
-      if (this.getEventByIndex(i)[2]) return i;
+  async getLatestVisibleEventIndex() {
+    for (let i = (await this.getNumEvents()) - 1; i >= 0; i--) {
+      if ((await this.getEventByIndex(i))[2]) return i;
     }
     
     return -1;
   }
   
-  getLatestVisibleEvent() {
-    let index = this.getLatestVisibleEventIndex();
+  async getLatestVisibleEvent() {
+    let index = await this.getLatestVisibleEventIndex();
     
     if (index >= 0) {
-      return this.getEventByIndex(index);
+      return await this.getEventByIndex(index);
     }
   }
   
   // eventName is string, eventTime is date, estimate & visible are bools
-  addEvent(eventName, eventTime, estimate, visible) {
+  async addEvent(eventName, eventTime, estimate, visible) {
     // set default vars
     if (eventTime == null) eventTime = new Date();
     if (estimate == null) estimate = false;
@@ -326,11 +326,11 @@ class EventManager {
     
     let eventTimeString = dateToFullString(eventTime);
     
-    this.appendEvent([eventTimeString, eventName, visible, estimate]);
+    await this.appendEvent([eventTimeString, eventName, visible, estimate]);
   }
   
-  removeEventAtIndex(index) {
-    this.spliceEvents(index, 1);
+  async removeEventAtIndex(index) {
+    await this.spliceEvents(index, 1);
   }
   
   // event target methods

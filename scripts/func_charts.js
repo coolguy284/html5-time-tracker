@@ -243,10 +243,10 @@ function fillParsedAllTime(eventsArr) {
   parsedEvents.all_time_stats = eventStatsMapToArr(getEventStatsMap());
 }
 
-function fillParsedEvents() {
+async function fillParsedEvents() {
   // preliminary filter of events array to only have visible events, and to ignore events where a future event has a smaller date/time than a past one
   let eventsArr =
-    eventManager.getAllEvents()
+    (await eventManager.getAllEvents())
     .filter(x => x[2])
     .reduceRight((a, c) => {
       if (a.length == 0) {
