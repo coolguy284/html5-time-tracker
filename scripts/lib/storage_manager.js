@@ -1,11 +1,21 @@
 class StorageManager {
+  static getDefaultMediumFormat() {
+    return 'LocalStorage';
+  }
+  
   getMediumFormat() {
-    return 'localStorage';
+    if (LOCALSTORAGE_MAIN_STORAGE_KEY in localStorage) {
+      return 'LocalStorage';
+    } else if (false) {
+      return 'OPFS';
+    } else {
+      return StorageManager.getDefaultMediumFormat();
+    }
   }
   
   getDataFormatInMedium() {
     switch (this.getMediumFormat()) {
-      case 'localStorage': {
+      case 'LocalStorage': {
         let dataString = this.getDataAsUtf16();
         
         if (dataString == null) {
@@ -27,21 +37,21 @@ class StorageManager {
   
   dataIsStored() {
     switch (this.getMediumFormat()) {
-      case 'localStorage':
+      case 'LocalStorage':
         return LOCALSTORAGE_MAIN_STORAGE_KEY in localStorage;
     }
   }
   
   getDataAsUtf16() {
     switch (this.getMediumFormat()) {
-      case 'localStorage':
+      case 'LocalStorage':
         return localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
     }
   }
   
   setDataAsUtf16(text) {
     switch (this.getMediumFormat()) {
-      case 'localStorage':
+      case 'LocalStorage':
         localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = text;
     }
   }

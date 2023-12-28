@@ -8,6 +8,7 @@ let MULTI_EVENT_SPLIT = ' | ';
 
 // storage constants
 let LOCALSTORAGE_MAIN_STORAGE_KEY = 'html5_time_planner_events_arr';
+let SESSIONSTORAGE_STORAGE_UPDATE_KEY = 'html5_time_planner_storage_update';
 let PERSISTENT_STORAGE_COMPRESS_BY_DEFAULT = true;
 
 // render constants

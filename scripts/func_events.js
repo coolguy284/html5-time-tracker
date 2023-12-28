@@ -162,6 +162,18 @@ function setLastEventAnnotation() {
   eventManager.setEventAtIndex(latestVisibleEventIndex, lastEvent);
 }
 
+function updateStorageMedium() {
+  switch (storage_medium_select.value) {
+    case 'LocalStorage':
+      storageManager.setMediumFormat('LocalStorage');
+      break;
+    
+    case 'Origin Private File System':
+      storageManager.setMediumFormat('OPFS');
+      break;
+  }
+}
+
 function updateStorageVersion() {
   switch (storage_version_select.value) {
     case 'V1':
@@ -249,3 +261,12 @@ let requestPersistence = asyncManager.wrapAsyncFunction({
     globalEventTarget.dispatchEvent(new CustomEvent('persistUpdate'));
   }
 });
+
+function dispatchStorageUpdate() {
+  globalEventTarget.dispatchEvent(new CustomEvent('storageUpdate'));
+}
+
+function signalStorageUpdate() {
+  sessionStorage[SESSIONSTORAGE_STORAGE_UPDATE_KEY] = '';
+  delete sessionStorage[SESSIONSTORAGE_STORAGE_UPDATE_KEY];
+}

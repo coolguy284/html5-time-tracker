@@ -21,13 +21,19 @@ addEventListener('keydown', evt => {
 addEventListener('storage', evt => {
   if (evt.storageArea == localStorage) {
     if (evt.key == LOCALSTORAGE_MAIN_STORAGE_KEY) {
-      dispatchLocalStorageUpdate();
+      dispatchStorageUpdate();
+    }
+  } else if (evt.storageArea == sessionStorage) {
+    if (evt.key == SESSIONSTORAGE_STORAGE_UPDATE_KEY && evt.newValue == null) {
+      dispatchStorageUpdate();
     }
   }
 });
 
-globalEventTarget.addEventListener('localStorageUpdate', () => {
-  eventManager.loadFromMediumOrFillWithDefault();
+globalEventTarget.addEventListener('storageUpdate', () => {
+  if (storageManager.getMediumFormat() == 'LocalStorage') {
+    eventManager.loadFromMediumOrFillWithDefault();
+  }
 });
 
 refreshLocalStorageCapacityView();

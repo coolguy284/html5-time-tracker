@@ -659,6 +659,20 @@ function updateRawDataDisplay() {
 
 // extras > settings page updates
 
+function updateSettingsPageMediumSelect() {
+  let medium = eventManager.getMediumFormat();
+  
+  switch (medium) {
+    case 'LocalStorage':
+      storage_medium_select.value = 'LocalStorage';
+      break;
+    
+    case 'OPFS':
+      storage_medium_select.value = 'Origin Private File System';
+      break;
+  }
+}
+
 function updateSettingsPageVersionSelect() {
   let version = eventManager.getMediumVer();
   

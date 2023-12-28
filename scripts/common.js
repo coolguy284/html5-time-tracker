@@ -159,7 +159,3 @@ function removeAllChildrenButOne(elem) {
     elem.removeChild(elem.lastChild);
   }
 }
-
-function dispatchLocalStorageUpdate() {
-  globalEventTarget.dispatchEvent(new CustomEvent('localStorageUpdate'));
-}

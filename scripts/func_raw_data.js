@@ -89,7 +89,7 @@ function rawDataSave() {
   
   if (textValue != null) {
     storageManager.setDataAsUtf16(textValue);
-    dispatchLocalStorageUpdate();
+    dispatchStorageUpdate();
   }
 }
 
@@ -105,7 +105,7 @@ function rawDataCreate() {
   if (!storageManager.dataIsStored()) {
     storageManager.setDataAsUtf16('');
     rawDataLoad();
-    dispatchLocalStorageUpdate();
+    dispatchStorageUpdate();
   }
 }
 
@@ -114,7 +114,7 @@ function rawDataDelete() {
   
   storageManager.deleteData();
   rawDataLoad();
-  dispatchLocalStorageUpdate();
+  dispatchStorageUpdate();
 }
 
 function rawDataExportToFile() {
