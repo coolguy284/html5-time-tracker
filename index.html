@@ -364,7 +364,7 @@
             <textarea id = 'raw_data_text' autocapitalize = 'off' spellcheck = 'false'></textarea>
           </div>
           
-          <div id = 'raw_data_bottom_section_div' class = 'red_buttons'>
+          <div id = 'raw_data_bottom_section_div' class = 'wrap red_buttons'>
             <h4>Basic:</h4>
             <button id = 'raw_data_save_btn' onclick = 'rawDataSave();'>Save</button>
             <button id = 'raw_data_load_btn' onclick = 'rawDataLoad();'>Load</button>
@@ -434,7 +434,7 @@
       <button id = 'scroll_to_bottom_button' style = 'display: none;' onclick = 'performScrollToBottom();'>&or;</button>
     </div>
     
-    <div id = 'bottom_menu_div' class = 'flex_row'>
+    <div id = 'bottom_menu_div' class = 'flex_row scroll'>
       <button id = 'events_div_button' class = 'current_tab' onclick = 'switchPage(this);'>Events</button>
       <button id = 'charts_div_button' onclick = 'switchPage(this);'>Charts</button>
       <button id = 'data_div_button' onclick = 'switchPage(this);'>Data</button>

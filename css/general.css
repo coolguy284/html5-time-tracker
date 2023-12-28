@@ -103,6 +103,10 @@ textarea {
   flex-wrap: wrap;
 }
 
+.scroll {
+  overflow-x: auto;
+}
+
 .centered {
   align-items: center;
   
