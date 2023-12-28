@@ -6,7 +6,7 @@ class StorageManager {
   async getMediumFormat() {
     if (LOCALSTORAGE_MAIN_STORAGE_KEY in localStorage) {
       return 'LocalStorage';
-    } else if (await navigator.storage.getDirectory(OPFS_MAIN_FOLDER)) {
+    } else if (await navigator.storage.getDirectory(OPFS_MAIN_FOLDER)) { // TODO
       return 'OPFS';
     } else {
       return StorageManager.getDefaultMediumFormat();
@@ -16,7 +16,7 @@ class StorageManager {
   async getDataFormatInMedium() {
     switch (await this.getMediumFormat()) {
       case 'LocalStorage': {
-        let dataString = this.getDataAsUtf16();
+        let dataString = await this.getDataAsUtf16();
         
         if (dataString == null) {
           return null;
@@ -42,7 +42,7 @@ class StorageManager {
     }
   }
   
-  async getDataAsUtf16() {
+  async getDataAsUtf16() { // TODO -- left off here
     switch (await this.getMediumFormat()) {
       case 'LocalStorage':
         return localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
@@ -57,7 +57,7 @@ class StorageManager {
   }
   
   async getTotalSizeInChars() {
-    let textValue = storageManager.getDataAsUtf16();
+    let textValue = await storageManager.getDataAsUtf16();
     
     switch (await storageManager.getDataFormatInMedium()) {
       case 'text':
@@ -75,7 +75,7 @@ class StorageManager {
   }
   
   async getTotalSizeInBytes() {
-    let textValue = storageManager.getDataAsUtf16();
+    let textValue = await storageManager.getDataAsUtf16();
     
     switch (await storageManager.getDataFormatInMedium()) {
       case 'text':

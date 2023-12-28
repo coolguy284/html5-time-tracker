@@ -84,14 +84,18 @@ function setRawDataTextValueAsUTF8Only(value) {
   }
 }
 
-function rawDataSave() {
-  let textValue = getRawDataTextValue();
-  
-  if (textValue != null) {
-    storageManager.setDataAsUtf16(textValue);
-    dispatchStorageUpdate();
+let rawDataSave = asyncManager.wrapAsyncFunctionWithButton(
+  'rawDataSave',
+  raw_data_save_btn,
+  async () => {
+    let textValue = getRawDataTextValue();
+    
+    if (textValue != null) {
+      await storageManager.setDataAsUtf16(textValue);
+      dispatchStorageUpdate();
+    }
   }
-}
+);
 
 let rawDataLoad = asyncManager.wrapAsyncFunctionWithButton(
   'rawDataLoad',
@@ -100,7 +104,7 @@ let rawDataLoad = asyncManager.wrapAsyncFunctionWithButton(
     if (!(await storageManager.dataIsStored())) {
       setRawDataTextValue(null);
     } else {
-      setRawDataTextValue(storageManager.getDataAsUtf16());
+      setRawDataTextValue(await storageManager.getDataAsUtf16());
     }
   }
 );
@@ -110,7 +114,7 @@ let rawDataCreate = asyncManager.wrapAsyncFunctionWithButton(
   raw_data_create_btn,
   async () => {
     if (!(await storageManager.dataIsStored())) {
-      storageManager.setDataAsUtf16('');
+      await storageManager.setDataAsUtf16('');
       rawDataLoad();
       dispatchStorageUpdate();
     }
@@ -369,13 +373,17 @@ function rawDataScrollToBottom() {
   scrollToBottom(raw_data_text);
 }
 
-function rawDataSaveInMemoryData() {
-  eventManager.saveOrCreateNew();
-}
+let rawDataSaveInMemoryData = asyncManager.wrapAsyncFunctionWithButton(
+  'rawDataSaveInMemoryData',
+  raw_data_save_in_mem_data_btn,
+  async () => {
+    await eventManager.saveOrCreateNew();
+  }
+);
 
 let rawDataLoadInMemoryData = asyncManager.wrapAsyncFunctionWithButton(
   'rawDataLoadInMemoryData',
-  raw_data_load_in_memory_data_btn,
+  raw_data_load_in_mem_data_btn,
   async () => {
     await eventManager.loadFromMediumOrFillWithDefault();
   }

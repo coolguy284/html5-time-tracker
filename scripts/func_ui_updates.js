@@ -632,9 +632,8 @@ async function refreshStorageCapacityView() {
   }
   let days = (now - startTime) / 86400 / 1000;
   
-  // TODO -- replace with chars and bytes from storagemanager
-  let chars = storageManager.getTotalSizeInChars();
-  let bytes = storageManager.getTotalSizeInBytes();
+  let chars = await storageManager.getTotalSizeInChars();
+  let bytes = await storageManager.getTotalSizeInBytes();
   
   // TODO - update this with the new storage modes
   let availableBytes = report.freeBytes;

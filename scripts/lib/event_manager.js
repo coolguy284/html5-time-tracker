@@ -95,7 +95,7 @@ class EventManager {
     
     let versionLoader = new VersionTransmuter();
     
-    let mediumText = this.#storageManager.getDataAsUtf16();
+    let mediumText = await this.#storageManager.getDataAsUtf16();
     
     let successfulRead = versionLoader.setData(mediumText);
     
@@ -140,7 +140,7 @@ class EventManager {
   }
   
   // returns true on success, false on failure
-  #saveToMedium() {
+  async #saveToMedium() {
     if (this.#mediumMajorVer == null) {
       throw new Error('medium not set');
     }
@@ -169,18 +169,18 @@ class EventManager {
     
     let localStorageString = versionSaver.getData();
     
-    this.#storageManager.setDataAsUtf16(localStorageString);
+    await this.#storageManager.setDataAsUtf16(localStorageString);
     
     this.#jsDispatchEvent(new CustomEvent('storageUpdate'));
   }
   
-  saveOrCreateNew() {
+  async saveOrCreateNew() {
     if (this.#mediumMajorVer == null) {
       // auto set version to latest version if nothing is stored on disk yet
       this.#setStorageVersionToLatest();
     }
     
-    this.#saveToMedium();
+    await this.#saveToMedium();
   }
   
   async #loadIfNotAlready() {
@@ -189,7 +189,7 @@ class EventManager {
     }
   }
   
-  setMediumVer(opts) {
+  async setMediumVer(opts) {
     if (!('major' in opts)) {
       throw new Error('opts must contain majorVer');
     }
@@ -208,7 +208,7 @@ class EventManager {
       format: opts.format,
     });
     
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   // data access
@@ -232,35 +232,35 @@ class EventManager {
     await this.#loadIfNotAlready();
     this.#events.push(deepClone(event));
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   async setEventAtIndex(index, event) {
     await this.#loadIfNotAlready();
     this.#events[index] = deepClone(event);
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   async setAllEvents(newEventArr) {
     await this.#loadIfNotAlready();
     this.#events = deepClone(newEventArr);
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   async spliceEvents(index, amount) {
     await this.#loadIfNotAlready();
     this.#events.splice(index, amount);
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   async spliceAndAddEvents(index, amount, newElems) {
     await this.#loadIfNotAlready();
     this.#events.splice(index, amount, ...deepClone(newElems));
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   async getEventButtons() {
@@ -272,7 +272,7 @@ class EventManager {
     await this.#loadIfNotAlready();
     this.#eventButtons = deepClone(newEventButtons);
     this.#jsDispatchEvent(new CustomEvent('eventButtonsUpdate'));
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   async getEventPriorities() {
@@ -284,7 +284,7 @@ class EventManager {
     await this.#loadIfNotAlready();
     this.#eventPriorities = deepClone(newEventPriorities);
     this.#jsDispatchEvent(new CustomEvent('eventMappingsPrioritiesUpdate'));
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   async getEventMappings() {
@@ -296,7 +296,7 @@ class EventManager {
     await this.#loadIfNotAlready();
     this.#eventMappings = deepClone(newEventMappings);
     this.#jsDispatchEvent(new CustomEvent('eventMappingsPrioritiesUpdate'));
-    this.saveOrCreateNew();
+    await this.saveOrCreateNew();
   }
   
   // complex commands

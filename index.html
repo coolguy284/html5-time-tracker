@@ -366,7 +366,7 @@
           
           <div id = 'raw_data_bottom_section_div' class = 'red_buttons'>
             <h4>Basic:</h4>
-            <button onclick = 'rawDataSave();'>Save</button>
+            <button id = 'raw_data_save_btn' onclick = 'rawDataSave();'>Save</button>
             <button id = 'raw_data_load_btn' onclick = 'rawDataLoad();'>Load</button>
             <button id = 'raw_data_create_btn' onclick = 'rawDataCreate();'>Create</button>
             <button onclick = 'rawDataDelete();'>Delete</button>
@@ -393,8 +393,8 @@
             </div>
             
             <h4>In-Memory Data:</h4>
-            <button onclick = 'rawDataSaveInMemoryData();'>Save</button>
-            <button id = 'raw_data_load_in_memory_data_btn' onclick = 'rawDataLoadInMemoryData();'>Load</button>
+            <button id = 'raw_data_save_in_mem_data_btn' onclick = 'rawDataSaveInMemoryData();'>Save</button>
+            <button id = 'raw_data_load_in_mem_data_btn' onclick = 'rawDataLoadInMemoryData();'>Load</button>
           </div>
         </div>
         

@@ -202,65 +202,69 @@ function updateStorageMedium() {
   }
 }
 
-function updateStorageVersion() {
-  switch (storage_version_select.value) {
-    case 'V1':
-      eventManager.setMediumVer({
-        major: 1,
-        minor: 0,
-        format: 'json',
-      });
-      break;
-    
-    case 'V1 UTF-8 (Alpha)':
-      eventManager.setMediumVer({
-        major: 1,
-        minor: 0,
-        format: 'json utf-8',
-      });
-      break;
-    
-    case 'V2':
-      eventManager.setMediumVer({
-        major: 2,
-        minor: 0,
-        format: 'json',
-      });
-      break;
-    
-    case 'V2 UTF-8 (Alpha)':
-      eventManager.setMediumVer({
-        major: 2,
-        minor: 0,
-        format: 'json utf-8',
-      });
-      break;
-    
-    case 'V3 (Alpha)':
-      eventManager.setMediumVer({
-        major: 3,
-        minor: 0,
-        format: 'json',
-      });
-      break;
-    
-    case 'V3 UTF-8 (Alpha)':
-      eventManager.setMediumVer({
-        major: 3,
-        minor: 0,
-        format: 'json utf-8',
-      });
-      break;
-    
-    case 'V3 Binary (Alpha)':
-      eventManager.setMediumVer({
-        major: 3,
-        minor: 0,
-        format: 'binary',
-      });
-      break;
+let updateStorageVersion = asyncManager.wrapAsyncFunctionWithButton(
+  'updateStorageVersion',
+  storage_version_select,
+  async () => {
+    switch (storage_version_select.value) {
+      case 'V1':
+        await eventManager.setMediumVer({
+          major: 1,
+          minor: 0,
+          format: 'json',
+        });
+        break;
+      
+      case 'V1 UTF-8 (Alpha)':
+        await eventManager.setMediumVer({
+          major: 1,
+          minor: 0,
+          format: 'json utf-8',
+        });
+        break;
+      
+      case 'V2':
+        await eventManager.setMediumVer({
+          major: 2,
+          minor: 0,
+          format: 'json',
+        });
+        break;
+      
+      case 'V2 UTF-8 (Alpha)':
+        await eventManager.setMediumVer({
+          major: 2,
+          minor: 0,
+          format: 'json utf-8',
+        });
+        break;
+      
+      case 'V3 (Alpha)':
+        await eventManager.setMediumVer({
+          major: 3,
+          minor: 0,
+          format: 'json',
+        });
+        break;
+      
+      case 'V3 UTF-8 (Alpha)':
+        await eventManager.setMediumVer({
+          major: 3,
+          minor: 0,
+          format: 'json utf-8',
+        });
+        break;
+      
+      case 'V3 Binary (Alpha)':
+        await eventManager.setMediumVer({
+          major: 3,
+          minor: 0,
+          format: 'binary',
+        });
+        break;
+    }
   }
-}
+);
 
 let requestPersistence = asyncManager.wrapAsyncFunction({
   taskName: 'requestPersistence',
