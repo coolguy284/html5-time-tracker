@@ -628,20 +628,23 @@ async function refreshStorageCapacityView() {
   
   let chars, bytes;
   
-  switch (getRawDataTextStatus()) {
+  let textStatus = getRawDataTextStatus();
+  let textValue = getRawDataTextValue();
+  
+  switch (textStatus) {
     case 'text':
-      chars = getRawDataTextValue().length;
-      bytes = getRawDataTextValue().length * 2;
+      chars = textValue.length;
+      bytes = textValue.length * 2;
       break;
     
     case 'utf-8':
-      chars = getRawDataTextValue().length * 2;
-      bytes = getRawDataTextValue().length * 2;
+      chars = textValue.length * 2;
+      bytes = textValue.length * 2;
       break;
     
     case 'binary':
       chars = 'N/A';
-      bytes = getRawDataTextValue().length * 2;
+      bytes = textValue.length * 2;
       break;
     
     case null:
@@ -654,19 +657,22 @@ async function refreshStorageCapacityView() {
   let availableBytes = report.freeBytes;
   let totalBytes = report.totalBytes;
   
-  let totalDays = days / (bytes / totalBytes);
+  let percentFull = bytes / totalBytes;
+  let totalDays = days / percentFull;
   let daysTillFull = totalDays - days;
   
-  storage_data_events.textContent = `${numEvents.toLocaleString()} events`;
-  storage_data_days.textContent = `${days.toFixed(3)} days`;
-  storage_data_events_per_day.textContent = `${(numEvents / days).toFixed(3)} events / day`;
-  storage_data_characters.textContent = `${chars.toLocaleString()} chars`;
-  storage_data_bytes.textContent = `${bytes.toLocaleString()} bytes`;
-  storage_data_available_bytes.textContent = `${availableBytes.toLocaleString()} bytes`;
-  storage_data_bytes_per_event.textContent = `${(bytes / numEvents).toFixed(3)} bytes / event`;
-  storage_data_bytes_per_day.textContent = `${(bytes / days).toFixed(3)} bytes / day`;
-  storage_data_days_till_full.textContent = `${daysTillFull.toFixed(3)} days`;
-  storage_data_total_days_till_full.textContent = `${totalDays.toFixed(3)} days`;
+  storage_data_events.textContent = `${commaifyDecimal(numEvents)} events`;
+  storage_data_days.textContent = `${commaifyDecimal(days, 3)} days`;
+  storage_data_events_per_day.textContent = `${commaifyDecimal(numEvents / days, 3)} events / day`;
+  storage_data_characters.textContent = `${commaifyDecimal(chars)} chars`;
+  storage_data_bytes.textContent = `${commaifyDecimal(bytes)} bytes`;
+  storage_data_available_bytes.textContent = `${commaifyDecimal(availableBytes)} bytes`;
+  storage_data_total_bytes.textContent = `${commaifyDecimal(totalBytes)} bytes`;
+  storage_data_bytes_per_event.textContent = `${commaifyDecimal(bytes / numEvents, 3)} bytes / event`;
+  storage_data_bytes_per_day.textContent = `${commaifyDecimal(bytes / days, 3)} bytes / day`;
+  storage_data_percent_full.textContent = `${commaifyDecimal(percentFull * 100, 2)}%`;
+  storage_data_days_till_full.textContent = `${commaifyDecimal(daysTillFull, 3)} days`;
+  storage_data_total_days_till_full.textContent = `${commaifyDecimal(totalDays, 3)} days`;
 }
 
 // extras > raw data page updates

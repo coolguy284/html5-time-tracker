@@ -38,6 +38,22 @@ function prettifyBytes(bytes) {
   }
 }
 
+function commaifyDecimal(num, precision) {
+  num = String(num).split('.');
+  
+  if (precision == null) {
+    if (num.length > 1) {
+      return `${Number(num[0]).toLocaleString()}.${num[1]}`;
+    } else {
+      return Number(num[0]).toLocaleString();
+    }
+  } else if (precision == 0) {
+    return Number(num[0]).toLocaleString();
+  } else {
+    return `${Number(num[0]).toLocaleString()}.${Number('0.' + num[1]).toFixed(precision).slice(2)}`;
+  }
+}
+
 function getEvents(eventName) {
   return eventName.split(MULTI_EVENT_SPLIT);
 }
