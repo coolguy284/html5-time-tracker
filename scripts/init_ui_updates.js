@@ -119,6 +119,14 @@ extrasPageManager.addPages({
       ],
     },
   },
+  'Storage': {
+    htmlElem: storage_section_div,
+    dirtyBitListeners: {
+      'storageUpdate': [
+        () => refreshStorageCapacityView(),
+      ],
+    },
+  },
   'Raw Data': {
     htmlElem: raw_data_section_div,
     dirtyBitListeners: {

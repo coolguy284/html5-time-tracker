@@ -26,6 +26,7 @@
     <link rel = 'stylesheet' href = 'css/section_data.css'>
     <link rel = 'stylesheet' href = 'css/section_extras.css'>
     <link rel = 'stylesheet' href = 'css/section_extras_main.css'>
+    <link rel = 'stylesheet' href = 'css/section_extras_storage.css'>
     <link rel = 'stylesheet' href = 'css/section_extras_raw_data.css'>
     <link rel = 'stylesheet' href = 'css/section_extras_settings.css'>
   </head>
@@ -259,8 +260,93 @@
           <button id = 'localstorage_recalculate_max_btn' onclick = 'resetAndRefreshLocalStorageCapacityView();'>Recalculate Max & Refresh</button>
           <hr>
           <h3 class = 'med_top_gap'>Pages</h3>
+          <button onclick = 'switchExtrasPage(this);'>Storage</button>
           <button onclick = 'switchExtrasPage(this);'>Raw Data</button>
           <button onclick = 'switchExtrasPage(this);'>Settings</button>
+        </div>
+        
+        <div id = 'storage_section_div' style = 'display: none;'>
+          <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
+          
+          <h3 class = 'med_top_gap'>LocalStorage Use</h3>
+          <div class = 'meter'>
+            <div id = 'localstorage_2_used_meter_div'></div>
+          </div>
+          <div class = 'flex_row'>
+            <span>Total</span>
+            <span id = 'localstorage_2_total_text'>-- KB</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Used</span>
+            <span id = 'localstorage_2_used_text'>-- KB (--%)</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Free</span>
+            <span id = 'localstorage_2_free_text'>-- KB (--%)</span>
+          </div>
+          
+          <hr>
+          
+          <h3>Total Storage Use</h3>
+          <div class = 'meter'>
+            <div id = 'total_storage_used_meter_div'></div>
+          </div>
+          <div class = 'flex_row'>
+            <span>Total</span>
+            <span id = 'total_storage_total_text'>-- KB</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Used</span>
+            <span id = 'total_storage_used_text'>-- KB (--%)</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Free</span>
+            <span id = 'total_storage_free_text'>-- KB (--%)</span>
+          </div>
+          
+          <hr>
+          
+          <h3>Stats</h3>
+          <div class = 'flex_row'>
+            <span>Events</span>
+            <span id = 'storage_data_events'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Days</span>
+            <span id = 'storage_data_days'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Events Per Day</span>
+            <span id = 'storage_data_events_per_day'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Characters</span>
+            <span id = 'storage_data_characters'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Bytes</span>
+            <span id = 'storage_data_bytes'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Available Bytes</span>
+            <span id = 'storage_data_available_bytes'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Bytes Per Event</span>
+            <span id = 'storage_data_bytes_per_event'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Bytes Per Day</span>
+            <span id = 'storage_data_bytes_per_day'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Days Till Full</span>
+            <span id = 'storage_data_days_till_full'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Total Days Till Full</span>
+            <span id = 'storage_data_total_days_till_full'>-1</span>
+          </div>
         </div>
         
         <div id = 'raw_data_section_div' style = 'display: none;'>

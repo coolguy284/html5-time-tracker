@@ -1,0 +1,7 @@
+#storage_section_div {
+  gap: 0.5rem;
+  
+  & > div {
+    justify-content: space-between;
+  }
+}

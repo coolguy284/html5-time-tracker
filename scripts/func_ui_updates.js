@@ -539,6 +539,136 @@ function hideLocalStorageCalcProgressDiv() {
   }
 }
 
+// extras > storage page updates
+
+let refreshLocalStorage2CapacityView = asyncManager.wrapAsyncFunction({
+  taskName: 'refreshLocalStorage2CapacityView',
+  groupNames: ['storage'],
+  critical: true,
+  alreadyRunningBehavior: 'stop',
+  exclusive: 'group',
+  enterHandlers: [
+    () => {
+      localstorage_refresh_view_btn.setAttribute('disabled', '');
+      localstorage_recalculate_max_btn.setAttribute('disabled', '');
+      temporarilyBlankLocalStorageCapacityView();
+    },
+  ],
+  exitHandlers: [
+    () => {
+      hideLocalStorageCalcProgressDiv();
+      localstorage_refresh_view_btn.removeAttribute('disabled');
+      localstorage_recalculate_max_btn.removeAttribute('disabled');
+    },
+  ],
+}, async () => {
+  try {
+    let report = await localStorageReport(setLocalStorageCalcProgressText);
+    
+    setLocalStorage2CapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+    
+    return report;
+  } catch (e) {
+    if (!localStorageErrorPrinted) {
+      alert(e.toString());
+      localStorageErrorPrinted = true;
+    }
+    
+    throw e;
+  }
+});
+
+function setLocalStorage2CapacityView(totalBytes, usedBytes, freeBytes) {
+  localStorage2UsedMeter.setValue(usedBytes / totalBytes);
+  localstorage_2_total_text.textContent = `${Math.round(totalBytes / 1000)} KB`;
+  localstorage_2_used_text.textContent = `${Math.round(usedBytes / 1000)} KB (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
+  localstorage_2_free_text.textContent = `${Math.round(freeBytes / 1000)} KB (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
+}
+
+function setStorageCapacityView(totalBytes, usedBytes, freeBytes) {
+  totalStorageUsedMeter.setValue(usedBytes / totalBytes);
+  total_storage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
+  total_storage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(4)}%)`;
+  total_storage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(4)}%)`;
+}
+
+async function refreshStorageCapacityView() {
+  // update localstorage progress
+  
+  let report;
+  
+  try {
+    report = await refreshLocalStorage2CapacityView();
+  } catch {
+    report = {
+      totalBytes: 0,
+      usedBytes: 0,
+      freeBytes: 0,
+    };
+  }
+  
+  // update total storage progress
+  
+  let storageUsed = await navigator.storage.estimate();
+  
+  setStorageCapacityView(storageUsed.quota, storageUsed.usage, storageUsed.quota - storageUsed.usage);
+  
+  // update other stats
+  
+  let numEvents = eventStorage.getNumEvents();
+  
+  let now = Date.now();
+  let startTime = eventStorage.getEventByIndex(0)?.[0];
+  if (startTime == null) {
+    startTime = now;
+  } else {
+    startTime = dateStringToDate(startTime).getTime();
+  }
+  let days = (now - startTime) / 86400 / 1000;
+  
+  let chars, bytes;
+  
+  switch (getRawDataTextStatus()) {
+    case 'text':
+      chars = getRawDataTextValue().length;
+      bytes = getRawDataTextValue().length * 2;
+      break;
+    
+    case 'utf-8':
+      chars = getRawDataTextValue().length * 2;
+      bytes = getRawDataTextValue().length * 2;
+      break;
+    
+    case 'binary':
+      chars = 'N/A';
+      bytes = getRawDataTextValue().length * 2;
+      break;
+    
+    case null:
+      chars = 0;
+      bytes = 0;
+      break;
+  }
+  
+  // TODO - update this with the new storage modes
+  let availableBytes = report.freeBytes;
+  let totalBytes = report.totalBytes;
+  
+  let totalDays = days / (bytes / totalBytes);
+  let daysTillFull = totalDays - days;
+  
+  storage_data_events.textContent = `${numEvents.toLocaleString()} events`;
+  storage_data_days.textContent = `${days.toFixed(3)} days`;
+  storage_data_events_per_day.textContent = `${(numEvents / days).toFixed(3)} events / day`;
+  storage_data_characters.textContent = `${chars.toLocaleString()} chars`;
+  storage_data_bytes.textContent = `${bytes.toLocaleString()} bytes`;
+  storage_data_available_bytes.textContent = `${availableBytes.toLocaleString()} bytes`;
+  storage_data_bytes_per_event.textContent = `${(bytes / numEvents).toFixed(3)} bytes / event`;
+  storage_data_bytes_per_day.textContent = `${(bytes / days).toFixed(3)} bytes / day`;
+  storage_data_days_till_full.textContent = `${daysTillFull.toFixed(3)} days`;
+  storage_data_total_days_till_full.textContent = `${totalDays.toFixed(3)} days`;
+}
+
 // extras > raw data page updates
 
 function updateRawDataDisplay() {

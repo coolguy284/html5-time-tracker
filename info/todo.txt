@@ -1,3 +1,6 @@
+rename eventstorage to eventmanager
+add storagemanager for managing storage and rawdata accesses it
+
 extra files storage for old files
 language for evaluating rules
 use web lock for critical saving stuff

@@ -1,12 +1,13 @@
 /* extras section div */
 
-#extras_section_div {
+:where(#extras_section_div) {
   justify-content: stretch;
   
-  & > * {
+  & > div {
     flex-grow: 1;
     flex-shrink: 1;
     min-height: 0;
     overflow-y: auto;
+    padding: 0.5rem 0.5rem 2rem;
   }
 }

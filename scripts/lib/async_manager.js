@@ -250,7 +250,7 @@ class AsyncManager {
         }
         
         try {
-          await func(...args);
+          return await func(...args);
         } finally {
           if (options.critical) {
             criticalHandle.stop();

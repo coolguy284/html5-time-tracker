@@ -26,6 +26,18 @@ function dateStringToTZOffset(dateStr) {
   return (dateStrSplit[3][3] == '-' ? -1 : 1) * (parseInt(dateStrSplit[3].slice(4, 6)) * 60 + parseInt(dateStrSplit[3].slice(7, 9)));
 }
 
+function prettifyBytes(bytes) {
+  if (bytes < 2 ** 10 * 15) {
+    return bytes + '';
+  } else if (bytes < 2 ** 20 * 15) {
+    return Math.round(bytes / 2 ** 10) + ' KB';
+  } else if (bytes < 2 ** 30 * 15) {
+    return Math.round(bytes / 2 ** 20) + ' MB';
+  } else {
+    return Math.round(bytes / 2 ** 30) + ' GB';
+  }
+}
+
 function getEvents(eventName) {
   return eventName.split(MULTI_EVENT_SPLIT);
 }
