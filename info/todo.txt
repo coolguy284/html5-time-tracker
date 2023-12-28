@@ -1,3 +1,4 @@
+add event for alleventsupdate to consolidate triple refreshing
 make purge backtemporal entries into delete backtemporal entries instead
 make purge backtemporal entries use removeatindex instead of setwholearray
 make removeatindex batch version for purge funcs

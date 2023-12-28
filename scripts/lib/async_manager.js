@@ -170,9 +170,7 @@ class AsyncManager {
     
     for (let listener of finishListenersToCall) {
       try {
-        console.log('l');
         await listener();
-        console.log('l2');
       } catch (e) {
         console.error(e);
       }
@@ -203,10 +201,6 @@ class AsyncManager {
     let exitHandlers = options.exitHandlers ?? [];
     
     return async (...args) => {
-      if (!window.v) window.v = 0;
-      window.v++;
-      let vv = window.v;
-      console.log('vstart', vv);
       let asyncTaskHandle;
       
       switch (options.alreadyRunningBehavior) {
@@ -250,7 +244,6 @@ class AsyncManager {
         }
         
         try {
-          console.log('vstart2', vv);
           return await func(...args);
         } finally {
           if (options.critical) {
@@ -258,9 +251,7 @@ class AsyncManager {
           }
         }
       } finally {
-        console.log('vstop', vv);
         await asyncTaskHandle.finish();
-        console.log('vstop2', vv);
       }
     };
   }

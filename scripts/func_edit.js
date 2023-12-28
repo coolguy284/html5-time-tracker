@@ -84,22 +84,13 @@ let setPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
   }
 );
 
-let reloadPseudoRawData2 = asyncManager.wrapAsyncFunctionWithButton(
+let reloadPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
   'reloadPseudoRawData',
   reload_pseudo_raw_data_btn,
   async () => {
-    console.log('v');
     pseudo_raw_data_text.value = prettifyJson(await getPseudoRawDataFromStorage());
-    console.log('v2');
   }
 );
-
-
-async function reloadPseudoRawData() {
-  console.log('f');
-  await reloadPseudoRawData2();
-  console.log('f2');
-}
 
 function editPageScrollToTop() {
   scrollToTop(pseudo_raw_data_text);
