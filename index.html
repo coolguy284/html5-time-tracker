@@ -193,25 +193,41 @@
       
       <div id = 'edit_section_div' style = 'display: none;'>
         <div class = 'flex_row centered red_buttons'>
-          <h4>Lines Shown</h4>
+          <h4>Lines Shown:</h4>
           <select id = 'events_shown' onchange = 'reloadPseudoRawData();'>
             <option>10</option>
-            <option>50</option>
-            <option selected>100</option>
+            <option selected>50</option>
+            <option>100</option>
             <option>500</option>
             <option>1000</option>
             <option>5000</option>
             <option>All</option>
             <option>Custom</option>
           </select>
-          <hr>
-          <input type = 'number' id = 'events_shown_custom' value = 100 style = 'display: none;' onchange = 'reloadPseudoRawData();'>
-          <button onclick = 'setPseudoRawData();'>Set</button>
+          
+          <hr class = 'vertical'>
+          
+          <input type = 'number' id = 'events_shown_custom' value = 50 style = 'display: none;' onchange = 'reloadPseudoRawData();'>
           <button onclick = 'reloadPseudoRawData();'>Reload</button>
-          <hr>
+          <button onclick = 'setPseudoRawData();'>Set</button>
+          
+          <hr class = 'vertical'>
+          
           <h4>Scroll:</h4>
           <button class = 'scroll_buttons' onclick = 'editPageScrollToTop();'>&and;</button>
           <button class = 'scroll_buttons' onclick = 'editPageScrollToBottom();'>&or;</button>
+          
+          <hr class = 'vertical'>
+          
+          <label>
+            <input type = 'checkbox' id = 'edit_show_events' onchange = 'reloadPseudoRawData();' checked>
+            Events
+          </label>
+          
+          <label>
+            <input type = 'checkbox' id = 'edit_show_other_data' onchange = 'reloadPseudoRawData();'>
+            Other Data
+          </label>
         </div>
         
         <textarea id = 'pseudo_raw_data_text'></textarea>
@@ -253,16 +269,19 @@
           <div id = 'raw_data_top_section_div'>
             <textarea id = 'raw_data_text' autocapitalize = 'off' spellcheck = 'false'></textarea>
           </div>
+          
           <div id = 'raw_data_bottom_section_div' class = 'red_buttons'>
             <h4>Basic:</h4>
             <button onclick = 'rawDataSave();'>Save</button>
             <button onclick = 'rawDataLoad();'>Load</button>
             <button onclick = 'rawDataCreate();'>Create</button>
             <button onclick = 'rawDataDelete();'>Delete</button>
+            
             <h4>JSON:</h4>
             <button onclick = 'rawDataPrettify();'>Prettify</button>
             <button onclick = 'rawDataCondensify();'>Condensify</button>
             <button onclick = 'rawDataValidate();'>Validate</button>
+            
             <h4>File:</h4>
             <div class = 'narrow_gap'>
               <button class = 'flat_right' onclick = 'rawDataExportToFile();'>Export</button>
@@ -272,11 +291,13 @@
               <button class = 'flat_right' onclick = 'rawDataImportFromFile();'>Import</button>
               <button class = 'flat_left' onclick = 'rawDataImportFromFileUTF8ToUTF16BE();'>(UTF8 -> UTF16BE)</button>
             </div>
+            
             <div>
               <h4>Scroll:</h4>
               <button class = 'scroll_buttons' onclick = 'rawDataScrollToTop();'>&and;</button>
               <button class = 'scroll_buttons' onclick = 'rawDataScrollToBottom();'>&or;</button>
             </div>
+            
             <h4>In-Memory Data:</h4>
             <button onclick = 'rawDataSaveInMemoryData();'>Save</button>
             <button onclick = 'rawDataLoadInMemoryData();'>Load</button>

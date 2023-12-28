@@ -21,30 +21,50 @@ function getPseudoRawDataFromStorage() {
   }
   
   return {
-    eventButtons: eventStorage.getEventButtons(),
-    eventPriorities: eventStorage.getEventPriorities(),
-    eventMappings: eventStorage.getEventMappings(),
-    events,
+    ...(
+      edit_show_other_data.checked ?
+        {
+          eventButtons: eventStorage.getEventButtons(),
+          eventPriorities: eventStorage.getEventPriorities(),
+          eventMappings: eventStorage.getEventMappings(),
+        } :
+        {}
+    ),
+    ...(
+      edit_show_events.checked ?
+        { events } :
+        {}
+    ),
   };
 }
 
 function setPseudoRawDataInStorage(pseudoRawData) {
-  eventStorage.setEventButtons(pseudoRawData.eventButtons);
-  eventStorage.setEventPriorities(pseudoRawData.eventPriorities);
-  eventStorage.setEventMappings(pseudoRawData.eventMappings);
+  if ('eventButtons' in pseudoRawData) {
+    eventStorage.setEventButtons(pseudoRawData.eventButtons);
+  }
   
-  if (typeof pseudoRawData.events[0] == 'string') {
-    let match = /^<(\d+) events? elided>$/.exec(pseudoRawData.events[0]);
-    
-    let startIndex = parseInt(match[1]);
-    
-    if (Number.isSafeInteger(startIndex)) {
-      eventStorage.spliceAndAddEvents(startIndex, Infinity, pseudoRawData.events.slice(1));
+  if ('eventPriorities' in pseudoRawData) {
+    eventStorage.setEventPriorities(pseudoRawData.eventPriorities);
+  }
+  
+  if ('eventMappings' in pseudoRawData) {
+    eventStorage.setEventMappings(pseudoRawData.eventMappings);
+  }
+  
+  if ('events' in pseudoRawData) {
+    if (typeof pseudoRawData.events[0] == 'string') {
+      let match = /^<(\d+) events? elided>$/.exec(pseudoRawData.events[0]);
+      
+      let startIndex = parseInt(match[1]);
+      
+      if (Number.isSafeInteger(startIndex)) {
+        eventStorage.spliceAndAddEvents(startIndex, Infinity, pseudoRawData.events.slice(1));
+      } else {
+        alert('Index elided statement invalid');
+      }
     } else {
-      alert('Index elided statement invalid');
+      eventStorage.setAllEvents(pseudoRawData.events);
     }
-  } else {
-    eventStorage.setAllEvents(pseudoRawData.events);
   }
 }
 

@@ -42,9 +42,4 @@
   .narrow_gap {
     gap: 0.14rem;
   }
-  
-  .scroll_buttons {
-    padding-left: 0.7rem;
-    padding-right: 0.7rem;
-  }
 }

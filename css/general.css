@@ -18,11 +18,14 @@ body {
   flex-grow: 1;
 }
 
-button {
+button, label {
   padding: 0.3rem 0.5rem 0.3rem;
-  border: none;
-  border-radius: 0.5rem;
   font-size: 1.4rem;
+  border-radius: 0.5rem;
+}
+
+button {
+  border: none;
   justify-content: center;
 }
 
@@ -32,9 +35,6 @@ label {
   justify-content: center;
   gap: 0.25rem;
   background-color: rgb(233, 233, 237);
-  padding: 0.3rem;
-  border-radius: 0.5rem;
-  font-size: 1.4rem;
   
   &:hover {
     background-color: rgb(208, 208, 215);
@@ -54,6 +54,10 @@ label {
 hr {
   margin: 0.7rem 0 0.5rem;
   border: 0.1rem solid rgb(127, 127, 127);
+  
+  &.vertical {
+    margin: 0;
+  }
 }
 
 select, input[type = number] {
@@ -159,7 +163,7 @@ textarea {
   }
 }
 
-.red_buttons button {
+.red_buttons :is(button, label) {
   background-color: rgb(255, 187, 187);
   
   &:hover {
@@ -169,4 +173,9 @@ textarea {
   &:active {
     background-color: rgb(255, 76, 76);
   }
+}
+
+.scroll_buttons {
+  padding-left: 0.7rem;
+  padding-right: 0.7rem;
 }
