@@ -1,3 +1,26 @@
+/* body elements */
+
+html {
+  height: 100%;
+  align-items: stretch;
+}
+
+body {
+  margin: 0;
+  justify-content: stretch;
+  background-color: lightblue;
+  font-family: Arial;
+  flex-grow: 1;
+  overflow-x: auto;
+  
+  /* This is the noscript element, it gets converted to a span */
+  & > span:first-child {
+    text-align: center;
+    padding: 0.5rem;
+  }
+}
+
+
 /* current event (top bar) block */
 
 #current_event_div {
