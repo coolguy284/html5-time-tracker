@@ -17,6 +17,12 @@ body {
   font-family: Arial;
   flex-grow: 1;
   overflow-x: auto;
+  
+  /* This is the noscript element, it gets converted to a span */
+  & > span:first-child {
+    text-align: center;
+    padding: 0.5rem;
+  }
 }
 
 button, label {
