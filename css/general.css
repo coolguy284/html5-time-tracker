@@ -16,6 +16,7 @@ body {
   background-color: lightblue;
   font-family: Arial;
   flex-grow: 1;
+  overflow-x: auto;
 }
 
 button, label {
@@ -96,6 +97,10 @@ textarea {
 
 .flex_row {
   flex-direction: row;
+}
+
+.wrap {
+  flex-wrap: wrap;
 }
 
 .centered {
