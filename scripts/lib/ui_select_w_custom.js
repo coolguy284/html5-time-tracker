@@ -13,12 +13,19 @@ class IntegerSelectWithCustom {
     
     // attach on change handler to update input
     this.#selectElem.addEventListener('change', () => {
-      if (this.#selectElem.value == this.#customName) {
-        this.#inputElem.style.display = '';
-      } else {
-        this.#inputElem.style.display = 'none';
-      }
+      this.#updateInputElemVisibility();
     });
+    
+    // initial update incase select is custom
+    this.#updateInputElemVisibility();
+  }
+  
+  #updateInputElemVisibility() {
+    if (this.#selectElem.value == this.#customName) {
+      this.#inputElem.style.display = '';
+    } else {
+      this.#inputElem.style.display = 'none';
+    }
   }
   
   get() {
