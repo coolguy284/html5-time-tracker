@@ -114,8 +114,24 @@ let storageManager = new StorageManager();
 let eventManager = new EventManager(storageManager);
 let criticalCodeManager = new CriticalCodeManager();
 let asyncManager = new AsyncManager();
+let storageUsedMeter = new MeterManager(
+  storage_used_meter_div,
+  [
+    { max: 0.5, color: 'rgb(0, 171, 96)' },
+    { max: 0.8, color: 'rgb(255, 189, 79)' },
+    { max: 1.0, color: 'rgb(226, 40, 80)' },
+  ]
+);
 let localStorageUsedMeter = new MeterManager(
   localstorage_used_meter_div,
+  [
+    { max: 0.5, color: 'rgb(0, 171, 96)' },
+    { max: 0.8, color: 'rgb(255, 189, 79)' },
+    { max: 1.0, color: 'rgb(226, 40, 80)' },
+  ]
+);
+let totalStorageUsedMeter = new MeterManager(
+  total_storage_used_meter_div,
   [
     { max: 0.5, color: 'rgb(0, 171, 96)' },
     { max: 0.8, color: 'rgb(255, 189, 79)' },
@@ -129,24 +145,6 @@ let editPageEventsShown = new IntegerSelectWithCustom(
   {
     'All': Infinity,
   }
-);
-
-let localStorage2UsedMeter = new MeterManager(
-  localstorage_2_used_meter_div,
-  [
-    { max: 0.5, color: 'rgb(0, 171, 96)' },
-    { max: 0.8, color: 'rgb(255, 189, 79)' },
-    { max: 1.0, color: 'rgb(226, 40, 80)' },
-  ]
-);
-
-let totalStorageUsedMeter = new MeterManager(
-  total_storage_used_meter_div,
-  [
-    { max: 0.5, color: 'rgb(0, 171, 96)' },
-    { max: 0.8, color: 'rgb(255, 189, 79)' },
-    { max: 1.0, color: 'rgb(226, 40, 80)' },
-  ]
 );
 
 let mainPageManager = new PageManager();

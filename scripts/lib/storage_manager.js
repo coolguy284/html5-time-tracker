@@ -56,7 +56,7 @@ class StorageManager {
     }
   }
   
-  async getTotalSizeInChars() {
+  async getUsedSizeInChars() {
     let textValue = await storageManager.getDataAsUtf16();
     
     switch (await storageManager.getDataFormatInMedium()) {
@@ -74,7 +74,7 @@ class StorageManager {
     }
   }
   
-  async getTotalSizeInBytes() {
+  async getUsedSizeInBytes() {
     let textValue = await storageManager.getDataAsUtf16();
     
     switch (await storageManager.getDataFormatInMedium()) {
@@ -89,6 +89,26 @@ class StorageManager {
       
       case null:
         return null;
+    }
+  }
+  
+  async mediumSpaceReport() {
+    switch (await this.getMediumFormat()) {
+      case 'LocalStorage':
+        return await localStorageReport();
+      
+      case 'OPFS': {
+        let storageUsed = await navigator.storage.estimate();
+        
+        return {
+          usedChars: null,
+          freeChars: null,
+          totalChars: null,
+          usedBytes: storageUsed.usage,
+          freeBytes: storageUsed.quota - storageUsed.usage,
+          totalBytes: storageUsed.quota,
+        };
+      }
     }
   }
 }

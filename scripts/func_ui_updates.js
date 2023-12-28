@@ -441,6 +441,37 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
 
 // extras > main extras page updates
 
+let refreshStorageCapacityView = asyncManager.wrapAsyncFunction({
+  taskName: 'refreshStorageCapacityView',
+  groupNames: ['storage'],
+  critical: true,
+  alreadyRunningBehavior: 'stop',
+  exclusive: 'group',
+}, async () => {
+  try {
+    let report = await storageManager.mediumSpaceReport();
+    console.log('med', report);
+    
+    setStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+  } catch (e) {
+    if (!localStorageErrorPrinted) {
+      alert(e.toString());
+      localStorageErrorPrinted = true;
+    }
+    
+    throw e;
+  }
+});
+
+function setStorageCapacityView(totalBytes, usedBytes, freeBytes) {
+  storageUsedMeter.setValue(usedBytes / totalBytes);
+  storage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
+  storage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
+  storage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
+}
+
+// extras > storage page updates
+
 let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
   taskName: 'refreshLocalStorageCapacityView',
   groupNames: ['storage'],
@@ -523,13 +554,6 @@ function temporarilyBlankLocalStorageCapacityView() {
   localstorage_free_text.textContent = '-- KB (--%)';
 }
 
-function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
-  localStorageUsedMeter.setValue(usedBytes / totalBytes);
-  localstorage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
-  localstorage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
-  localstorage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
-}
-
 function setLocalStorageCalcProgressText(value) {
   showLocalStorageCalcProgressDiv();
   localstorage_size_calc_progress_text.textContent = value;
@@ -547,77 +571,30 @@ function hideLocalStorageCalcProgressDiv() {
   }
 }
 
-// extras > storage page updates
-
-let refreshLocalStorage2CapacityView = asyncManager.wrapAsyncFunction({
-  taskName: 'refreshLocalStorage2CapacityView',
-  groupNames: ['storage'],
-  critical: true,
-  alreadyRunningBehavior: 'stop',
-  exclusive: 'group',
-  enterHandlers: [
-    () => {
-      localstorage_refresh_view_btn.setAttribute('disabled', '');
-      localstorage_recalculate_max_btn.setAttribute('disabled', '');
-    },
-  ],
-  exitHandlers: [
-    () => {
-      localstorage_refresh_view_btn.removeAttribute('disabled');
-      localstorage_recalculate_max_btn.removeAttribute('disabled');
-    },
-  ],
-}, async () => {
-  try {
-    let report = await localStorageReport(setLocalStorageCalcProgressText);
-    
-    setLocalStorage2CapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
-    
-    return report;
-  } catch (e) {
-    if (!localStorageErrorPrinted) {
-      alert(e.toString());
-      localStorageErrorPrinted = true;
-    }
-    
-    throw e;
-  }
-});
-
-function setLocalStorage2CapacityView(totalBytes, usedBytes, freeBytes) {
-  localStorage2UsedMeter.setValue(usedBytes / totalBytes);
-  localstorage_2_total_text.textContent = `${prettifyBytes(totalBytes)}`;
-  localstorage_2_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
-  localstorage_2_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
+function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
+  localStorageUsedMeter.setValue(usedBytes / totalBytes);
+  localstorage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
+  localstorage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
+  localstorage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
 }
 
-function setStorageCapacityView(totalBytes, usedBytes, freeBytes) {
+function setTotalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
   totalStorageUsedMeter.setValue(usedBytes / totalBytes);
   total_storage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
   total_storage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
   total_storage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
 }
 
-async function refreshStorageCapacityView() {
+async function refreshTotalStorageCapacityView() {
   // update localstorage progress
   
-  let report;
-  
-  try {
-    report = await refreshLocalStorage2CapacityView();
-  } catch {
-    report = {
-      totalBytes: 0,
-      usedBytes: 0,
-      freeBytes: 0,
-    };
-  }
+  await refreshLocalStorageCapacityView();
   
   // update total storage progress
   
   let storageUsed = await navigator.storage.estimate();
   
-  setStorageCapacityView(storageUsed.quota, storageUsed.usage, storageUsed.quota - storageUsed.usage);
+  setTotalStorageCapacityView(storageUsed.quota, storageUsed.usage, storageUsed.quota - storageUsed.usage);
   
   // update other stats
   
@@ -632,14 +609,15 @@ async function refreshStorageCapacityView() {
   }
   let days = (now - startTime) / 86400 / 1000;
   
-  let chars = await storageManager.getTotalSizeInChars();
-  let bytes = await storageManager.getTotalSizeInBytes();
+  let chars = await storageManager.getUsedSizeInChars();
+  let bytes = await storageManager.getUsedSizeInBytes();
   
-  // TODO - update this with the new storage modes
+  let report = await storageManager.mediumSpaceReport();
+  let bytesDisk = report.usedBytes;
   let availableBytes = report.freeBytes;
   let totalBytes = report.totalBytes;
   
-  let percentFull = bytes / totalBytes;
+  let percentFull = bytesDisk / totalBytes;
   let totalDays = days / percentFull;
   let daysTillFull = totalDays - days;
   
@@ -648,6 +626,7 @@ async function refreshStorageCapacityView() {
   storage_data_events_per_day.textContent = `${commaifyDecimal(numEvents / days, 3)} events / day`;
   storage_data_characters.textContent = `${commaifyDecimal(chars)} chars`;
   storage_data_bytes.textContent = `${commaifyDecimal(bytes)} bytes`;
+  storage_data_bytes_on_disk.textContent = `${commaifyDecimal(bytesDisk)} bytes`;
   storage_data_available_bytes.textContent = `${commaifyDecimal(availableBytes)} bytes`;
   storage_data_total_bytes.textContent = `${commaifyDecimal(totalBytes)} bytes`;
   storage_data_bytes_per_event.textContent = `${commaifyDecimal(bytes / numEvents, 3)} bytes / event`;

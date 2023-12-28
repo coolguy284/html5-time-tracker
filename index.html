@@ -242,6 +242,32 @@
         <div id = 'extras_section_main_page'>
           <h3 class = 'med_top_gap'>Storage Use</h3>
           <div class = 'meter'>
+            <div id = 'storage_used_meter_div'></div>
+          </div>
+          <div class = 'flex_row'>
+            <span>Total</span>
+            <span id = 'storage_total_text'>-- KB</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Used</span>
+            <span id = 'storage_used_text'>-- KB (--%)</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Free</span>
+            <span id = 'storage_free_text'>-- KB (--%)</span>
+          </div>
+          <hr>
+          <h3 class = 'med_top_gap'>Pages</h3>
+          <button onclick = 'switchExtrasPage(this);'>Storage</button>
+          <button onclick = 'switchExtrasPage(this);'>Raw Data</button>
+          <button onclick = 'switchExtrasPage(this);'>Settings</button>
+        </div>
+        
+        <div id = 'storage_section_div' style = 'display: none;'>
+          <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
+          
+          <h3 class = 'med_top_gap'>LocalStorage Use</h3>
+          <div class = 'meter'>
             <div id = 'localstorage_used_meter_div'></div>
           </div>
           <div class = 'flex_row'>
@@ -262,32 +288,6 @@
           </div>
           <button id = 'localstorage_refresh_view_btn' onclick = 'refreshLocalStorageCapacityView();'>Refresh</button>
           <button id = 'localstorage_recalculate_max_btn' onclick = 'resetAndRefreshLocalStorageCapacityView();'>Recalculate Max & Refresh</button>
-          <hr>
-          <h3 class = 'med_top_gap'>Pages</h3>
-          <button onclick = 'switchExtrasPage(this);'>Storage</button>
-          <button onclick = 'switchExtrasPage(this);'>Raw Data</button>
-          <button onclick = 'switchExtrasPage(this);'>Settings</button>
-        </div>
-        
-        <div id = 'storage_section_div' style = 'display: none;'>
-          <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
-          
-          <h3 class = 'med_top_gap'>LocalStorage Use</h3>
-          <div class = 'meter'>
-            <div id = 'localstorage_2_used_meter_div'></div>
-          </div>
-          <div class = 'flex_row'>
-            <span>Total</span>
-            <span id = 'localstorage_2_total_text'>-- KB</span>
-          </div>
-          <div class = 'flex_row'>
-            <span>Used</span>
-            <span id = 'localstorage_2_used_text'>-- KB (--%)</span>
-          </div>
-          <div class = 'flex_row'>
-            <span>Free</span>
-            <span id = 'localstorage_2_free_text'>-- KB (--%)</span>
-          </div>
           
           <hr>
           
@@ -330,6 +330,10 @@
           <div class = 'flex_row'>
             <span>Bytes</span>
             <span id = 'storage_data_bytes'>-1</span>
+          </div>
+          <div class = 'flex_row'>
+            <span>Bytes (Disk)</span>
+            <span id = 'storage_data_bytes_on_disk'>-1</span>
           </div>
           <div class = 'flex_row'>
             <span>Available Bytes</span>
@@ -462,6 +466,7 @@
     <script src = 'scripts/lib/ui/meter_manager.js'></script>
     <script src = 'scripts/lib/ui/page_manager.js'></script>
     <script src = 'scripts/lib/ui/select_w_custom.js'></script>
+    <script src = 'scripts/lib/ui/storage_meter_manager.js'></script>
     <script src = 'scripts/globals.js'></script>
     <script src = 'scripts/func_ui_updates.js'></script>
     <script src = 'scripts/func_ui.js'></script>
