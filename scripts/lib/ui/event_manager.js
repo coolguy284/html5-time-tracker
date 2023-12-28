@@ -1,4 +1,4 @@
-class PlannerPersistentStorage {
+class EventManager {
   // instance fields
   
   #eventButtons;
@@ -62,7 +62,7 @@ class PlannerPersistentStorage {
   }
   
   #setStorageVersionToLatest() {
-    this.#setMediumVer(PlannerPersistentStorage.getLatestVer());
+    this.#setMediumVer(EventManager.getLatestVer());
   }
   
   // fill events with default option

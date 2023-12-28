@@ -110,7 +110,7 @@ let currentHighlightedEvent = null;
 let localStorageErrorPrinted = false;
 
 
-let eventStorage = new PlannerPersistentStorage();
+let eventStorage = new EventManager();
 let criticalCodeManager = new CriticalCodeManager();
 let asyncManager = new AsyncManager();
 let localStorageUsedMeter = new MeterManager(
