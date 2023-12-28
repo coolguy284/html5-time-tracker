@@ -192,9 +192,9 @@
       </div>
       
       <div id = 'edit_section_div' style = 'display: none;'>
-        <div class = 'flex_row centered'>
+        <div class = 'flex_row centered red_buttons'>
           <h4>Lines Shown</h4>
-          <select>
+          <select id = 'events_shown' onchange = 'reloadPseudoRawData();'>
             <option>10</option>
             <option>50</option>
             <option selected>100</option>
@@ -204,8 +204,14 @@
             <option>All</option>
             <option>Custom</option>
           </select>
+          <hr>
+          <input type = 'number' id = 'events_shown_custom' value = 100 style = 'display: none;' onchange = 'reloadPseudoRawData();'>
           <button onclick = 'setPseudoRawData();'>Set</button>
           <button onclick = 'reloadPseudoRawData();'>Reload</button>
+          <hr>
+          <h4>Scroll:</h4>
+          <button class = 'scroll_buttons' onclick = 'editPageScrollToTop();'>&and;</button>
+          <button class = 'scroll_buttons' onclick = 'editPageScrollToBottom();'>&or;</button>
         </div>
         
         <textarea id = 'pseudo_raw_data_text'></textarea>
@@ -247,7 +253,7 @@
           <div id = 'raw_data_top_section_div'>
             <textarea id = 'raw_data_text' autocapitalize = 'off' spellcheck = 'false'></textarea>
           </div>
-          <div id = 'raw_data_bottom_section_div'>
+          <div id = 'raw_data_bottom_section_div' class = 'red_buttons'>
             <h4>Basic:</h4>
             <button onclick = 'rawDataSave();'>Save</button>
             <button onclick = 'rawDataLoad();'>Load</button>
@@ -328,6 +334,8 @@
     <script src = 'scripts/lib/version_transmuter.js'></script>
     <script src = 'scripts/lib/page_manager.js'></script>
     <script src = 'scripts/lib/ui_meter_manager.js'></script>
+    <script src = 'scripts/lib/ui_select_w_custom.js'></script>
+    <script src = 'scripts/lib/ui.js'></script>
     <script src = 'scripts/globals.js'></script>
     <script src = 'scripts/func_ui_updates.js'></script>
     <script src = 'scripts/func_ui.js'></script>

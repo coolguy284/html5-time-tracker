@@ -56,7 +56,7 @@ hr {
   border: 0.1rem solid rgb(127, 127, 127);
 }
 
-select {
+select, input[type = number] {
   background-color: white;
   font-size: 1.3rem;
   border: 0.2rem solid gray;
@@ -96,6 +96,10 @@ textarea {
 
 .centered {
   align-items: center;
+  
+  hr {
+    align-self: stretch;
+  }
 }
 
 .flat_left {
@@ -152,5 +156,17 @@ textarea {
   
   &:active {
     background-color: rgb(64, 216, 97);
+  }
+}
+
+.red_buttons button {
+  background-color: rgb(255, 187, 187);
+  
+  &:hover {
+    background-color: rgb(255, 136, 136);
+  }
+  
+  &:active {
+    background-color: rgb(255, 76, 76);
   }
 }

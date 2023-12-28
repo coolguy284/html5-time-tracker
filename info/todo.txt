@@ -1,4 +1,8 @@
-convert true/false funcs into undefined/error, its much cleaner (primarily in persistentstorage)
+make hrs taller on centered thing
+extra files storage for old files
+language for evaluating rules
+rename page manager to be in ui
+listen for storage events that update the localstorage key
 
 make the extras storage recalculate happen in the background even before extras page is picked
 add checkbox in settings page for compressed
@@ -125,6 +129,7 @@ add annotation viewer page to extras that will show annotations and allow the op
 add a move events backward button
 store eventbuttons as an array instead so there can be multiple keys with the same value
 rename repo to html5-time-tracker
+convert true/false funcs into undefined/error, its much cleaner (primarily in persistentstorage)
 
 probably not doing:
 try black border around events in table view

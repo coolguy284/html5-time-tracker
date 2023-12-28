@@ -136,7 +136,9 @@ function duplicateEventBackwards() {
   eventStorage.spliceAndAddEvents(
     latestVisibleEventIndex,
     0,
-    [dateToFullString(new Date(Math.floor(dateStringToDate(lastEvent[0]).getTime() - minutesBack * 60_000))), lastEvent[1], lastEvent[2], true, ...lastEvent.slice(4)]
+    [
+      [dateToFullString(new Date(Math.floor(dateStringToDate(lastEvent[0]).getTime() - minutesBack * 60_000))), lastEvent[1], lastEvent[2], true, ...lastEvent.slice(4)],
+    ]
   );
 }
 

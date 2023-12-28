@@ -30,18 +30,9 @@
   }
   
   button {
-    background-color: rgb(255, 187, 187);
     padding: 0.3rem;
     border: none;
     font-size: 1.2rem;
-    
-    &:hover {
-      background-color: rgb(255, 136, 136);
-    }
-    
-    &:active {
-      background-color: rgb(255, 76, 76);
-    }
   }
   
   h4 {

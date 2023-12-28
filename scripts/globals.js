@@ -121,6 +121,14 @@ let localStorageUsedMeter = new MeterManager(
     { max: 1.0, color: 'rgb(226, 40, 80)' },
   ]
 );
+let editPageEventsShown = new IntegerSelectWithCustom(
+  events_shown,
+  events_shown_custom,
+  'Custom',
+  {
+    'All': Infinity,
+  }
+);
 
 let mainPageManager = new PageManager();
 let extrasPageManager = new PageManager();

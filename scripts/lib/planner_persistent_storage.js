@@ -249,7 +249,7 @@ class PlannerPersistentStorage {
     this.saveOrCreateNew();
   }
   
-  spliceAndAddEvents(index, amount, ...newElems) {
+  spliceAndAddEvents(index, amount, newElems) {
     this.#loadIfNotAlready();
     this.#events.splice(index, amount, ...deepClone(newElems));
     this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
