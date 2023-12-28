@@ -625,32 +625,8 @@ async function refreshStorageCapacityView() {
   let days = (now - startTime) / 86400 / 1000;
   
   // TODO -- replace with chars and bytes from storagemanager
-  let chars, bytes;
-  
-  let textValue = storageManager.getDataAsUtf16();
-  let textStatus = storageManager.getDataFormatInMedium();
-  
-  switch (textStatus) {
-    case 'text':
-      chars = textValue.length;
-      bytes = textValue.length * 2;
-      break;
-    
-    case 'utf-8':
-      chars = textValue.length * 2;
-      bytes = textValue.length * 2;
-      break;
-    
-    case 'binary':
-      chars = 'N/A';
-      bytes = textValue.length * 2;
-      break;
-    
-    case null:
-      chars = 0;
-      bytes = 0;
-      break;
-  }
+  let chars = storageManager.getTotalSizeInChars();
+  let bytes = storageManager.getTotalSizeInBytes();
   
   // TODO - update this with the new storage modes
   let availableBytes = report.freeBytes;

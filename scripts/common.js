@@ -50,7 +50,7 @@ function commaifyDecimal(num, precision) {
   } else if (precision == 0) {
     return Number(num[0]).toLocaleString();
   } else {
-    if (!Number.isFinite(num)) {
+    if (!Number.isFinite(Number(num[0]))) {
       return Number(num[0]).toLocaleString();
     } else if (num.length > 1) {
       return `${Number(num[0]).toLocaleString()}.${Number('0.' + num[1]).toFixed(precision).slice(2)}`;
