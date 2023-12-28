@@ -42,4 +42,4 @@ extrasPageManager.deactivateWithPage('Main');
     refreshLocalStorageCapacityView(),
     updateSettingsPagePersistenceStatus(),
   ]);
-});
+})();

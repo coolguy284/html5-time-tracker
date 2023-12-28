@@ -6,7 +6,7 @@ class StorageManager {
   async getMediumFormat() {
     if (LOCALSTORAGE_MAIN_STORAGE_KEY in localStorage) {
       return 'LocalStorage';
-    } else if (await navigator.storage.getDirectory(OPFS_MAIN_FOLDER)) { // TODO
+    } else if (false/* await navigator.storage.getDirectory(OPFS_MAIN_FOLDER) */) { // TODO
       return 'OPFS';
     } else {
       return StorageManager.getDefaultMediumFormat();
@@ -42,7 +42,7 @@ class StorageManager {
     }
   }
   
-  async getDataAsUtf16() { // TODO -- left off here
+  async getDataAsUtf16() {
     switch (await this.getMediumFormat()) {
       case 'LocalStorage':
         return localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];

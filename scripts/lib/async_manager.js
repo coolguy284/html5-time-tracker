@@ -172,6 +172,8 @@ class AsyncManager {
       for (let listener of this.#allTasksFinishListeners) {
         finishListenersToCall.push(listener);
       }
+      
+      this.#allTasksFinishListeners.clear();
     }
     
     for (let listener of finishListenersToCall) {
@@ -265,6 +267,7 @@ class AsyncManager {
   wrapAsyncFunctionWithButton(name, btn, func) {
     return this.wrapAsyncFunction({
       taskName: name,
+      groupNames: [],
       critical: false,
       alreadyRunningBehavior: 'wait',
       exclusive: 'task',
