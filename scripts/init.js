@@ -26,7 +26,7 @@ addEventListener('storage', evt => {
   }
 });
 
-globalEventTarget.addEventListener('localStorageUpdate', evt => {
+globalEventTarget.addEventListener('localStorageUpdate', () => {
   eventManager.loadFromMediumOrFillWithDefault();
 });
 

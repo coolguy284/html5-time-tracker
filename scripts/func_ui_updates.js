@@ -517,9 +517,9 @@ function temporarilyBlankLocalStorageCapacityView() {
 
 function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
   localStorageUsedMeter.setValue(usedBytes / totalBytes);
-  localstorage_total_text.textContent = `${Math.round(totalBytes / 1000)} KB`;
-  localstorage_used_text.textContent = `${Math.round(usedBytes / 1000)} KB (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
-  localstorage_free_text.textContent = `${Math.round(freeBytes / 1000)} KB (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
+  localstorage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
+  localstorage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
+  localstorage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
 }
 
 function setLocalStorageCalcProgressText(value) {
@@ -551,12 +551,10 @@ let refreshLocalStorage2CapacityView = asyncManager.wrapAsyncFunction({
     () => {
       localstorage_refresh_view_btn.setAttribute('disabled', '');
       localstorage_recalculate_max_btn.setAttribute('disabled', '');
-      temporarilyBlankLocalStorageCapacityView();
     },
   ],
   exitHandlers: [
     () => {
-      hideLocalStorageCalcProgressDiv();
       localstorage_refresh_view_btn.removeAttribute('disabled');
       localstorage_recalculate_max_btn.removeAttribute('disabled');
     },
@@ -580,16 +578,16 @@ let refreshLocalStorage2CapacityView = asyncManager.wrapAsyncFunction({
 
 function setLocalStorage2CapacityView(totalBytes, usedBytes, freeBytes) {
   localStorage2UsedMeter.setValue(usedBytes / totalBytes);
-  localstorage_2_total_text.textContent = `${Math.round(totalBytes / 1000)} KB`;
-  localstorage_2_used_text.textContent = `${Math.round(usedBytes / 1000)} KB (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
-  localstorage_2_free_text.textContent = `${Math.round(freeBytes / 1000)} KB (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
+  localstorage_2_total_text.textContent = `${commaifyDecimal(totalBytes / 1000, 0)} KB`;
+  localstorage_2_used_text.textContent = `${commaifyDecimal(usedBytes / 1000, 0)} KB (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
+  localstorage_2_free_text.textContent = `${commaifyDecimal(freeBytes / 1000, 0)} KB (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
 }
 
 function setStorageCapacityView(totalBytes, usedBytes, freeBytes) {
   totalStorageUsedMeter.setValue(usedBytes / totalBytes);
   total_storage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
-  total_storage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(4)}%)`;
-  total_storage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(4)}%)`;
+  total_storage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
+  total_storage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
 }
 
 async function refreshStorageCapacityView() {
@@ -628,16 +626,16 @@ async function refreshStorageCapacityView() {
   
   let chars, bytes;
   
-  let textStatus = getRawDataTextStatus();
-  let textValue = getRawDataTextValue();
+  let textValue = storageManager.getDataAsUtf16();
+  let textStatus = eventManager.getMediumVer().format;
   
   switch (textStatus) {
-    case 'text':
+    case 'json':
       chars = textValue.length;
       bytes = textValue.length * 2;
       break;
     
-    case 'utf-8':
+    case 'json utf-8':
       chars = textValue.length * 2;
       bytes = textValue.length * 2;
       break;
@@ -670,7 +668,7 @@ async function refreshStorageCapacityView() {
   storage_data_total_bytes.textContent = `${commaifyDecimal(totalBytes)} bytes`;
   storage_data_bytes_per_event.textContent = `${commaifyDecimal(bytes / numEvents, 3)} bytes / event`;
   storage_data_bytes_per_day.textContent = `${commaifyDecimal(bytes / days, 3)} bytes / day`;
-  storage_data_percent_full.textContent = `${commaifyDecimal(percentFull * 100, 2)}%`;
+  storage_data_percent_full.textContent = `${commaifyDecimal(percentFull * 100, 5)}%`;
   storage_data_days_till_full.textContent = `${commaifyDecimal(daysTillFull, 3)} days`;
   storage_data_total_days_till_full.textContent = `${commaifyDecimal(totalDays, 3)} days`;
 }

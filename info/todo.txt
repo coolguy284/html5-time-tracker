@@ -1,10 +1,9 @@
-add storagemanager for managing storage and rawdata accesses it
+make the extras storage recalculate happen in the background even before extras page is picked
 
 extra files storage for old files
 language for evaluating rules
 use web lock for critical saving stuff
 
-make the extras storage recalculate happen in the background even before extras page is picked
 add checkbox in settings page for compressed
 add uncompressed events array in persistent storage
 add setting for max num of uncompressed events before compress pass

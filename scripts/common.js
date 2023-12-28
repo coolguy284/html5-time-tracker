@@ -28,13 +28,13 @@ function dateStringToTZOffset(dateStr) {
 
 function prettifyBytes(bytes) {
   if (bytes < 2 ** 10 * 15) {
-    return bytes + '';
+    return commaifyDecimal(bytes, 0);
   } else if (bytes < 2 ** 20 * 15) {
-    return Math.round(bytes / 2 ** 10) + ' KB';
+    return commaifyDecimal(bytes / 2 ** 10, 0) + ' KB';
   } else if (bytes < 2 ** 30 * 15) {
-    return Math.round(bytes / 2 ** 20) + ' MB';
+    return commaifyDecimal(bytes / 2 ** 20, 0) + ' MB';
   } else {
-    return Math.round(bytes / 2 ** 30) + ' GB';
+    return commaifyDecimal(bytes / 2 ** 30, 0) + ' GB';
   }
 }
 

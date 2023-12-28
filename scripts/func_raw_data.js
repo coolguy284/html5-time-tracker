@@ -88,22 +88,22 @@ function rawDataSave() {
   let textValue = getRawDataTextValue();
   
   if (textValue != null) {
-    localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = textValue;
+    storageManager.setDataAsUtf16(textValue);
     dispatchLocalStorageUpdate();
   }
 }
 
 function rawDataLoad() {
-  if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] == null) {
+  if (!storageManager.dataIsStored()) {
     setRawDataTextValue(null);
   } else {
-    setRawDataTextValue(localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY]);
+    setRawDataTextValue(storageManager.getDataAsUtf16());
   }
 }
 
 function rawDataCreate() {
-  if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] == null) {
-    localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = '';
+  if (!storageManager.dataIsStored()) {
+    storageManager.setDataAsUtf16('');
     rawDataLoad();
     dispatchLocalStorageUpdate();
   }
@@ -112,7 +112,7 @@ function rawDataCreate() {
 function rawDataDelete() {
   if (!confirm('Are you sure?')) return;
   
-  delete localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
+  storageManager.deleteData();
   rawDataLoad();
   dispatchLocalStorageUpdate();
 }

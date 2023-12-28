@@ -1,6 +1,7 @@
 class EventManager {
   // instance fields
   
+  #storageManager;
   #eventButtons;
   #eventPriorities;
   #eventMappings;
@@ -18,6 +19,12 @@ class EventManager {
       eventMappingsPrioritiesUpdate
       storageUpdate
   */
+  
+  // constructor
+  
+  constructor(storageManager) {
+    this.#storageManager = storageManager;
+  }
   
   // static methods
   
@@ -82,13 +89,13 @@ class EventManager {
   
   // returns true on success, false on failure
   #attemptLoadFromMedium() {
-    if (!(LOCALSTORAGE_MAIN_STORAGE_KEY in localStorage)) {
+    if (!this.#storageManager.dataIsStored()) {
       return false;
     }
     
     let versionLoader = new VersionTransmuter();
     
-    let mediumText = localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
+    let mediumText = this.#storageManager.getDataAsUtf16();
     
     let successfulRead = versionLoader.setData(mediumText);
     
@@ -162,7 +169,7 @@ class EventManager {
     
     let localStorageString = versionSaver.getData();
     
-    localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = localStorageString;
+    this.#storageManager.setDataAsUtf16(localStorageString);
     
     this.#jsDispatchEvent(new CustomEvent('storageUpdate'));
   }

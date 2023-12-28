@@ -3,6 +3,7 @@
 #raw_data_section_div {
   justify-content: stretch;
   background-color: white;
+  padding: 0.5rem;
   gap: 0.5rem;
 }
 

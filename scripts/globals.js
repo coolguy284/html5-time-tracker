@@ -110,7 +110,8 @@ let currentHighlightedEvent = null;
 let localStorageErrorPrinted = false;
 
 
-let eventManager = new EventManager();
+let storageManager = new StorageManager();
+let eventManager = new EventManager(storageManager);
 let criticalCodeManager = new CriticalCodeManager();
 let asyncManager = new AsyncManager();
 let localStorageUsedMeter = new MeterManager(
