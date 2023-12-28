@@ -1,8 +1,6 @@
-make hrs taller on centered thing
 extra files storage for old files
 language for evaluating rules
-rename page manager to be in ui
-listen for storage events that update the localstorage key
+use web lock for critical saving stuff
 
 make the extras storage recalculate happen in the background even before extras page is picked
 add checkbox in settings page for compressed

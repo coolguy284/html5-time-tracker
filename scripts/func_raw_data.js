@@ -89,6 +89,7 @@ function rawDataSave() {
   
   if (textValue != null) {
     localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = textValue;
+    dispatchLocalStorageUpdate();
   }
 }
 
@@ -104,6 +105,7 @@ function rawDataCreate() {
   if (localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] == null) {
     localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY] = '';
     rawDataLoad();
+    dispatchLocalStorageUpdate();
   }
 }
 
@@ -112,6 +114,7 @@ function rawDataDelete() {
   
   delete localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
   rawDataLoad();
+  dispatchLocalStorageUpdate();
 }
 
 function rawDataExportToFile() {

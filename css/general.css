@@ -1,6 +1,6 @@
 /* general declarations */
 
-html, body, body :where(:not(script, table, thead, tbody, tr, th, td)) {
+html, body, :where(body) :where(:not(script, table, thead, tbody, tr, th, td)) {
   display: flex;
   flex-direction: column;
 }

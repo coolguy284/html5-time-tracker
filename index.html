@@ -204,18 +204,7 @@
             <option>All</option>
             <option>Custom</option>
           </select>
-          
-          <hr class = 'vertical'>
-          
           <input type = 'number' id = 'events_shown_custom' value = 50 style = 'display: none;' onchange = 'reloadPseudoRawData();'>
-          <button onclick = 'reloadPseudoRawData();'>Reload</button>
-          <button onclick = 'setPseudoRawData();'>Set</button>
-          
-          <hr class = 'vertical'>
-          
-          <h4>Scroll:</h4>
-          <button class = 'scroll_buttons' onclick = 'editPageScrollToTop();'>&and;</button>
-          <button class = 'scroll_buttons' onclick = 'editPageScrollToBottom();'>&or;</button>
           
           <hr class = 'vertical'>
           
@@ -228,6 +217,17 @@
             <input type = 'checkbox' id = 'edit_show_other_data' onchange = 'reloadPseudoRawData();'>
             Other Data
           </label>
+          
+          <hr class = 'vertical'>
+          
+          <h4>Scroll:</h4>
+          <button class = 'scroll_buttons' onclick = 'editPageScrollToTop();'>&and;</button>
+          <button class = 'scroll_buttons' onclick = 'editPageScrollToBottom();'>&or;</button>
+          
+          <hr class = 'vertical'>
+          
+          <button onclick = 'reloadPseudoRawData();'>Reload</button>
+          <button onclick = 'setPseudoRawData();'>Set</button>
         </div>
         
         <textarea id = 'pseudo_raw_data_text'></textarea>

@@ -5,7 +5,7 @@ eventStorage.loadFromMediumOrFillWithDefault();
 
 addEventListener('keydown', evt => {
   // if on charts page and left or right arrow pressed, go to next or previous week
-  if (charts_section_div.style.display != 'none') {
+  if (mainPageManager.getCurrentPage() == 'Charts') {
     switch (evt.key) {
       case 'ArrowLeft':
         decreaseWeek();
@@ -18,7 +18,20 @@ addEventListener('keydown', evt => {
   }
 });
 
+addEventListener('storage', evt => {
+  if (evt.storageArea == localStorage) {
+    if (evt.key == LOCALSTORAGE_MAIN_STORAGE_KEY) {
+      dispatchLocalStorageUpdate();
+    }
+  }
+});
+
+globalEventTarget.addEventListener('localStorageUpdate', evt => {
+  eventStorage.loadFromMediumOrFillWithDefault();
+});
+
 refreshLocalStorageCapacityView();
 updateSettingsPagePersistenceStatus();
+
 mainPageManager.switchPage('Events');
 extrasPageManager.deactivateWithPage('Main');
