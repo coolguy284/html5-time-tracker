@@ -77,8 +77,9 @@ let unRemoveLastEvent = asyncManager.wrapAsyncFunctionWithButton(
   unremove_last_evt_btn,
   async () => {
     let latestVisibleEventIndex = await eventManager.getLatestVisibleEventIndex();
+    let numEvents = await eventManager.getNumEvents();
     
-    if ((await eventManager.getNumEvents()) > 0 && latestVisibleEventIndex < (await eventManager.getNumEvents()) - 1) {
+    if (numEvents > 0 && latestVisibleEventIndex < numEvents - 1) {
       let eventEntry = eventManager.getEventByIndex(latestVisibleEventIndex + 1);
       eventEntry[2] = true;
       await eventManager.setEventAtIndex(latestVisibleEventIndex + 1, eventEntry);

@@ -100,7 +100,7 @@ async function updateDisplayedButtons(parentElem, eventButtonsSubset) {
 }
 
 async function updateCurrentEventButtonHighlight() {
-  let currentEvent = await eventManager.getLatestVisibleEvent()?.[1];
+  let currentEvent = (await eventManager.getLatestVisibleEvent())?.[1];
   
   let currentHighlightedEventSplit = currentHighlightedEvent == null ? [] : currentHighlightedEvent.split(MULTI_EVENT_SPLIT);
   let currentEventSplit = currentEvent == null ? [] : currentEvent.split(MULTI_EVENT_SPLIT);
