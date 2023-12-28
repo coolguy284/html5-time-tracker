@@ -578,9 +578,9 @@ let refreshLocalStorage2CapacityView = asyncManager.wrapAsyncFunction({
 
 function setLocalStorage2CapacityView(totalBytes, usedBytes, freeBytes) {
   localStorage2UsedMeter.setValue(usedBytes / totalBytes);
-  localstorage_2_total_text.textContent = `${commaifyDecimal(totalBytes / 1000, 0)} KB`;
-  localstorage_2_used_text.textContent = `${commaifyDecimal(usedBytes / 1000, 0)} KB (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
-  localstorage_2_free_text.textContent = `${commaifyDecimal(freeBytes / 1000, 0)} KB (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
+  localstorage_2_total_text.textContent = `${prettifyBytes(totalBytes)}`;
+  localstorage_2_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
+  localstorage_2_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
 }
 
 function setStorageCapacityView(totalBytes, usedBytes, freeBytes) {
@@ -624,18 +624,19 @@ async function refreshStorageCapacityView() {
   }
   let days = (now - startTime) / 86400 / 1000;
   
+  // TODO -- replace with chars and bytes from storagemanager
   let chars, bytes;
   
   let textValue = storageManager.getDataAsUtf16();
-  let textStatus = eventManager.getMediumVer().format;
+  let textStatus = storageManager.getDataFormatInMedium();
   
   switch (textStatus) {
-    case 'json':
+    case 'text':
       chars = textValue.length;
       bytes = textValue.length * 2;
       break;
     
-    case 'json utf-8':
+    case 'utf-8':
       chars = textValue.length * 2;
       bytes = textValue.length * 2;
       break;

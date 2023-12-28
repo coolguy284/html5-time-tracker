@@ -28,7 +28,7 @@ function dateStringToTZOffset(dateStr) {
 
 function prettifyBytes(bytes) {
   if (bytes < 2 ** 10 * 15) {
-    return commaifyDecimal(bytes, 0);
+    return commaifyDecimal(bytes, 0) + ' B';
   } else if (bytes < 2 ** 20 * 15) {
     return commaifyDecimal(bytes / 2 ** 10, 0) + ' KB';
   } else if (bytes < 2 ** 30 * 15) {
@@ -50,7 +50,13 @@ function commaifyDecimal(num, precision) {
   } else if (precision == 0) {
     return Number(num[0]).toLocaleString();
   } else {
-    return `${Number(num[0]).toLocaleString()}.${Number('0.' + num[1]).toFixed(precision).slice(2)}`;
+    if (!Number.isFinite(num)) {
+      return Number(num[0]).toLocaleString();
+    } else if (num.length > 1) {
+      return `${Number(num[0]).toLocaleString()}.${Number('0.' + num[1]).toFixed(precision).slice(2)}`;
+    } else {
+      return `${Number(num[0]).toLocaleString()}.${'0'.repeat(precision)}`;
+    }
   }
 }
 
