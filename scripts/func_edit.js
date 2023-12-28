@@ -1,5 +1,5 @@
 function getPseudoRawDataFromStorage() {
-  let events = eventStorage.getAllEvents();
+  let events = eventManager.getAllEvents();
   
   let maxEventsShown = editPageEventsShown.get();
   
@@ -24,9 +24,9 @@ function getPseudoRawDataFromStorage() {
     ...(
       edit_show_other_data.checked ?
         {
-          eventButtons: eventStorage.getEventButtons(),
-          eventPriorities: eventStorage.getEventPriorities(),
-          eventMappings: eventStorage.getEventMappings(),
+          eventButtons: eventManager.getEventButtons(),
+          eventPriorities: eventManager.getEventPriorities(),
+          eventMappings: eventManager.getEventMappings(),
         } :
         {}
     ),
@@ -40,15 +40,15 @@ function getPseudoRawDataFromStorage() {
 
 function setPseudoRawDataInStorage(pseudoRawData) {
   if ('eventButtons' in pseudoRawData) {
-    eventStorage.setEventButtons(pseudoRawData.eventButtons);
+    eventManager.setEventButtons(pseudoRawData.eventButtons);
   }
   
   if ('eventPriorities' in pseudoRawData) {
-    eventStorage.setEventPriorities(pseudoRawData.eventPriorities);
+    eventManager.setEventPriorities(pseudoRawData.eventPriorities);
   }
   
   if ('eventMappings' in pseudoRawData) {
-    eventStorage.setEventMappings(pseudoRawData.eventMappings);
+    eventManager.setEventMappings(pseudoRawData.eventMappings);
   }
   
   if ('events' in pseudoRawData) {
@@ -58,12 +58,12 @@ function setPseudoRawDataInStorage(pseudoRawData) {
       let startIndex = parseInt(match[1]);
       
       if (Number.isSafeInteger(startIndex)) {
-        eventStorage.spliceAndAddEvents(startIndex, Infinity, pseudoRawData.events.slice(1));
+        eventManager.spliceAndAddEvents(startIndex, Infinity, pseudoRawData.events.slice(1));
       } else {
         alert('Index elided statement invalid');
       }
     } else {
-      eventStorage.setAllEvents(pseudoRawData.events);
+      eventManager.setAllEvents(pseudoRawData.events);
     }
   }
 }

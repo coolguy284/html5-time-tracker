@@ -1,7 +1,7 @@
 // top banner update
 
 function updateTopBanner() {
-  let latestEventName = eventStorage.getLatestVisibleEvent()?.[1] ?? 'None';
+  let latestEventName = eventManager.getLatestVisibleEvent()?.[1] ?? 'None';
   
   current_event_text.textContent = latestEventName;
 }
@@ -11,7 +11,7 @@ function updateTopBanner() {
 function updateDisplayedButtons(parentElem, eventButtonsSubset) {
   if (!parentElem) {
     parentElem = events_section_div;
-    eventButtonsSubset = eventStorage.getEventButtons();
+    eventButtonsSubset = eventManager.getEventButtons();
     
     toggleInputs = [];
     eventButtons = {};
@@ -100,7 +100,7 @@ function updateDisplayedButtons(parentElem, eventButtonsSubset) {
 }
 
 function updateCurrentEventButtonHighlight() {
-  let currentEvent = eventStorage.getLatestVisibleEvent()?.[1];
+  let currentEvent = eventManager.getLatestVisibleEvent()?.[1];
   
   let currentHighlightedEventSplit = currentHighlightedEvent == null ? [] : currentHighlightedEvent.split(MULTI_EVENT_SPLIT);
   let currentEventSplit = currentEvent == null ? [] : currentEvent.split(MULTI_EVENT_SPLIT);
@@ -132,7 +132,7 @@ function updateCurrentEventButtonHighlight() {
 }
 
 function updateCurrentEventCheckboxes() {
-  let latestEvent = eventStorage.getLatestVisibleEvent();
+  let latestEvent = eventManager.getLatestVisibleEvent();
   
   if (latestEvent != null) {
     let togglesOnSet = new Set(latestEvent[1].split(MULTI_EVENT_SPLIT).filter(x => x in toggleInputsObject));
@@ -166,7 +166,7 @@ function getAllEventsFromEventButtonsList(currentEventButtons, eventsWithButtons
 }
 
 function addEventButtonIfNotAlready(eventName, categoryPath) {
-  let currentEventButtons = eventStorage.getEventButtons();
+  let currentEventButtons = eventManager.getEventButtons();
   
   let eventsWithButtons = getAllEventsFromEventButtonsList(currentEventButtons);
   
@@ -184,14 +184,14 @@ function addEventButtonIfNotAlready(eventName, categoryPath) {
   
   categoryObject[eventName] = 'button';
   
-  eventStorage.setEventButtons(currentEventButtons);
+  eventManager.setEventButtons(currentEventButtons);
 }
 
 // main > charts page updates > initial updating
 
 function updateChartsSectionMainEventsUpdate() {
-  eventMappings = eventStorage.getEventMappings();
-  eventPriorities = eventStorage.getEventPriorities();
+  eventMappings = eventManager.getEventMappings();
+  eventPriorities = eventManager.getEventPriorities();
   eventPriorities = Object.fromEntries(Object.entries(eventPriorities).map(x => [x[1], eventPriorities.length - x[0]]));
   updateChartsSectionMappingSelect();
 }
@@ -398,7 +398,7 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
 
 function updateDataSectionDisplay() {
   // put array contents on data_div
-  let visibleEventsArr = eventStorage.getAllEvents().filter(x => x[2]);
+  let visibleEventsArr = eventManager.getAllEvents().filter(x => x[2]);
   
   if (visibleEventsArr.length > 0) {
     let processedEventsArr;
@@ -615,10 +615,10 @@ async function refreshStorageCapacityView() {
   
   // update other stats
   
-  let numEvents = eventStorage.getNumEvents();
+  let numEvents = eventManager.getNumEvents();
   
   let now = Date.now();
-  let startTime = eventStorage.getEventByIndex(0)?.[0];
+  let startTime = eventManager.getEventByIndex(0)?.[0];
   if (startTime == null) {
     startTime = now;
   } else {
@@ -685,7 +685,7 @@ function updateRawDataDisplay() {
 // extras > settings page updates
 
 function updateSettingsPageVersionSelect() {
-  let version = eventStorage.getMediumVer();
+  let version = eventManager.getMediumVer();
   
   if (version.major == 1 && version.minor == 0 && version.format == 'json') {
     storage_version_select.value = 'V1';

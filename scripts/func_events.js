@@ -37,9 +37,9 @@ function addEvent(elem) {
       eventNamesArr.push(eventName);
     }
   } else {
-    let latestEventIndex = eventStorage.getLatestVisibleEventIndex();
+    let latestEventIndex = eventManager.getLatestVisibleEventIndex();
     if (latestEventIndex > -1) {
-      let latestEventNameArr = eventStorage.getEventByIndex(latestEventIndex)[1].split(MULTI_EVENT_SPLIT).filter(x => !(x in toggleInputsObject));
+      let latestEventNameArr = eventManager.getEventByIndex(latestEventIndex)[1].split(MULTI_EVENT_SPLIT).filter(x => !(x in toggleInputsObject));
       if (latestEventNameArr.length > 1) {
         eventNamesArr.push(...latestEventNameArr);
       } else if (latestEventNameArr.length == 1) {
@@ -55,26 +55,26 @@ function addEvent(elem) {
   let eventName = eventNamesArr.length ? eventNamesArr.join(MULTI_EVENT_SPLIT) : EVENT_NOTHING;
   
   // add to internal events array
-  eventStorage.addEvent(eventName, eventTime);
+  eventManager.addEvent(eventName, eventTime);
 }
 
 function removeLastEvent() {
-  let latestVisibleEventIndex = eventStorage.getLatestVisibleEventIndex();
+  let latestVisibleEventIndex = eventManager.getLatestVisibleEventIndex();
   
   if (latestVisibleEventIndex >= 0) {
-    let eventEntry = eventStorage.getEventByIndex(latestVisibleEventIndex);
+    let eventEntry = eventManager.getEventByIndex(latestVisibleEventIndex);
     eventEntry[2] = false;
-    eventStorage.setEventAtIndex(latestVisibleEventIndex, eventEntry);
+    eventManager.setEventAtIndex(latestVisibleEventIndex, eventEntry);
   }
 }
 
 function unRemoveLastEvent() {
-  let latestVisibleEventIndex = eventStorage.getLatestVisibleEventIndex();
+  let latestVisibleEventIndex = eventManager.getLatestVisibleEventIndex();
   
-  if (eventStorage.getNumEvents() > 0 && latestVisibleEventIndex < eventStorage.getNumEvents() - 1) {
-    let eventEntry = eventStorage.getEventByIndex(latestVisibleEventIndex + 1);
+  if (eventManager.getNumEvents() > 0 && latestVisibleEventIndex < eventManager.getNumEvents() - 1) {
+    let eventEntry = eventManager.getEventByIndex(latestVisibleEventIndex + 1);
     eventEntry[2] = true;
-    eventStorage.setEventAtIndex(latestVisibleEventIndex + 1, eventEntry);
+    eventManager.setEventAtIndex(latestVisibleEventIndex + 1, eventEntry);
   }
 }
 
@@ -82,9 +82,9 @@ function unRemoveLastEvent() {
 function purgeRemovedEntries(suppressUIUpdate) {
   if (!suppressUIUpdate && !confirm('Are you sure?')) return;
   
-  for (let i = eventStorage.getNumEvents() - 1; i >= 0; i--) {
-    if (!eventStorage.getEventByIndex(i)[2]) {
-      eventStorage.removeEventAtIndex(i);
+  for (let i = eventManager.getNumEvents() - 1; i >= 0; i--) {
+    if (!eventManager.getEventByIndex(i)[2]) {
+      eventManager.removeEventAtIndex(i);
     }
   }
 }
@@ -93,8 +93,8 @@ function purgeRemovedEntries(suppressUIUpdate) {
 function purgeBacktemporalEntries(suppressUIUpdate) {
   if (!suppressUIUpdate && !confirm('Are you sure?')) return;
   
-  eventStorage.setAllEvents(
-    eventStorage.getAllEvents()
+  eventManager.setAllEvents(
+    eventManager.getAllEvents()
       .reduceRight((a, c) => {
         if (a.length == 0) {
           a.push(c);
@@ -127,13 +127,13 @@ function duplicateEventBackwards() {
   
   if (!Number.isFinite(minutesBack) || minutesBack == 0) return;
   
-  let latestVisibleEventIndex = eventStorage.getLatestVisibleEventIndex();
+  let latestVisibleEventIndex = eventManager.getLatestVisibleEventIndex();
   
   if (latestVisibleEventIndex <= 0) return;
   
-  let lastEvent = eventStorage.getEventByIndex(latestVisibleEventIndex);
+  let lastEvent = eventManager.getEventByIndex(latestVisibleEventIndex);
   
-  eventStorage.spliceAndAddEvents(
+  eventManager.spliceAndAddEvents(
     latestVisibleEventIndex,
     0,
     [
@@ -147,11 +147,11 @@ function setLastEventAnnotation() {
   
   if (annotation == null) return;
   
-  let latestVisibleEventIndex = eventStorage.getLatestVisibleEventIndex();
+  let latestVisibleEventIndex = eventManager.getLatestVisibleEventIndex();
   
   if (latestVisibleEventIndex <= 0) return;
   
-  let lastEvent = eventStorage.getEventByIndex(latestVisibleEventIndex);
+  let lastEvent = eventManager.getEventByIndex(latestVisibleEventIndex);
   
   if (annotation.length > 0) {
     lastEvent[4] = annotation;
@@ -159,13 +159,13 @@ function setLastEventAnnotation() {
     lastEvent.length = 4;
   }
   
-  eventStorage.setEventAtIndex(latestVisibleEventIndex, lastEvent);
+  eventManager.setEventAtIndex(latestVisibleEventIndex, lastEvent);
 }
 
 function updateStorageVersion() {
   switch (storage_version_select.value) {
     case 'V1':
-      eventStorage.setMediumVer({
+      eventManager.setMediumVer({
         major: 1,
         minor: 0,
         format: 'json',
@@ -173,7 +173,7 @@ function updateStorageVersion() {
       break;
     
     case 'V1 UTF-8 (Alpha)':
-      eventStorage.setMediumVer({
+      eventManager.setMediumVer({
         major: 1,
         minor: 0,
         format: 'json utf-8',
@@ -181,7 +181,7 @@ function updateStorageVersion() {
       break;
     
     case 'V2':
-      eventStorage.setMediumVer({
+      eventManager.setMediumVer({
         major: 2,
         minor: 0,
         format: 'json',
@@ -189,7 +189,7 @@ function updateStorageVersion() {
       break;
     
     case 'V2 UTF-8 (Alpha)':
-      eventStorage.setMediumVer({
+      eventManager.setMediumVer({
         major: 2,
         minor: 0,
         format: 'json utf-8',
@@ -197,7 +197,7 @@ function updateStorageVersion() {
       break;
     
     case 'V3 (Alpha)':
-      eventStorage.setMediumVer({
+      eventManager.setMediumVer({
         major: 3,
         minor: 0,
         format: 'json',
@@ -205,7 +205,7 @@ function updateStorageVersion() {
       break;
     
     case 'V3 UTF-8 (Alpha)':
-      eventStorage.setMediumVer({
+      eventManager.setMediumVer({
         major: 3,
         minor: 0,
         format: 'json utf-8',
@@ -213,7 +213,7 @@ function updateStorageVersion() {
       break;
     
     case 'V3 Binary (Alpha)':
-      eventStorage.setMediumVer({
+      eventManager.setMediumVer({
         major: 3,
         minor: 0,
         format: 'binary',

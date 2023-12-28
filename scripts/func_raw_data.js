@@ -354,9 +354,9 @@ function rawDataScrollToBottom() {
 }
 
 function rawDataSaveInMemoryData() {
-  eventStorage.saveOrCreateNew();
+  eventManager.saveOrCreateNew();
 }
 
 function rawDataLoadInMemoryData() {
-  eventStorage.loadFromMediumOrFillWithDefault();
+  eventManager.loadFromMediumOrFillWithDefault();
 }

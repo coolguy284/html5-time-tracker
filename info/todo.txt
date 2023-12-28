@@ -1,4 +1,3 @@
-rename eventstorage to eventmanager
 add storagemanager for managing storage and rawdata accesses it
 
 extra files storage for old files

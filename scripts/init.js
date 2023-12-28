@@ -1,7 +1,7 @@
 schedule_table_main_section_times_div.style.height = `${TABLE_DATA_FULL_HEIGHT}rem`;
 
 
-eventStorage.loadFromMediumOrFillWithDefault();
+eventManager.loadFromMediumOrFillWithDefault();
 
 addEventListener('keydown', evt => {
   // if on charts page and left or right arrow pressed, go to next or previous week
@@ -27,7 +27,7 @@ addEventListener('storage', evt => {
 });
 
 globalEventTarget.addEventListener('localStorageUpdate', evt => {
-  eventStorage.loadFromMediumOrFillWithDefault();
+  eventManager.loadFromMediumOrFillWithDefault();
 });
 
 refreshLocalStorageCapacityView();

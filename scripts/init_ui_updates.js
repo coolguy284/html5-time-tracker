@@ -1,6 +1,6 @@
 // Setup listener for currentevent banner at top
 
-eventStorage.jsAddEventListener('eventsUpdate', () => {
+eventManager.jsAddEventListener('eventsUpdate', () => {
   updateTopBanner();
 });
 
@@ -91,15 +91,15 @@ mainPageManager.addPages({
   },
 });
 
-eventStorage.jsAddEventListener('eventsUpdate', () => {
+eventManager.jsAddEventListener('eventsUpdate', () => {
   mainPageManager.setDirtyBit('eventsUpdate');
 });
 
-eventStorage.jsAddEventListener('eventButtonsUpdate', () => {
+eventManager.jsAddEventListener('eventButtonsUpdate', () => {
   mainPageManager.setDirtyBit('eventButtonsUpdate');
 });
 
-eventStorage.jsAddEventListener('eventMappingsPrioritiesUpdate', () => {
+eventManager.jsAddEventListener('eventMappingsPrioritiesUpdate', () => {
   mainPageManager.setDirtyBit('eventMappingsPrioritiesUpdate');
 });
 
@@ -148,7 +148,7 @@ extrasPageManager.addPages({
   },
 });
 
-eventStorage.jsAddEventListener('storageUpdate', () => {
+eventManager.jsAddEventListener('storageUpdate', () => {
   extrasPageManager.setDirtyBit('storageUpdate');
 });
 
