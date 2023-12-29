@@ -243,6 +243,7 @@ function editViewObjectToText(obj) {
   
   if ('events' in obj) {
     textValue += 'events:\n\n';
+    
     let trueEvents;
     
     if (typeof obj.events[0] == 'string') {
@@ -252,9 +253,9 @@ function editViewObjectToText(obj) {
       trueEvents = obj.events;
     }
     
+    let textDays = [];
     let pastDay = null;
     let pastTZ = null;
-    let evtInDayCounter = 0;
     
     for (let event of trueEvents) {
       let tsSplit = event[0].split(' ');
@@ -262,38 +263,74 @@ function editViewObjectToText(obj) {
       let tz = tsSplit[3];
       
       if (tz != pastTZ) {
-        textValue += `\n${day} ${tz}:\n`;
-        evtInDayCounter = 0;
+        textDays.push([
+          `\n${day} ${tz}:\n`,
+          [],
+        ]);
       } else {
-        if (day != pastDay || evtInDayCounter >= EDIT_PAGE_TEXT_MODE_MAX_EVTS_PER_DAY) {
-          textValue += `\n${day} ${tz}:\n`;
-          evtInDayCounter = 0;
+        if (day != pastDay) {
+          textDays.push([
+            `\n${day} ${tz}:\n`,
+            [],
+          ]);
         } else {
           // nothing
         }
       }
       
-      evtInDayCounter++;
-      
       pastDay = day;
       pastTZ = tz;
       
-      textValue += `${tsSplit[1]} ${tsSplit[2]} ${boolToDigit(event[2])}${boolToDigit(event[3])}`;
+      if (textDays.length == 0) {
+        textDays.push([
+          `\n${day} ${tz}:\n`,
+          [],
+        ]);
+      }
+      
+      let appendText = `${tsSplit[1]} ${tsSplit[2]} ${boolToDigit(event[2])}${boolToDigit(event[3])}`;
       
       if (event[1].includes('\n')) {
-        textValue += `${JSON.stringify(event[1])}\n`;
+        appendText += `${JSON.stringify(event[1])}\n`;
       } else {
-        textValue += ` ${event[1]}\n`;
+        appendText += ` ${event[1]}\n`;
       }
       
       if (event.length > 4) {
         if (event[4].includes('\n')) {
-          textValue += ` ${JSON.stringify(event[4])}\n`;
+          appendText += ` ${JSON.stringify(event[4])}\n`;
         } else {
-          textValue += `  ${event[4]}\n`;
+          appendText += `  ${event[4]}\n`;
         }
       }
+      
+      textDays[textDays.length - 1][1].push(appendText);
     }
+  
+    textDays = textDays
+      .map(([day, events]) => {
+        if (events.length < EDIT_PAGE_TEXT_MODE_MAX_EVTS_PER_DAY * 2) {
+          return [[day, events]];
+        } else {
+          let numSections = Math.floor(events.length / EDIT_PAGE_TEXT_MODE_MAX_EVTS_PER_DAY);
+          let sectionSize = Math.floor(events.length / numSections);
+          
+          let result = [];
+          
+          for (let i = 0; i < numSections; i++) {
+            if (i == numSections - 1) {
+              result.push([day, events.slice(i * sectionSize)]);
+            } else {
+              result.push([day, events.slice(i * sectionSize, (i + 1) * sectionSize)]);
+            }
+          }
+          
+          return result;
+        }
+      })
+      .flat();
+    
+    textValue += textDays.map(x => x[0] + x[1].join('')).join('');
   }
   
   return textValue.trim() + '\n';
@@ -360,6 +397,8 @@ let reloadPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
       
       case 'Text-ish':
         textValue = editViewObjectToText(storageData);
+        
+        // revert to json if text conversion failed somehow
         if (!deepEqual(editViewTextToObject(textValue), storageData)) {
           textValue = prettifyJson(storageData);
         }
