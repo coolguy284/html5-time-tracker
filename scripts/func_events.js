@@ -65,7 +65,7 @@ let removeLastEvent = asyncManager.wrapAsyncFunctionWithButton(
     let latestVisibleEventIndex = await eventManager.getLatestVisibleEventIndex();
     
     if (latestVisibleEventIndex >= 0) {
-      let eventEntry = eventManager.getEventByIndex(latestVisibleEventIndex);
+      let eventEntry = await eventManager.getEventByIndex(latestVisibleEventIndex);
       eventEntry[2] = false;
       await eventManager.setEventAtIndex(latestVisibleEventIndex, eventEntry);
     }
@@ -80,7 +80,7 @@ let unRemoveLastEvent = asyncManager.wrapAsyncFunctionWithButton(
     let numEvents = await eventManager.getNumEvents();
     
     if (numEvents > 0 && latestVisibleEventIndex < numEvents - 1) {
-      let eventEntry = eventManager.getEventByIndex(latestVisibleEventIndex + 1);
+      let eventEntry = await eventManager.getEventByIndex(latestVisibleEventIndex + 1);
       eventEntry[2] = true;
       await eventManager.setEventAtIndex(latestVisibleEventIndex + 1, eventEntry);
     }
@@ -95,7 +95,7 @@ let purgeRemovedEntries = asyncManager.wrapAsyncFunctionWithButton(
     if (!suppressUIUpdate && !confirm('Are you sure?')) return;
     
     for (let i = (await eventManager.getNumEvents()) - 1; i >= 0; i--) {
-      if (!eventManager.getEventByIndex(i)[2]) {
+      if (!(await eventManager.getEventByIndex(i))[2]) {
         await eventManager.removeEventAtIndex(i);
       }
     }
@@ -155,7 +155,7 @@ let duplicateEventBackwards = asyncManager.wrapAsyncFunctionWithButton(
     
     if (latestVisibleEventIndex <= 0) return;
     
-    let lastEvent = eventManager.getEventByIndex(latestVisibleEventIndex);
+    let lastEvent = await eventManager.getEventByIndex(latestVisibleEventIndex);
     
     await eventManager.spliceAndAddEvents(
       latestVisibleEventIndex,
@@ -179,7 +179,7 @@ let setLastEventAnnotation = asyncManager.wrapAsyncFunctionWithButton(
     
     if (latestVisibleEventIndex <= 0) return;
     
-    let lastEvent = eventManager.getEventByIndex(latestVisibleEventIndex);
+    let lastEvent = await eventManager.getEventByIndex(latestVisibleEventIndex);
     
     if (annotation.length > 0) {
       lastEvent[4] = annotation;
