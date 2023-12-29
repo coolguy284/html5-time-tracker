@@ -58,7 +58,10 @@ mainPageManager.addPages({
       ],
     },
     afterRenderEnterListeners: [
-      () => checkDataSectionScrollHeight(),
+      async () => {
+        await new Promise(r => setTimeout(r, 0));
+        checkDataSectionScrollHeight();
+      },
     ],
     afterHideExitListeners: [
       () => hideScrollButtons(),

@@ -744,6 +744,8 @@ function switchExtrasPage(buttonElem) {
 function checkDataSectionScrollHeight() {
   if (data_section_div.scrollHeight >= SCROLL_ASSIST_BUTTONS_MIN_SCROLL_HEIGHT) {
     showScrollButtons();
+  } else {
+    hideScrollButtons();
   }
 }
 
