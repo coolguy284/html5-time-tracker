@@ -1,4 +1,10 @@
-async function getPseudoRawDataFromStorage() {
+let getPseudoRawDataFromStorage = asyncManager.wrapAsyncFunction({
+  taskName: 'getPseudoRawDataFromStorage',
+  groupNames: ['storage'],
+  critical: true,
+  alreadyRunningBehavior: 'wait',
+  exclusive: 'group',
+}, async () => {
   let events = await eventManager.getAllEvents();
   
   let maxEventsShown = editPageEventsShown.get();
@@ -36,19 +42,34 @@ async function getPseudoRawDataFromStorage() {
         {}
     ),
   };
-}
+});
 
-async function setPseudoRawDataInStorage(pseudoRawData) {
+let setPseudoRawDataInStorage = asyncManager.wrapAsyncFunction({
+  taskName: 'setPseudoRawDataInStorage',
+  groupNames: ['storage'],
+  critical: true,
+  alreadyRunningBehavior: 'wait',
+  exclusive: 'group',
+}, async (pseudoRawData) => {
+  let eventsChecked = false;
+  let otherDataChecked = false;
+  
   if ('eventButtons' in pseudoRawData) {
     await eventManager.setEventButtons(pseudoRawData.eventButtons);
+    
+    otherDataChecked = true;
   }
   
   if ('eventPriorities' in pseudoRawData) {
     await eventManager.setEventPriorities(pseudoRawData.eventPriorities);
+    
+    otherDataChecked = true;
   }
   
   if ('eventMappings' in pseudoRawData) {
     await eventManager.setEventMappings(pseudoRawData.eventMappings);
+    
+    otherDataChecked = true;
   }
   
   if ('events' in pseudoRawData) {
@@ -65,8 +86,13 @@ async function setPseudoRawDataInStorage(pseudoRawData) {
     } else {
       await eventManager.setAllEvents(pseudoRawData.events);
     }
+    
+    eventsChecked = true;
   }
-}
+  
+  edit_show_events.checked = eventsChecked;
+  edit_show_other_data.checked = otherDataChecked;
+});
 
 function digitToBool(digit) {
   switch (digit) {
