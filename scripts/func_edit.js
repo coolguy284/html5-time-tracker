@@ -379,6 +379,20 @@ let setPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
     }
     
     await setPseudoRawDataInStorage(parsedJson);
+    
+    switch (render_mode.value) {
+      case 'JSON':
+        // nothing
+        break;
+      
+      case 'Text-ish':
+        if ('fallbackFrom' in parsedJson) {
+          // nothing
+        } else {
+          render_mode.value = 'JSON';
+        }
+        break;
+    }
   }
 );
 
