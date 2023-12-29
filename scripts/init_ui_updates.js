@@ -123,7 +123,7 @@ extrasPageManager.addPages({
     htmlElem: storage_section_div,
     dirtyBitListeners: {
       'storageUpdate': [
-        () => refreshTotalStorageCapacityView(),
+        () => refreshAllStorageCapacityView(),
       ],
     },
   },

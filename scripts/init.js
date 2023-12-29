@@ -39,7 +39,7 @@ extrasPageManager.deactivateWithPage('Main');
 (async () => {
   await Promise.all([
     eventManager.loadFromMediumOrFillWithDefault(),
-    refreshLocalStorageCapacityView(),
+    refreshStorageCapacityView(),
     updateSettingsPagePersistenceStatus(),
   ]);
 })();

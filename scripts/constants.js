@@ -28,5 +28,12 @@ let TABLE_STRIPE_WIDTH = 0.3; // in units of rem
 let STATS_ENTRY_COLOR_BLOCK_WIDTH = 1.5; // in units of rem
 let STATS_ENTRY_GAP_WIDTH = 0.3; // in units of rem
 
+// page constants > extras > main & storage pages
+let STORAGE_METER_STEPS = [
+  { max: 0.5, color: 'rgb(0, 171, 96)' },
+  { max: 0.8, color: 'rgb(255, 189, 79)' },
+  { max: 1.0, color: 'rgb(226, 40, 80)' },
+];
+
 // page constants > extras > raw data page
 let RAW_DATA_PRETTIFY_LINE_LIMIT = 140;

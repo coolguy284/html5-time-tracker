@@ -107,36 +107,49 @@ let eventMappings = {};
 let currentHighlightedEvent = null;
 
 
-let localStorageErrorPrinted = false;
+let storageErrorPrinted = false;
+let allStorageErrorPrinted = false;
 
 
 let storageManager = new StorageManager();
 let eventManager = new EventManager(storageManager);
 let criticalCodeManager = new CriticalCodeManager();
 let asyncManager = new AsyncManager();
-let storageUsedMeter = new MeterManager(
-  storage_used_meter_div,
-  [
-    { max: 0.5, color: 'rgb(0, 171, 96)' },
-    { max: 0.8, color: 'rgb(255, 189, 79)' },
-    { max: 1.0, color: 'rgb(226, 40, 80)' },
-  ]
+let storageUsedMeter = new StorageMeterManager(
+  {
+    meterDiv: storage_used_meter_div,
+    meterSteps: STORAGE_METER_STEPS,
+    totalText: storage_total_text,
+    usedText: storage_used_text,
+    freeText: storage_free_text,
+    percentPrecision: 1,
+    calcProgressDiv: storage_size_calc_progress_div,
+    calcProgressText: storage_size_calc_progress_text,
+  }
 );
-let localStorageUsedMeter = new MeterManager(
-  localstorage_used_meter_div,
-  [
-    { max: 0.5, color: 'rgb(0, 171, 96)' },
-    { max: 0.8, color: 'rgb(255, 189, 79)' },
-    { max: 1.0, color: 'rgb(226, 40, 80)' },
-  ]
+let localStorageUsedMeter = new StorageMeterManager(
+  {
+    meterDiv: localstorage_used_meter_div,
+    meterSteps: STORAGE_METER_STEPS,
+    totalText: localstorage_total_text,
+    usedText: localstorage_used_text,
+    freeText: localstorage_free_text,
+    percentPrecision: 5,
+    calcProgressDiv: localstorage_size_calc_progress_div,
+    calcProgressText: localstorage_size_calc_progress_text,
+  }
 );
-let totalStorageUsedMeter = new MeterManager(
-  total_storage_used_meter_div,
-  [
-    { max: 0.5, color: 'rgb(0, 171, 96)' },
-    { max: 0.8, color: 'rgb(255, 189, 79)' },
-    { max: 1.0, color: 'rgb(226, 40, 80)' },
-  ]
+let totalStorageUsedMeter = new StorageMeterManager(
+  {
+    meterDiv: total_storage_used_meter_div,
+    meterSteps: STORAGE_METER_STEPS,
+    totalText: total_storage_total_text,
+    usedText: total_storage_used_text,
+    freeText: total_storage_free_text,
+    percentPrecision: 5,
+    calcProgressDiv: null,
+    calcProgressText: null,
+  }
 );
 let editPageEventsShown = new IntegerSelectWithCustom(
   events_shown,

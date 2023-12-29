@@ -256,6 +256,12 @@
             <span>Free</span>
             <span id = 'storage_free_text'>-- KB (--%)</span>
           </div>
+          <div id = 'storage_size_calc_progress_div' class = 'flex_row' style = 'display: none;'>
+            <span>Calculating Size...</span>
+            <span id = 'storage_size_calc_progress_text'></span>
+          </div>
+          <button id = 'storage_refresh_view_btn' onclick = 'refreshStorageCapacityView();'>Refresh</button>
+          <button id = 'storage_recalculate_max_btn' onclick = 'resetAndRefreshStorageCapacityView();'>Recalculate Max & Refresh</button>
           <hr>
           <h3 class = 'med_top_gap'>Pages</h3>
           <button onclick = 'switchExtrasPage(this);'>Storage</button>
@@ -282,12 +288,10 @@
             <span>Free</span>
             <span id = 'localstorage_free_text'>-- KB (--%)</span>
           </div>
-          <div id = 'localstorage_size_calc_progress_div' class = 'flex_row'>
+          <div id = 'localstorage_size_calc_progress_div' class = 'flex_row' style = 'display: none;'>
             <span>Calculating Size...</span>
-            <span id = 'localstorage_size_calc_progress_text'>Stage 1/4 rising</span>
+            <span id = 'localstorage_size_calc_progress_text'></span>
           </div>
-          <button id = 'localstorage_refresh_view_btn' onclick = 'refreshLocalStorageCapacityView();'>Refresh</button>
-          <button id = 'localstorage_recalculate_max_btn' onclick = 'resetAndRefreshLocalStorageCapacityView();'>Recalculate Max & Refresh</button>
           
           <hr>
           
@@ -363,6 +367,11 @@
             <span>Total Days Till Full</span>
             <span id = 'storage_data_total_days_till_full'>-1</span>
           </div>
+          
+          <hr>
+          
+          <button id = 'all_storage_refresh_view_btn' onclick = 'refreshAllStorageCapacityView();'>Refresh</button>
+          <button id = 'all_storage_recalculate_max_btn' onclick = 'resetAndRefreshAllStorageCapacityView();'>Recalculate Max & Refresh</button>
         </div>
         
         <div id = 'raw_data_section_div' style = 'display: none;'>

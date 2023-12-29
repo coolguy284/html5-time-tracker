@@ -439,7 +439,7 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
   }
 )
 
-// extras > main extras page updates
+// extras > main page updates
 
 let refreshStorageCapacityView = asyncManager.wrapAsyncFunction({
   taskName: 'refreshStorageCapacityView',
@@ -447,154 +447,180 @@ let refreshStorageCapacityView = asyncManager.wrapAsyncFunction({
   critical: true,
   alreadyRunningBehavior: 'stop',
   exclusive: 'group',
+  enterHandlers: [
+    () => {
+      storage_refresh_view_btn.setAttribute('disabled', '');
+      storage_recalculate_max_btn.setAttribute('disabled', '');
+      all_storage_refresh_view_btn.setAttribute('disabled', '');
+      all_storage_recalculate_max_btn.setAttribute('disabled', '');
+    },
+  ],
+  exitHandlers: [
+    () => {
+      storage_refresh_view_btn.removeAttribute('disabled');
+      storage_recalculate_max_btn.removeAttribute('disabled');
+      all_storage_refresh_view_btn.removeAttribute('disabled');
+      all_storage_recalculate_max_btn.removeAttribute('disabled');
+    },
+  ],
 }, async () => {
   try {
-    let report = await storageManager.mediumSpaceReport();
-    console.log('med', report);
+    storageUsedMeter.blankStorageCapacityView();
     
-    setStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+    let report = await storageManager.mediumSpaceReport(x => storageUsedMeter.setStorageCalcProgress(x));
+    
+    storageUsedMeter.setStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
   } catch (e) {
-    if (!localStorageErrorPrinted) {
+    if (!storageErrorPrinted) {
       alert(e.toString());
-      localStorageErrorPrinted = true;
+      storageErrorPrinted = true;
     }
     
     throw e;
   }
 });
 
-function setStorageCapacityView(totalBytes, usedBytes, freeBytes) {
-  storageUsedMeter.setValue(usedBytes / totalBytes);
-  storage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
-  storage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(1)}%)`;
-  storage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(1)}%)`;
-}
+let resetAndRefreshStorageCapacityView = asyncManager.wrapAsyncFunction({
+  taskName: 'resetAndRefreshStorageCapacityView',
+  groupNames: ['storage'],
+  critical: true,
+  alreadyRunningBehavior: 'stop',
+  exclusive: 'group',
+  enterHandlers: [
+    () => {
+      storage_refresh_view_btn.setAttribute('disabled', '');
+      storage_recalculate_max_btn.setAttribute('disabled', '');
+      all_storage_refresh_view_btn.setAttribute('disabled', '');
+      all_storage_recalculate_max_btn.setAttribute('disabled', '');
+    },
+  ],
+  exitHandlers: [
+    () => {
+      storage_refresh_view_btn.removeAttribute('disabled');
+      storage_recalculate_max_btn.removeAttribute('disabled');
+      all_storage_refresh_view_btn.removeAttribute('disabled');
+      all_storage_recalculate_max_btn.removeAttribute('disabled');
+    },
+  ],
+}, async () => {
+  // reset storage error flag since user requested refresh
+  storageErrorPrinted = false;
+  
+  storageUsedMeter.blankStorageCapacityView();
+  
+  if ((await storageManager.getMediumFormat()) == 'LocalStorage') {
+    await localStorageInfoRecalculate(x => storageUsedMeter.setStorageCalcProgress(x));
+  }
+  
+  try {
+    let report = await storageManager.mediumSpaceReport();
+    
+    storageUsedMeter.setStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+  } catch (e) {
+    if (!storageErrorPrinted) {
+      alert(e.toString());
+      storageErrorPrinted = true;
+    }
+    
+    throw e;
+  }
+});
 
 // extras > storage page updates
 
-let refreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
-  taskName: 'refreshLocalStorageCapacityView',
+let refreshAllStorageCapacityView = asyncManager.wrapAsyncFunction({
+  taskName: 'refreshAllStorageCapacityView',
   groupNames: ['storage'],
   critical: true,
   alreadyRunningBehavior: 'stop',
   exclusive: 'group',
   enterHandlers: [
     () => {
-      localstorage_refresh_view_btn.setAttribute('disabled', '');
-      localstorage_recalculate_max_btn.setAttribute('disabled', '');
-      temporarilyBlankLocalStorageCapacityView();
+      storage_refresh_view_btn.setAttribute('disabled', '');
+      storage_recalculate_max_btn.setAttribute('disabled', '');
+      all_storage_refresh_view_btn.setAttribute('disabled', '');
+      all_storage_recalculate_max_btn.setAttribute('disabled', '');
     },
   ],
   exitHandlers: [
     () => {
-      hideLocalStorageCalcProgressDiv();
-      localstorage_refresh_view_btn.removeAttribute('disabled');
-      localstorage_recalculate_max_btn.removeAttribute('disabled');
+      storage_refresh_view_btn.removeAttribute('disabled');
+      storage_recalculate_max_btn.removeAttribute('disabled');
+      all_storage_refresh_view_btn.removeAttribute('disabled');
+      all_storage_recalculate_max_btn.removeAttribute('disabled');
     },
   ],
 }, async () => {
   try {
-    let report = await localStorageReport(setLocalStorageCalcProgressText);
+    localStorageUsedMeter.blankStorageCapacityView();
     
-    setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+    let report = await localStorageReport(x => localStorageUsedMeter.setStorageCalcProgress(x));
+    
+    localStorageUsedMeter.setStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+    
+    await refreshTotalStorageCapacityView();
   } catch (e) {
-    if (!localStorageErrorPrinted) {
+    if (!allStorageErrorPrinted) {
       alert(e.toString());
-      localStorageErrorPrinted = true;
+      allStorageErrorPrinted = true;
     }
     
     throw e;
   }
 });
 
-let resetAndRefreshLocalStorageCapacityView = asyncManager.wrapAsyncFunction({
-  taskName: 'resetAndRefreshLocalStorageCapacityView',
+let resetAndRefreshAllStorageCapacityView = asyncManager.wrapAsyncFunction({
+  taskName: 'resetAndRefreshAllStorageCapacityView',
   groupNames: ['storage'],
   critical: true,
   alreadyRunningBehavior: 'stop',
   exclusive: 'group',
   enterHandlers: [
     () => {
-      localstorage_refresh_view_btn.setAttribute('disabled', '');
-      localstorage_recalculate_max_btn.setAttribute('disabled', '');
-      temporarilyBlankLocalStorageCapacityView();
+      storage_refresh_view_btn.setAttribute('disabled', '');
+      storage_recalculate_max_btn.setAttribute('disabled', '');
+      all_storage_refresh_view_btn.setAttribute('disabled', '');
+      all_storage_recalculate_max_btn.setAttribute('disabled', '');
     },
   ],
   exitHandlers: [
     () => {
-      hideLocalStorageCalcProgressDiv();
-      localstorage_refresh_view_btn.removeAttribute('disabled');
-      localstorage_recalculate_max_btn.removeAttribute('disabled');
+      storage_refresh_view_btn.removeAttribute('disabled');
+      storage_recalculate_max_btn.removeAttribute('disabled');
+      all_storage_refresh_view_btn.removeAttribute('disabled');
+      all_storage_recalculate_max_btn.removeAttribute('disabled');
     },
   ],
 }, async () => {
-  // reset localstorage error flag since user requested refresh
-  localStorageErrorPrinted = false;
+  // reset all storage error flag since user requested refresh
+  allStorageErrorPrinted = false;
   
-  await localStorageInfoRecalculate(setLocalStorageCalcProgressText);
+  localStorageUsedMeter.blankStorageCapacityView();
+  
+  await localStorageInfoRecalculate(x => localStorageUsedMeter.setStorageCalcProgress(x));
   
   try {
     let report = await localStorageReport();
     
-    setLocalStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+    localStorageUsedMeter.setStorageCapacityView(report.totalBytes, report.usedBytes, report.freeBytes);
+    
+    await refreshTotalStorageCapacityView();
   } catch (e) {
-    if (!localStorageErrorPrinted) {
+    if (!allStorageErrorPrinted) {
       alert(e.toString());
-      localStorageErrorPrinted = true;
+      allStorageErrorPrinted = true;
     }
     
     throw e;
   }
 });
 
-function temporarilyBlankLocalStorageCapacityView() {
-  localStorageUsedMeter.setValue(0);
-  localstorage_total_text.textContent = '-- KB';
-  localstorage_used_text.textContent = '-- KB (--%)';
-  localstorage_free_text.textContent = '-- KB (--%)';
-}
-
-function setLocalStorageCalcProgressText(value) {
-  showLocalStorageCalcProgressDiv();
-  localstorage_size_calc_progress_text.textContent = value;
-}
-
-function showLocalStorageCalcProgressDiv() {
-  if (localstorage_size_calc_progress_div.style.display == 'none') {
-    localstorage_size_calc_progress_div.style.display = '';
-  }
-}
-
-function hideLocalStorageCalcProgressDiv() {
-  if (localstorage_size_calc_progress_div.style.display != 'none') {
-    localstorage_size_calc_progress_div.style.display = 'none';
-  }
-}
-
-function setLocalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
-  localStorageUsedMeter.setValue(usedBytes / totalBytes);
-  localstorage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
-  localstorage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
-  localstorage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
-}
-
-function setTotalStorageCapacityView(totalBytes, usedBytes, freeBytes) {
-  totalStorageUsedMeter.setValue(usedBytes / totalBytes);
-  total_storage_total_text.textContent = `${prettifyBytes(totalBytes)}`;
-  total_storage_used_text.textContent = `${prettifyBytes(usedBytes)} (${(usedBytes / totalBytes * 100).toFixed(5)}%)`;
-  total_storage_free_text.textContent = `${prettifyBytes(freeBytes)} (${(freeBytes / totalBytes * 100).toFixed(5)}%)`;
-}
-
 async function refreshTotalStorageCapacityView() {
-  // update localstorage progress
-  
-  await refreshLocalStorageCapacityView();
-  
   // update total storage progress
   
   let storageUsed = await navigator.storage.estimate();
   
-  setTotalStorageCapacityView(storageUsed.quota, storageUsed.usage, storageUsed.quota - storageUsed.usage);
+  totalStorageUsedMeter.setStorageCapacityView(storageUsed.quota, storageUsed.usage, storageUsed.quota - storageUsed.usage);
   
   // update other stats
   

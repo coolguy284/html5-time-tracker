@@ -132,7 +132,7 @@ function getLocalStorageUsageInChars() {
 
 // checks to make sure localstorage sanely stores strings (meaning utf-16, and without string alteration)
 // stores result in localstorage for cachability
-async function localStorageTest_FillCache(progressFunc) {
+async function localStorageTest_FillCache_Internal(progressFunc) {
   // test localstorage
   
   let maxLengthE = (await findMaxLocalStorageLength('e', progressFunc ? value => progressFunc(`(1/5) maxLengthE: ${value}`) : null)) + LOCALSTORAGE_TEST_KEY.length;
@@ -183,6 +183,12 @@ async function localStorageTest_FillCache(progressFunc) {
   
   localStorage[LOCALSTORAGE_INSANE_KEY] = '0';
   localStorage[LOCALSTORAGE_TOTAL_SIZE_KEY] = maxSizeInChars;
+}
+
+async function localStorageTest_FillCache(progressFunc) {
+  await localStorageTest_FillCache_Internal(progressFunc);
+  
+  if (progressFunc) progressFunc(null);
 }
 
 // checks to make sure localstorage sanely stores strings (meaning utf-16, and without string alteration)
