@@ -27,6 +27,10 @@ addEventListener('storage', evt => {
   }
 });
 
+edit_extra_settings_details.addEventListener('toggle', () => {
+  edit_extra_settings.style.display = edit_extra_settings_details.open ? '' : 'none';
+});
+
 globalEventTarget.addEventListener('storageUpdate', async () => {
   if (await storageManager.getMediumFormat() == 'LocalStorage') {
     await eventManager.loadFromMediumOrFillWithDefault();

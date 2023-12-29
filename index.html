@@ -197,35 +197,42 @@
       </div>
       
       <div id = 'edit_section_div' style = 'display: none;'>
+        <textarea id = 'pseudo_raw_data_text'></textarea>
+        
         <div class = 'flex_row wrap centered red_buttons'>
-          <h4>Lines Shown:</h4>
-          <select id = 'events_shown' onchange = 'reloadPseudoRawData();'>
-            <option>10</option>
-            <option selected>50</option>
-            <option>100</option>
-            <option>500</option>
-            <option>1000</option>
-            <option>5000</option>
-            <option>All</option>
-            <option>Custom</option>
-          </select>
-          <input type = 'number' id = 'events_shown_custom' value = 50 style = 'display: none;' onchange = 'reloadPseudoRawData();'>
+          <details id = 'edit_extra_settings_details'>
+            <summary></summary>
+          </details>
+          
+          <div id = 'edit_extra_settings' class = 'flex_row wrap centered' style = 'display: none;'>
+            <h4>Lines Shown:</h4>
+            <select id = 'events_shown' onchange = 'reloadPseudoRawData();'>
+              <option>10</option>
+              <option selected>50</option>
+              <option>100</option>
+              <option>500</option>
+              <option>1000</option>
+              <option>5000</option>
+              <option>All</option>
+              <option>Custom</option>
+            </select>
+            <input type = 'number' id = 'events_shown_custom' value = 50 style = 'display: none;' onchange = 'reloadPseudoRawData();'>
+            
+            <hr class = 'vertical'>
+            
+            <label>
+              <input type = 'checkbox' id = 'edit_show_events' onchange = 'reloadPseudoRawData();' checked>
+              Events
+            </label>
+            
+            <label>
+              <input type = 'checkbox' id = 'edit_show_other_data' onchange = 'reloadPseudoRawData();'>
+              Other Data
+            </label>
+          </div>
           
           <hr class = 'vertical'>
           
-          <label>
-            <input type = 'checkbox' id = 'edit_show_events' onchange = 'reloadPseudoRawData();' checked>
-            Events
-          </label>
-          
-          <label>
-            <input type = 'checkbox' id = 'edit_show_other_data' onchange = 'reloadPseudoRawData();'>
-            Other Data
-          </label>
-          
-          <hr class = 'vertical'>
-          
-          <h4>Scroll:</h4>
           <button class = 'scroll_buttons' onclick = 'editPageScrollToTop();'>&and;</button>
           <button class = 'scroll_buttons' onclick = 'editPageScrollToBottom();'>&or;</button>
           
@@ -234,8 +241,6 @@
           <button id = 'reload_pseudo_raw_data_btn' onclick = 'reloadPseudoRawData();'>Reload</button>
           <button id = 'set_pseudo_raw_data_btn' onclick = 'setPseudoRawData();'>Set</button>
         </div>
-        
-        <textarea id = 'pseudo_raw_data_text'></textarea>
       </div>
       
       <div id = 'extras_section_div' style = 'display: none;'>
