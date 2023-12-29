@@ -68,16 +68,139 @@ async function setPseudoRawDataInStorage(pseudoRawData) {
   }
 }
 
-function editViewTextToObject(text) {
-  let match = /^(?:eventButtons:\n(.*)\n\n)?(?:eventPriorities:\n(.*)\n\n)?(?:eventMappings:\n(.*)\n\n)?(?:events:\n(.*))?$/.exec(text.trim());
-  
-  if (match) {
-    let obj = {};
+function digitToBool(digit) {
+  switch (digit) {
+    case '0':
+      return false;
     
-    return obj;
-  } else {
+    case '1':
+      return true;
+    
+    case '-':
+    default:
+      return null;
+  }
+}
+
+function boolToDigit(bool) {
+  switch (bool) {
+    case false:
+      return '0';
+    
+    case true:
+      return '1';
+    
+    case null:
+    default:
+      return '-';
+  }
+}
+
+function editViewTextToObject(text) {
+  let arr = text
+    .trim()
+    .split('\n\n')
+    .map(section => {
+      let match = /^([a-zA-Z]+):\n(.*)$/s.exec(section);
+      
+      if (!match) {
+        return null;
+      }
+      
+      let key = match[1];
+      let value = match[2];
+      
+      switch (key) {
+        case 'eventButtons':
+        case 'eventPriorities':
+        case 'eventMappings':
+          try {
+            return [key, JSON.parse(value)];
+          } catch {
+            return null;
+          }
+        
+        case 'events': {
+          let day, tz;
+          
+          let parsed = value
+            .split('\n')
+            .map((line, _, arr) => {
+              let match2;
+              
+              if (/^<\d+ events? elided>$/.test(line)) {
+                return line;
+              } else if (match2 = /^(\d+-\d{2}-\d{2}):$/.exec(line)) {
+                day = match2[1];
+                return false;
+              } else if (match2 = /^(\d+-\d{2}-\d{2}) (UTC[-+]\d+:\d{2}):$/.exec(line)) {
+                day = match2[1];
+                tz = match2[2];
+                return false;
+              } else if (match2 = /^(UTC[-+]\d+:\d{2}):$/.exec(line)) {
+                tz = match2[1];
+                return false;
+              } else if (match2 = /^(\d{2}:\d{2}:\d{2}.\d{3} [AP]M) ([01-])([01-])( ?)(.*)$/.exec(line)) {
+                let time = match2[1];
+                let visible = digitToBool(match2[2]);
+                let estimate = digitToBool(match2[3]);
+                let eventNameIsJson = match2[4] != ' ';
+                let eventName = eventNameIsJson ? JSON.parse(match2[4]) : match2[4];
+                
+                return [
+                  `${day} ${time} ${tz}`,
+                  eventName,
+                  visible,
+                  ...(
+                    estimate != null ?
+                      [estimate] :
+                      []
+                  ),
+                ];
+              } else if (match2 = /^ ( ?)(.*)$/.exec(line)) {
+                let annotationIsJson = match2[1] != ' ';
+                let annotation = annotationIsJson ? JSON.parse(match2[2]) : match2[2];
+                
+                if (arr.length <= 0) {
+                  return null;
+                } else {
+                  let pastEvent = arr[arr.length - 1];
+                  
+                  if (typeof pastEvent == 'string') {
+                    return null;
+                  } else {
+                    pastEvent[4] = annotation;
+                    
+                    if (!(3 in pastEvent)) {
+                      pastEvent[3] = null;
+                    }
+                    
+                    return false;
+                  }
+                }
+              } else {
+                return null;
+              }
+            })
+            .filter(x => x !== false);
+          console.log(parsed);
+          if (parsed.includes(null)) {
+            return null;
+          } else {
+            return [key, parsed];
+          }
+        }
+        
+        default:
+          return null;
+      }
+    });
+  console.log(arr);
+  if (arr.includes(null)) {
     return null;
   }
+  
+  return Object.fromEntries(arr);
 }
 
 function editViewObjectToText(obj) {
@@ -131,7 +254,7 @@ function editViewObjectToText(obj) {
       pastDay = day;
       pastTZ = tz;
       
-      textValue += `${tsSplit[1]} ${tsSplit[2]} ${event[2] == null ? '-' : event[2] ? '1' : '0'}${event[3] == null ? '-' : event[3] ? '1' : '0'}`;
+      textValue += `${tsSplit[1]} ${tsSplit[2]} ${boolToDigit(event[2])}${boolToDigit(event[3])}`;
       
       if (event[1].includes('\n')) {
         textValue += `${JSON.stringify(event[1])}\n`;
@@ -179,9 +302,14 @@ let setPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
             return;
           }
         } else {
-          parsedJson = editViewTextToObject(inputText);
+          try {
+            parsedJson = editViewTextToObject(inputText);
           
-          if (parsedJson == null) {
+            if (parsedJson == null) {
+              alert('Text form invalid');
+              return;
+            }
+          } catch {
             alert('Text form invalid');
             return;
           }
