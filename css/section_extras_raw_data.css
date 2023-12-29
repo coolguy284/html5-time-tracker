@@ -14,7 +14,7 @@
 #raw_data_text {
   resize: none;
   line-break: anywhere;
-  min-height: 20rem;
+  min-height: 10rem;
 }
 
 :where(#raw_data_bottom_section_div) {
