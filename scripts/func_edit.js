@@ -124,78 +124,71 @@ function editViewTextToObject(text) {
           let day, tz;
           
           let parsed = value
-            .split('\n')
-            .map((line, _, arr) => {
-              let match2;
+            .split('\n');
+          
+          let newParsed = [];
+          
+          for (let line of parsed) {
+            let match2;
+            
+            if (/^<\d+ events? elided>$/.test(line)) {
+              newParsed.push(line);
+            } else if (match2 = /^(\d+-\d{2}-\d{2}):$/.exec(line)) {
+              day = match2[1];
+            } else if (match2 = /^(\d+-\d{2}-\d{2}) (UTC[-+]\d+:\d{2}):$/.exec(line)) {
+              day = match2[1];
+              tz = match2[2];
+            } else if (match2 = /^(UTC[-+]\d+:\d{2}):$/.exec(line)) {
+              tz = match2[1];
+            } else if (match2 = /^(\d{2}:\d{2}:\d{2}.\d{3} [AP]M) ([01-])([01-])( ?)(.*)$/.exec(line)) {
+              let time = match2[1];
+              let visible = digitToBool(match2[2]);
+              let estimate = digitToBool(match2[3]);
+              let eventNameIsJson = match2[4] != ' ';
+              let eventName = eventNameIsJson ? JSON.parse(match2[5]) : match2[5];
               
-              if (/^<\d+ events? elided>$/.test(line)) {
-                return line;
-              } else if (match2 = /^(\d+-\d{2}-\d{2}):$/.exec(line)) {
-                day = match2[1];
-                return false;
-              } else if (match2 = /^(\d+-\d{2}-\d{2}) (UTC[-+]\d+:\d{2}):$/.exec(line)) {
-                day = match2[1];
-                tz = match2[2];
-                return false;
-              } else if (match2 = /^(UTC[-+]\d+:\d{2}):$/.exec(line)) {
-                tz = match2[1];
-                return false;
-              } else if (match2 = /^(\d{2}:\d{2}:\d{2}.\d{3} [AP]M) ([01-])([01-])( ?)(.*)$/.exec(line)) {
-                let time = match2[1];
-                let visible = digitToBool(match2[2]);
-                let estimate = digitToBool(match2[3]);
-                let eventNameIsJson = match2[4] != ' ';
-                let eventName = eventNameIsJson ? JSON.parse(match2[4]) : match2[4];
+              newParsed.push([
+                `${day} ${time} ${tz}`,
+                eventName,
+                visible,
+                ...(
+                  estimate != null ?
+                    [estimate] :
+                    []
+                ),
+              ]);
+            } else if (match2 = /^ ( ?)(.*)$/.exec(line)) {
+              let annotationIsJson = match2[1] != ' ';
+              let annotation = annotationIsJson ? JSON.parse(match2[2]) : match2[2];
+              
+              if (newParsed.length <= 0) {
+                return null;
+              } else {
+                let pastEvent = newParsed[newParsed.length - 1];
                 
-                return [
-                  `${day} ${time} ${tz}`,
-                  eventName,
-                  visible,
-                  ...(
-                    estimate != null ?
-                      [estimate] :
-                      []
-                  ),
-                ];
-              } else if (match2 = /^ ( ?)(.*)$/.exec(line)) {
-                let annotationIsJson = match2[1] != ' ';
-                let annotation = annotationIsJson ? JSON.parse(match2[2]) : match2[2];
-                
-                if (arr.length <= 0) {
+                if (typeof pastEvent == 'string') {
                   return null;
                 } else {
-                  let pastEvent = arr[arr.length - 1];
+                  pastEvent[4] = annotation;
                   
-                  if (typeof pastEvent == 'string') {
-                    return null;
-                  } else {
-                    pastEvent[4] = annotation;
-                    
-                    if (!(3 in pastEvent)) {
-                      pastEvent[3] = null;
-                    }
-                    
-                    return false;
+                  if (!(3 in pastEvent)) {
+                    pastEvent[3] = null;
                   }
                 }
-              } else {
-                return null;
               }
-            })
-            .filter(x => x !== false);
-          console.log(parsed);
-          if (parsed.includes(null)) {
-            return null;
-          } else {
-            return [key, parsed];
+            } else {
+              return null;
+            }
           }
+          
+          return [key, newParsed];
         }
         
         default:
           return null;
       }
     });
-  console.log(arr);
+  
   if (arr.includes(null)) {
     return null;
   }
@@ -337,7 +330,7 @@ let reloadPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
       case 'Text-ish':
         textValue = editViewObjectToText(storageData);
         if (!deepEqual(editViewTextToObject(textValue), storageData)) {
-          //textValue = prettifyJson(storageData);
+          textValue = prettifyJson(storageData);
         }
         break;
     }
