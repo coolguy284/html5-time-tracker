@@ -129,7 +129,7 @@ function editViewTextToObject(text) {
     .map(x => x.trim())
     .filter(x => x.length > 0)
     .map(section => {
-      let match = /^([a-zA-Z]+):\n(.*)$/s.exec(section);
+      let match = /^([a-zA-Z]+):\n?(.*)$/s.exec(section);
       
       if (!match) {
         return null;
