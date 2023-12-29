@@ -344,6 +344,8 @@ let setPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
     
     let parsedJson;
     
+    let textSecretlyJson = false;
+    
     switch (render_mode.value) {
       case 'JSON':
         try {
@@ -357,6 +359,8 @@ let setPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
       case 'Text-ish':
         if (inputText[0] == '{') {
           try {
+            textSecretlyJson = true;
+            
             parsedJson = JSON.parse(inputText);
           } catch {
             alert('JSON invalid');
@@ -386,10 +390,10 @@ let setPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
         break;
       
       case 'Text-ish':
-        if ('fallbackFrom' in parsedJson) {
-          // nothing
-        } else {
+        if (textSecretlyJson && ('fallbackFrom' in parsedJson)) {
           render_mode.value = 'JSON';
+        } else {
+          // nothing
         }
         break;
     }
