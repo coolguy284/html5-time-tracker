@@ -99,7 +99,9 @@ function boolToDigit(bool) {
 function editViewTextToObject(text) {
   let arr = text
     .trim()
-    .split('\n\n')
+    .split('\n\n\n')
+    .map(x => x.trim())
+    .filter(x => x.length > 0)
     .map(section => {
       let match = /^([a-zA-Z]+):\n(.*)$/s.exec(section);
       
@@ -176,6 +178,8 @@ function editViewTextToObject(text) {
                   }
                 }
               }
+            } else if (line == '') {
+              // nothing
             } else {
               return null;
             }
@@ -200,15 +204,15 @@ function editViewObjectToText(obj) {
   let textValue = '';
   
   if ('eventButtons' in obj) {
-    textValue += `eventButtons:\n${prettifyJson(obj.eventButtons)}\n\n`;
+    textValue += `eventButtons:\n${prettifyJson(obj.eventButtons)}\n\n\n`;
   }
   
   if ('eventPriorities' in obj) {
-    textValue += `eventPriorities:\n${prettifyJson(obj.eventPriorities)}\n\n`;
+    textValue += `eventPriorities:\n${prettifyJson(obj.eventPriorities)}\n\n\n`;
   }
   
   if ('eventMappings' in obj) {
-    textValue += `eventMappings:\n${prettifyJson(obj.eventMappings)}\n\n`;
+    textValue += `eventMappings:\n${prettifyJson(obj.eventMappings)}\n\n\n`;
   }
   
   if ('events' in obj) {
@@ -232,13 +236,13 @@ function editViewObjectToText(obj) {
       
       if (day != pastDay) {
         if (tz != pastTZ) {
-          textValue += `${day} ${tz}:\n`;
+          textValue += `\n${day} ${tz}:\n`;
         } else {
-          textValue += `${day}:\n`;
+          textValue += `\n${day}:\n`;
         }
       } else {
         if (tz != pastTZ) {
-          textValue += `${tz}:\n`;
+          textValue += `\n${tz}:\n`;
         } else {
           // nothing
         }

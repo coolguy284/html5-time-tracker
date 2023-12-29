@@ -19,14 +19,14 @@ let PAGE_MANAGER_HIDE_PAGE_ON_NULL = false;
 // page constants > scroll buttons
 let SCROLL_ASSIST_BUTTONS_MIN_SCROLL_HEIGHT = 2000;
 
-// page constants > data page
-let DATA_VIEW_ADDL_INFO_BIG_INDENT = false;
-
 // page constants > charts page
 let TABLE_DATA_FULL_HEIGHT = 30; // in units of rem
 let TABLE_STRIPE_WIDTH = 0.3; // in units of rem
 let STATS_ENTRY_COLOR_BLOCK_WIDTH = 1.5; // in units of rem
 let STATS_ENTRY_GAP_WIDTH = 0.3; // in units of rem
+
+// page constants > data page
+let DATA_VIEW_ADDL_INFO_BIG_INDENT = false;
 
 // page constants > extras > main & storage pages
 let STORAGE_METER_STEPS = [
