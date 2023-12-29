@@ -248,7 +248,7 @@ function editViewObjectToText(obj) {
     
     if (typeof obj.events[0] == 'string') {
       trueEvents = obj.events.slice(1);
-      textValue += `${obj.events[0]}\n`;
+      textValue += `${obj.events[0]}\n\n`;
     } else {
       trueEvents = obj.events;
     }
@@ -264,13 +264,13 @@ function editViewObjectToText(obj) {
       
       if (tz != pastTZ) {
         textDays.push([
-          `\n${day} ${tz}:\n`,
+          `${day} ${tz}:\n`,
           [],
         ]);
       } else {
         if (day != pastDay) {
           textDays.push([
-            `\n${day} ${tz}:\n`,
+            `${day} ${tz}:\n`,
             [],
           ]);
         } else {
@@ -283,7 +283,7 @@ function editViewObjectToText(obj) {
       
       if (textDays.length == 0) {
         textDays.push([
-          `\n${day} ${tz}:\n`,
+          `${day} ${tz}:\n`,
           [],
         ]);
       }
@@ -330,7 +330,7 @@ function editViewObjectToText(obj) {
       })
       .flat();
     
-    textValue += textDays.map(x => x[0] + x[1].join('')).join('');
+    textValue += textDays.map(x => x[0] + x[1].join('')).join('\n');
   }
   
   return textValue.trim() + '\n';
@@ -365,7 +365,7 @@ let setPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
         } else {
           try {
             parsedJson = editViewTextToObject(inputText);
-          
+            
             if (parsedJson == null) {
               alert('Text form invalid');
               return;
@@ -400,6 +400,10 @@ let reloadPseudoRawData = asyncManager.wrapAsyncFunctionWithButton(
         
         // revert to json if text conversion failed somehow
         if (!deepEqual(editViewTextToObject(textValue), storageData)) {
+          storageData = {
+            fallbackFrom: 'Text-ish',
+            ...storageData,
+          };
           textValue = prettifyJson(storageData);
         }
         break;
