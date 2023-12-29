@@ -216,7 +216,7 @@ function editViewObjectToText(obj) {
   }
   
   if ('events' in obj) {
-    textValue += 'events:\n';
+    textValue += 'events:\n\n';
     let trueEvents;
     
     if (typeof obj.events[0] == 'string') {
@@ -228,25 +228,26 @@ function editViewObjectToText(obj) {
     
     let pastDay = null;
     let pastTZ = null;
+    let evtInDayCounter = 0;
     
     for (let event of trueEvents) {
       let tsSplit = event[0].split(' ');
       let day = tsSplit[0];
       let tz = tsSplit[3];
       
-      if (day != pastDay) {
-        if (tz != pastTZ) {
-          textValue += `\n${day} ${tz}:\n`;
-        } else {
-          textValue += `\n${day}:\n`;
-        }
+      if (tz != pastTZ) {
+        textValue += `\n${day} ${tz}:\n`;
+        evtInDayCounter = 0;
       } else {
-        if (tz != pastTZ) {
-          textValue += `\n${tz}:\n`;
+        if (day != pastDay || evtInDayCounter >= EDIT_PAGE_TEXT_MODE_MAX_EVTS_PER_DAY) {
+          textValue += `\n${day} ${tz}:\n`;
+          evtInDayCounter = 0;
         } else {
           // nothing
         }
       }
+      
+      evtInDayCounter++;
       
       pastDay = day;
       pastTZ = tz;

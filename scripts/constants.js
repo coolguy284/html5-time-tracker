@@ -28,6 +28,9 @@ let STATS_ENTRY_GAP_WIDTH = 0.3; // in units of rem
 // page constants > data page
 let DATA_VIEW_ADDL_INFO_BIG_INDENT = false;
 
+// page constants > edit page
+let EDIT_PAGE_TEXT_MODE_MAX_EVTS_PER_DAY = 15;
+
 // page constants > extras > main & storage pages
 let STORAGE_METER_STEPS = [
   { max: 0.5, color: 'rgb(0, 171, 96)' },
