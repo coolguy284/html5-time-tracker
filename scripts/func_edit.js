@@ -173,7 +173,12 @@ function editViewTextToObject(text) {
               let visible = digitToBool(match2[2]);
               let estimate = digitToBool(match2[3]);
               let eventNameIsJson = match2[4] != ' ';
-              let eventName = eventNameIsJson ? JSON.parse(match2[5]) : match2[5];
+              let eventName;
+              try {
+                eventName = eventNameIsJson ? JSON.parse(match2[5]) : match2[5];
+              } catch {
+                return null;
+              }
               
               newParsed.push([
                 `${day} ${time} ${tz}`,
@@ -187,7 +192,12 @@ function editViewTextToObject(text) {
               ]);
             } else if (match2 = /^ ( ?)(.*)$/.exec(line)) {
               let annotationIsJson = match2[1] != ' ';
-              let annotation = annotationIsJson ? JSON.parse(match2[2]) : match2[2];
+              let annotation;
+              try {
+                annotation = annotationIsJson ? JSON.parse(match2[2]) : match2[2];
+              } catch {
+                return null;
+              }
               
               if (newParsed.length <= 0) {
                 return null;
@@ -290,14 +300,14 @@ function editViewObjectToText(obj) {
       
       let appendText = `${tsSplit[1]} ${tsSplit[2]} ${boolToDigit(event[2])}${boolToDigit(event[3])}`;
       
-      if (event[1].includes('\n')) {
+      if (JSON.stringify(event[1]).slice(1, -1) != event[1]) {
         appendText += `${JSON.stringify(event[1])}\n`;
       } else {
         appendText += ` ${event[1]}\n`;
       }
       
       if (event.length > 4) {
-        if (event[4].includes('\n')) {
+        if (JSON.stringify(event[4]).slice(1, -1) != event[4]) {
           appendText += ` ${JSON.stringify(event[4])}\n`;
         } else {
           appendText += `  ${event[4]}\n`;

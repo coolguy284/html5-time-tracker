@@ -24,9 +24,13 @@ async function addEvent(elem) {
         
         if (eventName == null) return;
         
-        let categoryPath = 'categoryPath' in elem.dataset ? JSON.parse(elem.dataset.categoryPath) : [];
+        try {
+          let categoryPath = 'categoryPath' in elem.dataset ? JSON.parse(elem.dataset.categoryPath) : [];
         
-        await addEventButtonIfNotAlready(eventName, categoryPath);
+          await addEventButtonIfNotAlready(eventName, categoryPath);
+        } catch {
+          return;
+        }
         break;
       }
     }
