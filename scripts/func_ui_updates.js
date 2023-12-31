@@ -166,7 +166,7 @@ function getAllEventsFromEventButtonsList(currentEventButtons, eventsWithButtons
 }
 
 async function addEventButtonIfNotAlready(eventName, categoryPath) {
-  let currentEventButtons = eventManager.getEventButtons();
+  let currentEventButtons = await eventManager.getEventButtons();
   
   let eventsWithButtons = getAllEventsFromEventButtonsList(currentEventButtons);
   

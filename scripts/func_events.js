@@ -26,7 +26,7 @@ async function addEvent(elem) {
         
         try {
           let categoryPath = 'categoryPath' in elem.dataset ? JSON.parse(elem.dataset.categoryPath) : [];
-        
+          
           await addEventButtonIfNotAlready(eventName, categoryPath);
         } catch {
           return;

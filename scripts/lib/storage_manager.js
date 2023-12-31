@@ -56,6 +56,13 @@ class StorageManager {
     }
   }
   
+  async deleteData() {
+    switch (await this.getMediumFormat()) {
+      case 'LocalStorage':
+        delete localStorage[LOCALSTORAGE_MAIN_STORAGE_KEY];
+    }
+  }
+  
   async getUsedSizeInChars() {
     let textValue = await storageManager.getDataAsUtf16();
     
