@@ -228,6 +228,11 @@ class EventManager {
     return deepClone(this.#events);
   }
   
+  async getEventsSlice(start, end) {
+    await this.#loadIfNotAlready();
+    return deepClone(this.#events.slice(start, end));
+  }
+  
   async appendEvent(event) {
     await this.#loadIfNotAlready();
     this.#events.push(deepClone(event));

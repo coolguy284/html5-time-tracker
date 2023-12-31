@@ -5,8 +5,6 @@ let getPseudoRawDataFromStorage = asyncManager.wrapAsyncFunction({
   alreadyRunningBehavior: 'wait',
   exclusive: 'group',
 }, async () => {
-  let events = await eventManager.getAllEvents();
-  
   let maxEventsShown = editPageEventsShown.get();
   
   if (!Number.isSafeInteger(maxEventsShown)) {
@@ -17,13 +15,19 @@ let getPseudoRawDataFromStorage = asyncManager.wrapAsyncFunction({
     maxEventsShown = 0;
   }
   
-  if (events.length > maxEventsShown) {
-    let elidedNum = events.length - maxEventsShown;
+  let events;
+  
+  let numEvents = await eventManager.getNumEvents();
+  
+  if (numEvents > maxEventsShown) {
+    let elidedNum = numEvents - maxEventsShown;
     
     events = [
       `<${elidedNum} event${elidedNum != 1 ? 's' : ''} elided>`,
-      ...events.slice(elidedNum),
+      ...(await eventManager.getEventsSlice(elidedNum, numEvents)),
     ];
+  } else {
+    events = await eventManager.getAllEvents();
   }
   
   return {
