@@ -31,19 +31,19 @@ class AsyncManager {
   }
   
   async awaitTaskFinish(taskName) {
-    if (!this.taskCurrentlyRunning(taskName)) return;
-    
-    await new Promise(resolve => {
-      this.#currentTasks.get(taskName).finishListeners.add(resolve);
-    });
+    while (this.taskCurrentlyRunning(taskName)) {
+      await new Promise(resolve => {
+        this.#currentTasks.get(taskName).finishListeners.add(resolve);
+      });
+    }
   }
   
   async awaitGroupFinish(groupName) {
-    if (!this.groupCurrentlyRunning(groupName)) return;
-    
-    await new Promise(resolve => {
-      this.#currentGroups.get(groupName).finishListeners.add(resolve);
-    });
+    while (this.groupCurrentlyRunning(groupName)) {
+      await new Promise(resolve => {
+        this.#currentGroups.get(groupName).finishListeners.add(resolve);
+      });
+    }
   }
   
   async awaitGroupsFinish(groupNames) {
@@ -64,17 +64,17 @@ class AsyncManager {
   }
   
   async awaitAllTasksFinish() {
-    if (!this.anyTaskRunning()) return;
-    
-    await new Promise(resolve => {
-      this.#allTasksFinishListeners.add(resolve);
-    });
+    while (this.anyTaskRunning()) {
+      await new Promise(resolve => {
+        this.#allTasksFinishListeners.add(resolve);
+      });
+    }
   }
   
   async startAsyncTask(taskName, groupNames, exclusive, enterHandlers, exitHandlers) {
     switch (exclusive) {
       case 'task':
-        while (this.taskCurrentlyRunning(taskName)) {
+        if (this.taskCurrentlyRunning(taskName)) {
           await this.awaitTaskFinish(taskName);
         }
         break;
@@ -84,13 +84,13 @@ class AsyncManager {
           throw new Error('Task must have groups if exclusive mode is group');
         }
         
-        while (this.groupsCurrentlyRunning(groupNames)) {
+        if (this.groupsCurrentlyRunning(groupNames)) {
           await this.awaitGroupsFinish(groupNames);
         }
         break;
       
       case 'all':
-        while (this.anyTaskRunning()) {
+        if (this.anyTaskRunning()) {
           await this.awaitAllTasksFinish();
         }
         break;
