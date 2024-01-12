@@ -99,10 +99,10 @@ class StorageManager {
     }
   }
   
-  async mediumSpaceReport() {
+  async mediumSpaceReport(progressFunc) {
     switch (await this.getMediumFormat()) {
       case 'LocalStorage':
-        return await localStorageReport();
+        return await localStorageReport(progressFunc);
       
       case 'OPFS': {
         let storageUsed = await navigator.storage.estimate();

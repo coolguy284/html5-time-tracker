@@ -1,9 +1,7 @@
-fix initial recalculate max now not showing progress update
-
 edit page event / category json conversion is unnecessary for " and \ chars, replace them with spaces when checking
-add button to export storage data without having to visit raw data page
+add checkbox in raw data page to hide data (to hide the massive data by default); it also sets rawdatatext contents to empty string; so create a rawdatatext var that stores contents instead
 switch to array based list for event buttons
-event storage ver 3 cant handle a double seperator
+  store multi-events in planner memory as array
 
 make purge backtemporal entries into delete backtemporal entries instead
 make purge backtemporal entries use removeatindex instead of setwholearray
@@ -17,7 +15,6 @@ use web lock for critical saving stuff
 add checkbox in settings page for compressed
 add uncompressed events array in persistent storage
 add setting for max num of uncompressed events before compress pass
-store multi-events in planner memory as array
 add the prediction page
 
 add warning of deleting data if version set to v1
@@ -144,6 +141,7 @@ add event for alleventsupdate to consolidate triple refreshing
 
 probably not doing:
 try black border around events in table view
+add button to export storage data without having to visit raw data page
 
 probably not fixable:
 fix lag on raw data page every time clicked now
