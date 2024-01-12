@@ -388,19 +388,9 @@ class EventManager {
       let event = events[i];
       
       let eventTime = dateStringToDate(event[0]).getTime();
-      let eventRemoved = event[2];
+      let eventVisible = event[2];
       
-      if (eventRemoved) {
-        // removed event
-        // dont update eventtime, only update removedeventtime
-        if (eventTime > lastEventTime && lastEventTime != null || eventTime > lastRemovedEventTime && lastRemovedEventTime != null) {
-          // backtemporal event
-          backtemporalEventIndices.push(i);
-        } else {
-          // non backtemporal event
-          lastRemovedEventTime = eventTime;
-        }
-      } else {
+      if (eventVisible) {
         // normal event
         
         if (eventTime > lastEventTime && lastEventTime != null) {
@@ -412,6 +402,16 @@ class EventManager {
         }
         
         lastRemovedEventTime = null;
+      } else {
+        // removed event
+        // dont update eventtime, only update removedeventtime
+        if (eventTime > lastEventTime && lastEventTime != null || eventTime > lastRemovedEventTime && lastRemovedEventTime != null) {
+          // backtemporal event
+          backtemporalEventIndices.push(i);
+        } else {
+          // non backtemporal event
+          lastRemovedEventTime = eventTime;
+        }
       }
     }
     
