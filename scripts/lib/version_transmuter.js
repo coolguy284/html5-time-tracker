@@ -600,6 +600,8 @@ class VersionTransmuter {
   }
   
   static #v3_parseEventButtons(eventButtonsArr, eventNamesList, eventButtonsKeyList) {
+    let seperatorCount = 0;
+    
     return Object.fromEntries(eventButtonsArr.map(entry => {
       switch (entry[0]) {
         case 1:
@@ -612,7 +614,13 @@ class VersionTransmuter {
         
         case 3:
           // seperator
-          return ['', 'seperator'];
+          seperatorCount++;
+          
+          if (seperatorCount == 1) {
+            return ['', 'seperator'];
+          } else {
+            return [`_${seperatorCount - 1}`, 'seperator'];
+          }
         
         case 4:
           // button-custom-one-time
