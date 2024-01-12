@@ -400,6 +400,8 @@ class EventManager {
       }
     }
     
+    backtemporalEventIndices.reverse();
+    
     return backtemporalEventIndices;
   }
   

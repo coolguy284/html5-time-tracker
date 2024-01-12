@@ -13,7 +13,6 @@
   button, label, select, input[type = number] {
     font-size: 1.25rem;
     flex-grow: 1;
-    flex-shrink: 1;
   }
   
   input[type = number] {

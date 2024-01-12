@@ -149,7 +149,7 @@ function eventArrToEventString(eventArr) {
 
 function normalizeSlice(start, end, length) {
   if (start == null) start = 0;
-  if (end == null) end = length - 1;
+  if (end == null) end = length;
   
   if (start < 0) start = length + start - 1;
   if (end < 0) end = length + end - 1;
@@ -158,7 +158,7 @@ function normalizeSlice(start, end, length) {
   if (start >= length) start = length - 1;
   
   if (end < 0) end = 0;
-  if (end >= length) end = length - 1;
+  if (end >= length) end = length;
   
   return [start, end];
 }
