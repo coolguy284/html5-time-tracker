@@ -136,10 +136,6 @@ class VersionTransmuter {
     }
   }
   
-  static #getVersionFromIndex(index) {
-    return VersionTransmuter.#versionIndices[index];
-  }
-  
   static #detectMemoryObjFormat(obj) {
     if (Array.isArray(obj)) {
       // v1
@@ -179,7 +175,7 @@ class VersionTransmuter {
         
         let firstChar = String.fromCharCode(Math.floor(this.#data.charCodeAt(1) / 256));
         
-        if (firstChar == '{' || this.#data[1] == '[') {
+        if (firstChar == '{' || firstChar == '[') {
           // binary data represents json most likely
           
           let bytes = packedUtf16BEToUint8Array(this.#data);

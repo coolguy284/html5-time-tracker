@@ -1,4 +1,3 @@
-event medium ver v1 utf8 not detected properly
 fix initial recalculate max now not showing progress update
 
 edit page event / category json conversion is unnecessary for " and \ chars, replace them with spaces when checking
