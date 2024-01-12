@@ -12,14 +12,15 @@
   
   button, label {
     font-size: 1.25rem;
-  }
-  
-  button {
     flex-grow: 1;
   }
   
   h4 {
     margin: 0;
+  }
+  
+  legend {
+    font-size: 1rem;
   }
 }
 

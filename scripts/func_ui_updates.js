@@ -402,7 +402,7 @@ function updateStatsDisplay_Helper(statsArr, statsElem) {
 
 let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
   'updateDataSectionDisplay',
-  data_section_collapse_duplicates,
+  data_section_show_duplicates,
   async () => {
     // put array contents on data_div
     let visibleEventsArr = (await eventManager.getAllEvents()).filter(x => x[2]);
@@ -410,7 +410,9 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
     if (visibleEventsArr.length > 0) {
       let processedEventsArr;
       
-      if (data_section_collapse_duplicates.checked) {
+      if (data_section_show_duplicates.checked) {
+        processedEventsArr = visibleEventsArr;
+      } else {
         processedEventsArr = [];
         
         let lastEventName = null, lastEventAnnotation = null;
@@ -421,8 +423,6 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
             lastEventAnnotation = event[4];
           }
         }
-      } else {
-        processedEventsArr = visibleEventsArr;
       }
       
       data_div.textContent = processedEventsArr.map(x =>

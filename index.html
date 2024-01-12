@@ -198,13 +198,30 @@
           <button id = 'both_purges_btn' class = 'caution_bg' onclick = 'bothPurgeEntries();'>Both</button>
         </div>
         
-        <button id = 'duplicate_evt_backwards_btn' onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
-        <button id = 'set_last_evt_annotation_btn' onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
+        <div class = 'flex_row'>
+          <h4>Latest Event:</h4>
+          <button id = 'duplicate_evt_backwards_btn' onclick = 'duplicateEventBackwards();'>Duplicate Backwards</button>
+          <button id = 'set_last_evt_annotation_btn' onclick = 'setLastEventAnnotation();'>Set Annotation</button>
+        </div>
         
-        <label for = 'data_section_collapse_duplicates'>
-          <input type = 'checkbox' id = 'data_section_collapse_duplicates' onchange = 'updateDataSectionDisplay();' checked>
-          Collapse Duplicates
-        </label>
+        <fieldset class = 'flex_row wrap'>
+          <legend>
+            Show:
+          </legend>
+          
+          <label for = 'data_section_show_hidden'>
+            <input type = 'checkbox' id = 'data_section_show_hidden' onchange = 'updateDataSectionDisplay();' checked>
+            Hidden
+          </label>
+          <label for = 'data_section_show_backtemporal'>
+            <input type = 'checkbox' id = 'data_section_show_backtemporal' onchange = 'updateDataSectionDisplay();' checked>
+            Backtemporal
+          </label>
+          <label for = 'data_section_show_duplicates'>
+            <input type = 'checkbox' id = 'data_section_show_duplicates' onchange = 'updateDataSectionDisplay();' checked>
+            Duplicates
+          </label>
+        </fieldset>
       </div>
       
       <div id = 'edit_section_div' style = 'display: none;'>
