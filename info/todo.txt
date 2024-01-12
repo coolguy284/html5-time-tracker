@@ -1,3 +1,9 @@
+edit page event / category json conversion is unnecessary for " and \ chars, replace them with spaces when checking
+add button to export storage data without having to visit raw data page
+fix initial recalculate max now not showing progress update
+switch to array based list for event buttons
+event storage ver 3 cant handle a double seperator
+
 make purge backtemporal entries into delete backtemporal entries instead
 make purge backtemporal entries use removeatindex instead of setwholearray
 make removeatindex batch version for purge funcs

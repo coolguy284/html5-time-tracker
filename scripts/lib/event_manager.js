@@ -338,6 +338,18 @@ class EventManager {
     await this.spliceEvents(index, 1);
   }
   
+  async getAllEventNames() {
+    return [
+      'Nothing',
+      ...VersionTransmuter.v3_getAllEventNames(...await Promise.all([
+        this.getAllEvents(),
+        this.getEventButtons(),
+        this.getEventPriorities(),
+        this.getEventMappings(),
+      ]))
+    ];
+  }
+  
   // event target methods
   
   jsAddEventListener(...args) {

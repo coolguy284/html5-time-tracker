@@ -183,13 +183,24 @@
       
       <div id = 'data_section_div' style = 'display: none;'>
         <div id = 'data_div'>2000-01-01 12:00:00.000 AM UTC-04:00: Null</div>
-        <button id = 'remove_last_evt_btn' class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
-        <button id = 'unremove_last_evt_btn' class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
-        <button id = 'purge_removed_entries_btn' class = 'caution_bg' onclick = 'purgeRemovedEntries();'>Purge Removed Entries</button>
-        <button id = 'purge_backtemporal_entries_btn' class = 'caution_bg' onclick = 'purgeBacktemporalEntries();'>Purge Backtemporal Entries</button>
-        <button id = 'both_purges_btn' class = 'caution_bg' onclick = 'bothPurgeEntries();'>Run Both Purges</button>
+        
+        <hr>
+        
+        <div class = 'flex_row'>
+          <button id = 'unremove_last_evt_btn' class = 'safe_bg' onclick = 'unRemoveLastEvent();'>Unremove Last</button>
+          <button id = 'remove_last_evt_btn' class = 'caution_bg' onclick = 'removeLastEvent();'>Remove Last</button>
+        </div>
+        
+        <div class = 'flex_row'>
+          <h4>Purge:</h4>
+          <button id = 'purge_removed_entries_btn' class = 'caution_bg' onclick = 'purgeRemovedEntries();'>Removed</button>
+          <button id = 'purge_backtemporal_entries_btn' class = 'caution_bg' onclick = 'purgeBacktemporalEntries();'>Backtemporal</button>
+          <button id = 'both_purges_btn' class = 'caution_bg' onclick = 'bothPurgeEntries();'>Both</button>
+        </div>
+        
         <button id = 'duplicate_evt_backwards_btn' onclick = 'duplicateEventBackwards();'>Duplicate Event Backwards</button>
         <button id = 'set_last_evt_annotation_btn' onclick = 'setLastEventAnnotation();'>Set Last Evt. Annotation</button>
+        
         <label for = 'data_section_collapse_duplicates'>
           <input type = 'checkbox' id = 'data_section_collapse_duplicates' onchange = 'updateDataSectionDisplay();' checked>
           Collapse Duplicates
@@ -205,7 +216,7 @@
           </details>
           
           <div id = 'edit_extra_settings' class = 'flex_row wrap centered' style = 'display: none;'>
-            <h4>Lines Shown:</h4>
+            <h4>Events Shown:</h4>
             <select id = 'events_shown' onchange = 'reloadPseudoRawData();'>
               <option>10</option>
               <option selected>50</option>

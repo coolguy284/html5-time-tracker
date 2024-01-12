@@ -453,7 +453,7 @@ class VersionTransmuter {
         events: this.#data.events,
       });
     } else if (this.#majorVer == 3 && this.#minorVer == 0) {
-      let eventNamesList = VersionTransmuter.#v3_getAllEventNames(this.#data.events, this.#data.eventButtons, this.#data.eventPriorities, this.#data.eventMappings);
+      let eventNamesList = VersionTransmuter.v3_getAllEventNames(this.#data.events, this.#data.eventButtons, this.#data.eventPriorities, this.#data.eventMappings);
       let eventButtonsKeyList = Array.from(VersionTransmuter.#v3_getAllEventButtonKeys(this.#data.eventButtons));
       
       let eventButtons = VersionTransmuter.#v3_getEventButtonsArr(this.#data.eventButtons, eventNamesList, eventButtonsKeyList);
@@ -744,7 +744,7 @@ class VersionTransmuter {
     }
   }
   
-  static #v3_getAllEventNames(events, eventButtons, eventPriorities, eventMappings) {
+  static v3_getAllEventNames(events, eventButtons, eventPriorities, eventMappings) {
     let eventNames = new Set();
     
     VersionTransmuter.#v3_getAllEventNamesForButton(eventButtons, eventNames);
