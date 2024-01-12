@@ -786,17 +786,17 @@ function updateSettingsPageVersionSelect() {
   if (version.major == 1 && version.minor == 0 && version.format == 'json') {
     storage_version_select.value = 'V1';
   } else if (version.major == 1 && version.minor == 0 && version.format == 'json utf-8') {
-    storage_version_select.value = 'V1 UTF-8 (Alpha)';
+    storage_version_select.value = 'V1 UTF-8';
   } else if (version.major == 2 && version.minor == 0 && version.format == 'json') {
     storage_version_select.value = 'V2';
   } else if (version.major == 2 && version.minor == 0 && version.format == 'json utf-8') {
-    storage_version_select.value = 'V2 UTF-8 (Alpha)';
+    storage_version_select.value = 'V2 UTF-8';
   } else if (version.major == 3 && version.minor == 0 && version.format == 'json') {
-    storage_version_select.value = 'V3 (Alpha)';
+    storage_version_select.value = 'V3';
   } else if (version.major == 3 && version.minor == 0 && version.format == 'json utf-8') {
-    storage_version_select.value = 'V3 UTF-8 (Alpha)';
+    storage_version_select.value = 'V3 UTF-8';
   }/* else if (version.major == 3 && version.minor == 0 && version.format == 'binary') {
-    storage_version_select.value = 'V3 Binary (Alpha)';
+    storage_version_select.value = 'V3 Binary';
   }*/
 }
 

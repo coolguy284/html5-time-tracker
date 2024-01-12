@@ -51,9 +51,9 @@ class VersionTransmuter {
   
   static getLatestVer() {
     return {
-      major: 2,
+      major: 3,
       minor: 0,
-      format: 'json',
+      format: 'json utf-8',
     }
   }
   

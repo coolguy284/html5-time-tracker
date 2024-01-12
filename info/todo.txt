@@ -1,3 +1,6 @@
+event medium ver v1 utf8 not detected properly
+second, third seperator in group ignored in v3 format loader
+
 edit page event / category json conversion is unnecessary for " and \ chars, replace them with spaces when checking
 add button to export storage data without having to visit raw data page
 fix initial recalculate max now not showing progress update

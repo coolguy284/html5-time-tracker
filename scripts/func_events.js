@@ -197,7 +197,7 @@ let updateStorageVersion = asyncManager.wrapAsyncFunctionWithButton(
         });
         break;
       
-      case 'V1 UTF-8 (Alpha)':
+      case 'V1 UTF-8':
         await eventManager.setMediumVer({
           major: 1,
           minor: 0,
@@ -213,7 +213,7 @@ let updateStorageVersion = asyncManager.wrapAsyncFunctionWithButton(
         });
         break;
       
-      case 'V2 UTF-8 (Alpha)':
+      case 'V2 UTF-8':
         await eventManager.setMediumVer({
           major: 2,
           minor: 0,
@@ -221,7 +221,7 @@ let updateStorageVersion = asyncManager.wrapAsyncFunctionWithButton(
         });
         break;
       
-      case 'V3 (Alpha)':
+      case 'V3':
         await eventManager.setMediumVer({
           major: 3,
           minor: 0,
@@ -229,7 +229,7 @@ let updateStorageVersion = asyncManager.wrapAsyncFunctionWithButton(
         });
         break;
       
-      case 'V3 UTF-8 (Alpha)':
+      case 'V3 UTF-8':
         await eventManager.setMediumVer({
           major: 3,
           minor: 0,
@@ -237,7 +237,7 @@ let updateStorageVersion = asyncManager.wrapAsyncFunctionWithButton(
         });
         break;
       
-      case 'V3 Binary (Alpha)':
+      case 'V3 Binary':
         await eventManager.setMediumVer({
           major: 3,
           minor: 0,
