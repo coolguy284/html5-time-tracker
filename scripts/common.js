@@ -147,6 +147,22 @@ function eventArrToEventString(eventArr) {
   }
 }
 
+function normalizeSlice(start, end, length) {
+  if (start == null) start = 0;
+  if (end == null) end = length - 1;
+  
+  if (start < 0) start = length + start - 1;
+  if (end < 0) end = length + end - 1;
+  
+  if (start < 0) start = 0;
+  if (start >= length) start = length - 1;
+  
+  if (end < 0) end = 0;
+  if (end >= length) end = length - 1;
+  
+  return [start, end];
+}
+
 function removeAllChildren(elem) {
   // https://stackoverflow.com/questions/3955229/remove-all-child-elements-of-a-dom-node-in-javascript/3955238#3955238
   while (elem.firstChild) {

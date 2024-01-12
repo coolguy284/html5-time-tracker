@@ -26,6 +26,10 @@
   .data_page_hidden {
     opacity: 0.42;
   }
+  
+  .data_page_backtemporal {
+    color: red;
+  }
 }
 
 #data_div {

@@ -350,6 +350,59 @@ class EventManager {
     ];
   }
   
+  async getRemovedEventIndices(start, end) {
+    [ start, end ] = normalizeSlice(start, end, await this.getNumEvents());
+    
+    let events = await this.getEventsSlice(start, end);
+    
+    let removedEventIndices = events.map((x, i) => !x[2] ? i : null).filter(x => x != null);
+    
+    return removedEventIndices;
+  }
+  
+  async getBacktemporalEventIndices(start, end) {
+    [ start, end ] = normalizeSlice(start, end, await this.getNumEvents());
+    
+    let events = await this.getEventsSlice(start, end);
+    
+    let lastEventTime = null, lastRemovedEventTime = null;
+    
+    let backtemporalEventIndices = [];
+    
+    for (let i = events.length - 1; i >= 0; i--) {
+      let event = events[i];
+      
+      let eventTime = dateStringToDate(event[0]).getTime();
+      let eventRemoved = event[2];
+      
+      if (eventRemoved) {
+        // removed event
+        // dont update eventtime, only update removedeventtime
+        if (eventTime > lastEventTime && lastEventTime != null || eventTime > lastRemovedEventTime && lastRemovedEventTime != null) {
+          // backtemporal event
+          backtemporalEventIndices.push(i);
+        } else {
+          // non backtemporal event
+          lastRemovedEventTime = eventTime;
+        }
+      } else {
+        // normal event
+        
+        if (eventTime > lastEventTime && lastEventTime != null) {
+          // backtemporal event
+          backtemporalEventIndices.push(i);
+        } else {
+          // non backtemporal event
+          lastEventTime = eventTime;
+        }
+        
+        lastRemovedEventTime = null;
+      }
+    }
+    
+    return backtemporalEventIndices;
+  }
+  
   // event target methods
   
   jsAddEventListener(...args) {

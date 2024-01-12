@@ -405,13 +405,39 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
   data_section_show_duplicates,
   async () => {
     // put array contents on data_div
-    let visibleEventsArr = (await eventManager.getAllEvents());
+    let eventsArr, backtemporalEvents;
     
-    if (visibleEventsArr.length > 0) {
-      let processedEventsArr = visibleEventsArr;
+    if (false) {
+      // trim events list
+      
+      let numEvents = await eventManager.getNumEvents();
+      let maxDisplayedEvents = 100;
+      let startIndex = numEvents - maxDisplayedEvents;
+      let stopIndex = numEvents;
+      
+      eventsArr = await eventManager.getEventsSlice(startIndex, stopIndex);
+      
+      backtemporalEvents = new Set(
+        (await eventManager.getBacktemporalEventIndices())
+          .filter(x => x >= startIndex)
+          .map(x => eventsArr[x - startIndex])
+      );
+    } else {
+      // dont trim events list
+      
+      eventsArr = await eventManager.getAllEvents();
+      
+      backtemporalEvents = new Set(
+        (await eventManager.getBacktemporalEventIndices())
+          .map(x => eventsArr[x])
+      );
+    }
+    
+    if (eventsArr.length > 0) {
+      let processedEventsArr = eventsArr;
       
       // hide deleted events
-      if (!data_section_show_deleted.checked) {
+      if (!data_section_show_removed.checked) {
         processedEventsArr = processedEventsArr.filter(x => x[2]);
       }
       
@@ -419,20 +445,28 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
       if (!data_section_show_duplicates.checked) {
         let newProcessedEventsArr = [];
         
-        let lastEventName = null, lastEventAnnotation = null;
+        let lastEventName = null, lastEventAnnotation = null, lastEventVisible = null;
         
         for (let event of processedEventsArr) {
-          if (event[1] != lastEventName || event[4] != lastEventAnnotation) {
+          if (event[1] != lastEventName || event[4] != lastEventAnnotation || event[2] != lastEventVisible) {
             newProcessedEventsArr.push(event);
             lastEventName = event[1];
             lastEventAnnotation = event[4];
+            lastEventVisible = event[2];
           }
         }
         
         processedEventsArr = newProcessedEventsArr;
       }
       
-      data_div.innerHTML = processedEventsArr.map(x => {
+      // hide backtemporal events
+      if (!data_section_show_backtemporal.checked) {
+        processedEventsArr = processedEventsArr.filter(x => !backtemporalEvents.has(x));
+      }
+      
+      removeAllChildren(data_div);
+      
+      processedEventsArr.forEach(x => {
         let eventString = `${x[0]}: ${x[1]}`;
         
         if (x.length > 4) {
@@ -446,15 +480,22 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
           eventString += `Addl. Info: ${x[4]}`;
         }
         
+        let eventSpan = document.createElement('span');
+        
+        eventSpan.textContent = eventString;
+        
         if (!x[2]) {
           // event is hidden
-          eventString = `<span class = 'data_page_hidden'>${eventString}</span>`;
-        } else {
-          eventString = `<span>${eventString}</span>`;
+          eventSpan.classList.add('data_page_hidden');
         }
         
-        return eventString;
-      }).join('\n');
+        if (backtemporalEvents.has(x)) {
+          // event is backtemporal
+          eventSpan.classList.add('data_page_backtemporal');
+        }
+        
+        data_div.appendChild(eventSpan);
+      });
     } else {
       data_div.textContent = 'No Events';
     }
