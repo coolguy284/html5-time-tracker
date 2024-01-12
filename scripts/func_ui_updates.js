@@ -467,6 +467,33 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
       
       removeAllChildren(data_div);
       
+      let eventSpanText = '';
+      let lastHidden = null, lastBacktemporal = null;
+      
+      let addSpan = () => {
+        if (eventSpanText.length <= 0) {
+          return;
+        }
+        
+        let eventSpan = document.createElement('span');
+        
+        if (lastHidden) {
+          // event is hidden
+          eventSpan.classList.add('data_page_hidden');
+        }
+        
+        if (lastBacktemporal) {
+          // event is backtemporal
+          eventSpan.classList.add('data_page_backtemporal');
+        }
+        
+        eventSpan.textContent = eventSpanText;
+        
+        data_div.appendChild(eventSpan);
+        
+        eventSpanText = '';
+      };
+      
       processedEventsArr.forEach(x => {
         let eventString = `${x[0]}: ${x[1]}`;
         
@@ -481,22 +508,24 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
           eventString += `Addl. Info: ${x[4]}`;
         }
         
-        let eventSpan = document.createElement('span');
+        let currentHidden = !x[2];
+        let currentBacktemporal = backtemporalEvents.has(x);
         
-        eventSpan.textContent = eventString;
-        
-        if (!x[2]) {
-          // event is hidden
-          eventSpan.classList.add('data_page_hidden');
+        if (currentHidden != lastHidden || currentBacktemporal != lastBacktemporal) {
+          addSpan();
+          
+          lastHidden = currentHidden;
+          lastBacktemporal = currentBacktemporal;
         }
         
-        if (backtemporalEvents.has(x)) {
-          // event is backtemporal
-          eventSpan.classList.add('data_page_backtemporal');
+        if (eventSpanText.length <= 0) {
+          eventSpanText = eventString;
+        } else {
+          eventSpanText += '\n' + eventString;
         }
-        
-        data_div.appendChild(eventSpan);
       });
+      
+      addSpan();
     } else {
       data_div.textContent = 'No Events';
     }
