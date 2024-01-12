@@ -222,6 +222,21 @@
             Duplicates
           </label>
         </fieldset>
+        
+        <div class = 'flex_row narrow_inputs'>
+          <h4>Events Shown:</h4>
+          <select id = 'data_events_shown' onchange = 'updateDataSectionDisplay();'>
+            <option>10</option>
+            <option selected>50</option>
+            <option>100</option>
+            <option>500</option>
+            <option>1000</option>
+            <option>5000</option>
+            <option>All</option>
+            <option>Custom</option>
+          </select>
+          <input type = 'number' id = 'data_events_shown_custom' value = 50 style = 'display: none;' onchange = 'updateDataSectionDisplay();'>
+        </div>
       </div>
       
       <div id = 'edit_section_div' style = 'display: none;'>
@@ -232,7 +247,7 @@
             <summary></summary>
           </details>
           
-          <div id = 'edit_extra_settings' class = 'flex_row wrap centered' style = 'display: none;'>
+          <div id = 'edit_extra_settings' class = 'flex_row wrap centered narrow_inputs' style = 'display: none;'>
             <h4>Events Shown:</h4>
             <select id = 'events_shown' onchange = 'reloadPseudoRawData();'>
               <option>10</option>

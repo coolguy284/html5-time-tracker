@@ -407,11 +407,12 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
     // put array contents on data_div
     let eventsArr, backtemporalEvents;
     
-    if (false) {
+    let maxDisplayedEvents = dataPageEventsShown.get();
+    
+    if (maxDisplayedEvents != Infinity) {
       // trim events list
       
       let numEvents = await eventManager.getNumEvents();
-      let maxDisplayedEvents = 100;
       let startIndex = numEvents - maxDisplayedEvents;
       let stopIndex = numEvents;
       
@@ -499,6 +500,8 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
     } else {
       data_div.textContent = 'No Events';
     }
+    
+    checkDataSectionScrollHeight();
   }
 )
 

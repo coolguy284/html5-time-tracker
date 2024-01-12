@@ -159,6 +159,14 @@ let editPageEventsShown = new IntegerSelectWithCustom(
     'All': Infinity,
   }
 );
+let dataPageEventsShown = new IntegerSelectWithCustom(
+  data_events_shown,
+  data_events_shown_custom,
+  'Custom',
+  {
+    'All': Infinity,
+  }
+);
 
 let mainPageManager = new PageManager();
 let extrasPageManager = new PageManager();
