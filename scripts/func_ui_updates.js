@@ -405,34 +405,56 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
   data_section_show_duplicates,
   async () => {
     // put array contents on data_div
-    let visibleEventsArr = (await eventManager.getAllEvents()).filter(x => x[2]);
+    let visibleEventsArr = (await eventManager.getAllEvents());
     
     if (visibleEventsArr.length > 0) {
-      let processedEventsArr;
+      let processedEventsArr = visibleEventsArr;
       
-      if (data_section_show_duplicates.checked) {
-        processedEventsArr = visibleEventsArr;
-      } else {
-        processedEventsArr = [];
+      // hide deleted events
+      if (!data_section_show_deleted.checked) {
+        processedEventsArr = processedEventsArr.filter(x => x[2]);
+      }
+      
+      // hide duplicates
+      if (!data_section_show_duplicates.checked) {
+        let newProcessedEventsArr = [];
         
         let lastEventName = null, lastEventAnnotation = null;
-        for (let event of visibleEventsArr) {
+        
+        for (let event of processedEventsArr) {
           if (event[1] != lastEventName || event[4] != lastEventAnnotation) {
-            processedEventsArr.push(event);
+            newProcessedEventsArr.push(event);
             lastEventName = event[1];
             lastEventAnnotation = event[4];
           }
         }
+        
+        processedEventsArr = newProcessedEventsArr;
       }
       
-      data_div.textContent = processedEventsArr.map(x =>
-        `${x[0]}: ${x[1]}` +
-        (x.length > 4 ?
-          (DATA_VIEW_ADDL_INFO_BIG_INDENT ?
-            '\n                                      ' :
-            '\n  ') +
-          `Addl. Info: ${x[4]}` : '')
-      ).join('\n');
+      data_div.innerHTML = processedEventsArr.map(x => {
+        let eventString = `${x[0]}: ${x[1]}`;
+        
+        if (x.length > 4) {
+          // event has annotation
+          eventString += '\n  ';
+          
+          if (DATA_VIEW_ADDL_INFO_BIG_INDENT) {
+            eventString += '                                    ';
+          }
+          
+          eventString += `Addl. Info: ${x[4]}`;
+        }
+        
+        if (!x[2]) {
+          // event is hidden
+          eventString = `<span class = 'data_page_hidden'>${eventString}</span>`;
+        } else {
+          eventString = `<span>${eventString}</span>`;
+        }
+        
+        return eventString;
+      }).join('\n');
     } else {
       data_div.textContent = 'No Events';
     }
