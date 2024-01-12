@@ -98,11 +98,7 @@ let purgeRemovedEntries = asyncManager.wrapAsyncFunctionWithButton(
   async suppressUIUpdate => {
     if (!suppressUIUpdate && !confirm('Are you sure?')) return;
     
-    for (let i = (await eventManager.getNumEvents()) - 1; i >= 0; i--) {
-      if (!(await eventManager.getEventByIndex(i))[2]) {
-        await eventManager.removeEventAtIndex(i);
-      }
-    }
+    await eventManager.removeEventsByIndex(await eventManager.getRemovedEventIndices());
   }
 );
 
@@ -113,26 +109,7 @@ let purgeBacktemporalEntries = asyncManager.wrapAsyncFunctionWithButton(
   async suppressUIUpdate => {
     if (!suppressUIUpdate && !confirm('Are you sure?')) return;
     
-    await eventManager.setAllEvents(
-      (await eventManager.getAllEvents())
-        .reduceRight((a, c) => {
-          if (a.length == 0) {
-            a.push(c);
-            return a;
-          } else {
-            let futureEvent = a[a.length - 1]; // accessing backwards for future event because array is reversed
-            let futureEventTime = dateStringToDate(futureEvent[0]).getTime();
-            let currentEventTime = dateStringToDate(c[0]).getTime();
-            if (currentEventTime > futureEventTime) {
-              return a;
-            } else {
-              a.push(c);
-              return a;
-            }
-          }
-        }, [])
-        .reverse()
-    );
+    await eventManager.removeEventsByIndex(await eventManager.getBacktemporalEventIndices());
   }
 );
 

@@ -268,6 +268,21 @@ class EventManager {
     await this.saveOrCreateNew();
   }
   
+  async removeEventsByIndex(indexes) {
+    await this.#loadIfNotAlready();
+    
+    // events must be traversed in sorted reverse order to prevent splicing index issues
+    indexes = deepClone(indexes).sort().reverse();
+    
+    for (let index of indexes) {
+      this.#events.splice(index, 1);
+    }
+    
+    this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
+    
+    await this.saveOrCreateNew();
+  }
+  
   async getEventButtons() {
     await this.#loadIfNotAlready();
     return deepClone(this.#eventButtons);
