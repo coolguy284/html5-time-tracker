@@ -478,11 +478,13 @@
         <div id = 'settings_section_div' style = 'display: none;'>
           <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
           
+          <!--
           <h3 class = 'med_top_gap'>Storage Medium</h3>
           <select id = 'storage_medium_select' onchange = 'updateStorageMedium();'>
             <option selected>LocalStorage</option>
             <option>Origin Private File System</option>
           </select>
+          -->
           
           <h3 class = 'med_top_gap'>Storage Version</h3>
           <select id = 'storage_version_select' onchange = 'updateStorageVersion();'>
@@ -494,6 +496,8 @@
             <option value = 'V3 UTF-8'>V3 UTF-8 (Beta)</option>
             <!-- <option>V3 Binary (Alpha)</option> -->
           </select>
+          
+          <button id = 'delete_all_data_btn' class = 'red med_top_gap' onclick = 'settingsDeleteAllData();'>Delete All Data</button>
           
           <hr class = 'large_top_gap'>
           
@@ -543,6 +547,7 @@
     <script src = 'scripts/func_charts.js'></script>
     <script src = 'scripts/func_edit.js'></script>
     <script src = 'scripts/func_raw_data.js'></script>
+    <script src = 'scripts/func_settings.js'></script>
     <script src = 'scripts/init_ui_updates.js'></script>
     <script src = 'scripts/init.js'></script>
   </body>

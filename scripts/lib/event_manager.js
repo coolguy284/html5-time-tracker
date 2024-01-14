@@ -40,18 +40,6 @@ class EventManager {
   
   // data saving and loading
   
-  // resets this object to the unloaded state
-  resetMemoryData() {
-    this.#events = null;
-    this.#mediumMajorVer = null;
-    this.#mediumMinorVer = null;
-    this.#mediumFormat = null;
-    
-    this.#jsDispatchEvent(new CustomEvent('eventMappingsPrioritiesUpdate'));
-    this.#jsDispatchEvent(new CustomEvent('eventButtonsUpdate'));
-    this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
-  }
-  
   getMediumVer() {
     return {
       major: this.#mediumMajorVer,
@@ -212,6 +200,21 @@ class EventManager {
   }
   
   // data access
+  
+  // deletes all data from memory and saves blank state to disk
+  async resetData() {
+    this.#mediumMajorVer = null;
+    this.#mediumMinorVer = null;
+    this.#mediumFormat = null;
+    
+    this.#fillWithDefault();
+    
+    this.#jsDispatchEvent(new CustomEvent('eventMappingsPrioritiesUpdate'));
+    this.#jsDispatchEvent(new CustomEvent('eventButtonsUpdate'));
+    this.#jsDispatchEvent(new CustomEvent('eventsUpdate'));
+    
+    await this.saveOrCreateNew();
+  }
   
   async getNumEvents() {
     await this.#loadIfNotAlready();

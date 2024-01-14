@@ -1,5 +1,3 @@
-add clear all data button
-
 no label for= is set for labels in eventbuttons
 
 chromium engine bugs:
@@ -123,7 +121,6 @@ fix extreme digits of precision for table div heights and repeating linear gradi
 fix table's stripe bars being raster images basically (due to repeating-linear-gradient), convert them to svgs instead either with css or manually making an svg element using javascript
 when a new event is added and data_div is scrolled to the bottom, scroll it to the new bottom; same goes for checking and unchecking 'collapse event groups'
 allow more than 1 event in some cases
-add hard reset button with confirmation
 add ability to annotate previous or second previous entry
 darken button that is active, like current tab, current event
 color button that cannot be clicked a disabled color (for week picker)
