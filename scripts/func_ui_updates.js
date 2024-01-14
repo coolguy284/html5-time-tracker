@@ -413,7 +413,7 @@ let updateDataSectionDisplay = asyncManager.wrapAsyncFunctionWithButton(
       // trim events list
       
       let numEvents = await eventManager.getNumEvents();
-      let startIndex = numEvents - maxDisplayedEvents;
+      let startIndex = Math.max(numEvents - maxDisplayedEvents, 0);
       let stopIndex = numEvents;
       
       eventsArr = await eventManager.getEventsSlice(startIndex, stopIndex);
