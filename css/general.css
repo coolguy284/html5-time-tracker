@@ -192,6 +192,11 @@ textarea {
   }
 }
 
+.narrow_inputs :is(select, input[type = number]) {
+  padding-top: 0.3rem;
+  padding-bottom: 0.3rem;
+}
+
 .scroll_buttons {
   padding-left: 0.7rem;
   padding-right: 0.7rem;
