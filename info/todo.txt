@@ -144,9 +144,9 @@ ui updates afterRenderEnterListeners are called before render finishes
 add event for alleventsupdate to consolidate triple refreshing
 mutually exclusive:
   no label for= is set for labels in eventbuttons
-    it probably automatically applies to input elements inside a label element so this is low prio
+    it automatically applies to input elements inside a label element anyway (i think), so this is low prio
   OR
-  remove all label for= if input is inside label as it is probably implicit anyway
+  remove all label for= if input is inside label as it is implicit anyway (i think)
 
 probably not doing:
 try black border around events in table view
