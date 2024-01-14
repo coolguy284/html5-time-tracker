@@ -1,9 +1,51 @@
+class RawDataTextHiderAccessor {
+  #internalValue = null;
+  
+  constructor() {
+    this.updateHidden();
+  }
+  
+  get() {
+    if (raw_data_hide_data.checked) {
+      return this.#internalValue;
+    } else {
+      return raw_data_text.value;
+    }
+  }
+  
+  set(value) {
+    if (raw_data_hide_data.checked) {
+      this.#internalValue = value;
+    } else {
+      raw_data_text.value = value;
+    }
+  }
+  
+  updateHidden() {
+    if (raw_data_hide_data.checked) {
+      if (raw_data_text.value != RAW_DATA_HIDDEN_TEXT) {
+        this.#internalValue = raw_data_text.value;
+        raw_data_text.value = RAW_DATA_HIDDEN_TEXT;
+      }
+    } else {
+      if (raw_data_text.value == RAW_DATA_HIDDEN_TEXT) {
+        raw_data_text.value = this.#internalValue;
+        this.#internalValue = null;
+      }
+    }
+  }
+}
+
+let rawDataTextValue = new RawDataTextHiderAccessor();
+
 function getRawDataTextValue() {
   if (raw_data_text.style.display == 'none') {
     return null;
   } else {
-    if (raw_data_text.value.startsWith('binary:\n')) {
-      let hexString = raw_data_text.value.slice(8);
+    let value = rawDataTextValue.get();
+    
+    if (value.startsWith('binary:\n')) {
+      let hexString = value.slice(8);
       
       let bytes = [];
       
@@ -12,12 +54,12 @@ function getRawDataTextValue() {
       }
       
       return uint8ArrayToPackedUtf16BE(bytes);
-    } else if (raw_data_text.value.startsWith('utf-8:\n')) {
-      let utf8String = raw_data_text.value.slice(7);
+    } else if (value.startsWith('utf-8:\n')) {
+      let utf8String = value.slice(7);
       
       return uint8ArrayToPackedUtf16BE(codePointArrayToUtf8Bytes(utf16BEStringToCodePointArray(utf8String)));
     } else {
-      return raw_data_text.value;
+      return value;
     }
   }
 }
@@ -26,9 +68,11 @@ function getRawDataTextStatus() {
   if (raw_data_text.style.display == 'none') {
     return null;
   } else {
-    if (raw_data_text.value.startsWith('binary:\n')) {
+    let value = rawDataTextValue.get();
+    
+    if (value.startsWith('binary:\n')) {
       return 'binary';
-    } else if (raw_data_text.value.startsWith('utf-8:\n')) {
+    } else if (value.startsWith('utf-8:\n')) {
       return 'utf-8';
     } else {
       return 'text';
@@ -40,10 +84,12 @@ function getRawDataTextValueAsUTF8Only() {
   if (raw_data_text.style.display == 'none') {
     throw new Error('rawdata not utf-8');
   } else {
-    if (raw_data_text.value.startsWith('binary:\n')) {
+    let value = rawDataTextValue.get();
+    
+    if (value.startsWith('binary:\n')) {
       throw new Error('rawdata not utf-8');
-    } else if (raw_data_text.value.startsWith('utf-8:\n')) {
-      let utf8String = raw_data_text.value.slice(7);
+    } else if (value.startsWith('utf-8:\n')) {
+      let utf8String = value.slice(7);
       
       return utf8String;
     } else {
@@ -56,20 +102,20 @@ function setRawDataTextValue(value) {
   if (value == null) {
     raw_data_text.style.display = 'none';
     
-    raw_data_text.value = '';
+    rawDataTextValue.set('');
   } else {
     if (value[0] == '0' || value[0] == '1') {
       let firstChar = String.fromCharCode(Math.floor(value.charCodeAt(1) / 256));
       
       if (firstChar == '{' || firstChar == '[') {
-        raw_data_text.value = 'utf-8:\n' + codePointArrayToUtf16BEString(utf8BytesToCodePointArray(packedUtf16BEToUint8Array(value)));
+        rawDataTextValue.set('utf-8:\n' + codePointArrayToUtf16BEString(utf8BytesToCodePointArray(packedUtf16BEToUint8Array(value))));
       } else {
         let bytes = packedUtf16BEToUint8Array(value);
         
-        raw_data_text.value = 'binary:\n' + Array.from(bytes).map(x => x.toString(16).padStart(2, '0')).join('');
+        rawDataTextValue.set('binary:\n' + Array.from(bytes).map(x => x.toString(16).padStart(2, '0')).join(''));
       }
     } else {
-      raw_data_text.value = value;
+      rawDataTextValue.set(value);
     }
     
     raw_data_text.style.display = '';
@@ -80,7 +126,7 @@ function setRawDataTextValueAsUTF8Only(value) {
   if (value == null) {
     throw new Error('value not text');
   } else {
-    raw_data_text.value = 'utf-8:\n' + value;
+    rawDataTextValue.set('utf-8:\n' + value);
   }
 }
 

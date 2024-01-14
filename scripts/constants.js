@@ -40,3 +40,4 @@ let STORAGE_METER_STEPS = [
 
 // page constants > extras > raw data page
 let RAW_DATA_PRETTIFY_LINE_LIMIT = 140;
+let RAW_DATA_HIDDEN_TEXT = '<hidden (click checkbox to unhide)>';

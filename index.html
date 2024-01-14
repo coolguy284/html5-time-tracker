@@ -443,6 +443,10 @@
             <button id = 'raw_data_load_btn' onclick = 'rawDataLoad();'>Load</button>
             <button id = 'raw_data_create_btn' onclick = 'rawDataCreate();'>Create</button>
             <button onclick = 'rawDataDelete();'>Delete</button>
+            <label for = 'raw_data_hide_data'>
+              <input type = 'checkbox' id = 'raw_data_hide_data' onchange = 'rawDataTextValue.updateHidden();' checked>
+              Hide Data
+            </label>
             
             <h4>JSON:</h4>
             <button onclick = 'rawDataPrettify();'>Prettify</button>
