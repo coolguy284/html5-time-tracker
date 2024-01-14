@@ -8,11 +8,11 @@
   button, label {
     background-color: lightblue;
     
-    &:hover {
+    &:hover:enabled {
       background-color: rgb(125, 197, 219);
     }
     
-    &:is(:active, .current_event) {
+    &:is(:active:enabled, .current_event) {
       background-color: rgb(57, 171, 209);
     }
   }

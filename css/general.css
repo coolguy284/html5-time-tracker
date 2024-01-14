@@ -23,11 +23,11 @@ label {
   gap: 0.25rem;
   background-color: rgb(233, 233, 237);
   
-  &:hover {
+  &:hover:enabled {
     background-color: rgb(208, 208, 215);
   }
   
-  &:active {
+  &:active:enabled {
     background-color: rgb(177, 177, 185);
   }
   
@@ -143,11 +143,11 @@ textarea {
 .caution_bg {
   background-color: rgb(250, 132, 132);
   
-  &:hover {
+  &:hover:enabled {
     background-color: rgb(240, 103, 103);
   }
   
-  &:active {
+  &:active:enabled {
     background-color: rgb(233, 85, 85);
   }
 }
@@ -155,11 +155,11 @@ textarea {
 .safe_bg {
   background-color: rgb(141, 252, 165);
   
-  &:hover {
+  &:hover:enabled {
     background-color: rgb(94, 226, 123);
   }
   
-  &:active {
+  &:active:enabled {
     background-color: rgb(64, 216, 97);
   }
 }
@@ -170,11 +170,11 @@ textarea {
 ) {
   background-color: rgb(255, 187, 187);
   
-  &:hover {
+  &:hover:enabled {
     background-color: rgb(255, 136, 136);
   }
   
-  &:active {
+  &:active:enabled {
     background-color: rgb(255, 76, 76);
   }
 }
