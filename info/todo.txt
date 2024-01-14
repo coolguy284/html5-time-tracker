@@ -1,3 +1,5 @@
+add clear all data button
+
 no label for= is set for labels in eventbuttons
 
 chromium engine bugs:

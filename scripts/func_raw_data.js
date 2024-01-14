@@ -23,12 +23,12 @@ class RawDataTextHiderAccessor {
   
   updateHidden() {
     if (raw_data_hide_data.checked) {
-      if (raw_data_text.value != RAW_DATA_HIDDEN_TEXT) {
+      if (this.#internalValue == null) {
         this.#internalValue = raw_data_text.value;
         raw_data_text.value = RAW_DATA_HIDDEN_TEXT;
       }
     } else {
-      if (raw_data_text.value == RAW_DATA_HIDDEN_TEXT) {
+      if (this.#internalValue != null) {
         raw_data_text.value = this.#internalValue;
         this.#internalValue = null;
       }
