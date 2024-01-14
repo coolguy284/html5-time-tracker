@@ -1,8 +1,6 @@
-no label for= is set for labels in eventbuttons
-
 chromium engine bugs:
   buttons not centered
-somehow null text appears when clicking buttons in rawdataview
+somehow null text appears when clicking buttons in rawdataview (this happened before the hidden checkbox update)
 
 add server-based synchronization and server-based event viewer
 add filter searcher (keyboard that narrows results by substring match or substring match on initials of button texts), as filter element in buttons view, and a setting to show/hide filters
@@ -146,6 +144,7 @@ rename repo to html5-time-tracker
 convert true/false funcs into undefined/error, its much cleaner (primarily in persistentstorage)
 ui updates afterRenderEnterListeners are called before render finishes
 add event for alleventsupdate to consolidate triple refreshing
+no label for= is set for labels in eventbuttons
 
 probably not doing:
 try black border around events in table view
