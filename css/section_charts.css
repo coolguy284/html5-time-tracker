@@ -14,10 +14,19 @@
 
 :where(#week_picker_div) {
   & > button {
+    background-color: white;
     font-size: 2rem;
     border: 0.2rem solid gray;
     border-radius: 0.4rem;
     padding: 0 0.7rem 0;
+    
+    &:hover {
+      background-color: rgb(233, 233, 233);
+    }
+    
+    &:active {
+      background-color: rgb(214, 214, 214);
+    }
   }
   
   & > select {

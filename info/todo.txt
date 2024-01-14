@@ -1,5 +1,3 @@
-chromium engine bugs:
-  buttons not centered
 somehow null text appears when clicking buttons in rawdataview (this happened before the hidden checkbox update)
 
 add server-based synchronization and server-based event viewer

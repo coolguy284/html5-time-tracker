@@ -15,6 +15,18 @@ button {
   flex-direction: row;
   justify-content: center;
   border: none;
+  
+  /* these color styles are the default color on firefox, but not edge, setting them explicitly to remove inconsistency */
+  
+  background-color: rgb(233, 233, 237);
+  
+  &:hover {
+    background-color: rgb(208, 208, 215);
+  }
+  
+  &:active {
+    background-color: rgb(177, 177, 185);
+  }
 }
 
 label {
