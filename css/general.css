@@ -68,11 +68,6 @@ select, input[type = number] {
   padding: 0.6rem;
 }
 
-.narrow_selects :is(select, input[type = number]) {
-  padding-top: 0.3rem;
-  padding-bottom: 0.3rem;
-}
-
 h3, h4 {
   margin-top: 0.4rem;
   margin-bottom: 0.4rem;
@@ -190,11 +185,6 @@ textarea {
   &:active:enabled {
     background-color: rgb(255, 76, 76);
   }
-}
-
-.narrow_inputs :is(select, input[type = number]) {
-  padding-top: 0.3rem;
-  padding-bottom: 0.3rem;
 }
 
 .scroll_buttons {
