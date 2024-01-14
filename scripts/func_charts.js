@@ -164,7 +164,9 @@ function getEventStatsMap(startDayMiddleMillis, days) {
 }
 
 function eventStatsMapToArr(eventStatsMap) {
-  return Array.from(eventStatsMap).map(x => x.flat()).sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0)
+  return Array.from(eventStatsMap)
+    .map(x => x.flat())
+    .sort((a, b) => b[1] - a[1]); // reversed order
 }
 
 function fillParsedWeeks(eventsArr) {

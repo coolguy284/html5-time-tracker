@@ -275,7 +275,9 @@ class EventManager {
     await this.#loadIfNotAlready();
     
     // events must be traversed in sorted reverse order to prevent splicing index issues
-    indexes = deepClone(indexes).sort().reverse();
+    // .sort() with no args will sort an array ... in alphabetical order ("2" > "12"), so a sort function MUST be given
+    // i feel violated
+    indexes = deepClone(indexes).sort((a, b) => b - a); // reversed order
     
     for (let index of indexes) {
       this.#events.splice(index, 1);

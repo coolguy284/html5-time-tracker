@@ -318,7 +318,7 @@ function updateStatsDisplay_Helper_RecalculatePercentages(statsArr) {
       }, {})
     )
     .map(x => [x[0], x[1][0], x[1][1]])
-    .sort((a, b) => a[1] > b[1] ? -1 : a[1] < b[1] ? 1 : 0);
+    .sort((a, b) => b[1] - a[1]); // reversed order
 }
 
 function updateStatsDisplay_Helper(statsArr, statsElem) {
