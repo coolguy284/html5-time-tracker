@@ -2,11 +2,11 @@ no label for= is set for labels in eventbuttons
 
 chromium engine bugs:
   buttons not centered
-purge removed now has bugs (try 20 entities, remove all, then purge removed, it will only remove half)
 somehow null text appears when clicking buttons in rawdataview
 
 add server-based synchronization and server-based event viewer
 add filter searcher (keyboard that narrows results by substring match or substring match on initials of button texts), as filter element in buttons view, and a setting to show/hide filters
+add monthly, yearly, etc, view
 
 edit page event / category json conversion is unnecessary for " and \ chars, replace them with spaces when checking
 switch to array based list for event buttons
