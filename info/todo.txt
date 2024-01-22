@@ -1,6 +1,26 @@
+:hover overrides active or current tab, might even be the case for eventbtns as well
+add hardcap of 32gb to localstorage test func to prevent blowup
+add buttons in settings page to import/export storage data, without having to visit raw data page
+eventpriority of event not in priority list should be higher than other events
 somehow null text appears when clicking buttons in rawdataview (this happened before the hidden checkbox update)
+add a basic ui persistence in html5-fancy-clock style, it should be a basic thing that doesnt care too much if a property is renamed cause it doesn't matter
+  store state of toggles when unlogged mode active
+  store state of toggles on every page and collapse event radiobuttons on chart page
+
+make localstorage sanity checker resilient to localstorage getting modified in background (or even in current tab (which will take more work unless just listening on storageupdate))
+add setting for error if trying to edit a time or add a new time without marking it as estimate
 
 add server-based synchronization and server-based event viewer
+  setting events array and other stuff should send an "event" to the server update channel (if currently linked to a username / event set combination on the server for synchronizing multiple devices)
+  can password protect a server update channel or hide it from public view
+  server-based syncing extra info:
+    low threshold to say there is a conflict and to view diffs / pick the primary version of each diff (annotated by which computer its from)
+  broadcast component steps:
+    add a broadcast page in extras and a listen to broadcast page or maybe seperate html file; pick mapping, pick broadcast events or categories, pick name, password, name publicly visible, store password in url optional; pick time to broadcast, options only this instant, past 24 hrs, past week, past month, past 3, 6, 12mths, or all time, or custom (and options for future events when those get added)
+      include html5-fancy-clock in it somehow maybe
+      option to silently replace some events or categories when broadcasting
+        stored as checkon and offable rulesets, which can optionally be tied to a certain mapping
+
 add filter searcher (keyboard that narrows results by substring match or substring match on initials of button texts), as filter element in buttons view, and a setting to show/hide filters
 add monthly, yearly, etc, view
 
@@ -20,7 +40,8 @@ use web lock for critical saving stuff
 add checkbox in settings page for compressed
 add uncompressed events array in persistent storage
 add setting for max num of uncompressed events before compress pass
-add the prediction page
+add prediction page
+  if you click predict will "predict" how long current event will go on for, showing a progress bar of when the event will end, updated continuously, while the event is ongoing; based on same event at similar time on past days, average over past 10 occurrences of event (configurable)
 
 add warning of deleting data if version set to v1
 can refresh when recalculating localstorage on mobile this is a bug
@@ -73,8 +94,6 @@ bulk 02 (format v2):
   implement v2 spec setting for auto update format version, default is update minor version, can be dont update, or update major version
   the all stats view should be able to be split into eras/domains/regimens
     which is another var to add to v2 format, this can prob be an array of time/timestamp/stringname where everything after that counts as that era
-  
-  store state of toggles and collapse event radiobuttons on table in v2 optional persistence
 bulk 03:
   cache sanity check value as well
     if localstorage is insane then the planner will not function so there needs to be a clean way to show that, most likely just have a top level div switcheroo going on
@@ -112,6 +131,16 @@ ghostly blocks for future events, and maybe have stats about how close correlati
     or maybe store it as a seperate array where, as long as events list is not modified, new events are not added for efficiency, so maybe just keep track of old versions of planned events list
   maybe also daily and monthly planning at the same time (daily for sleep for example) or yearly or one time planning (for break schedules) and ability to switch between 2 or more different schedules, like switching to break schedule on one time scheduled thanksgiving and other breaks
 
+extra:
+prompt user to save edit page if click off when edit, or if hide events or other data toggled when edit
+  this can be a setting to toggle off this behavior
+add era support, make storage page show certain things (kb/day, days till full; bytes/event) only in current era
+3.1 binary and beyond steps
+  reorder 3.0 memory format to use array for evts but preserve old version array quirks
+  3.1 format
+  3.1 binary format
+  on-line syncing
+
 low tier:
 fix extreme digits of precision for table div heights and repeating linear gradient sections
 fix table's stripe bars being raster images basically (due to repeating-linear-gradient), convert them to svgs instead either with css or manually making an svg element using javascript
@@ -129,7 +158,6 @@ add check integrity of data button
   checks for backtemporal events, and others stuff
 trim events that last a few seconds, replace with next event, at least do this for short periods of decreasing events, then nothing, then increasing events
 do some thinking to make localstorage test binary search a mathematically perfect binary search and not double check powers of 2 or something
-state of toggles when unlogged mode active should go into v2 ui persistence obj
 when obviously annotation is added to dup evt backwards prompt then run the other function with it (all letters and spaces and >=7 chars length)
 make validator for eventbuttons, eventpriorities, eventmappings
   look through all of them to get the list of all events (this can be a func in persistentstorage cause its useful for binary) then check to see if mappings, priorities, or buttons are missing some events; also check all categories have a color and (optionally) no unnecessary categories or events anywhere
@@ -147,10 +175,19 @@ mutually exclusive:
     it automatically applies to input elements inside a label element anyway (i think), so this is low prio
   OR
   remove all label for= if input is inside label as it is implicit anyway (i think)
+date object to keep track of and add dates, and when asked for the milliseconds utc of midnight it gets the time zone that was midnight local time on that day
+  or alternatively (configurable thru a setting) it uses midnight local time for the current timezone (which changes with dst as handled natively by the date object)
+convert fillparsedwks/mths to getparsedweeks/months, and the fillall func sets the object parameters to the results of the getfuncs
+proper modal for purge removed entries and purge backtemporal (and other future purges) that shows what will be purged with yes/no at bottom
+optional encryption for binary format, sha256 the password then use it for aes gcm 256 (configurable in far future)
+advanced storage page should show estimate till full in date & time to minute as well as just days away
+add help tab at bottom with ... help
+  tutorial
+  explanation of purpose
 
 probably not doing:
 try black border around events in table view
-add button to export storage data without having to visit raw data page
+negative event ids for special ids
 
 probably not fixable:
 fix lag on raw data page every time clicked now
