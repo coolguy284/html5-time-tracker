@@ -1,3 +1,4 @@
+clicking set in edit view doesn't update chart view(?)
 :hover overrides active or current tab, might even be the case for eventbtns as well
 add hardcap of 32gb to localstorage test func to prevent blowup
 add buttons in settings page to import/export storage data, without having to visit raw data page
@@ -6,7 +7,9 @@ somehow null text appears when clicking buttons in rawdataview (this happened be
 add a basic ui persistence in html5-fancy-clock style, it should be a basic thing that doesnt care too much if a property is renamed cause it doesn't matter
   store state of toggles when unlogged mode active
   store state of toggles on every page and collapse event radiobuttons on chart page
+edit page event / category json conversion is unnecessary for " and \ chars, replace them with spaces when checking
 
+shift day forward or back in charts page, shift order; hide :00 and PM as checkbox as well
 make localstorage sanity checker resilient to localstorage getting modified in background (or even in current tab (which will take more work unless just listening on storageupdate))
 add setting for error if trying to edit a time or add a new time without marking it as estimate
 
@@ -24,18 +27,14 @@ add server-based synchronization and server-based event viewer
 add filter searcher (keyboard that narrows results by substring match or substring match on initials of button texts), as filter element in buttons view, and a setting to show/hide filters
 add monthly, yearly, etc, view
 
-edit page event / category json conversion is unnecessary for " and \ chars, replace them with spaces when checking
 switch to array based list for event buttons
   store multi-events in planner memory as array
 
-make purge backtemporal entries into delete backtemporal entries instead
-make purge backtemporal entries use removeatindex instead of setwholearray
-make removeatindex batch version for purge funcs
 add async task mode for returnsameresult, in addition to stop or wait
 
 extra files storage for old files
 language for evaluating rules
-use web lock for critical saving stuff
+use web lock api (if thats a thing) for critical saving stuff
 
 add checkbox in settings page for compressed
 add uncompressed events array in persistent storage
@@ -184,6 +183,7 @@ advanced storage page should show estimate till full in date & time to minute as
 add help tab at bottom with ... help
   tutorial
   explanation of purpose
+make purge backtemporal entries into delete backtemporal entries instead
 
 probably not doing:
 try black border around events in table view
