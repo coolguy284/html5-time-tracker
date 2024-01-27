@@ -16,6 +16,9 @@ let PERSISTENT_STORAGE_COMPRESS_BY_DEFAULT = true;
 // render constants
 let PAGE_MANAGER_HIDE_PAGE_ON_NULL = false;
 
+// page constants
+button_developer_mode.checked = false;
+
 // page constants > scroll buttons
 let SCROLL_ASSIST_BUTTONS_MIN_SCROLL_HEIGHT = 2000;
 

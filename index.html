@@ -29,6 +29,7 @@
     <link rel = 'stylesheet' href = 'css/section_extras_storage.css'>
     <link rel = 'stylesheet' href = 'css/section_extras_raw_data.css'>
     <link rel = 'stylesheet' href = 'css/section_extras_settings.css'>
+    <link rel = 'stylesheet' href = 'css/section_extras_developer.css'>
   </head>
   
   <body>
@@ -323,6 +324,7 @@
           <button onclick = 'switchExtrasPage(this);'>Storage</button>
           <button onclick = 'switchExtrasPage(this);'>Raw Data</button>
           <button onclick = 'switchExtrasPage(this);'>Settings</button>
+          <button onclick = 'switchExtrasPage(this);'>Developer</button>
         </div>
         
         <div id = 'storage_section_div' style = 'display: none;'>
@@ -507,6 +509,79 @@
             <span id = 'persistence_status'>-</span>
           </div>
           <button class = 'med_top_gap' onclick = 'requestPersistence();'>Request Persistence</button>
+        </div>
+        
+        <div id = 'developer_section_div' style = 'display: none;'>
+          <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
+          
+          <h1>[Button / Label] [Hover / Active] Checker</h1>
+          
+          <label>
+            <input type = 'checkbox' id = 'button_developer_mode' onchange = 'updateDisplayedButtons();'>
+            Button Developer Mode
+          </label>
+          
+          <h2>Default</h2>
+          <button>Button Test</button>
+          <button disabled>Disabled Button Test</button>
+          <label>
+            <input type = 'checkbox'>
+            Label Test
+          </label>
+          <label>
+            <input type = 'checkbox' disabled>
+            Disabled Label Test
+          </label>
+          
+          <h2>Caution</h2>
+          <button class = 'caution_bg'>Button Test</button>
+          <button class = 'caution_bg' disabled>Disabled Button Test</button>
+          <label class = 'caution_bg'>
+            <input type = 'checkbox'>
+            Label Test
+          </label>
+          <label class = 'caution_bg'>
+            <input type = 'checkbox' disabled>
+            Disabled Label Test
+          </label>
+          
+          <h2>Safe</h2>
+          <button class = 'safe_bg'>Button Test</button>
+          <button class = 'safe_bg' disabled>Disabled Button Test</button>
+          <label class = 'safe_bg'>
+            <input type = 'checkbox'>
+            Label Test
+          </label>
+          <label class = 'safe_bg'>
+            <input type = 'checkbox' disabled>
+            Disabled Label Test
+          </label>
+          
+          <h2>Red</h2>
+          <button class = 'red'>Button Test</button>
+          <button class = 'red' disabled>Disabled Button Test</button>
+          <label class = 'red'>
+            <input type = 'checkbox'>
+            Label Test
+          </label>
+          <label class = 'red'>
+            <input type = 'checkbox' disabled>
+            Disabled Label Test
+          </label>
+          
+          <h2>Red Buttons</h2>
+          <div class = 'red_buttons'>
+            <button>Button Test</button>
+            <button disabled>Disabled Button Test</button>
+            <label>
+              <input type = 'checkbox'>
+              Label Test
+            </label>
+            <label>
+              <input type = 'checkbox' disabled>
+              Disabled Label Test
+            </label>
+          </div>
         </div>
       </div>
     </div>

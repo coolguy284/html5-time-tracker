@@ -149,6 +149,9 @@ extrasPageManager.addPages({
       ],
     },
   },
+  'Developer': {
+    htmlElem: developer_section_div,
+  },
 });
 
 eventManager.jsAddEventListener('storageUpdate', () => {

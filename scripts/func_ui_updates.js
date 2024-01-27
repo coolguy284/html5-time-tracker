@@ -96,6 +96,94 @@ async function updateDisplayedButtons(parentElem, eventButtonsSubset) {
   
     await updateCurrentEventCheckboxes();
     await updateCurrentEventButtonHighlight();
+    
+    if (button_developer_mode.checked) {
+      // fieldset setup
+      let fieldsetElem = document.createElement('fieldset');
+      
+      let legendElem = document.createElement('legend');
+      legendElem.textContent = 'Developer';
+      fieldsetElem.appendChild(legendElem);
+      
+      // button
+      let testButton = document.createElement('button');
+      testButton.textContent = 'Button Test';
+      fieldsetElem.appendChild(testButton);
+      
+      // disabled button
+      let testDisabledButton = document.createElement('button');
+      testDisabledButton.textContent = 'Disabled Button Test';
+      testDisabledButton.disabled = true;
+      fieldsetElem.appendChild(testDisabledButton);
+      
+      // label
+      let testLabel = document.createElement('label');
+      
+      let testLabelInput = document.createElement('input');
+      testLabelInput.type = 'checkbox';
+      
+      let testLabelText = document.createTextNode('Label Test');
+      
+      testLabel.appendChild(testLabelInput);
+      testLabel.appendChild(testLabelText);
+      fieldsetElem.appendChild(testLabel);
+      
+      // disabled label
+      let testDisabledLabel = document.createElement('label');
+      
+      let testDisabledLabelInput = document.createElement('input');
+      testDisabledLabelInput.type = 'checkbox';
+      testDisabledLabelInput.disabled = true;
+      
+      let testDisabledLabelText = document.createTextNode('Disabled Label Test');
+      
+      testDisabledLabel.appendChild(testDisabledLabelInput);
+      testDisabledLabel.appendChild(testDisabledLabelText);
+      fieldsetElem.appendChild(testDisabledLabel);
+      
+      // current event button
+      let testCurrentEventButton = document.createElement('button');
+      testCurrentEventButton.textContent = 'Button Test';
+      testCurrentEventButton.classList.add('current_event');
+      fieldsetElem.appendChild(testCurrentEventButton);
+      
+      // disabled current event button
+      let testCurrentEventDisabledButton = document.createElement('button');
+      testCurrentEventDisabledButton.textContent = 'Disabled Button Test';
+      testCurrentEventDisabledButton.disabled = true;
+      testCurrentEventDisabledButton.classList.add('current_event');
+      fieldsetElem.appendChild(testCurrentEventDisabledButton);
+      
+      // current event label
+      let testCurrentEventLabel = document.createElement('label');
+      testCurrentEventLabel.classList.add('current_event');
+      
+      let testCurrentEventLabelInput = document.createElement('input');
+      testCurrentEventLabelInput.type = 'checkbox';
+      
+      let testCurrentEventLabelText = document.createTextNode('Label Test');
+      
+      testCurrentEventLabel.appendChild(testCurrentEventLabelInput);
+      testCurrentEventLabel.appendChild(testCurrentEventLabelText);
+      fieldsetElem.appendChild(testCurrentEventLabel);
+      
+      // disabled current event label
+      let testCurrentEventDisabledLabel = document.createElement('label');
+      testCurrentEventDisabledLabel.classList.add('current_event');
+      
+      let testCurrentEventDisabledLabelInput = document.createElement('input');
+      testCurrentEventDisabledLabelInput.type = 'checkbox';
+      testCurrentEventDisabledLabelInput.disabled = true;
+      
+      let testCurrentEventDisabledLabelText = document.createTextNode('Disabled Label Test');
+      
+      testCurrentEventDisabledLabel.appendChild(testCurrentEventDisabledLabelInput);
+      testCurrentEventDisabledLabel.appendChild(testCurrentEventDisabledLabelText);
+      fieldsetElem.appendChild(testCurrentEventDisabledLabel);
+      
+      // fieldset appending
+      parentElem.appendChild(fieldsetElem);
+    }
   }
 }
 

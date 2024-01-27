@@ -1,0 +1,7 @@
+#developer_section_div {
+  gap: 0.5rem;
+  
+  div {
+    gap: 0.5rem;
+  }
+}

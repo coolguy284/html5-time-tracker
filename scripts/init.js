@@ -46,4 +46,9 @@ extrasPageManager.deactivateWithPage('Main');
     refreshStorageCapacityView(),
     updateSettingsPagePersistenceStatus(),
   ]);
+  
+  if (button_developer_mode.checked) {
+    mainPageManager.switchPage('Extras');
+    extrasPageManager.switchPage('Developer');
+  }
 })();
