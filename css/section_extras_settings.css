@@ -7,4 +7,15 @@
   & > div {
     justify-content: space-between;
   }
+  
+  .btn_container {
+    flex-direction: row;
+    justify-content: stretch;
+    gap: 0.14rem;
+    
+    button {
+      flex-grow: 1;
+      flex-basis: 0;
+    }
+  }
 }

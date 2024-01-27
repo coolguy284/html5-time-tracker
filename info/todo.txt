@@ -1,6 +1,5 @@
 clicking set with "other data" in edit view doesn't update chart view mappings(?)
 add hardcap of 32gb to localstorage test func to prevent blowup
-add buttons in settings page to import/export storage data, without having to visit raw data page
 eventpriority of event not in priority list should be higher than other events
 somehow null text appears when clicking buttons in rawdataview (this happened before the hidden checkbox update)
 add a basic ui persistence in html5-fancy-clock style, it should be a basic thing that doesnt care too much if a property is renamed cause it doesn't matter

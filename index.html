@@ -499,15 +499,27 @@
             <!-- <option>V3 Binary (Alpha)</option> -->
           </select>
           
-          <button id = 'delete_all_data_btn' class = 'red med_top_gap' onclick = 'settingsDeleteAllData();'>Delete All Data</button>
+          <div class = 'btn_container med_top_gap'>
+            <button id = 'export_data_btn' class = 'flat_right' onclick = 'settingsExportData();'>Export Data to File</button>
+            <button id = 'export_data_2_btn' class = 'flat_left' onclick = 'settingsExportDataUTF16BEToUTF8();'>(UTF16BE -> UTF8)</button>
+          </div>
+          
+          <div class = 'btn_container med_top_gap'>
+            <button id = 'import_data_btn' class = 'caution_bg flat_right' onclick = 'settingsImportData();'>Import Data from File</button>
+            <button id = 'import_data_2_btn' class = 'caution_bg flat_left' onclick = 'settingsImportDataUTF8ToUTF16BE();'>(UTF8 -> UTF16BE)</button>
+          </div>
+          
+          <button id = 'delete_all_data_btn' class = 'caution_bg med_top_gap' onclick = 'settingsDeleteAllData();'>Delete All Data</button>
           
           <hr class = 'large_top_gap'>
           
           <h3 class = 'med_top_gap'>Persistence</h3>
+          
           <div class = 'flex_row small_top_gap'>
             <span>Persistence Enabled:&nbsp;</span>
             <span id = 'persistence_status'>-</span>
           </div>
+          
           <button class = 'med_top_gap' onclick = 'requestPersistence();'>Request Persistence</button>
         </div>
         
