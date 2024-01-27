@@ -1,4 +1,3 @@
-clicking set with "other data" in edit view doesn't update chart view mappings(?)
 add hardcap of 32gb to localstorage test func to prevent blowup
 eventpriority of event not in priority list should be higher than other events
 somehow null text appears when clicking buttons in rawdataview (this happened before the hidden checkbox update)

@@ -44,7 +44,10 @@ mainPageManager.addPages({
         },
       ],
       'eventMappingsPrioritiesUpdate': [
-        async () => await updateChartsSectionMainEventsUpdate(),
+        async () => {
+          await updateChartsSectionMainEventsUpdate();
+          await updateChartsSection();
+        },
       ],
     },
   },
