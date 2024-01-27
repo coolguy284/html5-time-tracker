@@ -1,4 +1,3 @@
-add hardcap of 32gb to localstorage test func to prevent blowup
 eventpriority of event not in priority list should be higher than other events
 somehow null text appears when clicking buttons in rawdataview (this happened before the hidden checkbox update)
 add a basic ui persistence in html5-fancy-clock style, it should be a basic thing that doesnt care too much if a property is renamed cause it doesn't matter
@@ -181,6 +180,7 @@ add help tab at bottom with ... help
   tutorial
   explanation of purpose
 make purge backtemporal entries into delete backtemporal entries instead
+add hardcap of 10gb to localstorage-test.html testing to prevent blowup
 
 probably not doing:
 try black border around events in table view
