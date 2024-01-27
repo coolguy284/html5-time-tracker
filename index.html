@@ -515,61 +515,71 @@
           <button onclick = 'switchExtrasPage(this);'>Back to Main Page</button>
           
           <h1>[Button / Label] [Hover / Active] Checker</h1>
+          <p>Used to check :hover (mouse over) and :active (mouse click) styles for buttons and label.</p>
           
           <label>
             <input type = 'checkbox' id = 'button_developer_mode' onchange = 'updateDisplayedButtons();'>
             Button Developer Mode
           </label>
+          <p>Adds test buttons on events page to check the events page as well.</p>
           
           <h2>Default</h2>
-          <button>Button Test</button>
-          <button disabled>Disabled Button Test</button>
-          <label>
-            <input type = 'checkbox'>
-            Label Test
-          </label>
-          <label>
-            <input type = 'checkbox' disabled>
-            Disabled Label Test
-          </label>
+          <div>
+            <button>Button Test</button>
+            <button disabled>Disabled Button Test</button>
+            <label>
+              <input type = 'checkbox'>
+              Label Test
+            </label>
+            <label>
+              <input type = 'checkbox' disabled>
+              Disabled Label Test
+            </label>
+          </div>
           
-          <h2>Caution</h2>
-          <button class = 'caution_bg'>Button Test</button>
-          <button class = 'caution_bg' disabled>Disabled Button Test</button>
-          <label class = 'caution_bg'>
-            <input type = 'checkbox'>
-            Label Test
-          </label>
-          <label class = 'caution_bg'>
-            <input type = 'checkbox' disabled>
-            Disabled Label Test
-          </label>
+          <h2>Caution Background (.caution_bg)</h2>
+          <div>
+            <button class = 'caution_bg'>Button Test</button>
+            <button class = 'caution_bg' disabled>Disabled Button Test</button>
+            <label class = 'caution_bg'>
+              <input type = 'checkbox'>
+              Label Test
+            </label>
+            <label class = 'caution_bg'>
+              <input type = 'checkbox' disabled>
+              Disabled Label Test
+            </label>
+          </div>
           
-          <h2>Safe</h2>
-          <button class = 'safe_bg'>Button Test</button>
-          <button class = 'safe_bg' disabled>Disabled Button Test</button>
-          <label class = 'safe_bg'>
-            <input type = 'checkbox'>
-            Label Test
-          </label>
-          <label class = 'safe_bg'>
-            <input type = 'checkbox' disabled>
-            Disabled Label Test
-          </label>
+          <h2>Safe Background (.safe_bg)</h2>
+          <div>
+            <button class = 'safe_bg'>Button Test</button>
+            <button class = 'safe_bg' disabled>Disabled Button Test</button>
+            <label class = 'safe_bg'>
+              <input type = 'checkbox'>
+              Label Test
+            </label>
+            <label class = 'safe_bg'>
+              <input type = 'checkbox' disabled>
+              Disabled Label Test
+            </label>
+          </div>
           
-          <h2>Red</h2>
-          <button class = 'red'>Button Test</button>
-          <button class = 'red' disabled>Disabled Button Test</button>
-          <label class = 'red'>
-            <input type = 'checkbox'>
-            Label Test
-          </label>
-          <label class = 'red'>
-            <input type = 'checkbox' disabled>
-            Disabled Label Test
-          </label>
+          <h2>Red Buttons (.red)</h2>
+          <div>
+            <button class = 'red'>Button Test</button>
+            <button class = 'red' disabled>Disabled Button Test</button>
+            <label class = 'red'>
+              <input type = 'checkbox'>
+              Label Test
+            </label>
+            <label class = 'red'>
+              <input type = 'checkbox' disabled>
+              Disabled Label Test
+            </label>
+          </div>
           
-          <h2>Red Buttons</h2>
+          <h2>Red Child Buttons on a Div (.red_buttons)</h2>
           <div class = 'red_buttons'>
             <button>Button Test</button>
             <button disabled>Disabled Button Test</button>
