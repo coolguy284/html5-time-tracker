@@ -6,42 +6,37 @@ html, body, :where(body) :where(:not(script, table, thead, tbody, tr, th, td, su
 }
 
 button, label {
+  flex-direction: row;
+  justify-content: center;
   padding: 0.3rem 0.5rem 0.3rem;
   font-size: 1.4rem;
   border-radius: 0.5rem;
+  
+  /* for buttons, these color styles are the default color on firefox, but not edge, setting explicitly to remove inconsistency */
+  background-color: rgb(233, 233, 237);
+  
+  &:is(:enabled, :has(input:enabled)) {
+    &:hover {
+      background-color: rgb(208, 208, 215);
+    }
+    
+    &:active {
+      background-color: rgb(177, 177, 185);
+    }
+  }
 }
 
 button {
-  flex-direction: row;
-  justify-content: center;
   border: none;
-  
-  /* these color styles are the default color on firefox, but not edge, setting them explicitly to remove inconsistency */
-  
-  background-color: rgb(233, 233, 237);
-  
-  &:hover {
-    background-color: rgb(208, 208, 215);
-  }
-  
-  &:active {
-    background-color: rgb(177, 177, 185);
-  }
 }
 
 label {
-  flex-direction: row;
   align-items: center;
-  justify-content: center;
   gap: 0.25rem;
-  background-color: rgb(233, 233, 237);
   
-  &:hover:enabled {
-    background-color: rgb(208, 208, 215);
-  }
-  
-  &:active:enabled {
-    background-color: rgb(177, 177, 185);
+  /* label disabled color */
+  &:has(input:disabled) {
+    color: grey;
   }
   
   & > :is(input[type = checkbox], input[type = radio]) {
@@ -151,39 +146,44 @@ textarea {
 .caution_bg {
   background-color: rgb(250, 132, 132);
   
-  &:hover:enabled {
-    background-color: rgb(240, 103, 103);
-  }
-  
-  &:active:enabled {
-    background-color: rgb(233, 85, 85);
+  &:is(:enabled, :has(input:enabled)) {
+    &:hover {
+      background-color: rgb(240, 103, 103);
+    }
+    
+    &:active {
+      background-color: rgb(233, 85, 85);
+    }
   }
 }
 
 .safe_bg {
   background-color: rgb(141, 252, 165);
   
-  &:hover:enabled {
-    background-color: rgb(94, 226, 123);
-  }
-  
-  &:active:enabled {
-    background-color: rgb(64, 216, 97);
+  &:is(:enabled, :has(input:enabled)) {
+    &:hover {
+      background-color: rgb(94, 226, 123);
+    }
+    
+    &:active {
+      background-color: rgb(64, 216, 97);
+    }
   }
 }
 
-:is(
-  .red:is(button, label),
-  .red_buttons :is(button, label)
-) {
+:is(.red, .red_buttons *):is(button, label) {
+  /* default color */
   background-color: rgb(255, 187, 187);
   
-  &:hover:enabled {
-    background-color: rgb(255, 136, 136);
-  }
-  
-  &:active:enabled {
-    background-color: rgb(255, 76, 76);
+  /* hover and active colors */
+  &:is(:enabled, :has(input:enabled)) {
+    &:hover {
+      background-color: rgb(255, 136, 136);
+    }
+    
+    &:active {
+      background-color: rgb(255, 76, 76);
+    }
   }
 }
 

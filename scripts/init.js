@@ -47,7 +47,7 @@ extrasPageManager.deactivateWithPage('Main');
     updateSettingsPagePersistenceStatus(),
   ]);
   
-  if (button_developer_mode.checked) {
+  if (AUTO_GO_TO_BUTTON_DEVELOPER_PAGE) {
     mainPageManager.switchPage('Extras');
     extrasPageManager.switchPage('Developer');
   }

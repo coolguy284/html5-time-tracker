@@ -6,13 +6,18 @@
   gap: 0.5rem;
   
   button, label {
+    /* event default color */
     background-color: lightblue;
     
-    &:hover:enabled {
+    /* event on hover color */
+    &:is(:enabled, :has(input:enabled)):hover {
       background-color: rgb(125, 197, 219);
     }
     
-    &:is(:active:enabled, .current_event) {
+    /* event clicked / current event color */
+    &:is(
+      :is(:enabled, :has(input:enabled)):active,
+      .current_event) {
       background-color: rgb(57, 171, 209);
     }
   }
