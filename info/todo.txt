@@ -1,4 +1,4 @@
-clicking set in edit view doesn't update chart view(?)
+clicking set with "other data" in edit view doesn't update chart view mappings(?)
 add hardcap of 32gb to localstorage test func to prevent blowup
 add buttons in settings page to import/export storage data, without having to visit raw data page
 eventpriority of event not in priority list should be higher than other events

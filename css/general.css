@@ -43,6 +43,9 @@ label {
     width: 1.1rem;
     height: 1.1rem;
     margin: 0 0.2rem 0 0;
+    
+    /* styles label checkbox/radio on edge to match firefox */
+    accent-color: rgb(0, 96, 223);
   }
 }
 
