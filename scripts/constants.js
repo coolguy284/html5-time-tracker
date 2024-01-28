@@ -3,7 +3,6 @@ let EVENT_NOTHING = 'Nothing';
 let EVENT_UNLOGGED = 'Unlogged';
 let EVENT_MAPPINGS_DEFAULT_EVENT_GROUP = 'Default';
 let EVENT_MAPPINGS_DEFAULT_EVENT_GROUP_COLOR = 'black';
-let DEFAULT_EVENT_MAPPING = 'Main';
 let MULTI_EVENT_SPLIT = ' | ';
 
 // storage constants

@@ -285,17 +285,29 @@ async function updateChartsSectionMainEventsUpdate() {
 }
 
 function updateChartsSectionMappingSelect() {
+  let oldValue = event_mappings_select.value;
+  
   removeAllChildren(event_mappings_select);
   
   for (let eventMapping in eventMappings) {
     let mappingOption = document.createElement('option');
     mappingOption.textContent = eventMapping;
     mappingOption.setAttribute('value', eventMapping);
-    if (eventMapping == DEFAULT_EVENT_MAPPING) {
+    if (eventMapping == oldValue) {
       mappingOption.setAttribute('selected', '');
     }
     
     event_mappings_select.appendChild(mappingOption);
+  }
+  
+  event_mappings_select.value = oldValue;
+  
+  if (event_mappings_select.value == '' && oldValue != '') {
+    let eventMappingsArr = Object.keys(eventMappings);
+    
+    if (eventMappingsArr.length > 0) {
+      event_mappings_select.value = eventMappingsArr[0];
+    }
   }
 }
 
