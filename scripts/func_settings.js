@@ -43,7 +43,7 @@ let settingsImportData = asyncManager.wrapAsyncFunctionWithButton(
     if (fileArr == null) return;
     
     let textValue;
-    console.log(fileArr);
+    
     if (fileArr[0] == 0 && (fileArr[1] == '{'.charCodeAt(0) || fileArr[1] == '['.charCodeAt(0))) {
       // utf16be encoded file; mode "text"
       textValue = uint8ArrayToUtf16BE(fileArr);
