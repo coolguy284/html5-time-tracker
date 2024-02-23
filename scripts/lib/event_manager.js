@@ -360,7 +360,7 @@ class EventManager {
   
   async getAllEventNames() {
     return [
-      'Nothing',
+      EVENT_NOTHING,
       ...VersionTransmuter.v3_getAllEventNames(...await Promise.all([
         this.getAllEvents(),
         this.getEventButtons(),
