@@ -86,7 +86,7 @@ function getEventGroup(eventNameSingle) {
   }
 }
 
-// getss the event with highest priority from a list
+// gets the event with highest priority from a list
 function getEventSingle(eventName) {
   return getEvents(eventName).map(x => [x, eventPriorities[x]]).reduce((a, c) => c[1] > a[1] ? c : a)[0];
 }
