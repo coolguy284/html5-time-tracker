@@ -2,7 +2,7 @@
 
 #raw_data_section_div {
   justify-content: stretch;
-  background-color: white;
+  background-color: var(--bright-background);
   padding: 0.5rem;
   gap: 0.5rem;
 }

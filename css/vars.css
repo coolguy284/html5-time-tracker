@@ -2,12 +2,14 @@
   /* general */
   
   --text: black;
+  --text-disabled: gray;
   --outline: gray;
   --dark-outline: black;
   --background: lightblue;
   --bright-background: white;
   
   --input-background: white;
+  
   --meter-background: rgb(233, 233, 237);
   --meter-low: rgb(0, 171, 96);
   --meter-half: rgb(255, 189, 79);

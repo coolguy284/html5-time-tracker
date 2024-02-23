@@ -1,5 +1,5 @@
 #edit_section_div {
-  background-color: white;
+  background-color: var(--bright-background);
   padding: 0.5rem;
   gap: 0.5rem;
   
@@ -14,7 +14,7 @@
   summary {
     padding: 0 0 0 0.5rem;
     font-size: 2rem;
-    border: 0.1rem solid grey;
+    border: 0.1rem solid var(--outline);
     border-radius: 0.5rem;
   }
 }
