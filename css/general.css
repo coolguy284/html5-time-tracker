@@ -162,11 +162,11 @@ textarea {
   
   &:is(:enabled, :has(input:enabled)) {
     &:hover {
-      background-color: var(--button-safe-default);
+      background-color: var(--button-safe-hover);
     }
     
     &:active {
-      background-color: var(--button-safe-default);
+      background-color: var(--button-safe-active);
     }
   }
 }
@@ -178,11 +178,11 @@ textarea {
   /* hover and active colors */
   &:is(:enabled, :has(input:enabled)) {
     &:hover {
-      background-color: var(--button-red-default);
+      background-color: var(--button-red-hover);
     }
     
     &:active {
-      background-color: var(--button-red-default);
+      background-color: var(--button-red-active);
     }
   }
 }
