@@ -32,7 +32,7 @@
   }
   
   .data_page_backtemporal {
-    color: red;
+    color: var(--data-backtemporal);
   }
 }
 

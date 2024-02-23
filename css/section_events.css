@@ -1,32 +1,32 @@
 /* events section block */
 
 #events_section_div {
-  background-color: blue;
+  background-color: var(--events-background);
   padding: 1.5rem 1rem 1.5rem;
   gap: 0.5rem;
   
   button, label {
     /* event default color */
-    background-color: lightblue;
+    background-color: var(--event-button-default);
     
     /* event on hover color */
     &:is(:enabled, :has(input:enabled)):hover {
-      background-color: rgb(125, 197, 219);
+      background-color: var(--event-button-hover);
     }
     
     /* event clicked / current event color */
     &:is(
       :is(:enabled, :has(input:enabled)):active,
       .current_event) {
-      background-color: rgb(57, 171, 209);
+      background-color: var(--event-button-active);
     }
   }
   
   fieldset {
-    border: 0.3rem solid black;
+    border: 0.3rem solid var(--events-fieldset-outline);
     
     & > legend {
-      color: lightpink;
+      color: var(--events-legend-text);
       font-size: 1.3rem;
       font-weight: normal;
     }

@@ -8,7 +8,7 @@ html {
 body {
   margin: 0;
   justify-content: stretch;
-  background-color: lightblue;
+  background-color: var(--background);
   font-family: Arial;
   flex-grow: 1;
   overflow-x: auto;
@@ -24,7 +24,7 @@ body {
 /* current event (top bar) block */
 
 #current_event_div {
-  background-color: rgb(255, 211, 129);
+  background-color: var(--current-event-banner-background);
   justify-content: center;
   gap: 0.3rem;
   font-size: 1.5rem;
@@ -42,7 +42,7 @@ body {
     z-index: 1;
     padding: 0 0.6rem 0.2rem;
     margin: 0.5rem 1.3rem 0.5rem 0;
-    border: 0.3rem solid black;
+    border: 0.3rem solid var(--scroll-buttons-outline);
   }
 }
 
@@ -58,7 +58,7 @@ body {
 /* bottom menu block */
 
 #bottom_menu_div {
-  background-color: orange;
+  background-color: var(--bottom-menu-background);
   flex-shrink: 0;
   gap: 0.5rem;
   padding: 0.5rem 0.5rem 0.5rem;
@@ -66,18 +66,18 @@ body {
   & > button {
     flex-shrink: 0;
     padding: 0.4rem 0.8rem 0.4rem;
-    background-color: rgb(255, 232, 190);
+    background-color: var(--bottom-menu-button-default);
     
     &:hover:where(:enabled) {
-      background-color: rgb(255, 218, 149);
+      background-color: var(--bottom-menu-button-hover);
     }
     
     &:active:where(:enabled) {
-      background-color: rgb(248, 201, 115);
+      background-color: var(--bottom-menu-button-active);
     }
     
     &.current_tab {
-      background-color: rgb(252, 201, 107);
+      background-color: var(--bottom-menu-button-current-tab);
     }
   }
 }

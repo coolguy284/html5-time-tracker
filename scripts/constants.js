@@ -36,9 +36,9 @@ let EDIT_PAGE_TEXT_MODE_MAX_EVTS_PER_DAY = 15;
 
 // page constants > extras > main & storage pages
 let STORAGE_METER_STEPS = [
-  { max: 0.5, color: 'rgb(0, 171, 96)' },
-  { max: 0.8, color: 'rgb(255, 189, 79)' },
-  { max: 1.0, color: 'rgb(226, 40, 80)' },
+  { max: 0.5, color: 'var(--meter-low)' },
+  { max: 0.8, color: 'var(--meter-half)' },
+  { max: 1.0, color: 'var(--meter-full)' },
 ];
 
 // page constants > extras > raw data page

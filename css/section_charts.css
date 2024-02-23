@@ -14,26 +14,26 @@
 
 :where(#week_picker_div) {
   & > button {
-    background-color: white;
+    background-color: var(--input-background);
     font-size: 2rem;
-    border: 0.2rem solid gray;
+    border: 0.2rem solid var(--outline);
     border-radius: 0.4rem;
     padding: 0 0.7rem 0;
     
     &:hover {
-      background-color: rgb(233, 233, 233);
+      background-color: var(--week-button-hover);
     }
     
     &:active {
-      background-color: rgb(214, 214, 214);
+      background-color: var(--week-button-active);
     }
   }
   
   & > select {
     flex-grow: 1;
-    background-color: white;
+    background-color: var(--input-background);
     font-size: 1.3rem;
-    border: 0.2rem solid gray;
+    border: 0.2rem solid var(--outline);
     border-radius: 0;
     padding: 0.6rem;
   }
@@ -71,11 +71,11 @@
     align-items: center;
     flex-grow: 1;
     min-height: 0;
-    border-top: 0.1rem solid black;
+    border-top: 0.1rem solid var(--time-boundary-color);
     padding: 0 0.4rem 0;
     
     &:last-child {
-      border-bottom: 0.1rem solid black;
+      border-bottom: 0.1rem solid var(--time-boundary-color);
     }
   }
 }
@@ -85,10 +85,10 @@
 }
 
 #stats_section_div, #all_time_stats_section_div {
-  background-color: white;
+  background-color: var(--charts-stats-background);
   gap: 1rem;
   border-radius: 0.5rem;
-  border: 0.3rem solid black;
+  border: 0.3rem solid var(--charts-stats-outline);
   padding: 0.7rem;
 }
 
