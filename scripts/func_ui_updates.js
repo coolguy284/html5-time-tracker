@@ -215,7 +215,7 @@ async function updateCurrentEventButtonHighlight() {
       }
     }
     
-    currentHighlightedEvent = currentEventSplit.length == 0 ? null : eventArrToEventString(currentEventSplit.filter(x => x in eventButtons));
+    currentHighlightedEvent = currentEventSplit.length == 0 ? null : eventArrToEventString(currentEventSplit);
   }
 }
 
