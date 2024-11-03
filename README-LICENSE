@@ -1,0 +1,17 @@
+Can choose to follow either MIT or Unlicense; MIT made available in case
+Unlicense does not legally apply in your jurisdiction.
+
+Note: the repository license of MIT+Unlicense does not apply to
+"scripts/lib/file_import_export.js" function importDataFromFile, lines 23-40.
+It is modified and improved from stackoverflow as the comment inside it
+indicates, and thus presumably is CC-BY-SA 3.0 for the original answer and
+CC-BY-SA 4.0 for the edit to the answer.
+
+Note: the file "scripts/constant_css_colors.js", lines 4-169 lists the
+CSS colors taken from the W3C standard (referenced by the comment above it),
+and "info/formats/storage_v3.0_binary.md" lines 205-372 lists the CSS colors
+taken from the W3C standard (referenced by the comment above it) along with
+their rgb values. It is unclear what the licensing on this might be. If the
+source standards are public domain than this note can be disregarded entirely
+and the 2 files referenced follow the same license as the rest of the repository.
+Otherwise, it is unclear what the licensing is.
