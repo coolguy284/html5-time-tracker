@@ -1,4 +1,4 @@
-# Events Storage Format V3.0 Binary
+# Events Storage Format V3.0 Binary (Unused)
 ```
 format is a packed-utf16be (binary) string
 

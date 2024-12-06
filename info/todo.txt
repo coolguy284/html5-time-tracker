@@ -1,6 +1,41 @@
+html5-time-tracker rewrite:
+  use es modules
+  charts page weekly, monthly, daily, yearly; only pulls data necessary for current page (maybe auto updates some cached page of time data)
+update html5-time-tracker to use IndexedDB, also only have upgrade paths from old versions, not downgrade paths
+  known versions:
+    v1 (localstorage)
+    v1-utf8 (localstorage)
+    v2 (localstorage)
+    v2-utf8 (localstorage)
+    v3 (localstorage)
+    v3-utf8 (localstorage)
+    v4 (indexeddb)
+      format changes:
+        fix name of separator
+        use button groups
+          button groups can pull from hidden button sections used as organizational aid, as a form of inheritance, and as another button entry along with the separator, button, toggle, etc
+        category inheritance
+      ensure strings in indexeddb are stored efficiently (utf8) and not as utf16; if they are stored as utf16, cry, and accept it instead of storing uintarrays in place of strings
+      also has an associated binary import/export format
+      ditch the concept of minor version numbers
+    after v4, make journal:
+      support for a journal of changes for synchronization with other clients?
+        when all primary clients are online, they can exchange the journal and once all have the correct journal, can "digest" changes into main storage
+        secondary clients get read only view
+        tertiary clients get limited / filtered / fuzzed data, and have a separate access mechanism and go to a different page than index.html
+    can import from any version, and gets autodetected and converted to current latest format
+    export is to latest binary format
+    raw data page is replaced with an iframe or library pull in or smth of the web-storage-viewer, limited to the localstorage keys that are used
+  persistent ui will just be a loose concept in localstorage entry, so doesnt need to be explicitly tracked and document every version of it, just update the documentation over time
+specific steps:
+  make format document
+  do other things
+add hardcap of 1gb to localstorage-test.html and in actual tracker testing to prevent blowup
+
+original todolist:
 rename "seperator" to "separator" in format
 
-option for seperators in eventmappings
+option for separators in eventmappings
 eventpriority of event not in priority list should be higher than other events
 somehow null text appears when clicking buttons in rawdataview (this happened before the hidden checkbox update)
 add a basic ui persistence in html5-fancy-clock style, it should be a basic thing that doesnt care too much if a property is renamed cause it doesn't matter
@@ -182,7 +217,6 @@ add help tab at bottom with ... help
   tutorial
   explanation of purpose
 make purge backtemporal entries into delete backtemporal entries instead
-add hardcap of 10gb to localstorage-test.html testing to prevent blowup
 
 probably not doing:
 try black border around events in table view
